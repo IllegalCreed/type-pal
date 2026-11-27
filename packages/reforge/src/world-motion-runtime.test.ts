@@ -1,8 +1,8 @@
+import type { GridPos } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
-import type { MotionIntent, MotionOutcome } from './entity-motion.js'
 import { WorldMotionRuntime } from './world-motion-runtime.js'
 
-const pos = (col: number, row = 0) => ({ col, row, height: 0 })
+const pos = (col: number, row = 0): GridPos => ({ col, row, height: 0 })
 
 describe('WorldMotionRuntime ownership', () => {
   test('owns the one-tick cadence, carry remainder and frozen-frame reset', () => {
@@ -50,250 +50,58 @@ describe('WorldMotionRuntime ownership', () => {
     controller.abort()
   })
 
-  test('script and auto durable slots coexist and commit before their deferred wake-up', async () => {
+  test('a stalled frame drops backlog beyond one world tick', () => {
     const motion = new WorldMotionRuntime(100)
-    const script = motion.registerMove({
-      source: 'script',
-      id: 'npc',
-      to: pos(2),
-      speed: 'normal',
-      sceneId: 'a',
-    })
-    const auto = motion.registerMove({
-      source: 'auto',
-      id: 'npc',
-      to: pos(3),
-      speed: 'fast',
-      sceneId: 'a',
-      activation: { ownerId: 'owner', epoch: 5 },
-    })
-    const scriptSlot = motion.coordinator.scriptSlots.get('npc')
-    const autoSlot = motion.coordinator.autoSlots.get('npc')
-    expect(scriptSlot?.kind).toBe('move')
-    expect(autoSlot?.kind).toBe('move')
-    if (scriptSlot?.kind !== 'move' || autoSlot?.kind !== 'move') throw new Error('missing slots')
-
-    scriptSlot.commitSettlement()
-    autoSlot.commitSettlement()
-    expect(motion.coordinator.scriptSlots.has('npc')).toBe(false)
-    expect(motion.coordinator.autoSlots.has('npc')).toBe(false)
-    scriptSlot.cancel('late replacement')
-    autoSlot.cancel('late lifecycle')
-    scriptSlot.resolve()
-    autoSlot.resolve()
-    expect(await script).toBe(scriptSlot.commandEpoch)
-    expect(await auto).toBe(autoSlot.commandEpoch)
+    // dt=250（≥2×stepMs 的停顿帧）：只走一拍，150 剩余被钳为 0
+    expect(motion.advanceCadence(250, false)).toBe(true)
+    expect(motion.worldTick).toBe(1)
+    expect(motion.worldTicksThisFrame).toBe(1)
+    // 余数已丢弃：紧接的 99ms 帧不得提前成拍
+    expect(motion.advanceCadence(99, false)).toBe(false)
+    expect(motion.worldTick).toBe(1)
+    expect(motion.worldTicksThisFrame).toBe(0)
+    // 重新积满整步才走下一拍
+    expect(motion.advanceCadence(100, false)).toBe(true)
+    expect(motion.worldTick).toBe(2)
   })
 
-  test('auto one-shot registration samples authority and activation identities once', async () => {
+  test('a replaced party move cannot complete the current move', async () => {
     const motion = new WorldMotionRuntime(100)
-    motion.coordinator.setAuthority('npc', { kind: 'script' })
-    await expect(
-      motion.registerAutoStep({
-        id: 'npc',
-        dir: 'left',
-        sceneId: 'a',
-        signal: new AbortController().signal,
-        activation: { ownerId: 'owner', epoch: 4 },
-      }),
-    ).resolves.toEqual({ outcome: 'droppedByAuthority' })
-
-    motion.coordinator.releaseAuthority('npc')
-    const pending = motion.registerAutoStep({
-      id: 'npc',
-      dir: 'right',
-      sceneId: 'a',
-      signal: new AbortController().signal,
-      activation: { ownerId: 'owner', epoch: 4 },
+    const firstSignal = new AbortController()
+    const first = motion.schedulePartyMove(pos(3), 'slow', firstSignal.signal)
+    const firstSlot = motion.partyMove
+    expect(firstSlot).not.toBeNull()
+    const secondSignal = new AbortController()
+    const second = motion.schedulePartyMove(pos(7), 'fast', secondSignal.signal)
+    await first // 替换即兑现旧等待者（existing-proof 臂的正控）
+    const secondSlot = motion.partyMove
+    expect(secondSlot).toMatchObject({ to: pos(7), speed: 'fast' })
+    let secondSettled = false
+    void second.then(() => {
+      secondSettled = true
     })
-    const slot = motion.coordinator.autoSlots.get('npc')
-    expect(slot).toMatchObject({
-      kind: 'step',
-      activationOwnerId: 'owner',
-      activationEpoch: 4,
-      authorityEpochAtEnqueue: 2,
-    })
-    slot?.resolve()
-    await expect(pending).resolves.toMatchObject({ outcome: 'attempted' })
-    expect(motion.coordinator.autoLineagesForTarget('npc')).toHaveLength(1)
+    motion.completePartyMove(firstSlot!) // 陈旧槽：身份守卫必须挡下，不得兑现新等待者
+    await Promise.resolve()
+    expect(secondSettled).toBe(false)
+    expect(motion.partyMove).toBe(secondSlot)
+    motion.completePartyMove(secondSlot!) // 当前槽：兑现并清槽
+    await second
+    expect(secondSettled).toBe(true)
+    expect(motion.partyMove).toBeNull()
+    firstSignal.abort()
+    secondSignal.abort()
   })
 
-  test('chase registration publishes its exact slot and cancellation callback before rejection', async () => {
+  test('stopping the script completes its party move before a late abort', async () => {
     const motion = new WorldMotionRuntime(100)
     const controller = new AbortController()
-    const registered = vi.fn()
-    const cancelled = vi.fn()
-    const dropped = vi.fn()
-    const pending = motion.registerChase({
-      source: 'auto',
-      id: 'npc',
-      range: 8,
-      floating: false,
-      sceneId: 'a',
-      signal: controller.signal,
-      activation: { ownerId: 'owner', epoch: 3 },
-      onRegistered: registered,
-      onDropped: dropped,
-      onCancelled: cancelled,
-    })
-    const slot = motion.coordinator.autoSlots.get('npc')
-    expect(registered).toHaveBeenCalledWith(slot)
+    const detached = vi.spyOn(controller.signal, 'removeEventListener')
+    const moving = motion.schedulePartyMove(pos(5), 'normal', controller.signal)
+    expect(motion.partyMove).not.toBeNull()
+    motion.resolvePartyMove()
     controller.abort()
-    await expect(pending).rejects.toMatchObject({ name: 'AbortError' })
-    expect(cancelled).toHaveBeenCalledWith(slot)
-    expect(dropped).not.toHaveBeenCalled()
-    expect(motion.coordinator.autoSlots.has('npc')).toBe(false)
-  })
-
-  test('gait and explicit animation share the source current-frame phase', () => {
-    const motion = new WorldMotionRuntime(100)
-    motion.advanceCadence(100, false)
-    motion.advanceExplicitAnimation('npc')
-    expect(motion.explicitAnimation('npc')).toBe(1)
-    motion.markGait('npc', 'auto', 7)
-    expect(motion.explicitAnimation('npc')).toBeUndefined()
-    expect(motion.gaitPhase('npc')).toBe(2)
-    expect(motion.lastMovedWorldTick('npc')).toBe(1)
-    motion.clearGait('npc', { source: 'auto', epoch: 8 })
-    expect(motion.hasGait('npc')).toBe(true)
-    motion.clearGait('npc', { source: 'auto', epoch: 7 })
-    expect(motion.hasGait('npc')).toBe(false)
-  })
-
-  test('a fixed source frame seeds the next animation and step phase', () => {
-    const motion = new WorldMotionRuntime(100)
-    motion.setExplicitAnimation('npc', 0)
-    expect(motion.explicitAnimation('npc')).toBe(0)
-    motion.advanceExplicitAnimation('npc')
-    expect(motion.explicitAnimation('npc')).toBe(1)
-    motion.markGait('npc', 'script', 1)
-    expect(motion.gaitPhase('npc')).toBe(2)
-    motion.advanceExplicitAnimation('npc')
-    expect(motion.explicitAnimation('npc')).toBe(3)
-    expect(motion.gaitPhase('npc')).toBeUndefined()
-  })
-
-  test('player direction and authority changes share the side-stick epoch owner', () => {
-    const motion = new WorldMotionRuntime(100)
-    expect(motion.setPlayerDirection('up')).toBe(2)
-    expect(motion.setPlayerDirection('up')).toBe(2)
-    motion.coordinator.setAuthority('party', { kind: 'script' })
-    expect(motion.setPlayerDirection('up')).toBe(3)
-    motion.coordinator.releaseAuthority('party')
-    expect(motion.setPlayerDirection(null)).toBe(5)
-  })
-
-  test.each([
-    'continue',
-    'release-all',
-    'next-tick',
-    'presented',
-    'pose',
-    'explicit-animation',
-    'owner-replaced',
-    'relocated',
-    'retaken',
-    'endpoint',
-  ] as const)('a foreground arrival hands its exact gait only to a same-frame live continuation: %s', async (boundary) => {
-    const motion = new WorldMotionRuntime(100)
-    motion.coordinator.setAuthority('npc', { kind: 'script' })
-    motion.advanceCadence(100, false)
-    for (let step = 0; step < 10; step++) motion.markGait('npc', 'script', 1)
-    motion.rememberScriptGaitHandoff('npc', pos(4), motion.currentSceneSessionId('a'), {
-      ownerId: 'npc',
-      epoch: 5,
-    })
-    expect(motion.captureEntity('npc')).toEqual({})
-    if (boundary === 'release-all') motion.coordinator.releaseAllAuthority()
-    else motion.coordinator.releaseAuthority('npc')
-    if (boundary === 'next-tick') motion.advanceCadence(100, false)
-    if (boundary === 'presented') motion.clearScriptGaitHandoffs()
-    if (boundary === 'pose') motion.clearScriptGaitHandoffs('npc')
-    if (boundary === 'explicit-animation') motion.advanceExplicitAnimation('npc')
-    if (boundary === 'retaken') {
-      motion.coordinator.setAuthority('npc', { kind: 'script' })
-      motion.coordinator.releaseAuthority('npc')
-    }
-    const pending = motion.registerMove({
-      source: 'auto',
-      id: 'npc',
-      to: pos(boundary === 'endpoint' ? 4 : 5),
-      speed: 'normal',
-      sceneId: 'a',
-      activation: { ownerId: 'npc', epoch: boundary === 'owner-replaced' ? 6 : 5 },
-    })
-    const slot = motion.coordinator.autoSlots.get('npc')
-    if (slot?.kind !== 'move') throw new Error('missing live move')
-    motion.adoptScriptGaitHandoff('npc', pos(boundary === 'relocated' ? 3 : 4), slot)
-    const continued = boundary === 'continue' || boundary === 'release-all'
-    expect(motion.gaitPhase('npc')).toBe(continued ? 11 : undefined)
-    if (boundary === 'explicit-animation') expect(motion.explicitAnimation('npc')).toBe(1)
-    motion.markGait('npc', 'auto', slot.commandEpoch)
-    expect(motion.explicitAnimation('npc')).toBeUndefined()
-    expect(motion.gaitPhase('npc')).toBe(continued ? 12 : boundary === 'explicit-animation' ? 2 : 1)
-    slot.resolve()
-    await pending
-  })
-
-  test('trace capture owns cloning, stable order and explicit clearing', () => {
-    const motion = new WorldMotionRuntime(100)
-    motion.advanceCadence(100, false)
-    const intents: MotionIntent[] = [
-      {
-        actor: { kind: 'entity', id: 'z' },
-        source: 'auto',
-        collision: 'dynamic',
-        from: pos(0),
-        desired: pos(1),
-        desiredFacing: 'right',
-        floating: false,
-        epoch: 1,
-        quantum: 1,
-        allowSidestep: true,
-      },
-    ]
-    const outcomes: MotionOutcome[] = [
-      {
-        kind: 'moved',
-        actor: { kind: 'entity', id: 'z' },
-        from: pos(0),
-        to: pos(1),
-        facing: 'right',
-        actualDirection: 'right',
-      },
-    ]
-    motion.recordTrace(true, 'a', intents, outcomes)
-    const first = motion.dumpTrace()
-    first[0]!.to.col = 99
-    expect(motion.dumpTrace()).toEqual([
-      expect.objectContaining({ scene: 'a', worldTick: 1, actor: '1:z', to: pos(1) }),
-    ])
-    motion.clearTrace()
-    expect(motion.dumpTrace()).toEqual([])
-  })
-
-  test('scene teardown cancels both registries, releases authority and clears visual motion', async () => {
-    const motion = new WorldMotionRuntime(100)
-    const pending = motion.registerMove({
-      source: 'script',
-      id: 'npc',
-      to: pos(4),
-      speed: 'normal',
-      sceneId: 'a',
-    })
-    motion.coordinator.setAuthority('npc', { kind: 'script' })
-    motion.markGait('npc', 'script', 1)
-    motion.advanceExplicitAnimation('other')
-    const before = motion.currentSceneSessionId('a')
-    motion.teardownScene({
-      beforeCancelSlots: vi.fn(),
-      beforeReleaseAllAuthority: vi.fn(),
-      slotMessage: (source, actorId) => `${source}:${actorId}`,
-    })
-    await expect(pending).rejects.toMatchObject({ name: 'AbortError' })
-    expect(motion.coordinator.authority.size).toBe(0)
-    expect(motion.hasGait('npc')).toBe(false)
-    expect(motion.hasExplicitAnimation('other')).toBe(false)
-    expect(motion.currentSceneSessionId('a')).not.toBe(before)
+    await expect(moving).resolves.toBeUndefined()
+    expect(detached).toHaveBeenCalledExactlyOnceWith('abort', expect.any(Function))
+    expect(motion.partyMove).toBeNull()
   })
 })

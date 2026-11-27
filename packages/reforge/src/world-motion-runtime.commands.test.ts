@@ -1,35 +1,104 @@
-/**
- * TEST-GLM-REFORGE-RUNTIME-SESSION-1 — 取消/迟到回执/scene token 残项。
- * world-motion-runtime.test.ts 与 .residual.test.ts 已覆盖:节奏/余量/冻结复位、队伍走位
- * 替换与完成分离、双注册表 commit-先于唤醒、authority 采样、追逐注册/取消回调、步态
- * owner 清理、party epoch、trace 克隆/上限淘汰、teardown 全量取消与 session 换代、
- * one-shot authority 丢弃、侧避锁保留、阻挡原因记录。本文件补:在途走位的中止署名消息
- * 与注册表清理、预中止信号的全注册入口拒绝、在途单步中止、同目标重复注册的替换接管、
- * 实体 authority 接管的 script 步态/侧避锁清空、attempted/取消后的迟到回执静默、scene token
- * 注册时快照与 teardown 失效语义。
- */
 import { describe, expect, test, vi } from 'vitest'
-import type { MotionSnapshotActor, SideStick } from './entity-motion.js'
 import { WorldMotionRuntime } from './world-motion-runtime.js'
 
 const pos = (col: number, row = 0) => ({ col, row, height: 0 })
-const snapshotOf = (id: string): MotionSnapshotActor => ({
-  actor: { kind: 'entity', id },
-  pos: pos(1),
-  facing: 'right',
-  footprints: [{ dcol: 0, drow: 0 }],
-  hasBody: true,
-  yieldable: true,
-})
-const planSticks = (motion: WorldMotionRuntime, id: string) =>
-  motion.plan({
-    actors: [snapshotOf(id)],
-    intents: [],
-    terrainBlocked: () => false,
-    liveActors: new Set([`1:${id}`]),
-  }).previousSideSticks
 
-describe('TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换', () => {
+describe('entity motion commands and scene ownership', () => {
+  test('script and auto durable slots coexist and commit before their deferred wake-up', async () => {
+    const motion = new WorldMotionRuntime(100)
+    const script = motion.registerMove({
+      source: 'script',
+      id: 'npc',
+      to: pos(2),
+      speed: 'normal',
+      sceneId: 'a',
+    })
+    const auto = motion.registerMove({
+      source: 'auto',
+      id: 'npc',
+      to: pos(3),
+      speed: 'fast',
+      sceneId: 'a',
+      activation: { ownerId: 'owner', epoch: 5 },
+    })
+    const scriptSlot = motion.coordinator.scriptSlots.get('npc')
+    const autoSlot = motion.coordinator.autoSlots.get('npc')
+    expect(scriptSlot?.kind).toBe('move')
+    expect(autoSlot?.kind).toBe('move')
+    if (scriptSlot?.kind !== 'move' || autoSlot?.kind !== 'move') throw new Error('missing slots')
+
+    scriptSlot.commitSettlement()
+    autoSlot.commitSettlement()
+    expect(motion.coordinator.scriptSlots.has('npc')).toBe(false)
+    expect(motion.coordinator.autoSlots.has('npc')).toBe(false)
+    scriptSlot.cancel('late replacement')
+    autoSlot.cancel('late lifecycle')
+    scriptSlot.resolve()
+    autoSlot.resolve()
+    expect(await script).toBe(scriptSlot.commandEpoch)
+    expect(await auto).toBe(autoSlot.commandEpoch)
+  })
+
+  test('auto one-shot registration samples authority and activation identities once', async () => {
+    const motion = new WorldMotionRuntime(100)
+    motion.coordinator.setAuthority('npc', { kind: 'script' })
+    await expect(
+      motion.registerAutoStep({
+        id: 'npc',
+        dir: 'left',
+        sceneId: 'a',
+        signal: new AbortController().signal,
+        activation: { ownerId: 'owner', epoch: 4 },
+      }),
+    ).resolves.toEqual({ outcome: 'droppedByAuthority' })
+
+    motion.coordinator.releaseAuthority('npc')
+    const pending = motion.registerAutoStep({
+      id: 'npc',
+      dir: 'right',
+      sceneId: 'a',
+      signal: new AbortController().signal,
+      activation: { ownerId: 'owner', epoch: 4 },
+    })
+    const slot = motion.coordinator.autoSlots.get('npc')
+    expect(slot).toMatchObject({
+      kind: 'step',
+      activationOwnerId: 'owner',
+      activationEpoch: 4,
+      authorityEpochAtEnqueue: 2,
+    })
+    slot?.resolve()
+    await expect(pending).resolves.toMatchObject({ outcome: 'attempted' })
+    expect(motion.coordinator.autoLineagesForTarget('npc')).toHaveLength(1)
+  })
+
+  test('chase registration publishes its exact slot and cancellation callback before rejection', async () => {
+    const motion = new WorldMotionRuntime(100)
+    const controller = new AbortController()
+    const registered = vi.fn()
+    const cancelled = vi.fn()
+    const dropped = vi.fn()
+    const pending = motion.registerChase({
+      source: 'auto',
+      id: 'npc',
+      range: 8,
+      floating: false,
+      sceneId: 'a',
+      signal: controller.signal,
+      activation: { ownerId: 'owner', epoch: 3 },
+      onRegistered: registered,
+      onDropped: dropped,
+      onCancelled: cancelled,
+    })
+    const slot = motion.coordinator.autoSlots.get('npc')
+    expect(registered).toHaveBeenCalledWith(slot)
+    controller.abort()
+    await expect(pending).rejects.toMatchObject({ name: 'AbortError' })
+    expect(cancelled).toHaveBeenCalledWith(slot)
+    expect(dropped).not.toHaveBeenCalled()
+    expect(motion.coordinator.autoSlots.has('npc')).toBe(false)
+  })
+
   test('中止在途实体走位按来源署名拒绝并清空注册表', async () => {
     const motion = new WorldMotionRuntime(100)
     for (const source of ['script', 'auto'] as const) {
@@ -42,6 +111,7 @@ describe('TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换', () => {
         speed: 'normal',
         sceneId: 'a',
         signal: controller.signal,
+        ...(source === 'auto' ? { activation: { ownerId: 'npc', epoch: 1 } } : {}),
       })
       const registry =
         source === 'script' ? motion.coordinator.scriptSlots : motion.coordinator.autoSlots
@@ -158,6 +228,7 @@ describe('TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换', () => {
     const autoMove = motion.registerMove({
       source: 'auto',
       id: 'mob',
+      activation: { ownerId: 'owner', epoch: 1 },
       to: pos(2),
       speed: 'normal',
       sceneId: 'a',
@@ -179,31 +250,99 @@ describe('TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换', () => {
     await expect(step).resolves.toMatchObject({ outcome: 'attempted' })
   })
 
-  test('实体 authority 接管清空旧 script owner 的步态与侧避锁', () => {
+  test('已登记的一次性 auto 步进在 authority 换代后只回 dropped，不留下成功续点', async () => {
     const motion = new WorldMotionRuntime(100)
-    motion.advanceCadence(100, false)
-    // Automatic gait is paused and retained; main.auto-pose-authority exercises its actual
-    // standing presentation and resumed phase. This caller covers the script cleanup boundary.
-    motion.markGait('npc', 'script', 4)
-    expect(motion.hasGait('npc')).toBe(true)
-    const npcStick: SideStick = {
-      actor: { kind: 'entity', id: 'npc' },
-      epoch: 1,
-      side: 'positive',
-      remainingEligibleTicks: 2,
-    }
-    motion.commitSideSticks([npcStick], [], [], () => true)
-    expect(planSticks(motion, 'npc')).toHaveLength(1)
+    const controller = new AbortController()
+    const pending = motion.registerAutoStep({
+      id: 'npc',
+      dir: 'left',
+      sceneId: 's1',
+      signal: controller.signal,
+      activation: { ownerId: 'scene-auto', epoch: 3 },
+    })
+    const slot = motion.coordinator.autoSlots.get('npc')
+    expect(slot).toMatchObject({ kind: 'step', source: 'auto', authorityEpochAtEnqueue: 0 })
+    if (slot?.kind !== 'step') throw new Error('step registration missing')
     motion.coordinator.setAuthority('npc', { kind: 'script' })
-    expect(motion.hasGait('npc')).toBe(false)
-    expect(motion.gaitOwner('npc')).toBeUndefined()
-    expect(motion.lastMovedWorldTick('npc')).toBeUndefined()
-    expect(planSticks(motion, 'npc')).toHaveLength(0)
-    motion.coordinator.releaseAuthority('npc')
+    expect(motion.coordinator.shouldDropAutoOneShot('npc', slot)).toBe(true)
+    slot.dropByAuthority()
+    await expect(pending).resolves.toEqual({ outcome: 'droppedByAuthority' })
+    expect(motion.coordinator.autoSlots.has('npc')).toBe(false)
+    expect(motion.coordinator.autoLineagesForTarget('npc')).toEqual([])
+    controller.abort()
   })
-})
 
-describe('TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执', () => {
+  test('追逐入队前/后两种 authority 丢弃分别只触发一次回调；脚本源不误丢', async () => {
+    const motion = new WorldMotionRuntime(100)
+    const signal = new AbortController().signal
+    const dropped = vi.fn()
+    const registered = vi.fn()
+    const cancelled = vi.fn()
+    motion.coordinator.setAuthority('npc', { kind: 'script' })
+    await expect(
+      motion.registerChase({
+        source: 'auto',
+        id: 'npc',
+        range: 3,
+        floating: false,
+        sceneId: 's1',
+        signal,
+        activation: { ownerId: 'scene-auto', epoch: 1 },
+        onDropped: dropped,
+        onRegistered: registered,
+        onCancelled: cancelled,
+      }),
+    ).resolves.toBe('droppedByAuthority')
+    expect(dropped).toHaveBeenCalledTimes(1)
+    expect(registered).not.toHaveBeenCalled()
+    expect(motion.coordinator.autoSlots.has('npc')).toBe(false)
+
+    const scripted = motion.registerChase({
+      source: 'script',
+      id: 'npc',
+      range: 4,
+      floating: true,
+      sceneId: 's1',
+      signal,
+      onDropped: dropped,
+      onRegistered: registered,
+      onCancelled: cancelled,
+    })
+    const scriptSlot = motion.coordinator.scriptSlots.get('npc')
+    expect(scriptSlot).toMatchObject({ kind: 'chase', source: 'script', range: 4, floating: true })
+    if (scriptSlot?.kind !== 'chase') throw new Error('script chase missing')
+    expect(motion.coordinator.shouldDropAutoOneShot('npc', scriptSlot)).toBe(false)
+    scriptSlot.resolve()
+    await expect(scripted).resolves.toBe('attempted')
+    expect(registered).toHaveBeenCalledTimes(1)
+    expect(dropped).toHaveBeenCalledTimes(1)
+    expect(cancelled).not.toHaveBeenCalled()
+
+    motion.coordinator.releaseAuthority('npc')
+    const auto = motion.registerChase({
+      source: 'auto',
+      id: 'npc',
+      range: 5,
+      floating: false,
+      sceneId: 's1',
+      signal,
+      activation: { ownerId: 'scene-auto', epoch: 2 },
+      onDropped: dropped,
+      onRegistered: registered,
+      onCancelled: cancelled,
+    })
+    const autoSlot = motion.coordinator.autoSlots.get('npc')
+    if (autoSlot?.kind !== 'chase') throw new Error('auto chase missing')
+    motion.coordinator.setAuthority('npc', { kind: 'mount', parent: 'party', dx: 0, dy: 0 })
+    expect(motion.coordinator.shouldDropAutoOneShot('npc', autoSlot)).toBe(true)
+    autoSlot.dropByAuthority?.()
+    await expect(auto).resolves.toBe('droppedByAuthority')
+    expect(dropped).toHaveBeenCalledTimes(2)
+    expect(registered).toHaveBeenCalledTimes(2)
+    expect(cancelled).not.toHaveBeenCalled()
+    expect(motion.coordinator.autoSlots.has('npc')).toBe(false)
+  })
+
   test('单步 attempted 结算后的迟到回执不再重发 committed 回调', async () => {
     const motion = new WorldMotionRuntime(100)
     const committed = vi.fn()
@@ -265,9 +404,46 @@ describe('TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执', () => {
     expect(committed).not.toHaveBeenCalled()
     expect(motion.coordinator.autoSlots.has('npc')).toBe(false)
   })
-})
 
-describe('TEST-GLM-REFORGE-RUNTIME-SESSION-1 scene token', () => {
+  test('scene teardown cancels both registries, releases authority and clears visual motion', async () => {
+    const motion = new WorldMotionRuntime(100)
+    const pending = motion.registerMove({
+      source: 'script',
+      id: 'npc',
+      to: pos(4),
+      speed: 'normal',
+      sceneId: 'a',
+    })
+    const auto = motion.registerMove({
+      source: 'auto',
+      id: 'auto-npc',
+      to: pos(6),
+      speed: 'slow',
+      sceneId: 'a',
+      activation: { ownerId: 'auto-npc', epoch: 5 },
+    })
+    const aborted = Promise.all([
+      expect(pending).rejects.toMatchObject({ name: 'AbortError', message: 'script:npc' }),
+      expect(auto).rejects.toMatchObject({ name: 'AbortError', message: 'auto:auto-npc' }),
+    ])
+    motion.coordinator.setAuthority('npc', { kind: 'script' })
+    motion.markGait('npc', 'script', 1)
+    motion.advanceExplicitAnimation('other')
+    const before = motion.currentSceneSessionId('a')
+    motion.teardownScene({
+      beforeCancelSlots: vi.fn(),
+      beforeReleaseAllAuthority: vi.fn(),
+      slotMessage: (source, actorId) => `${source}:${actorId}`,
+    })
+    await aborted
+    expect(motion.coordinator.scriptSlots.size).toBe(0)
+    expect(motion.coordinator.autoSlots.size).toBe(0)
+    expect(motion.coordinator.authority.size).toBe(0)
+    expect(motion.hasGait('npc')).toBe(false)
+    expect(motion.hasExplicitAnimation('other')).toBe(false)
+    expect(motion.currentSceneSessionId('a')).not.toBe(before)
+  })
+
   test('scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token', async () => {
     const motion = new WorldMotionRuntime(100)
     motion.coordinator.setAuthority('npc', { kind: 'script' })

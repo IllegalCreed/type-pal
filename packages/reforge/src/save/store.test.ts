@@ -35,9 +35,13 @@ describe('MemorySaveStore', () => {
     expect(await s.listMeta()).toEqual([])
     const written = payload()
     await s.putSlot(meta('m01'), written, new Blob(['png']))
-    expect((await s.listMeta()).map((m) => m.slotId)).toEqual(['m01'])
-    expect((await s.getPayload('m01'))?.world).toEqual(written.world)
-    expect(await s.getThumb('m01')).toBeInstanceOf(Blob)
+    expect(await s.listMeta()).toEqual([meta('m01')])
+    const read = await s.getPayload('m01')
+    if (!read) throw new Error('written slot missing')
+    expect(read).toEqual(written)
+    read.position.pos.col = 99
+    expect((await s.getPayload('m01'))?.position.pos.col).toBe(1)
+    expect(await (await s.getThumb('m01'))?.text()).toBe('png')
   })
   test('缺失槽 → null', async () => {
     const s = new MemorySaveStore({ kind: 'project', projectId: 'demo' })
@@ -52,5 +56,6 @@ describe('MemorySaveStore', () => {
     await s.putSlot(meta('m01'), p2, new Blob(['b']))
     expect(await s.listMeta()).toHaveLength(1)
     expect((await s.getPayload('m01'))?.position.pos.col).toBe(99)
+    expect(await (await s.getThumb('m01'))?.text()).toBe('b')
   })
 })

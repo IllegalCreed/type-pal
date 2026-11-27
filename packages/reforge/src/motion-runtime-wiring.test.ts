@@ -1,4 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
+import { deferred, nextTestTask } from './__tests__/deferred.js'
 import { commitMotionBatch } from './motion-batch.js'
 import { MotionRuntimeCoordinator } from './motion-runtime-coordinator.js'
 import {
@@ -11,11 +12,11 @@ import {
   partyBodyOverlaps,
   runtimeMotionCollision,
   settleDeferredOneShotMotion,
-  teardownMotionRuntime,
   terminateLifecycleMotion,
   waitForAutoTargetContinuation,
   wakeDurableMotionEndpoint,
 } from './motion-runtime-wiring.js'
+import { WorldMotionRuntime } from './world-motion-runtime.js'
 
 type Authority = { kind: 'script' }
 
@@ -243,58 +244,50 @@ describe('production motion runtime wiring', () => {
     expect(runtime.autoLineagesForTarget('target')).toEqual([])
   })
 
-  test.each([
-    'endpoint',
-    'step',
-    'chase',
-  ])('pending touch is a next-command auto safe-point barrier after %s acknowledgement', (_kind) => {
-    let nextMutation = 0
-    const runNext = (lifecycleAllowed: boolean, pendingTouch: boolean): void => {
-      if (autoActivationSafePointOpen(lifecycleAllowed, pendingTouch)) nextMutation++
-    }
-
-    runNext(true, true)
-    expect(nextMutation).toBe(0)
-    runNext(true, false)
-    expect(nextMutation).toBe(1)
+  test('the next automatic command requires both lifecycle permission and an empty touch barrier', () => {
+    expect(autoActivationSafePointOpen(true, false)).toBe(true)
+    expect(autoActivationSafePointOpen(true, true)).toBe(false)
+    expect(autoActivationSafePointOpen(false, false)).toBe(false)
   })
 
-  test.each([
-    'move',
-    'step',
-    'chase',
-  ])('target-scoped %s continuation waits through target suspend and resumes after restore', async (_kind) => {
-    const controller = new AbortController()
+  test('a suspended automatic target waits until both target and owner can continue', async () => {
     let targetAllowed = false
-    let releaseWait: (() => void) | undefined
-    let completed = false
+    let ownerAllowed = true
+    const first = deferred()
+    const second = deferred()
+    const waitedAgain = deferred()
     const continuation = waitForAutoTargetContinuation({
-      signal: controller.signal,
+      signal: new AbortController().signal,
       read: () => ({
         sceneCurrent: true,
         activationCurrent: true,
         targetPresent: true,
         targetRemoved: false,
         targetLifecycleAllowed: targetAllowed,
-        ownerLifecycleAllowed: true,
+        ownerLifecycleAllowed: ownerAllowed,
         authorityHeld: false,
         deferredTouchBarrier: false,
       }),
-      wait: () =>
-        new Promise<void>((resolve) => {
-          releaseWait = resolve
-        }),
-      invalid: () => new Error('invalid'),
-    }).then(() => {
-      completed = true
+      wait: () => {
+        if (!targetAllowed) return first.promise
+        waitedAgain.resolve()
+        return second.promise
+      },
+      invalid: () => new Error('obsolete continuation'),
     })
-
-    await Promise.resolve()
-    expect(completed).toBe(false)
+    const result = continuation.then(() => 'continued')
+    await expect(Promise.race([result, nextTestTask().then(() => 'waiting')])).resolves.toBe(
+      'waiting',
+    )
     targetAllowed = true
-    releaseWait?.()
-    await continuation
-    expect(completed).toBe(true)
+    ownerAllowed = false
+    first.resolve()
+    await expect(Promise.race([result, waitedAgain.promise.then(() => 'waiting')])).resolves.toBe(
+      'waiting',
+    )
+    ownerAllowed = true
+    second.resolve()
+    await expect(result).resolves.toBe('continued')
   })
 
   test('deferred touch gets first command opportunity before target authority can release', async () => {
@@ -338,26 +331,47 @@ describe('production motion runtime wiring', () => {
     expect(completed).toBe(true)
   })
 
-  test('touch scene replacement keeps endpoint durability but invalidates old continuation session', () => {
-    const runtime = new MotionRuntimeCoordinator<Authority, DurableEndpointSlot>()
-    const { slot, events } = endpointSlot()
-    runtime.autoSlots.set('target', slot)
-    const capturedSession = runtime.currentSceneSessionId('s001')
-    const activation = new AbortController()
-    const nextCommand = vi.fn()
+  test('touch scene replacement keeps endpoint durability but rejects the old continuation', async () => {
+    const motion = new WorldMotionRuntime(100)
+    const runtime = motion.coordinator
+    const settled = motion.registerMove({
+      source: 'auto',
+      id: 'target',
+      to: { col: 7, row: 0, height: 0 },
+      speed: 'normal',
+      sceneId: 's001',
+      activation: { ownerId: 'owner', epoch: 7 },
+    })
+    const slot = runtime.autoSlots.get('target')
+    if (slot?.kind !== 'move') throw new Error('pending automatic move missing')
+    const capturedSession = slot.sceneSessionId
     commitDurableMotionEndpoint(runtime, 'target', slot)
 
-    teardownMotionRuntime({
-      runtime,
+    motion.teardownScene({
+      beforeCancelSlots: () => undefined,
+      beforeReleaseAllAuthority: () => undefined,
       slotMessage: (source, actorId) => `${source}:${actorId}`,
-      beforeCancelSlots: () => activation.abort(),
     })
     wakeDurableMotionEndpoint(runtime, 'target', slot)
-    if (!activation.signal.aborted) nextCommand()
-
-    expect(runtime.currentSceneSessionId('s001')).not.toBe(capturedSession)
-    expect(events).toEqual(['canonical', 'settlement', 'wake'])
-    expect(nextCommand).not.toHaveBeenCalled()
+    await expect(settled).resolves.toBe(slot.commandEpoch)
+    const obsolete = new Error('obsolete scene continuation')
+    await expect(
+      waitForAutoTargetContinuation({
+        signal: new AbortController().signal,
+        read: () => ({
+          sceneCurrent: motion.currentSceneSessionId('s001') === capturedSession,
+          activationCurrent: true,
+          targetPresent: true,
+          targetRemoved: false,
+          targetLifecycleAllowed: true,
+          ownerLifecycleAllowed: true,
+          authorityHeld: false,
+          deferredTouchBarrier: false,
+        }),
+        wait: () => Promise.reject(new Error('obsolete continuation must neither run nor wait')),
+        invalid: () => obsolete,
+      }),
+    ).rejects.toBe(obsolete)
   })
 
   test('stale committed owner epoch never aborts or restarts a replacement activation', () => {
@@ -380,11 +394,7 @@ describe('production motion runtime wiring', () => {
     expect(runtime.takeHiddenTargetRestartOwners('target', true)).toEqual([])
   })
 
-  test.each([
-    ['adjacent', 1, 4],
-    ['out-of-range', 5, 4],
-  ])('queued chase %s settlement waits until same-tick touch take owns the next safe point', async (_case, distance, range) => {
-    expect(distance <= 1 || distance > range).toBe(true)
+  test('a queued chase settlement observes same-tick touch authority before waking', async () => {
     const runtime = new MotionRuntimeCoordinator<
       Authority,
       DurableEndpointSlot | DeferredOneShotSlot
@@ -407,31 +417,33 @@ describe('production motion runtime wiring', () => {
     } as const
     runtime.autoSlots.set('target', slot)
 
-    await new Promise<void>((resolve) => {
-      commitMotionBatch({
-        commitCanonicalEndpoints: () => undefined,
-        commitLivePositions: () => undefined,
-        afterLiveCommit: () => undefined,
-        runTouch: () => {
-          events.push('touch')
-          queueMicrotask(() => {
-            runtime.setAuthority('target', { kind: 'script' })
-            events.push('take')
-          })
-          return true
-        },
-        runPostContact: () => {
-          throw new Error('touch takeover must suppress post-contact')
-        },
-        queueContinuations: () => {
-          expect(settled).toBe(false)
-          setTimeout(() => {
-            expect(settleDeferredOneShotMotion(runtime, 'target', slot)).toBe(true)
-            resolve()
-          }, 0)
-        },
-      })
+    const pending: (() => void)[] = []
+    const tookControl = deferred()
+    commitMotionBatch({
+      commitCanonicalEndpoints: () => undefined,
+      commitLivePositions: () => undefined,
+      afterLiveCommit: () => undefined,
+      runTouch: () => {
+        events.push('touch')
+        queueMicrotask(() => {
+          runtime.setAuthority('target', { kind: 'script' })
+          events.push('take')
+          tookControl.resolve()
+        })
+        return true
+      },
+      runPostContact: () => {
+        throw new Error('touch takeover must suppress post-contact')
+      },
+      queueContinuations: () => {
+        pending.push(() => {
+          expect(settleDeferredOneShotMotion(runtime, 'target', slot)).toBe(true)
+        })
+      },
     })
+    await tookControl.promise
+    expect(settled).toBe(false)
+    for (const wake of pending) wake()
 
     expect(events).toEqual(['touch', 'take', 'wake:taken'])
   })

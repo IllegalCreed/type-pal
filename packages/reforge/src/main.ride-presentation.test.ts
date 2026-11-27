@@ -8,10 +8,9 @@ import { advance, installShellHost, state } from './__tests__/runtime-shell/scen
 import { loadCurrentProjectFrom } from './project-loader.js'
 
 let host: ShellHost | undefined
-afterEach(() => {
-  host?.close()
+afterEach(async () => {
+  await host?.close()
   host = undefined
-  vi.restoreAllMocks()
 })
 
 async function travelling(
