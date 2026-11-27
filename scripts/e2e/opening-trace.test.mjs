@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import { gunzipSync } from 'node:zlib'
 import ts from 'typescript'
+import { readOwnEntry } from '../../packages/reforge/src/scene-entity-values.ts'
 import { parseSpriteChunk } from '../../packages/shared/src/rle.ts'
 import { instrumentErrandTrace } from './errand-trace-plugin.mjs'
 import { instrumentInnTrace } from './inn-trace-plugin.mjs'
@@ -145,6 +146,7 @@ test('real world projection records readiness after both successful exits, never
   const file = 'packages/reforge/src/main.ts'
   const code = actualFunction(instrumentOpeningTrace(source(file), file).code, 'applyWorldToScene')
   const order = []
+  const sceneRuntimeStates = {}
   // This is an instrumentation boundary test, not a mock oracle for projection semantics.
   // Execute the complete production function; collaborators expose its call order and errors.
   const scope = {
@@ -153,7 +155,8 @@ test('real world projection records readiness after both successful exits, never
     activeScene: { scene: { id: 's001', entities: [] } },
     worldPresentation: { clearEntityFrames: () => order.push('frames') },
     restoredWaits: { clear: () => order.push('waits') },
-    sceneRuntimeStates: {},
+    sceneRuntimeStates,
+    savedSceneRuntime: readOwnEntry.bind(null, sceneRuntimeStates),
   }
   const project = new Function('scope', `with(scope) { ${code}; return applyWorldToScene; }`)(scope)
   const expected = ['before:scene-projection', 'gates', 'frames', 'waits', 'commit:scene-ready']

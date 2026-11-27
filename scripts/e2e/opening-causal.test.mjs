@@ -6,6 +6,7 @@ import { join } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
+import { readOwnEntry } from '../../packages/reforge/src/scene-entity-values.ts'
 import { sourceAutomaticLanguage } from './automatic-language-contract.mjs'
 import { verifyBoundAutomaticRuns, verifyBoundSourceCalls } from './automatic-language-receipts.mjs'
 import { checkGameDialogueCausality, checkOccurrenceLineage } from './causal-recording-contract.mjs'
@@ -1082,6 +1083,7 @@ test('actual main position writer and sparse collector prove an unchanged factor
     const actual = new Function(
       'activeScene',
       'runtimeScript',
+      'readOwnEntry',
       'syncRuntimeScriptScratch',
       'clearEntityGait',
       'motion',
@@ -1093,6 +1095,7 @@ test('actual main position writer and sparse collector prove an unchanged factor
     )(
       { scene: { id: 's001', entities: [entity] } },
       { entityPos: { e11: canonical } },
+      readOwnEntry,
       () => {},
       () => {},
       { discardRestoredMove() {} },
