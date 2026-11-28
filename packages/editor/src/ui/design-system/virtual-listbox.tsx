@@ -72,6 +72,7 @@ export function DsVirtualListbox<T>(props: {
     return first >= 0 ? props.getKey(props.items[first]!) : null
   })
   const activeSuspendedRef = useRef(false)
+  const lastSelectedKey = useRef<React.Key | null>(null)
   const programmaticScrollTargetRef = useRef<number | null>(null)
   const activeIndex = props.items.findIndex((item) => props.getKey(item) === activeKey)
   const virtualWindow = useDsVirtualWindow(
@@ -100,7 +101,16 @@ export function DsVirtualListbox<T>(props: {
   )
 
   useEffect(() => {
-    if (selectedIndex >= 0 && !props.getDisabled?.(props.items[selectedIndex]!)) {
+    const selectedItem = props.items[selectedIndex]
+    const selectedKey =
+      selectedItem !== undefined && !props.getDisabled?.(selectedItem)
+        ? props.getKey(selectedItem)
+        : null
+    const selectionChanged = lastSelectedKey.current !== selectedKey
+    lastSelectedKey.current = selectedKey
+    // Apply a changed controlled selection once. Navigation owns the highlight
+    // until the author or the caller selects another item.
+    if (selectionChanged && selectedKey !== null) {
       activate(selectedIndex)
       return
     }

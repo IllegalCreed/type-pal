@@ -535,6 +535,39 @@ describe('DsAddPickerDialog', () => {
     expect(onConfirm).toHaveBeenCalledTimes(1)
   })
 
+  test('moves the keyboard highlight after selecting a draft without committing either candidate', async () => {
+    const onConfirm = vi.fn()
+    await act(async () => root.render(picker({ candidates: options(3), onConfirm })))
+    await click(host.querySelector<HTMLButtonElement>('button')!)
+    const dialog = host.querySelector<HTMLDialogElement>('dialog[open]')!
+    const search = dialog.querySelector<HTMLInputElement>('input[type="search"]')!
+    const selectedId = () =>
+      dialog
+        .querySelector('[role="option"][aria-selected="true"] [data-option-id]')
+        ?.getAttribute('data-option-id')
+    const activeId = () =>
+      document
+        .getElementById(search.getAttribute('aria-activedescendant') ?? '')
+        ?.querySelector('[data-option-id]')
+        ?.getAttribute('data-option-id')
+
+    await press(search, 'Enter')
+    expect(selectedId()).toBe('item-000')
+    await press(search, 'ArrowDown')
+    expect(activeId()).toBe('item-001')
+    expect(selectedId()).toBe('item-000')
+    expect(onConfirm).not.toHaveBeenCalled()
+
+    await press(search, 'Enter')
+    expect(selectedId()).toBe('item-001')
+    expect(onConfirm).not.toHaveBeenCalled()
+    const confirm = [...dialog.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent === '添加道具',
+    )!
+    await click(confirm)
+    expect(onConfirm.mock.calls).toEqual([['item-001']])
+  })
+
   test('keeps the dialog open after a rejected or throwing adapter and allows retry', async () => {
     const onConfirm = vi
       .fn<(itemId: string) => false | undefined>()

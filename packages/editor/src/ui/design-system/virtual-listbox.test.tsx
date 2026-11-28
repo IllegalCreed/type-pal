@@ -229,6 +229,42 @@ describe('DsVirtualListbox semantic contract', () => {
     expect(listbox.scrollTop).toBeGreaterThan(0)
   })
 
+  test('moves active focus independently until the caller updates the controlled selection', async () => {
+    const onSelect = vi.fn()
+    const view = (selectedKey: number) => (
+      <DsVirtualListbox
+        label="选择动作"
+        items={[10, 20, 30]}
+        itemHeight={40}
+        height={120}
+        getKey={(item) => item}
+        selectedKey={selectedKey}
+        onSelect={onSelect}
+        renderItem={(item) => <>动作 {item}</>}
+      />
+    )
+    await act(async () => root.render(view(10)))
+    const listbox = host.querySelector<HTMLElement>('[role="listbox"]')!
+    const activeLabel = () =>
+      document.getElementById(listbox.getAttribute('aria-activedescendant') ?? '')?.textContent
+    listbox.focus()
+    expect(activeLabel()).toBe('动作 10')
+
+    await act(async () =>
+      listbox.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })),
+    )
+    expect(activeLabel()).toBe('动作 20')
+    expect(listbox.querySelector('[aria-selected="true"]')?.textContent).toBe('动作 10')
+    await act(async () => root.render(view(10)))
+    expect(activeLabel()).toBe('动作 20')
+
+    await act(async () => root.render(view(30)))
+    expect(activeLabel()).toBe('动作 30')
+    expect(listbox.querySelector('[aria-selected="true"]')?.textContent).toBe('动作 30')
+    expect(document.activeElement).toBe(listbox)
+    expect(onSelect).not.toHaveBeenCalled()
+  })
+
   test('removes an invalid active descendant when a manually scrolled viewport is all disabled', async () => {
     await act(async () =>
       root.render(
