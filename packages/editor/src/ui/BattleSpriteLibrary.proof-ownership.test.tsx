@@ -424,6 +424,10 @@ test('新增用途等待实际帧源证明，放行后生成敌人缺省分段',
     await waitProof(m.host, 6, 1)
     await clickButtonByText(m.host, '敌人')
     expect(m.host.textContent).toContain('新用途尚未写入项目')
+    const active = m.host.querySelector('.semantic-frame-group-head[aria-pressed="true"]')
+    expect(active?.querySelector('code')?.textContent).toBe('c02-enemy')
+    expect(active?.querySelector('b')?.textContent).toBe('C02敌人 · 敌人')
+    expect(m.session.getHistoryVersion()).toBe(0)
     await act(async () => applyButton(m.host).click())
     await waitForReact(() =>
       expect(

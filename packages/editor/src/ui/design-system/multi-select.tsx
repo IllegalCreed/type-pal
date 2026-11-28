@@ -31,8 +31,8 @@ export function DsMultiSelect(props: {
     )
   }, [props.options, query])
   const labels = props.value
-    .map((value) => props.options.find((option) => option.value === value)?.label ?? value)
     .slice(0, 2)
+    .map((value) => props.options.find((option) => option.value === value)?.label ?? value)
   const overflow = Math.max(0, props.value.length - labels.length)
 
   const close = useCallback((restoreFocus = false) => {

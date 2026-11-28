@@ -2,13 +2,15 @@
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { DsDialog } from './overlays.js'
+import { installReactActEnvironment } from '../../__tests__/react-io-wait.js'
+import { DsDialog, DsDrawer } from './overlays.js'
 
 let host: HTMLDivElement
 let root: Root
+let restoreAct: () => void
 
 beforeEach(() => {
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  restoreAct = installReactActEnvironment()
   vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
     callback(0)
     return 1
@@ -40,6 +42,7 @@ afterEach(async () => {
   Reflect.deleteProperty(HTMLDialogElement.prototype, 'close')
   vi.unstubAllGlobals()
   vi.restoreAllMocks()
+  restoreAct()
 })
 
 describe('DsDialog lifecycle contract', () => {
@@ -63,6 +66,10 @@ describe('DsDialog lifecycle contract', () => {
     const descriptionIds = dialogs.map((dialog) => dialog.getAttribute('aria-describedby'))
     expect(new Set(titleIds).size).toBe(2)
     expect(new Set(descriptionIds).size).toBe(2)
+    expect(descriptionIds.map((id) => document.getElementById(id!)?.textContent)).toEqual([
+      '选择一个道具',
+      '选择另一个道具',
+    ])
     for (const dialog of dialogs) {
       expect(
         document.getElementById(dialog.getAttribute('aria-labelledby')!)?.closest('dialog'),
@@ -289,3 +296,109 @@ describe('DsDialog lifecycle contract', () => {
     fallback.remove()
   })
 })
+
+describe('DsDrawer lifecycle', () => {
+  test('opens with body focus, closes once from the close button and restores opener focus', async () => {
+    const onClose = vi.fn()
+    function Harness() {
+      const [open, setOpen] = useState(false)
+      return (
+        <>
+          <button type="button" onClick={() => setOpen(true)}>
+            打开抽屉
+          </button>
+          <DsDrawer
+            open={open}
+            title="场景详情"
+            onClose={() => {
+              onClose()
+              setOpen(false)
+            }}
+          >
+            <input aria-label="场景名" />
+          </DsDrawer>
+        </>
+      )
+    }
+    await act(async () => root.render(<Harness />))
+    const opener = host.querySelector<HTMLButtonElement>('button')!
+    opener.focus()
+    await act(async () => opener.click())
+    const drawer = dialog()
+    expect(drawer.getAttribute('aria-labelledby')).toBe(drawer.querySelector('.ds-card__title')?.id)
+    expect(document.activeElement).toBe(drawer.querySelector('[aria-label="场景名"]'))
+    expect(document.body.style.overflow).toBe('hidden')
+
+    await act(async () => drawer.querySelector<HTMLButtonElement>('[aria-label="关闭"]')!.click())
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(host.querySelector('dialog[open]')).toBeNull()
+    expect(document.body.style.overflow).toBe('')
+    expect(document.activeElement).toBe(opener)
+  })
+})
+
+describe('DsDialog focus and dismissal', () => {
+  test('non-dismissible dialogs drop the close button and ignore native cancel requests', async () => {
+    const onClose = vi.fn()
+    await act(async () =>
+      root.render(
+        <DsDialog open title="强制流程" dismissible={false} onClose={onClose} ariaBusy>
+          <input aria-label="必填字段" />
+        </DsDialog>,
+      ),
+    )
+    const forced = dialog()
+    expect(forced.getAttribute('aria-busy')).toBe('true')
+    expect(forced.querySelector('[aria-label="关闭"]')).toBeNull()
+
+    const cancelEvent = new Event('cancel', { cancelable: true })
+    await act(async () => forced.dispatchEvent(cancelEvent))
+    expect(cancelEvent.defaultPrevented).toBe(true)
+    expect(onClose).not.toHaveBeenCalled()
+    expect(forced.hasAttribute('open')).toBe(true)
+    expect(document.body.style.overflow).toBe('hidden')
+
+    await act(async () => root.render(null))
+    expect(document.body.style.overflow).toBe('')
+    expect(onClose).not.toHaveBeenCalled()
+  })
+
+  test('keeps alertdialog role and custom close label on dismissible dialogs', async () => {
+    const onClose = vi.fn()
+    await act(async () =>
+      root.render(
+        <DsDialog open role="alertdialog" title="删除确认" closeLabel="放弃" onClose={onClose}>
+          内容
+        </DsDialog>,
+      ),
+    )
+    const confirmDialog = dialog()
+    expect(confirmDialog.getAttribute('role')).toBe('alertdialog')
+    const closeButton = confirmDialog.querySelector<HTMLButtonElement>('[aria-label="放弃"]')!
+    await act(async () => closeButton.click())
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
+  test('focuses the footer action when the body has no focusable control', async () => {
+    const onClose = vi.fn()
+    await act(async () =>
+      root.render(
+        <DsDialog
+          open
+          title="确认迁移"
+          onClose={onClose}
+          footer={<button type="button">确认</button>}
+        >
+          <p>纯文本正文</p>
+        </DsDialog>,
+      ),
+    )
+    expect(document.activeElement?.textContent).toBe('确认')
+  })
+})
+
+function dialog(): HTMLDialogElement {
+  const element = host.querySelector<HTMLDialogElement>('dialog[open]')
+  expect(element).not.toBeNull()
+  return element!
+}

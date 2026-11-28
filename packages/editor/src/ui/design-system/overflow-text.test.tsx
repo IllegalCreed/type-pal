@@ -4,16 +4,15 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToString } from 'react-dom/server'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { DsOverflowText } from './controls.js'
-import { DsOverflowText as DsOverflowTextRoot } from './index.js'
-import { DsOverflowText as DsOverflowTextModule } from './overflow-text.js'
+import { installReactActEnvironment } from '../../__tests__/react-io-wait.js'
+import { DsOverflowText } from './index.js'
 
 interface TextMetrics {
   clientWidth: number
   scrollWidth: number
 }
 
-class TestResizeObserver {
+class TestResizeObserver implements ResizeObserver {
   static instances: TestResizeObserver[] = []
 
   readonly observed = new Set<Element>()
@@ -37,7 +36,7 @@ class TestResizeObserver {
   }
 
   emit(): void {
-    this.callback([], this as unknown as ResizeObserver)
+    this.callback([], this)
   }
 }
 
@@ -48,9 +47,10 @@ let metrics: WeakMap<Element, TextMetrics>
 let clientWidthReads: number
 let scrollWidthReads: number
 let documentFontsDescriptor: PropertyDescriptor | undefined
+let restoreAct: () => void
 
 beforeEach(() => {
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  restoreAct = installReactActEnvironment()
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
@@ -78,6 +78,7 @@ afterEach(async () => {
   else Reflect.deleteProperty(document, 'fonts')
   vi.unstubAllGlobals()
   vi.restoreAllMocks()
+  restoreAct()
 })
 
 async function renderOverflowText(value = 'assets/migrated/sprites/001.rle'): Promise<HTMLElement> {
@@ -216,11 +217,6 @@ describe('DsOverflowText', () => {
     await act(async () => root.render(null))
     expect(fonts.removeEventListener).toHaveBeenCalledWith('loadingdone', expect.any(Function))
     expect(listeners).toHaveLength(0)
-  })
-
-  test('keeps the controls and design-system exports on the moved implementation', () => {
-    expect(DsOverflowText).toBe(DsOverflowTextModule)
-    expect(DsOverflowTextRoot).toBe(DsOverflowTextModule)
   })
 
   test('does not read layout while rendering on the server', () => {

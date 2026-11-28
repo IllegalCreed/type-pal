@@ -1,14 +1,7 @@
-import {
-  cloneElement,
-  isValidElement,
-  type ReactNode,
-  useEffect,
-  useId,
-  useRef,
-  useState,
-} from 'react'
+import { cloneElement, isValidElement, type ReactNode, useId, useRef, useState } from 'react'
 import { classes } from './control-utils.js'
 import { DsFloatingLayer } from './floating-layer.js'
+import { useTooltipDismissal } from './tooltip-dismissal.js'
 
 export function DsTooltip(props: { label: string; shortcut?: string; children: ReactNode }) {
   const tooltipId = useId()
@@ -26,16 +19,7 @@ export function DsTooltip(props: { label: string; shortcut?: string; children: R
       })
     : props.children
 
-  useEffect(() => {
-    if (!open) return
-    const dismissOnEscape = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return
-      event.preventDefault()
-      setDismissed(true)
-    }
-    document.addEventListener('keydown', dismissOnEscape)
-    return () => document.removeEventListener('keydown', dismissOnEscape)
-  }, [open])
+  useTooltipDismissal(open, setDismissed)
 
   return (
     <>
@@ -101,16 +85,7 @@ export function DsHelpTip(props: { label: string; children: ReactNode }) {
   const [focused, setFocused] = useState(false)
   const open = !dismissed && (hovered || focused)
 
-  useEffect(() => {
-    if (!open) return
-    const dismissOnEscape = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return
-      event.preventDefault()
-      setDismissed(true)
-    }
-    document.addEventListener('keydown', dismissOnEscape)
-    return () => document.removeEventListener('keydown', dismissOnEscape)
-  }, [open])
+  useTooltipDismissal(open, setDismissed)
 
   return (
     <>

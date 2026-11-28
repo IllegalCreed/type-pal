@@ -81,7 +81,7 @@ export type DsDraftTextAreaProps = Omit<
     value: string
   }
 
-/** Multiline adapter for the same draft transaction boundary; Enter remains a newline. */
+/** Plain Enter inserts a newline. Ctrl/Cmd+Enter uses the shared commit boundary. */
 export function DsDraftTextArea(props: DsDraftTextAreaProps) {
   const {
     draftKey,

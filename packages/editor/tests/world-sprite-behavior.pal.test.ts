@@ -1,28 +1,22 @@
-import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import type { SpriteDef } from '@type-pal/content'
 import {
-  type AssetRecordV1,
-  type AuthorSceneDef,
-  type AuthorScriptLibrary,
-  emptyWorldScriptState,
-  resolveAuthorDialogueTree,
-  type SceneIndexV1,
-  type SpriteDef,
-  validateActors,
-  validateAuthorItems,
-} from '@type-pal/content'
-import { baseSceneView, decodeWorldSpriteAssetBytes } from '@type-pal/reforge'
+  decodeWorldSpriteAssetBytes,
+  loadAllAuthorScenes,
+  loadCurrentProjectFrom,
+  loadStampTemplates,
+} from '@type-pal/reforge/author-io'
 import { expect, test } from 'vitest'
-import type { EditorState } from '../src/core/edit-session.js'
-import type { ProjectReferenceEdge } from '../src/core/project-reference.js'
+import { authorProjectSource } from '../scripts/author-project-source.js'
+import { toEditorState } from '../src/core/project-io.js'
+import { collectCurrentProjectReferenceIndex } from '../src/core/project-reference-adapters.js'
 import {
-  collectSpriteAutomaticScriptBehaviors,
+  collectAutomaticScriptSpriteInstanceSites,
   describeSpriteReferenceBehavior,
   projectCanonicalSpritePreviewState,
 } from '../src/core/world-sprite-behavior.js'
 
-const root = resolve(import.meta.dirname, '../../..')
-const readJson = <T>(path: string): T => JSON.parse(readFileSync(resolve(root, path), 'utf8')) as T
+const projectRoot = resolve(import.meta.dirname, '../../../projects/pal')
 
 const entityRange = (scene: string, from: number, to: number): string[] =>
   Array.from({ length: to - from + 1 }, (_, index) => `${scene}/e${from + index}`)
@@ -95,82 +89,65 @@ const previouslyUnpreviewed = new Map<string, readonly string[]>([
   ['sprite-600', ['s228/e4034', 's228/e4042', 's229/e4078', 's229/e4082', 's229/e4086']],
 ])
 
-async function actualFrameCount(
-  definition: SpriteDef,
-  catalog: { assets: Record<string, AssetRecordV1> },
-): Promise<number> {
-  const record = catalog.assets[definition.asset]
-  if (!record) throw new Error(`缺 PAL 精灵资源 ${definition.asset}`)
-  const bytes = Uint8Array.from(readFileSync(resolve(root, 'projects/pal', record.path))).buffer
-  return (await decodeWorldSpriteAssetBytes(record, bytes)).frames.length
-}
-
-function palPreviewState(): EditorState {
-  const sceneIndex = readJson<SceneIndexV1>('projects/pal/content/scenes/index.json')
-  const canonicalScenes = sceneIndex.scenes.map((entry) =>
-    readJson<AuthorSceneDef>(`projects/pal/${entry.path}`),
-  )
-  const actors = validateActors(readJson('projects/pal/content/actors.json'))
-  const actorsById = Object.fromEntries(actors.map((actor) => [actor.id, actor]))
-  const items = validateAuthorItems(readJson('projects/pal/content/items.json'))
-  const world = emptyWorldScriptState()
-  const shell = {
-    actors,
-    scenes: canonicalScenes.map((scene) =>
-      baseSceneView(
-        resolveAuthorDialogueTree(scene, actorsById, 'pal.sprite-preview', { items }),
-        world,
-      ),
-    ),
-    sceneIndex,
-    scriptChunks: {},
-  } as unknown as EditorState
-  return projectCanonicalSpritePreviewState(shell, {
-    scenes: canonicalScenes,
-    sharedScripts: readJson<AuthorScriptLibrary>('projects/pal/content/shared-scripts.json'),
-  })
+async function readPalPreview() {
+  const source = await authorProjectSource(projectRoot)
+  const project = await loadCurrentProjectFrom(source)
+  const [scenes, stamps] = await Promise.all([
+    loadAllAuthorScenes(project),
+    loadStampTemplates(project),
+  ])
+  const canonical = {
+    scenes,
+    items: project.authorContent.items,
+    sharedScripts: project.authorContent.sharedScripts,
+  }
+  const shell = toEditorState(project, scenes, {}, {}, stamps)
+  const state = projectCanonicalSpritePreviewState(shell, canonical)
+  const references = collectCurrentProjectReferenceIndex(shell, canonical)
+  const automaticSites = collectAutomaticScriptSpriteInstanceSites(state)
+  const definitions = new Map(shell.sprites.map((definition) => [definition.id, definition]))
+  const sceneById = new Map(scenes.map((scene) => [scene.id, scene]))
+  const sceneReference = (definitionId: string, sceneId: string, entityId: string) => {
+    const reference = references
+      .referencesTo({ kind: 'world-sprite', id: definitionId })
+      .find(
+        ({ source: referenceSource, relation }) =>
+          relation.kind === 'world-sprite-use' &&
+          referenceSource.owner.kind === 'scene-entity' &&
+          referenceSource.owner.sceneId === sceneId &&
+          referenceSource.owner.entityId === entityId,
+      )
+    if (!reference) throw new Error(`缺 PAL 精灵引用 ${definitionId} · ${sceneId}/${entityId}`)
+    return reference
+  }
+  const frameCount = async (definition: SpriteDef) => {
+    const record = shell.assetCatalog.assets[definition.asset]
+    if (!record) throw new Error(`缺 PAL 精灵资源 ${definition.asset}`)
+    const bytes = await source.readBytes(record.path)
+    return (await decodeWorldSpriteAssetBytes(record, bytes)).frames.length
+  }
+  return { state, references, automaticSites, definitions, sceneById, sceneReference, frameCount }
 }
 
 test('PAL 曾漏预览的 102 个安全 auto 实例全部生成有效帧预览', async () => {
-  const state = palPreviewState()
-  const definitions = readJson<SpriteDef[]>('projects/pal/content/sprites.json')
-  const definitionsById = new Map(definitions.map((definition) => [definition.id, definition]))
-  const scenesById = new Map(state.scenes.map((scene) => [scene.id, scene]))
-  const catalog = readJson<{ assets: Record<string, AssetRecordV1> }>(
-    'projects/pal/assets/index.json',
-  )
+  const pal = await readPalPreview()
 
   let auditedInstances = 0
   for (const [definitionId, sites] of previouslyUnpreviewed) {
-    const definition = definitionsById.get(definitionId)
+    const definition = pal.definitions.get(definitionId)
     if (!definition) throw new Error(`缺 PAL 用途定义 ${definitionId}`)
-    const frameCount = await actualFrameCount(definition, catalog)
+    const frameCount = await pal.frameCount(definition)
     for (const site of sites) {
       const [sceneId, entityId] = site.split('/')
-      const entity = scenesById
-        .get(sceneId!)
+      if (!sceneId || !entityId) throw new Error(`PAL 实例地址缺场景或实体：${site}`)
+      const entity = pal.sceneById
+        .get(sceneId)
         ?.entities.find((candidate) => candidate.id === entityId)
       if (!entity) throw new Error(`缺 PAL 实例 ${site}`)
       if (!('sprite' in entity) || entity.sprite !== definitionId)
         throw new Error(`${site} 未引用 ${definitionId}`)
-      const reference: ProjectReferenceEdge = {
-        id: 0,
-        target: { kind: 'world-sprite', id: definitionId },
-        source: {
-          key: `scene-entity\0${sceneId}\0${entityId}`,
-          owner: { kind: 'scene-entity', sceneId: sceneId!, entityId: entityId! },
-          label: `场景 ${sceneId} · 实体 ${entityId}`,
-          deletedWith: [],
-        },
-        relation: { kind: 'world-sprite-use' },
-        where: `scenes.${sceneId}.entities.${entityId}.sprite`,
-        locator: {
-          kind: 'object',
-          object: { kind: 'entity', sceneId: sceneId!, entityId: entityId! },
-        },
-        deletePolicy: 'replace-suggest',
-      }
-      const behavior = describeSpriteReferenceBehavior(state, reference, definition, frameCount)
+      const reference = pal.sceneReference(definitionId, sceneId, entityId)
+      const behavior = describeSpriteReferenceBehavior(pal.state, reference, definition, frameCount)
       expect(behavior.preview?.kind, `${definitionId} ${site}`).not.toBe('unavailable')
       if (!behavior.preview) throw new Error(`${definitionId} ${site} 缺预览`)
       const steps =
@@ -181,6 +158,7 @@ test('PAL 曾漏预览的 102 个安全 auto 实例全部生成有效帧预览',
             : []
       expect(steps.length, `${definitionId} ${site}`).toBeGreaterThan(0)
       for (const step of steps) {
+        expect(Number.isInteger(step.frame), `${definitionId} ${site}`).toBe(true)
         expect(step.frame, `${definitionId} ${site}`).toBeGreaterThanOrEqual(0)
         expect(step.frame, `${definitionId} ${site}`).toBeLessThan(frameCount)
       }
@@ -192,34 +170,43 @@ test('PAL 曾漏预览的 102 个安全 auto 实例全部生成有效帧预览',
 }, 30_000)
 
 test('035/072 保留实例行为预览，076 只由预制动作消费', async () => {
-  const state = palPreviewState()
-  const definitions = readJson<SpriteDef[]>('projects/pal/content/sprites.json')
-  const definitionsById = new Map(definitions.map((definition) => [definition.id, definition]))
-  const catalog = readJson<{ assets: Record<string, AssetRecordV1> }>(
-    'projects/pal/assets/index.json',
-  )
-  const summariesFor = async (id: string) => {
-    const definition = definitionsById.get(id)
+  const pal = await readPalPreview()
+  const autoSitesFor = (id: string) => pal.automaticSites.filter((site) => site.spriteId === id)
+  const previewAt = async (id: string, expectedSites: readonly string[]) => {
+    const definition = pal.definitions.get(id)
     if (!definition) throw new Error(`缺 PAL 用途定义 ${id}`)
-    return collectSpriteAutomaticScriptBehaviors(
-      state,
-      definition,
-      await actualFrameCount(definition, catalog),
+    const sites = autoSitesFor(id)
+    expect(sites.map((site) => `${site.sceneId}/${site.entityId}`).sort()).toEqual(expectedSites)
+    const frameCount = await pal.frameCount(definition)
+    return sites.map(({ sceneId, entityId }) =>
+      describeSpriteReferenceBehavior(
+        pal.state,
+        pal.sceneReference(id, sceneId, entityId),
+        definition,
+        frameCount,
+      ),
     )
   }
 
   expect(
-    (await summariesFor('sprite-35')).some((summary) => summary.label === '自动脚本定时循环'),
+    (await previewAt('sprite-35', ['s004/e82', 's048/e795'])).some(
+      (summary) => summary.label === '自动脚本定时循环' && summary.preview?.kind === 'cycle',
+    ),
   ).toBe(true)
   expect(
-    (await summariesFor('sprite-72')).every((summary) => summary.preview.kind === 'variants'),
+    (await previewAt('sprite-72', ['s025/e482', 's093/e1745', 's128/e2242'])).every(
+      (summary) => summary.preview?.kind === 'variants',
+    ),
   ).toBe(true)
-  expect(await summariesFor('sprite-76')).toEqual([])
+  expect(autoSitesFor('sprite-76')).toEqual([])
 
-  const sprite76 = definitionsById.get('sprite-76')
-  const actionEntries = Object.entries(sprite76?.poses ?? {})
+  const sprite76 = pal.definitions.get('sprite-76')
+  if (!sprite76) throw new Error('缺 PAL 用途定义 sprite-76')
+  const actionEntries = Object.entries(sprite76.poses ?? {})
   expect(actionEntries).toHaveLength(1)
-  const [actionId, action] = actionEntries[0]!
+  const firstAction = actionEntries[0]
+  if (!firstAction) throw new Error('缺 sprite-76 预制动作')
+  const [actionId, action] = firstAction
   expect(action).toMatchObject({
     loopFrom: 0,
     steps: [
@@ -230,13 +217,22 @@ test('035/072 保留实例行为预览，076 只由预制动作消费', async ()
       { frame: 0, durationMs: 100 },
     ],
   })
-  const scene22 = state.scenes.find((scene) => scene.id === 's022')
-  const entity407 = scene22?.entities.find((entity) => entity.id === 'e407')
-  expect(entity407?.pages[0]).toMatchObject({
+  const entity407 = pal.sceneById.get('s022')?.entities.find((entity) => entity.id === 'e407')
+  expect(entity407?.pages?.[0]).toMatchObject({
     animation: {
       sprite: 'sprite-76',
       action: actionId,
       loop: true,
     },
   })
+  expect(
+    pal.references.referencesTo({ kind: 'world-sprite-action', spriteId: 'sprite-76', actionId }),
+  ).toContainEqual(
+    expect.objectContaining({
+      source: expect.objectContaining({
+        owner: expect.objectContaining({ sceneId: 's022', entityId: 'e407' }),
+      }),
+      relation: { kind: 'world-sprite-action-use', actionId },
+    }),
+  )
 }, 30_000)

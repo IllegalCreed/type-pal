@@ -13,6 +13,14 @@ export interface SortedSpriteAction {
   index: number
 }
 
+export function findSpriteAction(
+  sprite: SpriteDef | undefined,
+  actionId: string,
+): SpriteActionDef | undefined {
+  const poses = sprite?.poses
+  return poses && Object.hasOwn(poses, actionId) ? poses[actionId] : undefined
+}
+
 /** Missing orders follow explicit orders. The displayed index is never a persistent reference. */
 export function sortedSpriteActions(sprite: SpriteDef | undefined): SortedSpriteAction[] {
   return Object.entries(sprite?.poses ?? {})

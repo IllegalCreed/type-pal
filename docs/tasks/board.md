@@ -69,6 +69,10 @@ Reforge 战斗治理已完成本窗口。账本为 1,492 closed、0 review。#77
 
 `QUALITY-REFORGE-SCENE-OWNERSHIP-1` 完成 96 个原 pending 并闭合基点两个 review。场景实体地址和旧编译出口退役随本窗收口，同由[生成任务索引](cards/index.md)查阅。SAVE12 游标与场景引用在后继窗口通过真实 codec 和恢复入口验证，账本的唯一存档留审已闭合。
 
+### 代码治理：编辑器精灵动作与编排
+
+`QUALITY-EDITOR-SPRITE-AUTHORING-1` 完成 100 个基点原路径，含 56 个验证保留及 44 个按职责退役。42 个承接路径单列。精灵动作、路由、完整场景地址、双库过期删除及候选键盘选择的依据见[逐文件与执行归档](evidence/QUALITY-EDITOR-SPRITE-AUTHORING-1.tar.gz)。两份在飞共用夹具等原 Owner 释放，旧菜单搜索出口等退役裁决。
+
 ### 代码治理：最近完成的文件批次
 
 `QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1` 完成 73 个原 pending 的逐文件处置，含 24 个保留路径与 49 个按实际职责合并或退役的路径。68 个承接路径单列，3 项留审。法术声音及草稿、战斗和大世界源帧、两种精灵导入的回归见[逐文件与执行归档](evidence/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.tar.gz)。

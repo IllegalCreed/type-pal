@@ -105,10 +105,10 @@ export function SpriteActionEditorDialog(props: {
     ),
   )
   const [localPoses, setLocalPoses] = useState(snapshot.initialPoses)
+  const draftPosesRef = useRef(snapshot.initialPoses)
   const [error, setError] = useState('')
   const [scopeConflict, setScopeConflict] = useState(false)
   const [discardOpen, setDiscardOpen] = useState(false)
-  const dirtyCreate = JSON.stringify(localPoses) !== JSON.stringify(snapshot.initialPoses)
   const liveDefinition =
     props.liveDefinition?.id === snapshot.definitionId &&
     props.liveDefinition.asset === snapshot.asset
@@ -197,7 +197,10 @@ export function SpriteActionEditorDialog(props: {
 
   const requestClose = (): void => {
     if (!flushFocusedField()) return
-    if (mode === 'create' && dirtyCreate) {
+    if (
+      mode === 'create' &&
+      JSON.stringify(draftPosesRef.current) !== JSON.stringify(snapshot.initialPoses)
+    ) {
       setDiscardOpen(true)
       return
     }
@@ -209,24 +212,23 @@ export function SpriteActionEditorDialog(props: {
     if (mode === 'edit') props.onSelectedActionChange(actionId)
   }
 
-  const commitLocalPoses = (poses: Record<string, SpriteActionDef> | undefined): boolean => {
-    setLocalPoses(poses ?? {})
-    if (!scopeConflict) {
-      setError('')
-      props.onStatusNotice?.(undefined)
-    }
+  const commitLocalPoses = (poses: Record<string, SpriteActionDef>): boolean => {
+    // Blur can commit a field within the event that is about to create or close the draft.
+    draftPosesRef.current = poses
+    setLocalPoses(poses)
     return true
   }
 
-  const commitEditPoses = (poses: Record<string, SpriteActionDef> | undefined): boolean => {
+  const commitEditPoses = (poses: Record<string, SpriteActionDef>): boolean => {
     const current = props.session
       .getState()
       .sprites.find((candidate) => candidate.id === snapshot.definitionId)
     if (!current || current.asset !== snapshot.asset) return false
+    const next = Object.keys(poses).length ? poses : undefined
     const changed = props.session.dispatch(
       new UpdateSpriteCommand(
         current.id,
-        { poses: poses && Object.keys(poses).length ? poses : undefined },
+        { poses: next },
         props.proof,
         props.getCurrentReferenceIndex,
       ),
@@ -234,7 +236,7 @@ export function SpriteActionEditorDialog(props: {
     if (changed)
       setCreatedDefinition({
         ...current,
-        poses: poses && Object.keys(poses).length ? structuredClone(poses) : undefined,
+        poses: next && structuredClone(next),
       })
     return changed
   }
@@ -282,20 +284,16 @@ export function SpriteActionEditorDialog(props: {
       return
     }
     try {
+      const poses = draftPosesRef.current
       const changed = props.session.dispatch(
-        new UpdateSpriteCommand(
-          current.id,
-          { poses: localPoses },
-          props.proof,
-          props.getCurrentReferenceIndex,
-        ),
+        new UpdateSpriteCommand(current.id, { poses }, props.proof, props.getCurrentReferenceIndex),
       )
       if (!changed) {
         reportError('精灵用途定义已变化，新动作尚未创建。')
         return
       }
       setMode('edit')
-      setCreatedDefinition({ ...current, poses: structuredClone(localPoses) })
+      setCreatedDefinition({ ...current, poses: structuredClone(poses) })
       setSelectedActionId(snapshot.actionId)
       props.onSelectedActionChange(snapshot.actionId)
       props.onStatusNotice?.({ kind: 'info', message: '预制动作已创建，可继续编辑。' })
@@ -384,13 +382,11 @@ export function SpriteActionEditorDialog(props: {
           <SpriteActionEditor
             definition={editorDefinition}
             catalog={props.catalog}
-            proof={props.proof}
             frames={props.frames}
             selectedSourceFrame={props.selectedSourceFrame}
             references={props.references}
             referenceStatus={props.referenceStatus}
-            getCurrentReferenceIndex={props.getCurrentReferenceIndex}
-            session={props.session}
+            historyVersion={props.session.getHistoryVersion()}
             selectedActionId={editorActionId}
             mode={mode}
             restrictActionId={mode === 'create' ? snapshot.actionId : undefined}

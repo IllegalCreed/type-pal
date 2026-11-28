@@ -63,6 +63,14 @@ interface IndexedOption {
   sourceIndex: number
 }
 
+function searchOptions(options: readonly IndexedOption[], query: string) {
+  return filterDsCollection(options, query, ({ option }) => [
+    option.label,
+    option.value,
+    option.description,
+  ])
+}
+
 function firstEnabledValue(options: readonly IndexedOption[], fromEnd = false): string | null {
   const iterable = fromEnd ? [...options].reverse() : options
   return iterable.find(({ option }) => !option.disabled)?.option.value ?? null
@@ -163,12 +171,7 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
     [options],
   )
   const filteredOptions = useMemo(
-    () =>
-      filterDsCollection(indexedOptions, query, ({ option }) => [
-        option.label,
-        option.value,
-        option.description,
-      ]),
+    () => searchOptions(indexedOptions, query),
     [indexedOptions, query],
   )
   const activeIndex = filteredOptions.findIndex(({ option }) => option.value === activeValue)
@@ -220,11 +223,7 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
     (fromEnd = false, initialQuery = '', useBoundary = false) => {
       if (disabled) return
       const selectedEnabled = selected && !selected.disabled ? selected.value : null
-      const initialOptions = filterDsCollection(indexedOptions, initialQuery, ({ option }) => [
-        option.label,
-        option.value,
-        option.description,
-      ])
+      const initialOptions = searchOptions(indexedOptions, initialQuery)
       const nextActive = useBoundary
         ? firstEnabledValue(initialOptions, fromEnd)
         : (selectedEnabled ?? firstEnabledValue(initialOptions, fromEnd))
@@ -299,32 +298,8 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
     (event: ReactKeyboardEvent<HTMLButtonElement>) => {
       onKeyDown?.(event)
       if (event.defaultPrevented) return
-      if (open) {
-        if (handleListNavigation(event)) return
-        if (
-          !hasSearch &&
-          event.key.length === 1 &&
-          !event.metaKey &&
-          !event.ctrlKey &&
-          !event.altKey
-        ) {
-          event.preventDefault()
-          const now = Date.now()
-          const previous = typeaheadRef.current
-          const text =
-            `${now - previous.at < 700 ? previous.text : ''}${event.key}`.toLocaleLowerCase()
-          typeaheadRef.current = { text, at: now }
-          const candidate = indexedOptions.find(
-            ({ option }) => !option.disabled && option.label.toLocaleLowerCase().startsWith(text),
-          )
-          if (candidate) {
-            setActiveValue(candidate.option.value)
-            ensureVisible(candidate.option.value, indexedOptions)
-          }
-        }
-        return
-      }
-      if (['Enter', ' ', 'ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+      if (open && handleListNavigation(event)) return
+      if (!open && ['Enter', ' ', 'ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
         event.preventDefault()
         openSelect(
           event.key === 'ArrowUp' || event.key === 'End',
@@ -333,21 +308,29 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
         )
         return
       }
-      if (event.key.length === 1 && !event.metaKey && !event.ctrlKey && !event.altKey) {
-        event.preventDefault()
-        if (hasSearch) {
+      if (event.key.length !== 1 || event.metaKey || event.ctrlKey || event.altKey) return
+      if (hasSearch) {
+        if (!open) {
+          event.preventDefault()
           openSelect(false, event.key)
-          return
         }
-        const now = Date.now()
-        const previous = typeaheadRef.current
-        const text =
-          `${now - previous.at < 700 ? previous.text : ''}${event.key}`.toLocaleLowerCase()
-        typeaheadRef.current = { text, at: now }
-        const candidate = indexedOptions.find(
-          ({ option }) => !option.disabled && option.label.toLocaleLowerCase().startsWith(text),
-        )
-        if (candidate) chooseValue(candidate.option.value)
+        return
+      }
+
+      event.preventDefault()
+      const now = Date.now()
+      const previous = typeaheadRef.current
+      const text = `${now - previous.at < 700 ? previous.text : ''}${event.key}`.toLocaleLowerCase()
+      typeaheadRef.current = { text, at: now }
+      const candidate = indexedOptions.find(
+        ({ option }) => !option.disabled && option.label.toLocaleLowerCase().startsWith(text),
+      )
+      if (!candidate) return
+      if (open) {
+        setActiveValue(candidate.option.value)
+        ensureVisible(candidate.option.value, indexedOptions)
+      } else {
+        chooseValue(candidate.option.value)
       }
     },
     [
@@ -483,11 +466,7 @@ export const DsSelect = forwardRef<HTMLButtonElement, DsSelectProps>(function Ds
               placeholder={`搜索 ${options.length} 项`}
               onChange={(event) => {
                 const nextQuery = event.currentTarget.value
-                const nextOptions = filterDsCollection(indexedOptions, nextQuery, ({ option }) => [
-                  option.label,
-                  option.value,
-                  option.description,
-                ])
+                const nextOptions = searchOptions(indexedOptions, nextQuery)
                 setQuery(nextQuery)
                 setActiveValue(firstEnabledValue(nextOptions))
                 setListScrollTop(0)
@@ -647,8 +626,3 @@ export function DsSelectField(props: DsFieldChromeProps & Omit<DsSelectProps, 'i
     </DsField>
   )
 }
-
-/**
- * Selects membership or one boolean condition within a form/group.
- * Independent, immediately applied feature enablement belongs to DsSwitch instead.
- */

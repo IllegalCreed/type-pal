@@ -157,6 +157,27 @@ describe('object workbench recipes', () => {
     expect(compact.dataset.leading).toBe('none')
   })
 
+  test('catalog selection exposes the appropriate ARIA state as the row changes context', async () => {
+    const view = (asOption: boolean, selected: boolean) => (
+      <section role={asOption ? 'listbox' : undefined} aria-label="精灵候选">
+        <DsCatalogRow title="金蟾" role={asOption ? 'option' : undefined} selected={selected} />
+      </section>
+    )
+    await act(async () => root.render(view(false, true)))
+    const row = host.querySelector('button')!
+    expect(row.getAttribute('aria-pressed')).toBe('true')
+    expect(row.hasAttribute('aria-selected')).toBe(false)
+
+    await act(async () => root.render(view(true, true)))
+    expect(row.closest('[role="listbox"]')).not.toBeNull()
+    expect(row.getAttribute('aria-selected')).toBe('true')
+    expect(row.hasAttribute('aria-pressed')).toBe(false)
+
+    await act(async () => root.render(view(false, false)))
+    expect(row.getAttribute('aria-pressed')).toBe('false')
+    expect(row.hasAttribute('aria-selected')).toBe(false)
+  })
+
   test('catalog filter owns one shrink-safe compact search shell', async () => {
     await act(async () =>
       root.render(<DsCatalogFilter aria-label="搜索地图" placeholder="搜索名称或 ID" />),

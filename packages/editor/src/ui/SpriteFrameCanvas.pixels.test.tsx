@@ -1,14 +1,15 @@
 // @vitest-environment jsdom
+import { bakeFrame, loadStandardPalette } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot } from 'react-dom/client'
 import { expect, test, vi } from 'vitest'
 import { installBrowserHardwarePorts } from '../__tests__/canvas-test-ports.js'
-import { openC05 } from '../__tests__/cursor-asset-r1/c05-action-fixtures.js'
 import {
   colorCensus,
   opaqueBounds,
   requireRealCanvas2d,
 } from '../__tests__/cursor-asset-r1/canvas-pixels.js'
+import { loadSpriteCommandFixture } from '../__tests__/world-sprite-command-fixture.js'
 import { SpriteFrameCanvas } from './SpriteFrameWorkbench.js'
 
 test('SpriteFrameCanvas 绘制真实 bakeFrame 的非透明像素与透明留白', async () => {
@@ -19,16 +20,13 @@ test('SpriteFrameCanvas 绘制真实 bakeFrame 的非透明像素与透明留白
     vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
     installBrowserHardwarePorts()
     requireRealCanvas2d()
-    const open = await openC05('frame-canvas-pixels')
+    const { project, frames } = await loadSpriteCommandFixture('frame-canvas-pixels')
+    const [firstFrame] = frames
+    if (!firstFrame) throw new Error('Missing decoded source frame')
+    const source = bakeFrame(firstFrame, await loadStandardPalette(project.assetBase))
     act(() => {
       root.render(
-        <SpriteFrameCanvas
-          source={open.frames[0]?.canvas}
-          width={64}
-          height={64}
-          maxScale={4}
-          label="帧0"
-        />,
+        <SpriteFrameCanvas source={source} width={64} height={64} maxScale={4} label="帧0" />,
       )
     })
     const canvas = host.querySelector('canvas')

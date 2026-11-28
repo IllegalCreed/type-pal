@@ -1123,9 +1123,9 @@ describe('editor design-system static boundary', () => {
   })
 
   test('does not keep a dormant private toolbar overflow popup contract', () => {
-    const navigation = readFileSync(join(here, 'navigation.tsx'), 'utf8')
+    const toolbar = readFileSync(join(here, 'toolbar.tsx'), 'utf8')
     const primitives = readFileSync(join(here, 'primitives.css'), 'utf8')
-    expect(navigation).not.toContain('overflowAfter')
+    expect(toolbar).not.toContain('overflowAfter')
     expect(primitives).not.toContain('.ds-toolbar__overflow-menu')
   })
 

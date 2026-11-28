@@ -5,11 +5,11 @@ import {
   loadAllAuthorScenes,
   loadCurrentProjectFrom,
 } from '@type-pal/reforge'
-import { AddBattleSpriteCommand } from '../battle-sprite-commands.js'
+import { AddBattleSpriteCommand } from '../battle-sprite-asset-commands.js'
 import type { EditorState } from '../edit-session.js'
 import { toEditorState } from '../project-io.js'
 import { buildBlankProject } from '../seed.js'
-import { AddSpriteCommand } from '../sprite-commands.js'
+import { AddSpriteCommand } from '../sprite-asset-commands.js'
 import { memoryAuthorDirectory } from './author-save-fixture.js'
 
 export async function loadBoundaryProject(name = 'command-boundary'): Promise<{

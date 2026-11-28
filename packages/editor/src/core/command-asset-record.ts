@@ -1,6 +1,11 @@
 /** Catalog contracts shared by commands for tilesets and both sprite families. */
-import type { AssetId, AssetRecordV1 } from '@type-pal/content'
-import { validateProjectRelativePath } from '@type-pal/content'
+import {
+  type AssetCatalogV1,
+  type AssetId,
+  type AssetRecordV1,
+  findAssetRecord,
+  validateProjectRelativePath,
+} from '@type-pal/content'
 import type { ProjectReferenceEdge } from './project-reference.js'
 
 export class AssetInUseError extends Error {
@@ -24,6 +29,23 @@ export function sameAssetRecord(left: AssetRecordV1, right: AssetRecordV1): bool
     left.origin.kind === right.origin.kind &&
     left.origin.ref === right.origin.ref
   )
+}
+
+/** Bind a confirmed removal to the bytes read for its undo history. */
+export function assertAssetDeletionRevision(
+  catalog: AssetCatalogV1,
+  asset: AssetId,
+  confirmed: AssetRecordV1,
+): void {
+  const current = findAssetRecord(catalog, asset)
+  if (
+    !current ||
+    current.kind !== confirmed.kind ||
+    current.path !== confirmed.path ||
+    current.bytes !== confirmed.bytes ||
+    current.sha256 !== confirmed.sha256
+  )
+    throw new Error(`资源 ${asset} 已变化，请重新确认删除。`)
 }
 
 type RleAssetKind = 'tileset' | 'sprite' | 'battle-sprite'

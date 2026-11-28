@@ -196,10 +196,10 @@
       "dataPaths": ["sprites[*].poses[*].steps[*].cues"],
       "candidateOwner": "live sound assets",
       "mutationOwner": "UpdateSpriteCommand",
-      "actionFingerprint": "ba034de3ed4dd2f9",
+      "actionFingerprint": "60eba73bef1a9ba8",
       "reason": "精灵步骤音效仍直接使用资源目录首项，待资产选择器迁移切片统一处理。",
       "removalCondition": "音效 cue 新增改用 DsAddPickerDialog 且资源失效与排序测试通过后删除。",
-      "verification": ["ui/SpriteActionEditor.test.tsx"]
+      "verification": ["ui/SpriteActionEditor.timeline.test.tsx"]
     },
     {
       "adoptionId": "item/craft-recipe-append-default",

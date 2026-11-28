@@ -501,7 +501,7 @@
     {
       "id": "sprite-actions",
       "integrationVerification": {
-        "file": "ui/SpriteActionEditor.test.tsx",
+        "file": "ui/SpriteActionEditor.timeline.test.tsx",
         "marker": "[reorder-family:sprite-actions]"
       },
       "adoptions": [
@@ -513,7 +513,7 @@
           "identity": "editor-local-token",
           "commandOwner": "UpdateSpriteCommand",
           "revisionOwner": "EditSession.historyVersion",
-          "verification": ["ui/SpriteActionEditor.test.tsx"],
+          "verification": ["ui/SpriteActionEditor.timeline.test.tsx"],
           "contentSurface": "object-card",
           "contentOwner": {
             "file": "SpriteActionEditor.tsx",

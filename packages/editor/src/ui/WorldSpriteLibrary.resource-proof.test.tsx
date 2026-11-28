@@ -6,6 +6,7 @@ import { type FileSource, loadStandardPalette } from '@type-pal/reforge'
 import { act } from 'react'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { installBrowserHardwarePorts } from '../__tests__/bitmap-test-port.js'
+import { typeDraft } from '../__tests__/cursor-asset-r1/kit.js'
 import { gatedFileSource } from '../__tests__/gated-file-source.js'
 import { atlasColors, pngFileOf, solidAtlasPng } from '../__tests__/png-fixtures.js'
 import {
@@ -19,7 +20,9 @@ import {
   type WorldSpriteProject,
 } from '../__tests__/world-sprite-project.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
+import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import { loadEditorSprite } from '../core/sprite-assets.js'
+import { RemoveSpriteDefinitionCommand } from '../core/sprite-commands.js'
 import {
   buttonByLabel,
   clickButton,
@@ -96,6 +99,45 @@ function usageMenu(): HTMLElement {
 }
 
 describe('大世界精灵用途的帧源证明', () => {
+  test('有草稿的用途从会话移除后，不会把帧数草稿提交给共享源帧的另一用途', async () => {
+    const asset = 'sprite.authored.layout-shared-draft'
+    const initial = { kind: 'directional' as const, framesPerDir: 1 }
+    const project = await loadWorldSpriteProject('world-sprite-layout-draft-removal', [
+      {
+        asset,
+        label: '共享资源',
+        frameCount: 8,
+        definitions: [
+          { id: 'old-layout', label: '先前用途', layout: initial },
+          { id: 'active-layout', label: '当前用途', layout: initial },
+        ],
+      },
+    ])
+    const library = await mountLibrary(project, { focus: 'old-layout' })
+    expectMeta(8, 2)
+    const field = framesPerDirField()
+    await typeDraft(field, '2')
+    expect(library.session.getHistoryVersion()).toBe(0)
+    await act(async () => {
+      expect(
+        library.session.dispatch(
+          new RemoveSpriteDefinitionCommand('old-layout', collectCurrentProjectReferenceIndex),
+        ),
+      ).toBe(true)
+    })
+    await act(async () => field.blur())
+    const current = () =>
+      library.session.getState().sprites.find((sprite) => sprite.id === 'active-layout')
+    expect(host.querySelector('.who')?.textContent).toBe('当前用途')
+    expect(framesPerDirField().value).toBe('1')
+    expect(current()?.layout).toEqual(initial)
+    expect(library.session.getHistoryVersion()).toBe(1)
+    await setInputValue(framesPerDirField(), '2')
+    expect(current()?.layout).toEqual({ kind: 'directional', framesPerDir: 2 })
+    expect(library.session.getHistoryVersion()).toBe(2)
+    assertProjectSaveValid(library.session.getState())
+  })
+
   test('proof 绑定真实帧数：解码在途时编辑禁用；新增四向用途默认帧数取 floor(实际帧数/4)', async () => {
     const project = await loadWorldSpriteProject('k02-lib-proof', [
       {
@@ -107,6 +149,7 @@ describe('大世界精灵用途的帧源证明', () => {
             id: 'k02-six-user',
             label: 'K02SixUser',
             layout: { kind: 'static' },
+            poses: { idle: { label: '待机', steps: [{ frame: 0, durationMs: 200 }] } },
           },
         ],
       },
@@ -125,6 +168,7 @@ describe('大世界精灵用途的帧源证明', () => {
     expect(gate.completed).not.toContain(seeded.path)
     expect(host.textContent).toContain('正在解析帧资源 sprite.authored.k02six…')
     expect(buttonByLabel(host, '新建预制动作').disabled).toBe(true)
+    expect(buttonByLabel(host, '编辑预制动作（1）').disabled).toBe(true)
     expect(layoutKindSelect().disabled).toBe(true)
     expect(host.textContent).toContain('正在读取实际帧数；载入完成后可编辑。')
     await clickButton(host, '新增用途定义')
@@ -141,6 +185,7 @@ describe('大世界精灵用途的帧源证明', () => {
     })
     expectMeta(6, 1)
     expect(buttonByLabel(host, '新建预制动作').disabled).toBe(false)
+    expect(buttonByLabel(host, '编辑预制动作（1）').disabled).toBe(false)
     expect(layoutKindSelect().disabled).toBe(false)
     expect(host.textContent).toContain('默认显示源帧 #0；场景脚本仍可切换其它帧 · 源帧容器共 6 帧')
 

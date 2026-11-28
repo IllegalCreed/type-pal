@@ -9,12 +9,14 @@ import {
   A_SPARE,
   A_STARTER,
   catalogMetas,
+  catalogRow,
   clickButtonByText,
   deleteAssetButton,
   deleteUsageButton,
   heroTitle,
   openImportPanel,
   openTab,
+  renameUsage,
   selectAssetRow,
   selectedCatalogAsset,
   setupBattleSuite,
@@ -145,12 +147,35 @@ test('共享资源内切换用途不被记忆：离开再回到该资源总落�
   expect(m.viewHistory.at(-1)).toEqual({ view: 'definition', objectId: 'shared-fighter-a' })
 })
 
+test('共享源帧的兄弟用途切换时丢弃改名草稿，返回仍显示规范名称', async () => {
+  const mounted = await suite.mount('shared-battle-definition-draft', {
+    focus: 'shared-fighter-a',
+  })
+  const chooseUsage = async (label: string): Promise<void> => {
+    const directory = mounted.host.querySelector('[aria-label="切换用途"]')
+    const row = [...(directory?.querySelectorAll<HTMLButtonElement>('button') ?? [])].find(
+      (candidate) => candidate.querySelector('.ds-catalog-row__title')?.textContent === label,
+    )
+    if (!row) throw new Error(`未显示用途 ${label}`)
+    await act(async () => row.click())
+  }
+  await renameUsage(mounted.host, '甲的未提交草稿')
+  expect(usageNameInput(mounted.host)?.value).toBe('甲的未提交草稿')
+  await chooseUsage('乙战士')
+  expect(usageNameInput(mounted.host)?.value).toBe('乙战士')
+  await chooseUsage('甲战士')
+  expect(usageNameInput(mounted.host)?.value).toBe('甲战士')
+  expect(catalogRow(mounted.host, A_SHARED)?.getAttribute('aria-pressed')).toBe('true')
+  expect(mounted.session.getHistoryVersion()).toBe(0)
+})
+
 test('逐个删光共享用途：先落兄弟，最后落 asset 视图并切到源文件页签', async () => {
   const m = await suite.mount('c02-g03-08', { focus: 'shared-fighter-a' })
   await waitProof(m.host, 12, 2)
   vi.spyOn(window, 'confirm').mockReturnValue(true)
   await act(async () => deleteUsageButton(m.host)!.click())
   expect(m.viewHistory.at(-1)).toEqual({ view: 'definition', objectId: 'shared-fighter-b' })
+  expect(m.focusHistory.at(-1)).toBe('shared-fighter-b')
   expect(usageNameInput(m.host)?.value).toBe('乙战士')
   await waitProof(m.host, 12, 1)
 

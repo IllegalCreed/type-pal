@@ -500,12 +500,18 @@ Template: governance-index-v1 / 1.0.0
 | [E2E-009-1 — 桃花林采药与池塘初遇](E2E-009-1-fairy-island-pool.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-010-1 — 水月宫取苗刀与紫金丹](E2E-010-1-water-moon-palace.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-Q2-1 — Q2 战斗专项与首批小闭环](E2E-Q2-1-battle-foundation.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-ADD-PICKER-ACTIVE-SELECTION-1 — 候选高亮与待提交选择](EDITOR-ADD-PICKER-ACTIVE-SELECTION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-BATTLE-SPRITE-IMPORT-SELECTION-1 — 战斗精灵导入只应用最后选择](EDITOR-BATTLE-SPRITE-IMPORT-SELECTION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-FIRE-PREVIEW-AUDIO-OWNERSHIP-1 — 法术预览的声音归属](EDITOR-FIRE-PREVIEW-AUDIO-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-FIRE-PREVIEW-DRAFT-TIMING-1 — 法术预览的草稿计时边界](EDITOR-FIRE-PREVIEW-DRAFT-TIMING-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-FRAME-WORKER-POST-CLEANUP-1 — 过场编码发送失败后的 Worker 释放](EDITOR-FRAME-WORKER-POST-CLEANUP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-MEDIA-UNDO-REVISION-1 — 替换素材时撤销字节的版本归属](EDITOR-MEDIA-UNDO-REVISION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-SPRITE-ACTION-EMPTY-DIRECTORY-1 — 删空预制动作后保持工作台可用](EDITOR-SPRITE-ACTION-EMPTY-DIRECTORY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-SPRITE-ACTION-FOCUSED-DRAFT-1 — 新动作确认读取最新草稿](EDITOR-SPRITE-ACTION-FOCUSED-DRAFT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-SPRITE-AUTO-PREVIEW-ADDRESS-1 — 精灵库自动行为预览保留完整场景地址](EDITOR-SPRITE-AUTO-PREVIEW-ADDRESS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-SPRITE-DELETE-REVISION-1 — 删除源帧绑定作者已确认的资源版本](EDITOR-SPRITE-DELETE-REVISION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-SPRITE-FRAME-REVISION-1 — 源帧编辑的读取版本与图片释放](EDITOR-SPRITE-FRAME-REVISION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-WORLD-SPRITE-ACTION-ROUTE-1 — 动作编辑与引用页的地址回灌](EDITOR-WORLD-SPRITE-ACTION-ROUTE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-WORLD-SPRITE-IMPORT-LAYOUT-1 — 精灵导入只提供现行布局](EDITOR-WORLD-SPRITE-IMPORT-LAYOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权](GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ASSET-SERVER-READ-FAILURE-1 — 本地资源读取失败的请求与流清理](GAME-ASSET-SERVER-READ-FAILURE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -563,6 +569,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1 — 编辑器战斗与精灵预览质量审核](QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle](QUALITY-EDITOR-FORM-FIXTURES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1 — 编辑器成长编辑与素材预览质量审核](QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EDITOR-SPRITE-AUTHORING-1 — 编辑器精灵动作与编排质量审核](QUALITY-EDITOR-SPRITE-AUTHORING-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取](QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 — 大世界精灵宿主与真实资源见证](QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界](QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | done | 完成证据、历史签字与交接见原卡。 |
