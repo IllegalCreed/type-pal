@@ -2064,6 +2064,11 @@ describe('editor design-system static boundary', () => {
       },
       {
         file: 'ImageTab.tsx',
+        required: [/<ImageWorkspacePreview\b/],
+        forbidden: [/media-zoom-controls/],
+      },
+      {
+        file: 'ImageWorkspacePreview.tsx',
         required: [/<DsZoomToolbar\b/],
         forbidden: [/media-zoom-controls/],
       },

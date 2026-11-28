@@ -977,7 +977,7 @@
       "declarations": ["white-space:nowrap"],
       "specificity": [0, 1, 0],
       "producer": {
-        "source": "ImageTab.tsx",
+        "source": "ImageWorkspacePreview.tsx",
         "component": "ImageWorkspacePreview",
         "callsite": "class:image-preview-size"
       },

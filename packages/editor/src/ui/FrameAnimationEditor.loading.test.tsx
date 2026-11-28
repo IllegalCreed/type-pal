@@ -104,6 +104,18 @@ describe('Frame editor real container loading', () => {
     expect(f.dirty.mock.lastCall).toEqual([false])
     f.draftOnly()
   })
+  test('reports an unavailable main canvas while a decoded thumbnail remains usable', async () => {
+    const f = await frameEditor({ failPreviewCanvas: true })
+    await f.wait(() => {
+      const thumbnail = f.cards()[0]?.querySelector('canvas')
+      expect(thumbnail ? f.pixels.get(thumbnail) : undefined).toBeDefined()
+      expect(f.host.querySelector('.fa-error')?.textContent).toBe('浏览器无法创建帧动画预览画布')
+    })
+    expect(f.pixels.has(f.canvas())).toBe(false)
+    expect(f.latest()?.frameCount).toBe(3)
+    f.draftOnly()
+  })
+
   test('corrupt frame payload reports a visible decode error without unhandled thumbnail rejections', async () => {
     const f = await frameEditor({ corruptPayload: true })
     await f.wait(() => expect(f.host.querySelector('.fa-error')?.textContent).toBeTruthy())

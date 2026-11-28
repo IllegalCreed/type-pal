@@ -10,6 +10,7 @@ import {
 } from '../core/audio-preview-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { DsIconButton } from './design-system/index.js'
+import { useOwnedAudioTransport } from './use-owned-audio-transport.js'
 
 export type PreviewableProjectAudioKind = Extract<AssetKind, 'music' | 'sound'>
 
@@ -44,9 +45,6 @@ export function ProjectAudioPreviewButton(props: {
     () => createTransport(props.kind, props.reader),
     [createTransport, props.kind, props.reader],
   )
-  const transportLifecycleRef = useRef<
-    { transport: ProjectAudioPreviewTransport; token: object } | undefined
-  >(undefined)
   const requestRef = useRef(0)
   const [state, setState] = useState<'idle' | 'loading' | 'playing' | 'error'>('idle')
   const [error, setError] = useState('')
@@ -68,23 +66,12 @@ export function ProjectAudioPreviewButton(props: {
     releaseEditorAudioPreview(owner)
     setState('idle')
     setError('')
-  }, [owner, props.asset, props.cacheKey, transport])
-
-  useEffect(() => {
-    const previous = transportLifecycleRef.current
-    if (previous && previous.transport !== transport) previous.transport.dispose()
-    const token = {}
-    transportLifecycleRef.current = { transport, token }
     return () => {
       requestRef.current++
       releaseEditorAudioPreview(owner)
-      queueMicrotask(() => {
-        if (transportLifecycleRef.current?.token !== token) return
-        transport.dispose()
-        transportLifecycleRef.current = undefined
-      })
     }
-  }, [owner, transport])
+  }, [owner, props.asset, props.cacheKey, transport])
+  useOwnedAudioTransport(transport)
 
   useEffect(() => {
     if (state !== 'playing') return

@@ -17,8 +17,10 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,846。
-当前已闭合核验：1,743；已读但待审：0；尚未逐文件核验：2,103；合计未闭合：2,103。
+起始基点机器清单：2,962。当前 tracked 清单：3,853。
+当前已闭合核验：1,828；已读但待审：0；尚未逐文件核验：2,025；合计未闭合：2,025。
+
+2026-11-28，Editor 成长与素材预览逐文件治理完成 78 个原 pending 路径。33 个原路径验证保留，45 个原路径按职责退役，52 个承接路径独立核验。项目壳与共用夹具的有限接线随批验证，按原账本状态保留。逐文件读域、证明边界和统一执行见[本轮治理卡](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收)。
 
 2026-11-02 按当前 index 库存同步：相对固定159cd库存新增12个工具路径并退役1份N3历史生成物，净增11项 pending；846 条既有 live 记录逐字节保留，没有新增关闭。`已验证/保留`只表示原专项已登记的核验，适用性仍须查对应版本、caller 与证据，不表示本轮重读产品或重跑测试。
 
@@ -1890,3 +1892,88 @@ Template: governance-index-v1 / 1.0.0
 | `packages/editor/src/ui/VarsTab.tsx` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
 | `packages/editor/src/ui/image-asset-catalog.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 后继路径单列，按当前合同完成八维复核。 |
 | `packages/reforge/src/save/automatic-cursor-consistency.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 后继路径单列，按当前合同完成八维复核。 |
+| `packages/editor/src/__tests__/audio-fixtures.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/__tests__/audio-ports.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/__tests__/canvas-test-ports.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/__tests__/node-test-ports.d.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/core/audio-preview-cache.test.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/core/audio-preview-cache.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/core/audio-preview.test.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/core/audio-preview.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/core/experience-curve.test.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/core/experience-curve.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/core/frame-animation-codec.worker.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/core/frame-animation-draft.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/core/music-picker-preview.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/core/pcm-preview-peaks.test.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/core/pcm-preview-peaks.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/core/sound-picker-preview.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/core/video-metadata.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/AudioAssetPlayer.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/AudioAssetWorkbench.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/AudioAssetWorkbench.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/CutsceneTab.frame-import.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/CutsceneTab.lifecycle.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/CutsceneTab.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/CutsceneTab.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/CutsceneTab.video-preview.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/FrameAnimationEditor.async-ownership.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/FrameAnimationEditor.editing.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/FrameAnimationEditor.image-import.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/FrameAnimationEditor.loading.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/FrameAnimationEditor.playback.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/FrameAnimationEditor.reorder.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/FrameAnimationEditor.save.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/FrameAnimationEditor.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/FrameAnimationEditor.viewport.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/ImageAssetPicker.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/ImageAssetPicker.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/ImageAssetThumbnail.lifecycle.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/ImageTab.battle-background.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/ImageTab.catalog.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/ImageTab.import.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/ImageTab.preview.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/ImageTab.references.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/ImageTab.replacement-ownership.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/ImageTab.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/ImageWorkspacePreview.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/LevelCurveEditor.field-commit.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/LevelCurveEditor.interaction.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/LevelCurveEditor.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/LevelingEditor.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/LevelingEditor.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/MusicPicker.lifecycle.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/MusicPicker.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/MusicPicker.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/MusicTab.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/MusicTab.workbench.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/PortraitEditor.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/PortraitEditor.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/ProjectAudioPreviewButton.playback.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/ProjectAudioPreviewButton.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/SoundPicker.preview-ownership.test.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/SoundPicker.selection.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/SoundPicker.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/SoundTab.catalog.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/SoundTab.delete.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/SoundTab.import.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/SoundTab.playback.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/SoundTab.preview-ownership.test.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/SoundTab.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/VideoAssetPreview.tsx` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/__tests__/audio-workbench-harness.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/__tests__/cutscene-resource-fixtures.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/__tests__/cutscene-test-host.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/__tests__/frame-editor-fixture.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/__tests__/image-preview-ports.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/__tests__/image-workbench-test-host.tsx` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/__tests__/level-curve-pointer-ports.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/__tests__/static-image-fixtures.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/audio-import-contract.test.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/indexed-battle-preview.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/media-asset-readout.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/media-preview-viewport.test.ts` | test | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/media-preview-viewport.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
+| `packages/editor/src/ui/use-frame-preview-canvas.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/ui/use-owned-audio-transport.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |

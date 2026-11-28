@@ -1,12 +1,7 @@
 import type { AssetId } from '@type-pal/content'
 import type { EditorAssetReader } from './editor-asset-reader.js'
 
-export interface PcmPeaks {
-  kind: 'pcm-peaks'
-  duration: number
-  minimums: readonly number[]
-  maximums: readonly number[]
-}
+import { computePcmPeaks, type PcmPeaks } from './pcm-preview-peaks.js'
 
 export interface WavPreviewSnapshot {
   asset?: AssetId
@@ -49,50 +44,9 @@ export interface WavPreviewRuntimeAdapter {
 const clamp = (value: number, min: number, max: number): number =>
   Math.max(min, Math.min(max, Number.isFinite(value) ? value : min))
 
-/** Web Audio 解码后的真实 PCM 峰值；每个 bucket 同时扫描全部声道。 */
-export function computePcmPeaks(
-  channels: readonly Float32Array[],
-  duration: number,
-  bucketCount = 160,
-): PcmPeaks {
-  const count = Math.max(1, Math.floor(bucketCount))
-  const frameCount = channels.reduce((max, channel) => Math.max(max, channel.length), 0)
-  const minimums = Array.from({ length: count }, () => 0)
-  const maximums = Array.from({ length: count }, () => 0)
-  if (!frameCount || !channels.length)
-    return { kind: 'pcm-peaks', duration: Math.max(0, duration), minimums, maximums }
-
-  for (let bucket = 0; bucket < count; bucket++) {
-    const start = Math.floor((bucket / count) * frameCount)
-    const end = Math.max(start + 1, Math.floor(((bucket + 1) / count) * frameCount))
-    let minimum = Number.POSITIVE_INFINITY
-    let maximum = Number.NEGATIVE_INFINITY
-    for (const channel of channels) {
-      for (let frame = start; frame < Math.min(end, channel.length); frame++) {
-        const sample = channel[frame] ?? 0
-        minimum = Math.min(minimum, sample)
-        maximum = Math.max(maximum, sample)
-      }
-    }
-    minimums[bucket] = Number.isFinite(minimum) ? minimum : 0
-    maximums[bucket] = Number.isFinite(maximum) ? maximum : 0
-  }
-  return {
-    kind: 'pcm-peaks',
-    duration: Math.max(0, Number.isFinite(duration) ? duration : 0),
-    minimums,
-    maximums,
-  }
-}
-
-export function createBrowserWavPreviewRuntime(): WavPreviewRuntimeAdapter | undefined {
-  const browser =
-    typeof window === 'undefined'
-      ? undefined
-      : (window as unknown as {
-          AudioContext?: typeof AudioContext
-          webkitAudioContext?: typeof AudioContext
-        })
+function createBrowserWavPreviewRuntime(): WavPreviewRuntimeAdapter | undefined {
+  const browser: (typeof window & { webkitAudioContext?: typeof AudioContext }) | undefined =
+    typeof window === 'undefined' ? undefined : window
   const AudioCtor = browser?.AudioContext ?? browser?.webkitAudioContext
   if (!AudioCtor) return undefined
   const context = new AudioCtor()
@@ -121,7 +75,7 @@ export function createBrowserWavPreviewRuntime(): WavPreviewRuntimeAdapter | und
 }
 
 export function createWavPreviewTransport(
-  reader: EditorAssetReader,
+  reader: Pick<EditorAssetReader, 'readBytes'>,
   providedRuntime?: WavPreviewRuntimeAdapter,
 ): WavPreviewTransport {
   let runtime = providedRuntime
@@ -159,7 +113,7 @@ export function createWavPreviewTransport(
     try {
       source.stop()
     } catch {
-      // AudioBufferSourceNode 只能 stop 一次；重复清理保持幂等。
+      // 源可能在停止前已经结束，仍须断开连接。
     }
     source.disconnect()
     source = undefined
@@ -174,7 +128,7 @@ export function createWavPreviewTransport(
     if (!runtime || !decoded) throw new Error('当前浏览器不支持 WAV 试听。')
     releaseSource()
     const ownSerial = ++sourceSerial
-    startedAt = runtime.currentTime
+    const startTime = runtime.currentTime
     const nextSource = runtime.createSource(decoded, () => {
       if (ownSerial !== sourceSerial) return
       nextSource.disconnect()
@@ -182,13 +136,20 @@ export function createWavPreviewTransport(
       playing = false
       position = duration()
     })
+    try {
+      nextSource.start(clamp(position, 0, Math.max(0, duration() - 0.001)))
+    } catch (cause) {
+      nextSource.disconnect()
+      throw cause
+    }
+    startedAt = startTime
     source = nextSource
     playing = true
-    nextSource.start(clamp(position, 0, Math.max(0, duration() - 0.001)))
   }
 
   return {
     async load(nextAsset, cacheKey = nextAsset, cachedPeaks) {
+      if (disposed) throw new DOMException('WAV 试听已关闭', 'AbortError')
       const runtime = getRuntime()
       if (!runtime) throw new Error('当前浏览器不支持 WAV 解码。')
       if (asset === nextAsset && loadedKey === cacheKey && decoded && peaks) return peaks
@@ -202,9 +163,14 @@ export function createWavPreviewTransport(
       loadedKey = undefined
       decoded = undefined
       peaks = undefined
+      const requireCurrentRequest = (): void => {
+        if (request !== serial) throw new DOMException('WAV 选择已变化', 'AbortError')
+      }
       const promise = (async () => {
         const bytes = await reader.readBytes(nextAsset, 'sound')
+        requireCurrentRequest()
         const nextDecoded = await runtime.decode(bytes)
+        requireCurrentRequest()
         const nextPeaks =
           cachedPeaks ??
           computePcmPeaks(
@@ -213,8 +179,6 @@ export function createWavPreviewTransport(
             ),
             nextDecoded.duration,
           )
-        if (disposed || request !== serial || asset !== nextAsset)
-          throw new DOMException('WAV 选择已变化', 'AbortError')
         decoded = nextDecoded
         peaks = nextPeaks
         loadedKey = cacheKey
@@ -271,6 +235,7 @@ export function createWavPreviewTransport(
       return { asset, currentTime: currentTime(), duration: duration(), paused: !playing }
     },
     dispose() {
+      if (disposed) return
       disposed = true
       serial++
       cancelPendingPlay()
@@ -283,53 +248,5 @@ export function createWavPreviewTransport(
       decoded = undefined
       peaks = undefined
     },
-  }
-}
-
-/** SHA 派生的临时分析缓存；LRU 上限防止大项目持续累积 AudioBuffer。 */
-export class AudioPreviewCache<T> {
-  readonly #limit: number
-  readonly #values = new Map<string, T>()
-  readonly #inflight = new Map<string, Promise<T>>()
-
-  constructor(limit = 8) {
-    this.#limit = Math.max(1, Math.floor(limit))
-  }
-
-  get size(): number {
-    return this.#values.size
-  }
-
-  get(key: string): T | undefined {
-    const value = this.#values.get(key)
-    if (value === undefined) return undefined
-    this.#values.delete(key)
-    this.#values.set(key, value)
-    return value
-  }
-
-  load(key: string, loader: () => Promise<T>): Promise<T> {
-    const cached = this.get(key)
-    if (cached !== undefined) return Promise.resolve(cached)
-    const running = this.#inflight.get(key)
-    if (running) return running
-    const promise = loader()
-      .then((value) => {
-        this.#values.set(key, value)
-        while (this.#values.size > this.#limit) {
-          const oldest = this.#values.keys().next().value as string | undefined
-          if (oldest === undefined) break
-          this.#values.delete(oldest)
-        }
-        return value
-      })
-      .finally(() => this.#inflight.delete(key))
-    this.#inflight.set(key, promise)
-    return promise
-  }
-
-  clear(): void {
-    this.#values.clear()
-    this.#inflight.clear()
   }
 }

@@ -1,21 +1,13 @@
 import type { AssetCatalogV1, AssetId, AssetRecordV1 } from '@type-pal/content'
 import type { EditorAssetDiagnostic } from '../core/asset-diagnostics.js'
 import { createWavPreviewTransport } from '../core/audio-preview.js'
+import { sha256Hex } from '../core/binary-signature.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
-import {
-  AudioAssetWorkbench,
-  type AudioAssetWorkbenchStrategy,
-  asAudioWorkbenchTransport,
-} from './AudioAssetWorkbench.js'
-
-async function sha256Hex(bytes: ArrayBuffer): Promise<string> {
-  const digest = await crypto.subtle.digest('SHA-256', bytes)
-  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('')
-}
+import { AudioAssetWorkbench, type AudioAssetWorkbenchStrategy } from './AudioAssetWorkbench.js'
 
 export function assertWave(file: Pick<File, 'name'>, bytes: ArrayBuffer): void {
   if (!file.name.toLowerCase().endsWith('.wav')) throw new Error('只允许导入 .wav 文件')
@@ -61,7 +53,7 @@ const SOUND_STRATEGY: AudioAssetWorkbenchStrategy = {
   emptyLabel: '项目中还没有音效资源。',
   prepareImport: authoredWaveRecord,
   allocateId: (_catalog, hash) => authoredSoundId(hash),
-  createTransport: (reader) => asAudioWorkbenchTransport(createWavPreviewTransport(reader)),
+  createTransport: createWavPreviewTransport,
 }
 
 export function SoundTab(props: {

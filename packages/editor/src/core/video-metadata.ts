@@ -19,29 +19,45 @@ function readU32Be(bytes: Uint8Array, offset: number): number {
 
 const CONTAINER_BOXES = new Set(['moov', 'trak', 'mdia', 'minf', 'stbl', 'edts', 'udta'])
 
-function scanMp4Boxes(bytes: Uint8Array, start: number, end: number): boolean {
-  for (let offset = start; offset + 8 <= end; ) {
-    let size = readU32Be(bytes, offset)
-    const type = fourCc(bytes, offset + 4)
-    let header = 8
-    if (size === 1) {
-      if (offset + 16 > end) return false
-      const high = readU32Be(bytes, offset + 8)
-      const low = readU32Be(bytes, offset + 12)
-      const extended = high * 0x1_0000_0000 + low
-      if (!Number.isSafeInteger(extended)) return false
-      size = extended
-      header = 16
-    } else if (size === 0) size = end - offset
-    if (size < header || offset + size > end) return false
-    const content = offset + header
-    const boxEnd = offset + size
-    if (type === 'hdlr' && content + 12 <= boxEnd && fourCc(bytes, content + 8) === 'soun')
-      return true
-    if (CONTAINER_BOXES.has(type) && scanMp4Boxes(bytes, content, boxEnd)) return true
-    if (type === 'meta' && content + 4 <= boxEnd && scanMp4Boxes(bytes, content + 4, boxEnd))
-      return true
-    offset = boxEnd
+function readBox(bytes: Uint8Array, offset: number, limit: number) {
+  let size = readU32Be(bytes, offset)
+  const type = fourCc(bytes, offset + 4)
+  let header = 8
+  if (size === 1) {
+    if (offset + 16 > limit) return undefined
+    const high = readU32Be(bytes, offset + 8)
+    const low = readU32Be(bytes, offset + 12)
+    size = high * 0x1_0000_0000 + low
+    if (!Number.isSafeInteger(size)) return undefined
+    header = 16
+  } else if (size === 0) {
+    size = limit - offset
+  }
+  if (size < header || size > limit - offset) return undefined
+  return { type, content: offset + header, end: offset + size }
+}
+
+function scanMp4Boxes(bytes: Uint8Array): boolean {
+  const ranges = [{ start: 0, end: bytes.byteLength }]
+  for (let range = ranges.pop(); range; range = ranges.pop()) {
+    for (let offset = range.start; offset + 8 <= range.end; ) {
+      const box = readBox(bytes, offset, range.end)
+      if (!box) break
+      if (
+        box.type === 'hdlr' &&
+        box.content + 12 <= box.end &&
+        fourCc(bytes, box.content + 8) === 'soun'
+      )
+        return true
+      const children = box.type === 'meta' ? box.content + 4 : box.content
+      if ((box.type === 'meta' || CONTAINER_BOXES.has(box.type)) && children + 8 <= box.end) {
+        // An invalid child abandons only its own range. Resume the sibling range afterwards.
+        if (box.end + 8 <= range.end) ranges.push({ start: box.end, end: range.end })
+        ranges.push({ start: children, end: box.end })
+        break
+      }
+      offset = box.end
+    }
   }
   return false
 }
@@ -49,5 +65,5 @@ function scanMp4Boxes(bytes: Uint8Array, start: number, end: number): boolean {
 /** 只解析 ISO BMFF box 层级，不解码媒体；undefined 表示不是可识别 MP4。 */
 export function mp4HasAudioTrack(bytes: Uint8Array): boolean | undefined {
   if (bytes.byteLength < 12 || fourCc(bytes, 4) !== 'ftyp') return undefined
-  return scanMp4Boxes(bytes, 0, bytes.byteLength)
+  return scanMp4Boxes(bytes)
 }

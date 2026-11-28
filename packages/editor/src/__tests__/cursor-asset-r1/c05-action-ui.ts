@@ -7,6 +7,7 @@ import { act } from 'react'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { UpdateSpriteCommand } from '../../core/commands.js'
 import { collectCurrentProjectReferenceIndex } from '../../core/project-reference-adapters.js'
+import { installBrowserHardwarePorts } from '../canvas-test-ports.js'
 import { actionOf, C05_SPRITE, type C05Open, heroOf, openC05 } from './c05-action-fixtures.js'
 import {
   type MountedDialog,
@@ -16,7 +17,6 @@ import {
   unmountActionDialog,
   unmountActionEditor,
 } from './c05-action-harness.js'
-import { installBrowserHardwarePorts } from './frame-editor-ports.js'
 import { buttonByText, clickButtonByText, controlByLabel, fillAndBlur, typeDraft } from './kit.js'
 
 export { actionOf, C05_SPRITE, type C05Open, openC05 }

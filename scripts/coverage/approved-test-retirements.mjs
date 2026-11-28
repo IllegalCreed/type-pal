@@ -7,6 +7,23 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // Editor media scope and exact successor tests in the window archive.
+    {
+      file: 'packages/editor/src/core/frame-animation-draft.test.ts',
+      previous: 18,
+      current: 17,
+      previousIdentityDigest: '19db475b38325f196af31fa156e64dfa316ebde793a46a6699106f671da6ad26',
+      currentIdentityDigest: '53dac19f3489cbdbe26a32bf751b4dc3e1971f2efd9f32804a116bf2fa6160a3',
+      fileSha256: '97ef324b67bf441fc58c0a956751da178fa18afdb25c900112b3d11f01d9bd7d',
+    },
+    {
+      file: 'packages/editor/src/ui/CutsceneTab.test.tsx',
+      previous: 6,
+      current: 2,
+      previousIdentityDigest: 'c5f7bb09167dfc67b59cc0d1614e2f842808a68185c56bf8f4c0108931f74f4a',
+      currentIdentityDigest: '65dc295ce1fd83401b329ed777370bea23a311003dfd229c803fe76933f5672d',
+      fileSha256: '0890733bfa4540a267e05aaea34181b638bde017198cdbb9581f8bd12ade6297',
+    },
     // Editor author commands: exact case successors and redundant bindings in the window archive.
     {
       file: 'packages/editor/src/core/battle-field-commands.test.ts',

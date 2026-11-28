@@ -6,6 +6,7 @@
  */
 import { act } from 'react'
 import { afterEach, beforeEach, describe, expect, test } from 'vitest'
+import { dispatchDragEvent, MemoryDataTransfer } from '../__tests__/canvas-test-ports.js'
 import { actionOf, C05_ASSET, openC05 } from '../__tests__/cursor-asset-r1/c05-action-fixtures.js'
 import type { MountedEditor } from '../__tests__/cursor-asset-r1/c05-action-harness.js'
 import { mountActionEditor } from '../__tests__/cursor-asset-r1/c05-action-harness.js'
@@ -17,10 +18,6 @@ import {
   setupC05Ui,
   teardownC05Ui,
 } from '../__tests__/cursor-asset-r1/c05-action-ui.js'
-import {
-  dispatchDragEvent,
-  MemoryDataTransfer,
-} from '../__tests__/cursor-asset-r1/frame-editor-ports.js'
 import { controlByLabel, fillAndBlur } from '../__tests__/cursor-asset-r1/kit.js'
 import { SPRITE_FRAME_DRAG_MIME } from './SpriteFrameWorkbench.js'
 

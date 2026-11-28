@@ -472,7 +472,7 @@
     {
       "id": "cutscene-import",
       "integrationVerification": {
-        "file": "ui/CutsceneTab.test.tsx",
+        "file": "ui/CutsceneTab.frame-import.test.tsx",
         "marker": "[reorder-family:cutscene-import]"
       },
       "adoptions": [
@@ -484,7 +484,7 @@
           "identity": "editor-local-token",
           "commandOwner": "pendingFrames local state",
           "revisionOwner": "pendingFrames.files",
-          "verification": ["ui/CutsceneTab.test.tsx"],
+          "verification": ["ui/CutsceneTab.frame-import.test.tsx"],
           "contentSurface": "edge-to-edge-list",
           "contentOwner": {
             "file": "CutsceneTab.tsx",

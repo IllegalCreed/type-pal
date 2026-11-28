@@ -1,178 +1,149 @@
 // @vitest-environment jsdom
+
 import { act, StrictMode } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { stopEditorAudioPreview } from '../core/audio-preview-session.js'
+import { SINGLE_NOTE_MIDI } from '../__tests__/audio-fixtures.js'
+import { installReactActEnvironment } from '../__tests__/react-io-wait.js'
+import { claimEditorAudioPreview, stopEditorAudioPreview } from '../core/audio-preview-session.js'
+import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
+import { blankProjectBase, seedMusic } from './__tests__/audio-workbench-harness.js'
+import { installBrowserHardwarePorts } from './__tests__/kimi-editor-workflows/kit.js'
 import {
   ProjectAudioPreviewButton,
   type ProjectAudioPreviewTransport,
 } from './ProjectAudioPreviewButton.js'
 
-function transport(
-  snapshot: () => { paused: boolean } = () => ({ paused: false }),
-): ProjectAudioPreviewTransport {
+const ASSET = 'music.theme'
+const CACHE_KEY = '04b065465eb567e3b39dc6e745e31dd5d900998be9d8b23d875d6ec6ff0b0263'
+let root: Root
+let host: HTMLDivElement
+let reader: EditorAssetReader
+let restoreAct: () => void
+
+function transport(snapshot = () => ({ paused: false })) {
   return {
-    load: vi.fn().mockResolvedValue(undefined),
-    play: vi.fn().mockResolvedValue(undefined),
+    load: vi.fn<ProjectAudioPreviewTransport['load']>().mockResolvedValue(undefined),
+    play: vi.fn<ProjectAudioPreviewTransport['play']>().mockResolvedValue(undefined),
     stop: vi.fn(),
     snapshot: vi.fn(snapshot),
     dispose: vi.fn(),
-  }
+  } satisfies ProjectAudioPreviewTransport
 }
 
-let root: Root
-let host: HTMLDivElement
-
-beforeEach(() => {
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+beforeEach(async () => {
+  restoreAct = installReactActEnvironment()
+  installBrowserHardwarePorts()
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
+  const base = await blankProjectBase('project-audio-button')
+  await seedMusic(base, ASSET, '主题曲', SINGLE_NOTE_MIDI)
+  reader = createEditorAssetReader(base.source, () => base.session.getState())
 })
 
 afterEach(async () => {
-  await act(async () => {
-    stopEditorAudioPreview()
-    root.unmount()
-  })
-  host.remove()
-  vi.useRealTimers()
+  try {
+    await act(async () => {
+      stopEditorAudioPreview()
+      root.unmount()
+    })
+  } finally {
+    host.remove()
+    vi.useRealTimers()
+    vi.unstubAllGlobals()
+    restoreAct()
+  }
 })
 
-describe('项目资源原位试听', () => {
-  test('React 严格模式的 effect 演练不会提前销毁 transport', async () => {
+function view(current: ProjectAudioPreviewTransport) {
+  return (
+    <ProjectAudioPreviewButton
+      asset={ASSET}
+      label="主题曲"
+      kind="music"
+      cacheKey={CACHE_KEY}
+      reader={reader}
+      createTransport={() => current}
+    />
+  )
+}
+
+function previewButton(): HTMLButtonElement {
+  const button = host.querySelector<HTMLButtonElement>('.project-audio-preview button')
+  if (!button) throw new Error('Project audio preview button is missing')
+  return button
+}
+
+describe('Project audio preview button', () => {
+  test('StrictMode replays the effect without disposing the current transport', async () => {
     const current = transport()
-    await act(async () => {
-      root.render(
-        <StrictMode>
-          <ProjectAudioPreviewButton
-            asset="music.strict"
-            label="严格模式音乐"
-            kind="music"
-            cacheKey="strict"
-            reader={{} as never}
-            createTransport={() => current}
-          />
-        </StrictMode>,
-      )
-      await Promise.resolve()
-    })
-
+    await act(async () => root.render(<StrictMode>{view(current)}</StrictMode>))
     expect(current.dispose).not.toHaveBeenCalled()
-    await act(async () => {
-      host.querySelector<HTMLButtonElement>('[aria-label="试听 严格模式音乐"]')!.click()
-      await Promise.resolve()
-      await Promise.resolve()
-    })
-    expect(current.load).toHaveBeenCalledWith('music.strict', 'strict')
+    await act(async () => previewButton().click())
+    expect(current.load).toHaveBeenCalledWith(ASSET, CACHE_KEY)
     expect(current.play).toHaveBeenCalledOnce()
+    expect(previewButton().getAttribute('aria-pressed')).toBe('true')
   })
 
-  test('开始另一项试听会停止旧 owner，切换不共享 transport', async () => {
-    const first = transport()
-    const second = transport()
-    const createTransport = vi.fn().mockReturnValueOnce(first).mockReturnValueOnce(second)
-    const reader = {} as never
-
-    await act(async () =>
-      root.render(
-        <>
-          <ProjectAudioPreviewButton
-            asset="music.first"
-            label="第一首"
-            kind="music"
-            cacheKey="first"
-            reader={reader}
-            createTransport={createTransport}
-          />
-          <ProjectAudioPreviewButton
-            asset="sound.second"
-            label="第二个"
-            kind="sound"
-            cacheKey="second"
-            reader={reader}
-            createTransport={createTransport}
-          />
-        </>,
-      ),
-    )
-
-    await act(async () => {
-      host.querySelector<HTMLButtonElement>('[aria-label="试听 第一首"]')!.click()
-      await Promise.resolve()
-      await Promise.resolve()
-    })
-    expect(first.load).toHaveBeenCalledWith('music.first', 'first')
-    expect(first.play).toHaveBeenCalledOnce()
-
-    const firstStops = vi.mocked(first.stop).mock.calls.length
-    await act(async () => {
-      host.querySelector<HTMLButtonElement>('[aria-label="试听 第二个"]')!.click()
-      await Promise.resolve()
-      await Promise.resolve()
-    })
-    expect(first.stop).toHaveBeenCalledTimes(firstStops + 1)
-    expect(second.load).toHaveBeenCalledWith('sound.second', 'second')
-    expect(second.play).toHaveBeenCalledOnce()
-    expect(createTransport).toHaveBeenNthCalledWith(1, 'music', reader)
-    expect(createTransport).toHaveBeenNthCalledWith(2, 'sound', reader)
-  })
-
-  test('加载失败就释放 owner，并在按钮旁显示可读错误', async () => {
-    const failed = transport()
-    vi.mocked(failed.load).mockRejectedValueOnce(new Error('资源读取失败'))
-
-    await act(async () =>
-      root.render(
-        <ProjectAudioPreviewButton
-          asset="music.failed"
-          label="损坏音乐"
-          kind="music"
-          cacheKey="failed"
-          reader={{} as never}
-          createTransport={() => failed}
-        />,
-      ),
-    )
-    await act(async () => {
-      host.querySelector<HTMLButtonElement>('[aria-label="试听 损坏音乐"]')!.click()
-      await Promise.resolve()
-      await Promise.resolve()
-    })
-
-    expect(failed.stop).toHaveBeenCalled()
+  test('displays load failure and releases ownership without starting playback', async () => {
+    const current = transport()
+    current.load.mockRejectedValueOnce(new Error('资源读取失败'))
+    await act(async () => root.render(view(current)))
+    await act(async () => previewButton().click())
     expect(host.querySelector('[role="alert"]')?.textContent).toBe('资源读取失败')
-    expect(host.querySelector('[aria-label="试听 损坏音乐"]')).not.toBeNull()
+    expect(previewButton().getAttribute('aria-pressed')).toBe('false')
+    expect(current.play).not.toHaveBeenCalled()
+
+    const stops = current.stop.mock.calls.length
+    await act(async () => claimEditorAudioPreview({ stop: vi.fn() }))
+    expect(current.stop).toHaveBeenCalledTimes(stops)
   })
 
-  test('真实 transport 自然结束后释放 owner 并恢复为可重播状态', async () => {
+  test('shows pending, playing and stopped states in order', async () => {
+    let resolveLoad!: (value: undefined) => void
+    const load = new Promise<undefined>((resolve) => {
+      resolveLoad = resolve
+    })
+    const current = transport()
+    current.load.mockReturnValueOnce(load)
+    await act(async () => root.render(view(current)))
+    expect(previewButton().getAttribute('aria-pressed')).toBe('false')
+
+    await act(async () => previewButton().click())
+    expect(previewButton().getAttribute('aria-busy')).toBe('true')
+    expect(previewButton().getAttribute('aria-pressed')).toBe('true')
+    expect(current.play).not.toHaveBeenCalled()
+
+    await act(async () => resolveLoad(undefined))
+    expect(previewButton().getAttribute('aria-busy')).toBeNull()
+    expect(previewButton().getAttribute('aria-pressed')).toBe('true')
+    expect(current.play).toHaveBeenCalledOnce()
+
+    await act(async () => previewButton().click())
+    expect(previewButton().getAttribute('aria-pressed')).toBe('false')
+  })
+
+  test('natural completion releases playback ownership and allows replay', async () => {
     vi.useFakeTimers()
     let paused = false
     const current = transport(() => ({ paused }))
-
-    await act(async () =>
-      root.render(
-        <ProjectAudioPreviewButton
-          asset="music.ending"
-          label="会自然结束的音乐"
-          kind="music"
-          cacheKey="ending"
-          reader={{} as never}
-          createTransport={() => current}
-        />,
-      ),
-    )
-    await act(async () => {
-      host.querySelector<HTMLButtonElement>('[aria-label="试听 会自然结束的音乐"]')!.click()
-      await Promise.resolve()
-      await Promise.resolve()
-    })
-    expect(host.querySelector('[aria-label="停止试听 会自然结束的音乐"]')).not.toBeNull()
+    await act(async () => root.render(view(current)))
+    await act(async () => previewButton().click())
+    expect(previewButton().getAttribute('aria-pressed')).toBe('true')
 
     paused = true
-    await act(async () => {
-      vi.advanceTimersByTime(100)
-    })
-    expect(host.querySelector('[aria-label="试听 会自然结束的音乐"]')).not.toBeNull()
+    await act(async () => vi.advanceTimersByTime(100))
+    expect(previewButton().getAttribute('aria-pressed')).toBe('false')
+
+    const stops = current.stop.mock.calls.length
+    const foreign = { stop: vi.fn() }
+    await act(async () => claimEditorAudioPreview(foreign))
+    expect(current.stop).toHaveBeenCalledTimes(stops)
+    paused = false
+    await act(async () => previewButton().click())
+    expect(foreign.stop).toHaveBeenCalledOnce()
+    expect(current.play).toHaveBeenCalledTimes(2)
+    expect(previewButton().getAttribute('aria-pressed')).toBe('true')
   })
 })

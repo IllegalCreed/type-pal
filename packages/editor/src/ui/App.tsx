@@ -94,6 +94,7 @@ import {
   entityShapeLabel,
   triggerActivationSummary,
 } from '../core/entity-placement.js'
+import { disposeMusicPreview } from '../core/music-picker-preview.js'
 import type { Opened } from '../core/open-actions.js'
 import { playProjectQuery } from '../core/play-url.js'
 import {
@@ -129,6 +130,7 @@ import {
   scriptPreviewSchemeKey,
 } from '../core/script-preview-library.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
+import { disposeSoundPreview } from '../core/sound-picker-preview.js'
 import { findDefaultEntry } from '../core/startup-entries.js'
 import type { WorkspaceContext } from '../core/workspace-context.js'
 import { workspaceModeLabel } from '../core/workspace-context.js'
@@ -218,7 +220,6 @@ import { type SceneAnchorSelection, SceneCanvas } from './SceneCanvas.js'
 import { CanonicalSceneScriptWorkspace } from './SceneScriptWorkspace.js'
 import { ScriptBehaviorInspector } from './ScriptBehaviorInspector.js'
 import { CanonicalHostileOnLoseEditor, type CanonicalScriptEditorContext } from './ScriptEditor.js'
-import { disposeSoundPreview } from './SoundPicker.js'
 import { SpriteImageViewer, SpriteThumb } from './SpriteThumb.js'
 import type {
   InitialStateDetailsNavigation,
@@ -398,6 +399,7 @@ export function App(props: {
   )
   useEffect(
     () => () => {
+      void disposeMusicPreview(assetReader)
       void disposeSoundPreview(assetReader)
     },
     [assetReader],

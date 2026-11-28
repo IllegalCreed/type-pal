@@ -1,23 +1,13 @@
 import type { AssetCatalogV1, AssetId, AssetKind, AssetRecordV1 } from '@type-pal/content'
-import type { MidiNoteActivity, MidiPreviewTransport } from '@type-pal/reforge'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { type EditorAssetDiagnostic, editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
-import {
-  AudioPreviewCache,
-  type PcmPeaks,
-  type WavPreviewTransport,
-} from '../core/audio-preview.js'
-import {
-  claimEditorAudioPreview,
-  type EditorAudioPreviewOwner,
-  releaseEditorAudioPreview,
-} from '../core/audio-preview-session.js'
 import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
+import { AudioAssetPlayer, type AudioWorkbenchTransport } from './AudioAssetPlayer.js'
 import {
   DsButton,
   DsCatalogControls,
@@ -26,13 +16,11 @@ import {
   DsDiagnosticPanel,
   DsDiagnosticRow,
   DsFileInput,
-  DsIconButton,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
   DsObjectHero,
   DsObjectWorkspace,
-  DsRangeInput,
   DsReadoutList,
   DsReadoutRow,
   DsReferenceList,
@@ -44,18 +32,7 @@ import {
   DsWorkbenchSection,
 } from './design-system/index.js'
 import { MediaAssetConfirmDialog, MediaAssetNameField } from './MediaAssetLifecycle.js'
-
-export type AudioTimeline = MidiNoteActivity | PcmPeaks
-
-export interface AudioWorkbenchTransport {
-  load(asset: AssetId, cacheKey?: string, cachedTimeline?: AudioTimeline): Promise<AudioTimeline>
-  play(): Promise<void>
-  pause(): void
-  stop(): void
-  seek(seconds: number): void
-  snapshot(): { currentTime: number; duration: number; paused: boolean }
-  dispose(): void
-}
+import { formatMediaAssetBytes, MEDIA_ASSET_ORIGIN_LABELS } from './media-asset-readout.js'
 
 export interface PreparedAudioImport {
   bytes: ArrayBuffer
@@ -74,298 +51,6 @@ export interface AudioAssetWorkbenchStrategy {
   prepareImport(file: File, previousLabel?: string): Promise<PreparedAudioImport>
   allocateId(catalog: AssetCatalogV1, hash: string): AssetId
   createTransport(reader: EditorAssetReader): AudioWorkbenchTransport
-}
-
-const ORIGIN_LABELS: Readonly<Record<AssetRecordV1['origin']['kind'], string>> = {
-  'legacy-migrated': '原版迁移',
-  authored: '项目创作',
-  generated: '生成资源',
-  licensed: '授权资源',
-}
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-  return `${(bytes / 1024 / 1024).toFixed(1)} MB`
-}
-
-function formatTime(seconds: number, showSubseconds = false): string {
-  const safe = Math.max(0, Number.isFinite(seconds) ? seconds : 0)
-  if (showSubseconds) {
-    const hundredths = Math.round(safe * 100)
-    const minutes = Math.floor(hundredths / 6000)
-    const remainder = (hundredths % 6000) / 100
-    return `${minutes}:${remainder.toFixed(2).padStart(5, '0')}`
-  }
-  const minutes = Math.floor(safe / 60)
-  return `${minutes}:${Math.floor(safe % 60)
-    .toString()
-    .padStart(2, '0')}`
-}
-
-function isAbortError(cause: unknown): boolean {
-  return cause instanceof DOMException && cause.name === 'AbortError'
-}
-
-function AudioTimelineGraphic(props: { timeline?: AudioTimeline; progress: number }) {
-  const timeline = props.timeline
-  if (!timeline) return <div className="audio-timeline__empty">选择资源后读取时间轴。</div>
-  const progressX = Math.max(0, Math.min(1, props.progress)) * 160
-  return (
-    <div className="audio-timeline__graphic">
-      <svg viewBox="0 0 160 64" preserveAspectRatio="none" aria-hidden="true">
-        {timeline.kind === 'note-activity'
-          ? timeline.buckets.map((value, index) => (
-              <rect
-                key={index}
-                x={(index / timeline.buckets.length) * 160}
-                y={32 - value * 28}
-                width={Math.max(0.5, 160 / timeline.buckets.length - 0.25)}
-                height={value * 56}
-                rx="0.25"
-              />
-            ))
-          : timeline.maximums.map((maximum, index) => {
-              const minimum = timeline.minimums[index] ?? 0
-              const y1 = 32 - maximum * 28
-              const y2 = 32 - minimum * 28
-              return (
-                <line
-                  key={index}
-                  x1={(index / timeline.maximums.length) * 160}
-                  x2={(index / timeline.maximums.length) * 160}
-                  y1={y1}
-                  y2={y2}
-                />
-              )
-            })}
-        <line className="audio-timeline__progress" x1={progressX} x2={progressX} y1="0" y2="64" />
-      </svg>
-      <DsTag tone="neutral">{timeline.kind === 'note-activity' ? '音符活动' : 'PCM 波形'}</DsTag>
-    </div>
-  )
-}
-
-function AudioAssetPlayer(props: {
-  assetId: AssetId
-  sha256: string
-  reader: EditorAssetReader
-  strategy: AudioAssetWorkbenchStrategy
-}) {
-  const transport = useMemo(
-    () => props.strategy.createTransport(props.reader),
-    [props.reader, props.strategy],
-  )
-  const generationRef = useRef(0)
-  const playRequestRef = useRef(0)
-  const transportLifecycleRef = useRef<
-    | {
-        transport: AudioWorkbenchTransport
-        token: object
-      }
-    | undefined
-  >(undefined)
-  // biome-ignore lint/correctness/useExhaustiveDependencies: each project owns an isolated decoded-analysis cache.
-  const analysisCache = useMemo(
-    () => new AudioPreviewCache<AudioTimeline>(16),
-    [props.reader.projectId],
-  )
-  const [timeline, setTimeline] = useState<AudioTimeline>()
-  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
-  const [error, setError] = useState('')
-  const [playing, setPlaying] = useState(false)
-  const [clock, setClock] = useState({ currentTime: 0, duration: 0, paused: true })
-  const previewOwner = useMemo<EditorAudioPreviewOwner>(
-    () => ({
-      stop() {
-        playRequestRef.current++
-        transport.stop()
-        setPlaying(false)
-        setClock(transport.snapshot())
-      },
-    }),
-    [transport],
-  )
-  const identity = `${props.reader.projectId}\0${props.assetId}\0${props.sha256}`
-
-  useEffect(() => {
-    const generation = ++generationRef.current
-    playRequestRef.current++
-    releaseEditorAudioPreview(previewOwner)
-    transport.stop()
-    setPlaying(false)
-    setClock({ currentTime: 0, duration: 0, paused: true })
-    const cached = analysisCache.get(identity)
-    setTimeline(cached)
-    setStatus('loading')
-    setError('')
-    const load = (retryCanceledInflight: boolean): void => {
-      const cachedTimeline = analysisCache.get(identity)
-      const loading = cachedTimeline
-        ? transport.load(props.assetId, identity, cachedTimeline)
-        : analysisCache.load(identity, () => transport.load(props.assetId, identity))
-      void loading
-        .then((result) => {
-          if (generation !== generationRef.current) return
-          setTimeline(result)
-          setClock(transport.snapshot())
-          setStatus('ready')
-        })
-        .catch((cause: unknown) => {
-          if (generation !== generationRef.current) return
-          if (isAbortError(cause) && retryCanceledInflight) {
-            load(false)
-            return
-          }
-          if (isAbortError(cause)) return
-          setStatus('error')
-          setError(cause instanceof Error ? cause.message : String(cause))
-        })
-    }
-    load(true)
-    return () => {
-      generationRef.current++
-      playRequestRef.current++
-      releaseEditorAudioPreview(previewOwner)
-      transport.stop()
-    }
-  }, [analysisCache, identity, previewOwner, props.assetId, transport])
-
-  useEffect(() => {
-    const previous = transportLifecycleRef.current
-    if (previous && previous.transport !== transport) previous.transport.dispose()
-    const token = {}
-    transportLifecycleRef.current = { transport, token }
-    return () => {
-      releaseEditorAudioPreview(previewOwner)
-      queueMicrotask(() => {
-        if (transportLifecycleRef.current?.token !== token) return
-        transport.dispose()
-        transportLifecycleRef.current = undefined
-      })
-    }
-  }, [previewOwner, transport])
-  useEffect(() => () => analysisCache.clear(), [analysisCache])
-
-  useEffect(() => {
-    if (!playing) return
-    let frame = 0
-    const updateClock = () => {
-      if (document.visibilityState === 'hidden') {
-        frame = 0
-        return
-      }
-      const next = transport.snapshot()
-      setClock(next)
-      if (next.paused) {
-        setPlaying(false)
-        releaseEditorAudioPreview(previewOwner)
-        return
-      }
-      frame = window.requestAnimationFrame(updateClock)
-    }
-    const handleVisibility = () => {
-      if (document.visibilityState === 'hidden') {
-        if (frame) window.cancelAnimationFrame(frame)
-        frame = 0
-        return
-      }
-      if (!frame) frame = window.requestAnimationFrame(updateClock)
-    }
-    handleVisibility()
-    document.addEventListener('visibilitychange', handleVisibility)
-    return () => {
-      if (frame) window.cancelAnimationFrame(frame)
-      document.removeEventListener('visibilitychange', handleVisibility)
-    }
-  }, [playing, previewOwner, transport])
-
-  const seek = (value: number): void => {
-    playRequestRef.current++
-    transport.seek(value)
-    setClock(transport.snapshot())
-  }
-
-  const duration = timeline?.duration ?? clock.duration
-  const progress = duration > 0 ? Math.max(0, Math.min(1, clock.currentTime / duration)) : 0
-  const showSubseconds = duration > 0 && duration < 1
-  return (
-    <div className="audio-player" data-audio-kind={props.strategy.kind}>
-      <AudioTimelineGraphic timeline={timeline} progress={progress} />
-      <DsRangeInput
-        className="audio-timeline__range"
-        type="range"
-        aria-label={`${props.strategy.title}试听进度`}
-        aria-valuetext={`${formatTime(clock.currentTime, showSubseconds)} / ${formatTime(duration, showSubseconds)}`}
-        min={0}
-        max={1}
-        step={0.001}
-        value={progress}
-        disabled={status !== 'ready' || duration <= 0}
-        onChange={(event) => seek(Number(event.target.value) * duration)}
-      />
-      <div className="audio-player__transport">
-        <DsIconButton
-          icon={playing ? 'pause' : 'play'}
-          label={playing ? '暂停' : '播放'}
-          variant="secondary"
-          disabled={status !== 'ready'}
-          onClick={() => {
-            if (playing) {
-              playRequestRef.current++
-              transport.pause()
-              setPlaying(false)
-              setClock(transport.snapshot())
-              releaseEditorAudioPreview(previewOwner)
-              return
-            }
-            setError('')
-            const request = ++playRequestRef.current
-            claimEditorAudioPreview(previewOwner)
-            void transport
-              .play()
-              .then(() => {
-                if (request !== playRequestRef.current) return
-                setPlaying(true)
-                setClock(transport.snapshot())
-              })
-              .catch((cause: unknown) => {
-                if (request !== playRequestRef.current || isAbortError(cause)) return
-                releaseEditorAudioPreview(previewOwner)
-                setError(cause instanceof Error ? cause.message : String(cause))
-              })
-          }}
-        />
-        <DsIconButton
-          icon="stop"
-          label="停止"
-          variant="secondary"
-          disabled={status === 'loading'}
-          onClick={() => {
-            playRequestRef.current++
-            transport.stop()
-            setPlaying(false)
-            setClock(transport.snapshot())
-            releaseEditorAudioPreview(previewOwner)
-          }}
-        />
-        <output className="audio-player__time" aria-live="off">
-          {formatTime(clock.currentTime, showSubseconds)} / {formatTime(duration, showSubseconds)}
-        </output>
-        <span className="audio-player__spacer" />
-        <span className="audio-player__state">
-          {status === 'loading'
-            ? '正在读取…'
-            : status === 'error'
-              ? '读取失败'
-              : playing
-                ? '正在播放'
-                : '就绪'}
-        </span>
-      </div>
-      {error ? <DsStatus tone="error">{error}</DsStatus> : null}
-    </div>
-  )
 }
 
 export function AudioAssetWorkbench(props: {
@@ -481,7 +166,7 @@ export function AudioAssetWorkbench(props: {
         throw new Error(`不能用 ${strategy.kind} 替换 ${previous.kind} 资源`)
       const previousBytes = targetId ? await reader.readBytes(targetId, strategy.kind) : undefined
       const prepared = await strategy.prepareImport(file, previous?.label)
-      const id = targetId ?? strategy.allocateId(catalog, prepared.hash)
+      const id = targetId ?? strategy.allocateId(session.getState().assetCatalog, prepared.hash)
       session.dispatch(new UpsertAssetCommand(id, prepared.record, prepared.bytes, previousBytes))
       select(id)
     } catch (cause) {
@@ -663,9 +348,11 @@ export function AudioAssetWorkbench(props: {
                   <code>{selected.record.path}</code>
                 </DsReadoutRow>
                 <DsReadoutRow label="来源">
-                  {ORIGIN_LABELS[selected.record.origin.kind]}
+                  {MEDIA_ASSET_ORIGIN_LABELS[selected.record.origin.kind]}
                 </DsReadoutRow>
-                <DsReadoutRow label="大小">{formatBytes(selected.record.bytes)}</DsReadoutRow>
+                <DsReadoutRow label="大小">
+                  {formatMediaAssetBytes(selected.record.bytes)}
+                </DsReadoutRow>
               </DsReadoutList>
             </DsWorkbenchSection>
             <DsWorkbenchSection
@@ -680,7 +367,9 @@ export function AudioAssetWorkbench(props: {
                 assetId={selected.id}
                 sha256={selected.record.sha256}
                 reader={reader}
-                strategy={strategy}
+                kind={strategy.kind}
+                title={strategy.title}
+                createTransport={strategy.createTransport}
               />
             </DsWorkbenchSection>
           </>
@@ -832,10 +521,4 @@ export function AudioAssetWorkbench(props: {
       />
     </>
   )
-}
-
-export function asAudioWorkbenchTransport(
-  transport: MidiPreviewTransport | WavPreviewTransport,
-): AudioWorkbenchTransport {
-  return transport
 }

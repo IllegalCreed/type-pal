@@ -99,6 +99,14 @@ describe('MP4 box bounds', () => {
     expect(mp4HasAudioTrack(joinBytes(fileType(), malformed))).toBe(false)
   })
 
+  test('abandons a malformed child range and still reads the next track', () => {
+    const incompleteVideoTrack = box('trak', joinBytes(uint32(64), fourCc('mdia')))
+    const mp4 = joinBytes(fileType(), box('moov', joinBytes(incompleteVideoTrack, track('soun'))))
+    const buffer = new Uint8Array(mp4.byteLength + 5)
+    buffer.set(mp4, 5)
+    expect(mp4HasAudioTrack(buffer.subarray(5))).toBe(true)
+  })
+
   test('treats a zero-size movie as the final top-level box', () => {
     const movie = joinBytes(uint32(0), fourCc('moov'), track('soun'))
     expect(mp4HasAudioTrack(joinBytes(fileType(), movie))).toBe(true)

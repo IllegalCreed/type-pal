@@ -6,7 +6,7 @@ import {
   pngRgba,
   solidRgba,
 } from '../__tests__/cursor-asset-r1/image-ports.js'
-import { installImageDecodePort } from '../ui/__tests__/kimi-editor-workflows/k05-fixtures.js'
+import { installImageDecodePort } from '../ui/__tests__/image-preview-ports.js'
 import {
   assertFrameImageFile,
   decodeFrameImage,

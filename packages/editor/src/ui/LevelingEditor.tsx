@@ -1,9 +1,4 @@
-/**
- * 升级编辑(C6 编辑器侧)—— 角色模式「升级」区(检查器窄栏只放**摘要 + 入口**;
- * 经验曲线本体在中区宽幅 LevelCurveEditor 拖点编辑 —— 作者:「一大堆数没站在用户角度」):
- * - 经验曲线摘要行 + 「📈 编辑曲线」按钮(中区打开)
- * - 升级学技能行(skills.json 的 levelUp[actorId];level + 技能下拉,UpdateLevelUpCommand)
- */
+/** Edits level-up skill rules in the actor growth panel and opens the center experience chart. */
 import type { ActorDef, LevelUpSkill, SkillDataMap } from '@type-pal/content'
 import { memo, useMemo } from 'react'
 import { UpdateLevelUpCommand } from '../core/commands.js'
@@ -22,9 +17,10 @@ function LevelingEditorImpl(props: {
   levelUpRows: LevelUpSkill[]
   skills: SkillDataMap
   session: EditSession
+  syncToken: number
   onEditCurve: () => void
 }) {
-  const { actor, levelUpRows, skills, session, onEditCurve } = props
+  const { actor, levelUpRows, skills, session, syncToken, onEditCurve } = props
   const expTable = actor.battler.leveling?.expTable ?? []
   const skillOptions = useMemo(
     () =>
@@ -35,7 +31,7 @@ function LevelingEditorImpl(props: {
       })),
     [skills],
   )
-  const skillIds = useMemo(() => skillOptions.map((option) => option.value), [skillOptions])
+  const canAddSkill = skillOptions.length > 0
   const rowOptions = useMemo(
     () =>
       levelUpRows.map((row) =>
@@ -45,8 +41,6 @@ function LevelingEditorImpl(props: {
       ),
     [levelUpRows, skillOptions, skills],
   )
-  const syncToken = session.getHistoryVersion()
-
   const dispatchRows = (rows: LevelUpSkill[]): void => {
     session.dispatch(
       new UpdateLevelUpCommand(
@@ -112,9 +106,13 @@ function LevelingEditorImpl(props: {
       ))}
       <DsButton
         data-ds-add-picker-deferred="actor/level-up-skill-append-default"
+        disabled={!canAddSkill}
+        title={canAddSkill ? undefined : '请先创建可习得技能'}
         onClick={() => {
+          const skillId = Object.keys(skills)[0]
+          if (skillId === undefined) return
           const maxLv = levelUpRows.reduce((m, r) => Math.max(m, r.level), 0)
-          dispatchRows([...levelUpRows, { level: maxLv + 1, skillId: skillIds[0] ?? '' }])
+          dispatchRows([...levelUpRows, { level: maxLv + 1, skillId }])
         }}
         size="compact"
         variant="secondary"
@@ -140,5 +138,6 @@ export const LevelingEditor = memo(
     left.levelUpRows === right.levelUpRows &&
     left.skills === right.skills &&
     left.session === right.session &&
+    left.syncToken === right.syncToken &&
     left.onEditCurve === right.onEditCurve,
 )

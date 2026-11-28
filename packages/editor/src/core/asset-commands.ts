@@ -7,6 +7,19 @@ import {
   collectCurrentProjectDeletionImpact,
 } from './project-reference-adapters.js'
 
+function restoreAssetBlobs(
+  snapshot: EditorState['assetBlobs'],
+  previousPath: string | undefined,
+  diskFallback: ArrayBuffer | undefined,
+): EditorState['assetBlobs'] {
+  const blobs = { ...snapshot }
+  // The apply snapshot owns any newer staged revision. A caller may have read the
+  // old disk bytes before another command replaced this asset.
+  if (previousPath && diskFallback && !Object.hasOwn(blobs, previousPath))
+    blobs[previousPath] = diskFallback.slice(0)
+  return blobs
+}
+
 /** 新增或替换资源；替换保持 AssetId，二进制按新 record.path 暂存在会话。 */
 export class UpsertAssetCommand implements Command {
   readonly label = '导入资源'
@@ -52,9 +65,8 @@ export class UpsertAssetCommand implements Command {
 
   invert(state: EditorState): EditorState {
     if (!this.oldCatalog || !this.oldBlobs) return state
-    const assetBlobs = { ...this.oldBlobs }
     const previous = findAssetRecord(this.oldCatalog, this.assetId)
-    if (previous && this.previousBytes) assetBlobs[previous.path] = this.previousBytes.slice(0)
+    const assetBlobs = restoreAssetBlobs(this.oldBlobs, previous?.path, this.previousBytes)
     return { ...state, assetCatalog: this.oldCatalog, assetBlobs }
   }
 }
@@ -98,9 +110,8 @@ export class DeleteAssetCommand implements Command {
 
   invert(state: EditorState): EditorState {
     if (!this.oldCatalog || !this.oldBlobs) return state
-    const assetBlobs = { ...this.oldBlobs }
     const previous = findAssetRecord(this.oldCatalog, this.assetId)
-    if (previous && this.previousBytes) assetBlobs[previous.path] = this.previousBytes.slice(0)
+    const assetBlobs = restoreAssetBlobs(this.oldBlobs, previous?.path, this.previousBytes)
     return { ...state, assetCatalog: this.oldCatalog, assetBlobs }
   }
 }

@@ -1,128 +1,151 @@
 // @vitest-environment jsdom
-import type { ActorDef, AssetCatalogV1 } from '@type-pal/content'
+
+import type { PortraitSet } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import type { EditorState } from '../core/edit-session.js'
+import { installReactActEnvironment, waitForReact } from '../__tests__/react-io-wait.js'
+import { UpdateActorCommand } from '../core/actor-commands.js'
 import { EditSession } from '../core/edit-session.js'
-import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
+import { assertProjectSaveValid } from '../core/project-diagnostics.js'
+import {
+  buttonByLabel,
+  chooseComboboxOption,
+  loadLegalUiProject,
+} from './__tests__/glm-ui-wave-kit.js'
+import {
+  type ImageDomPort,
+  installImageDomPorts,
+  restoreImageDomPorts,
+} from './__tests__/image-preview-ports.js'
+import {
+  installBrowserHardwarePorts,
+  pngRgba,
+  solidRgba,
+} from './__tests__/kimi-editor-workflows/kit.js'
+import { decodePngPixels, seedImage } from './__tests__/static-image-fixtures.js'
 import { PortraitEditor } from './PortraitEditor.js'
 
 let host: HTMLDivElement
 let root: Root
+let restoreAct: () => void
+let imageDom: ImageDomPort
 
-const catalog: AssetCatalogV1 = {
-  version: 1,
-  assets: {
-    'portrait.test.001': {
-      kind: 'portrait',
-      path: 'assets/portraits/001.png',
-      mediaType: 'image/png',
-      bytes: 1,
-      sha256: 'portrait-001',
-      label: '测试立绘一',
-      origin: { kind: 'authored' },
-    },
-    'portrait.test.002': {
-      kind: 'portrait',
-      path: 'assets/portraits/002.png',
-      mediaType: 'image/png',
-      bytes: 1,
-      sha256: 'portrait-002',
-      label: '测试立绘二',
-      origin: { kind: 'authored' },
-    },
-  },
+const red = [220, 40, 40, 255] as const
+const blue = [40, 80, 220, 255] as const
+const defaultPortraits: PortraitSet = {
+  default: 'portrait.test.001',
+  expressions: { 微笑: 'portrait.test.001' },
 }
 
-const reader = {
-  record: (id: string) => catalog.assets[id]!,
-  readBytes: vi.fn(() => new Promise<ArrayBuffer>(() => undefined)),
-} as unknown as EditorAssetReader
-
-function actor(
-  portraits: ActorDef['portraits'] = {
-    default: 'portrait.test.001',
-    expressions: { 微笑: 'portrait.test.001' },
-  },
-): ActorDef {
-  return {
-    id: 'hero',
-    name: 'name.hero',
-    spriteId: 'sprite.hero',
-    portraits,
-  }
-}
-
-function state(value = actor()): EditorState {
-  return {
-    actors: [value],
-    scenes: [],
-    items: [],
-    skills: [],
-    sprites: [],
-    battleSprites: [],
-    locale: { 'name.hero': '主角' },
-    assetCatalog: catalog,
-    assetBlobs: {},
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    tilesetBlobs: {},
-    scriptChunks: {},
-    stamps: [],
-    shops: [],
-    poisons: [],
-    levelUp: {},
-  } as unknown as EditorState
-}
-
-function Harness(props: { session: EditSession }) {
+function Harness(props: { session: EditSession; reader: EditorAssetReader }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
   )
-  const current = props.session.getState()
+  const state = props.session.getState()
+  const actor = state.actors.find((candidate) => candidate.id === 'hero')
+  if (!actor) throw new Error('Missing starter actor')
   return (
     <PortraitEditor
-      actor={current.actors[0]!}
+      actor={actor}
       session={props.session}
-      catalog={current.assetCatalog}
-      reader={reader}
+      catalog={state.assetCatalog}
+      reader={props.reader}
     />
   )
 }
 
-function button(label: string, scope: ParentNode = host): HTMLButtonElement {
-  return [...scope.querySelectorAll<HTMLButtonElement>('button')].find(
-    (candidate) => candidate.textContent?.trim() === label,
-  )!
-}
-
-function setInputValue(input: HTMLInputElement, value: string): void {
-  const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
-  setter?.call(input, value)
-  input.dispatchEvent(new Event('input', { bubbles: true }))
-}
-
 beforeEach(() => {
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  restoreAct = installReactActEnvironment()
+  installBrowserHardwarePorts()
+  imageDom = installImageDomPorts()
   host = document.createElement('div')
-  document.body.appendChild(host)
+  document.body.append(host)
   root = createRoot(host)
 })
 
 afterEach(async () => {
-  await act(async () => root.unmount())
-  host.remove()
-  vi.clearAllMocks()
+  try {
+    await act(async () => root.unmount())
+  } finally {
+    host.remove()
+    restoreImageDomPorts()
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+    restoreAct()
+  }
 })
+
+function button(label: string, scope: ParentNode = host) {
+  return buttonByLabel(scope, label)
+}
+
+async function mount(options: { portraits?: PortraitSet; empty?: boolean } = {}) {
+  const legal = await loadLegalUiProject('portrait-editor')
+  const seed = new EditSession(legal.state)
+  if (!options.empty) {
+    await seedImage(seed, {
+      id: 'portrait.test.001',
+      kind: 'portrait',
+      label: '测试立绘一',
+      png: pngRgba(2, 2, solidRgba(2, 2, red)),
+    })
+    await seedImage(seed, {
+      id: 'portrait.test.002',
+      kind: 'portrait',
+      label: '测试立绘二',
+      png: pngRgba(2, 2, solidRgba(2, 2, blue)),
+    })
+  }
+  if (options.portraits) {
+    seed.dispatch(new UpdateActorCommand('hero', { portraits: options.portraits }))
+  }
+  assertProjectSaveValid(seed.getState())
+  const session = new EditSession(seed.getState())
+  const reader = createEditorAssetReader(legal.source, () => session.getState())
+  await act(async () => root.render(<Harness session={session} reader={reader} />))
+  return { session }
+}
+
+function portraitField(label: string): HTMLElement {
+  const trigger = host.querySelector(`button[aria-label="${label}"]`)
+  const field = trigger?.closest<HTMLElement>('.ds-control-group')
+  if (!field) throw new Error(`Missing portrait selection ${label}`)
+  return field
+}
+
+async function selectBlue(label: string) {
+  await chooseComboboxOption(
+    buttonByLabel(portraitField(label), label),
+    '测试立绘二 (portrait.test.002)',
+  )
+}
+
+async function typeName(input: HTMLInputElement, value: string) {
+  const write = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+  if (!write) throw new Error('Missing input value setter')
+  await act(async () => {
+    input.focus()
+    write.call(input, value)
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+  })
+}
+
+async function expectSwatch(label: string, expected: readonly number[]) {
+  const field = portraitField(label)
+  await waitForReact(() => expect(field.querySelector('img')).not.toBeNull())
+  const url = field.querySelector('img')?.getAttribute('src')
+  const blob = url ? imageDom.objectUrlBlob(url) : undefined
+  if (!blob) throw new Error(`Missing thumbnail bytes for ${label}`)
+  const image = await decodePngPixels(await blob.arrayBuffer())
+  expect(Array.from(image.rgba.slice(0, 4))).toEqual(expected)
+}
 
 describe('PortraitEditor', () => {
   test('[add-picker:actor/portrait] 标题动作弹窗明确确认后才添加表情且只写一条历史', async () => {
-    const session = new EditSession(state())
-    await act(async () => root.render(<Harness session={session} />))
+    const { session } = await mount({ portraits: defaultPortraits })
 
     const section = host.querySelector('.portrait-editor.ds-workbench-section')!
     const trigger = button('添加表情', section.querySelector('.ds-workbench-section__actions')!)
@@ -165,8 +188,7 @@ describe('PortraitEditor', () => {
   })
 
   test('没有立绘组时从标题动作选择主立绘，不再静默采用目录第一项', async () => {
-    const session = new EditSession(state({ ...actor(), portraits: undefined }))
-    await act(async () => root.render(<Harness session={session} />))
+    const { session } = await mount()
 
     expect(host.textContent).toContain('暂无对话立绘')
     const trigger = button('设置主立绘')
@@ -183,19 +205,77 @@ describe('PortraitEditor', () => {
   })
 
   test('表情名称走共享草稿边界，Enter 与随后 blur 只提交一次', async () => {
-    const session = new EditSession(state())
-    await act(async () => root.render(<Harness session={session} />))
+    const { session } = await mount({ portraits: defaultPortraits })
     const input = host.querySelector<HTMLInputElement>('[name="actor-portrait-expression-name"]')!
 
-    await act(async () => setInputValue(input, '开心'))
+    await typeName(input, '开心')
+    expect(session.getHistoryVersion()).toBe(0)
     await act(async () =>
       input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
     )
-    await act(async () => input.dispatchEvent(new FocusEvent('blur', { bubbles: true })))
+    await act(async () => input.blur())
 
     expect(session.getHistoryVersion()).toBe(1)
     expect(session.getState().actors[0]?.portraits?.expressions).toEqual({
       开心: 'portrait.test.001',
     })
+    assertProjectSaveValid(session.getState())
+  })
+
+  test('explains why the default picker is unavailable without portrait assets', async () => {
+    const { session } = await mount({ empty: true })
+    expect(button('设置主立绘').disabled).toBe(true)
+    expect(host.textContent).toContain('请先在图片库导入 portrait 资源。')
+    expect(session.getHistoryVersion()).toBe(0)
+  })
+
+  test('switches the default thumbnail bytes with its resource and restores them on undo', async () => {
+    const { session } = await mount({ portraits: defaultPortraits })
+    const label = '默认对话立绘图片'
+    await expectSwatch(label, red)
+    await selectBlue(label)
+    expect(session.getState().actors[0]?.portraits).toEqual({
+      default: 'portrait.test.002',
+      expressions: { 微笑: 'portrait.test.001' },
+    })
+    expect(session.getHistoryVersion()).toBe(1)
+    await expectSwatch(label, blue)
+    await act(async () => expect(session.undo()).toBe(true))
+    await expectSwatch(label, red)
+  })
+
+  test('changes only the selected expression and removes it before removing the group', async () => {
+    const { session } = await mount({ portraits: defaultPortraits })
+    await selectBlue('微笑立绘图片')
+    expect(session.getState().actors[0]?.portraits?.expressions).toEqual({
+      微笑: 'portrait.test.002',
+    })
+    await expectSwatch('微笑立绘图片', blue)
+    await expectSwatch('默认对话立绘图片', red)
+    await act(async () => button('删除表情“微笑”').click())
+    expect(session.getState().actors[0]?.portraits).toEqual({ default: 'portrait.test.001' })
+    await act(async () => button('删除整个对话立绘组').click())
+    expect(session.getState().actors[0]?.portraits).toBeUndefined()
+    expect(session.getHistoryVersion()).toBe(3)
+    expect(host.textContent).toContain('点击右上角“设置主立绘”选择图片。')
+  })
+
+  test('rejects a duplicate expression name without changing either binding', async () => {
+    const portraits = {
+      ...defaultPortraits,
+      expressions: { 微笑: 'portrait.test.001', 开心: 'portrait.test.002' },
+    }
+    const { session } = await mount({ portraits })
+    const input = [
+      ...host.querySelectorAll<HTMLInputElement>('input[name="actor-portrait-expression-name"]'),
+    ].find((candidate) => candidate.value === '微笑')
+    if (!input) throw new Error('Missing expression name')
+    await typeName(input, '开心')
+    await act(async () =>
+      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
+    )
+    expect(input.getAttribute('aria-invalid')).toBe('true')
+    expect(session.getHistoryVersion()).toBe(0)
+    expect(session.getState().actors[0]?.portraits).toEqual(portraits)
   })
 })

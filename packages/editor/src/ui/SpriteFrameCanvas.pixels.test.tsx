@@ -2,13 +2,13 @@
 import { act } from 'react'
 import { createRoot } from 'react-dom/client'
 import { expect, test, vi } from 'vitest'
+import { installBrowserHardwarePorts } from '../__tests__/canvas-test-ports.js'
 import { openC05 } from '../__tests__/cursor-asset-r1/c05-action-fixtures.js'
 import {
   colorCensus,
   opaqueBounds,
   requireRealCanvas2d,
 } from '../__tests__/cursor-asset-r1/canvas-pixels.js'
-import { installBrowserHardwarePorts } from '../__tests__/cursor-asset-r1/frame-editor-ports.js'
 import { SpriteFrameCanvas } from './SpriteFrameWorkbench.js'
 
 test('SpriteFrameCanvas 绘制真实 bakeFrame 的非透明像素与透明留白', async () => {
