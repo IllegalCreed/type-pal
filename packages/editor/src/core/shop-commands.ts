@@ -1,7 +1,3 @@
-/**
- * 商店命令族：新建/修改/复制/删除店铺货单。
- * 对 Command 仅 type import（commands.ts 反向 re-export），运行期无环。
- */
 import type { ShopDef } from '@type-pal/content'
 import { validateShops } from '@type-pal/content'
 import type { Command } from './command-contract.js'
@@ -33,22 +29,21 @@ function appendShop(state: EditorState, shop: ShopDef): EditorState {
 /** 改店铺货单(整表替换;首次 apply 捕获旧值)。 */
 export class UpdateShopCommand implements Command {
   readonly label = '修改店铺'
+  private readonly items: string[]
   private old: string[] | undefined
-  private captured = false
 
   constructor(
     private readonly shopId: number,
-    private readonly items: string[],
-  ) {}
+    items: string[],
+  ) {
+    this.items = [...items]
+  }
 
   apply(state: EditorState): EditorState {
     const shop = (state.shops ?? []).find((x) => x.id === this.shopId)
     if (!shop) return state
     validateShops([{ id: this.shopId, items: this.items }])
-    if (!this.captured) {
-      this.old = [...shop.items]
-      this.captured = true
-    }
+    this.old ??= [...shop.items]
     return {
       ...state,
       shops: (state.shops ?? []).map((x) =>
@@ -70,7 +65,6 @@ export class UpdateShopCommand implements Command {
 /** 新建店铺(空货单;id = max+1 由调用方定)。 */
 export class AddShopCommand implements Command {
   readonly label = '新建店铺'
-  private added = false
   private previousManifest: EditorState['manifest'] | undefined
 
   constructor(private readonly shopId: number) {}
@@ -78,16 +72,15 @@ export class AddShopCommand implements Command {
   apply(state: EditorState): EditorState {
     const next = appendShop(state, { id: this.shopId, items: [] })
     this.previousManifest ??= state.manifest
-    this.added = true
     return next
   }
 
   invert(state: EditorState): EditorState {
-    if (!this.added) return state
+    if (!this.previousManifest) return state
     return {
       ...state,
       shops: (state.shops ?? []).filter((x) => x.id !== this.shopId),
-      manifest: this.previousManifest!,
+      manifest: this.previousManifest,
     }
   }
 }
@@ -113,11 +106,11 @@ export class DuplicateShopCommand implements Command {
   }
 
   invert(state: EditorState): EditorState {
-    if (!this.copy) return state
+    if (!this.previousManifest) return state
     return {
       ...state,
       shops: (state.shops ?? []).filter((shop) => shop.id !== this.targetId),
-      manifest: this.previousManifest!,
+      manifest: this.previousManifest,
     }
   }
 }
@@ -134,8 +127,7 @@ export class ShopInUseError extends Error {
 
 export class DeleteShopCommand implements Command {
   readonly label = '删除店铺'
-  private removed: ShopDef | undefined
-  private index = -1
+  private removed: { shop: ShopDef; index: number } | undefined
 
   constructor(
     private readonly shopId: number,
@@ -151,17 +143,14 @@ export class DeleteShopCommand implements Command {
       id: String(this.shopId),
     }).blockers
     if (references.length) throw new ShopInUseError(this.shopId, references)
-    if (!this.removed) {
-      this.removed = structuredClone(shops[index]!)
-      this.index = index
-    }
+    this.removed ??= { shop: structuredClone(shops[index]!), index }
     return { ...state, shops: shops.filter((shop) => shop.id !== this.shopId) }
   }
 
   invert(state: EditorState): EditorState {
     if (!this.removed) return state
     const shops = [...(state.shops ?? [])]
-    shops.splice(this.index, 0, structuredClone(this.removed))
+    shops.splice(this.removed.index, 0, structuredClone(this.removed.shop))
     return { ...state, shops: validateShops(shops) }
   }
 }

@@ -1,25 +1,57 @@
 // @vitest-environment jsdom
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, expect, test } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { loadBoundaryProject } from '../core/__tests__/cursor-command-boundary-fixtures.js'
+import { originalPortrait, pngBytes } from '../core/__tests__/portrait-bytes.js'
+import { UpsertAssetCommand } from '../core/asset-commands.js'
+import { sha256Hex } from '../core/binary-signature.js'
 import { EditSession } from '../core/edit-session.js'
-import { catalogControlsEditorState } from './catalog-controls-test-utils.js'
+import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import { MediaAssetNameField } from './MediaAssetLifecycle.js'
 
 let root: Root
 let host: HTMLDivElement
 
-beforeEach(() => {
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+beforeEach(async () => {
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
+  vi.stubGlobal('Blob', (await new Response().blob()).constructor)
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
 })
 
 afterEach(async () => {
-  await act(async () => root.unmount())
-  host.remove()
+  try {
+    await act(async () => root.unmount())
+  } finally {
+    host.remove()
+    vi.unstubAllGlobals()
+  }
 })
+
+async function mediaSession(): Promise<EditSession> {
+  const { state } = await loadBoundaryProject('media-name-field')
+  const session = new EditSession(state)
+  const bytes = pngBytes(originalPortrait)
+  session.dispatch(
+    new UpsertAssetCommand(
+      'portrait.primary',
+      {
+        kind: 'portrait',
+        path: 'assets/authored/portraits/primary.png',
+        mediaType: 'image/png',
+        bytes: bytes.byteLength,
+        sha256: await sha256Hex(bytes),
+        label: '主要立绘',
+        origin: { kind: 'authored' },
+      },
+      bytes,
+    ),
+  )
+  assertProjectSaveValid(session.getState())
+  return session
+}
 
 function renderNameField(session: EditSession, label = '主要立绘'): void {
   root.render(<MediaAssetNameField assetId="portrait.primary" label={label} session={session} />)
@@ -47,7 +79,7 @@ async function edit(input: HTMLInputElement, value: string): Promise<void> {
 
 describe('MediaAssetNameField', () => {
   test('commits one history command on Enter', async () => {
-    const session = new EditSession(catalogControlsEditorState())
+    const session = await mediaSession()
     await act(async () => renderNameField(session))
     const historyBefore = session.getHistoryVersion()
     const input = nameInput()
@@ -62,7 +94,7 @@ describe('MediaAssetNameField', () => {
   })
 
   test('commits on blur but creates no command for an unchanged value', async () => {
-    const session = new EditSession(catalogControlsEditorState())
+    const session = await mediaSession()
     await act(async () => renderNameField(session))
     const historyBefore = session.getHistoryVersion()
     const input = nameInput()
@@ -81,7 +113,7 @@ describe('MediaAssetNameField', () => {
   })
 
   test('restores the committed value on Escape without dispatching', async () => {
-    const session = new EditSession(catalogControlsEditorState())
+    const session = await mediaSession()
     await act(async () => renderNameField(session))
     const historyBefore = session.getHistoryVersion()
     const input = nameInput()

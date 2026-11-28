@@ -1,57 +1,93 @@
-import type { ActorDef, EntityDef, SpriteDef } from '@type-pal/content'
-import { describe, expect, test } from 'vitest'
-import { defaultActionTargetForEntity, sortedSpriteActions } from './sprite-actions.js'
+import {
+  type EntityDef,
+  type SpriteActionDef,
+  type SpriteDef,
+  validateSprites,
+} from '@type-pal/content'
+import { expect, test } from 'vitest'
+import { loadBoundaryProject } from './__tests__/cursor-command-boundary-fixtures.js'
+import {
+  defaultActionTargetForEntity,
+  nextSpriteActionId,
+  sortedSpriteActions,
+} from './sprite-actions.js'
 
-const sprites: SpriteDef[] = [
-  {
-    id: 'other',
-    label: '其它',
-    asset: 'sprite.other',
-    layout: { kind: 'static' },
-    poses: { wrong: { label: '错误候选', steps: [{ frame: 0, durationMs: 100 }] } },
-  },
-  {
-    id: 'hero',
-    label: '主角',
-    asset: 'sprite.hero',
-    layout: { kind: 'static' },
-    poses: {
-      late: { label: '较后', order: 2, steps: [{ frame: 2, durationMs: 100 }] },
-      first: { label: '较前', order: 1, steps: [{ frame: 1, durationMs: 100 }] },
-    },
-  },
-]
+function pose(label: string, order?: number): SpriteActionDef {
+  return { label, ...(order === undefined ? {} : { order }), steps: [{ frame: 0, durationMs: 40 }] }
+}
 
-describe('sprite action editor helpers', () => {
-  test('按 order/label/id 稳定排序并派生零基显示编号', () => {
-    expect(sortedSpriteActions(sprites[1])).toMatchObject([
-      { id: 'first', index: 0 },
-      { id: 'late', index: 1 },
-    ])
+async function spriteWithActions(poses: Record<string, SpriteActionDef>) {
+  const { state } = await loadBoundaryProject()
+  const hero = state.sprites.find(({ id }) => id === 'hero')
+  if (!hero) throw new Error('registered hero sprite missing')
+  const sprite: SpriteDef = { ...hero, poses }
+  validateSprites([sprite], state.assetCatalog)
+  return { state, sprite }
+}
+
+test('the displayed index follows numeric order, then label and stable ID', async () => {
+  const { sprite } = await spriteWithActions({
+    none: pose('A missing'),
+    a10: pose('First', 90),
+    a2: pose('First', 90),
+    laterLabel: pose('Z later', 90),
+    first: pose('Z explicit zero', 0),
   })
+  const original = structuredClone(sprite)
 
-  test('prop 实体只从自身精灵选择动作，不借用全项目第一项', () => {
-    const entity: EntityDef = {
-      id: 'e1',
-      sprite: 'hero',
-      pos: { col: 0, row: 0, height: 0 },
-    }
-    expect(defaultActionTargetForEntity(entity, {}, sprites)).toMatchObject({
-      sprite: { id: 'hero' },
-      action: { id: 'first' },
-    })
-  })
+  expect(sortedSpriteActions(sprite).map(({ id, index }) => [id, index])).toEqual([
+    ['first', 0],
+    ['a10', 1],
+    ['a2', 2],
+    ['laterLabel', 3],
+    ['none', 4],
+  ])
+  expect(sprite).toEqual(original)
+  expect(sortedSpriteActions({ ...sprite, poses: {} })).toEqual([])
+  expect(sortedSpriteActions({ ...sprite, poses: undefined })).toEqual([])
+})
 
-  test('actor 实体经角色表解析；没有动作时明确返回 undefined', () => {
-    const entity: EntityDef = {
-      id: 'e2',
-      actor: 'hero-actor',
-      pos: { col: 0, row: 0, height: 0 },
-    }
-    const actors = {
-      'hero-actor': { id: 'hero-actor', name: 'hero', spriteId: 'hero' },
-    } as Record<string, ActorDef>
-    expect(defaultActionTargetForEntity(entity, actors, sprites)?.action.id).toBe('first')
-    expect(defaultActionTargetForEntity(entity, actors, [sprites[0]!])).toBeUndefined()
+test('an explicit maximum safe order still precedes actions without an order', async () => {
+  const { sprite } = await spriteWithActions({
+    missing: pose('A optional'),
+    explicit: pose('Z explicit', Number.MAX_SAFE_INTEGER),
   })
+  expect(sortedSpriteActions(sprite).map(({ id }) => id)).toEqual(['explicit', 'missing'])
+})
+
+test('an allocated action fills the first free identity rather than using display order', async () => {
+  const { sprite } = await spriteWithActions({
+    action: pose('Base', 200),
+    'action-3': pose('Third', 0),
+    'action-x': pose('Named', 2),
+  })
+  expect(nextSpriteActionId(sprite)).toBe('action-2')
+  const { sprite: occupied } = await spriteWithActions({
+    ...sprite.poses,
+    'action-2': pose('Second'),
+  })
+  expect(nextSpriteActionId(occupied)).toBe('action-4')
+  expect(nextSpriteActionId({ ...sprite, poses: { 'action-2': pose('Second') } })).toBe('action')
+})
+
+test('actor and prop defaults choose only actions registered on the current sprite', async () => {
+  const { sprite, state } = await spriteWithActions({ talk: pose('交谈') })
+  const decoy = { ...sprite, id: 'decoy', poses: { other: pose('无关动作') } }
+  const sprites = [decoy, sprite]
+  const pos = { col: 5, row: 0, height: 0 }
+  const actor: EntityDef = { id: 'actor', actor: 'hero', pos }
+  const prop: EntityDef = { id: 'prop', sprite: 'hero', pos }
+  const actors = Object.fromEntries(state.actors.map((entry) => [entry.id, entry]))
+
+  expect(defaultActionTargetForEntity(actor, actors, sprites)?.action.id).toBe('talk')
+  expect(defaultActionTargetForEntity(prop, actors, sprites)?.action.id).toBe('talk')
+  expect(defaultActionTargetForEntity(actor, {}, sprites)).toBeUndefined()
+  expect(defaultActionTargetForEntity(prop, actors, [decoy])).toBeUndefined()
+  expect(
+    defaultActionTargetForEntity(prop, actors, [decoy, { ...sprite, poses: undefined }]),
+  ).toBeUndefined()
+  expect(
+    defaultActionTargetForEntity({ id: 'zone', zone: true, pos }, actors, sprites),
+  ).toBeUndefined()
+  expect(defaultActionTargetForEntity(undefined, actors, sprites)).toBeUndefined()
 })

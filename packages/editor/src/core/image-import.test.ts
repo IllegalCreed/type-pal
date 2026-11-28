@@ -5,11 +5,15 @@ const palette = Array.from({ length: 256 }, (_, index) => [index, index, index] 
 
 describe('静态图片导入量化', () => {
   test('最近色确定、同距取较小色号，并输出不透明索引 PNG 像素契约', () => {
-    const source = new Uint8ClampedArray([10, 12, 14, 7, 20, 21, 20, 0])
-    const result = quantizeRgbaToPalette(source, palette)
-    expect([...result.indices]).toEqual([12, 20])
-    expect([...result.indexedRgba]).toEqual([12, 12, 12, 255, 20, 20, 20, 255])
-    expect([...result.previewRgba]).toEqual([12, 12, 12, 255, 20, 20, 20, 255])
+    const colors = Array.from({ length: 256 }, (_, index) => {
+      if (index === 17) return [4, 0, 0] as const
+      if (index === 44) return [6, 0, 0] as const
+      return [255, 255, 255] as const
+    })
+    const result = quantizeRgbaToPalette(new Uint8ClampedArray([5, 0, 0, 7, 6, 0, 0, 0]), colors)
+    expect([...result.indices]).toEqual([17, 44])
+    expect([...result.indexedRgba]).toEqual([17, 17, 17, 255, 44, 44, 44, 255])
+    expect([...result.previewRgba]).toEqual([4, 0, 0, 255, 6, 0, 0, 255])
   })
 
   test('拒绝非 256 色与损坏 RGBA 长度', () => {

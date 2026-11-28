@@ -32,6 +32,7 @@ import {
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
+import { readLevelUpRows } from '../core/level-up-commands.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
 import { BattleSpriteInlinePreview } from './BattleSpriteInlinePreview.js'
@@ -234,6 +235,7 @@ export function ActorMode(props: {
   const actor = actors.find((candidate) => candidate.id === selId)
   const sprite = actor ? spriteById.get(actor.spriteId) : undefined
   const battler = actor?.battler
+  const levelUpRows = actor ? readLevelUpRows(levelUp, actor.id) : undefined
   const references = actor
     ? (() => {
         const target = { kind: 'actor', id: actor.id } as const
@@ -527,7 +529,7 @@ export function ActorMode(props: {
           <LevelCurveEditor
             key={actor.id}
             actor={actor as ActorDef & { battler: NonNullable<ActorDef['battler']> }}
-            levelUpRows={levelUp[actor.id] ?? []}
+            levelUpRows={levelUpRows ?? []}
             skills={skills}
             session={session}
             onClose={() => setCenterEditor(null)}
@@ -727,7 +729,7 @@ export function ActorMode(props: {
                             </strong>
                           </span>
                           <span>
-                            升级习得<strong>{levelUp[actor.id]?.length ?? 0} 项</strong>
+                            升级习得<strong>{levelUpRows?.length ?? 0} 项</strong>
                           </span>
                           <span>
                             初始装备
@@ -816,7 +818,7 @@ export function ActorMode(props: {
                     >
                       <LevelingEditor
                         actor={actor as ActorDef & { battler: NonNullable<ActorDef['battler']> }}
-                        levelUpRows={levelUp[actor.id] ?? []}
+                        levelUpRows={levelUpRows ?? []}
                         skills={skills}
                         session={session}
                         onEditCurve={openLevelCurve}
@@ -1388,6 +1390,7 @@ const ActorStatField = memo(
     left.statKey === right.statKey &&
     left.label === right.label &&
     left.value === right.value &&
+    left.syncToken === right.syncToken &&
     left.onStat === right.onStat,
 )
 

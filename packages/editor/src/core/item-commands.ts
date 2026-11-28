@@ -1,9 +1,6 @@
-/**
- * 物品命令族：新增/修改/删除物品定义。
- * 对 Command 仅 type import（commands.ts 反向 re-export），运行期无环。
- */
 import type { ItemData } from '@type-pal/content'
 import type { Command } from './command-contract.js'
+import { applyDefinitionPatch, captureDefinitionPatch } from './definition-patch.js'
 import type { EditorState } from './edit-session.js'
 import type { ProjectReferenceEdge } from './project-reference.js'
 import {
@@ -68,10 +65,13 @@ export class ItemInUseError extends Error {
 
 export class DeleteItemCommand implements Command {
   readonly label = '删除物品'
-  private removed: ItemData | undefined
-  private index = -1
-  private migrationDiagnosticsBeforeDelete: EditorState['migrationDiagnostics'] | undefined
-  private capturedMigrationDiagnostics = false
+  private removed:
+    | {
+        item: ItemData
+        index: number
+        migrationDiagnostics: EditorState['migrationDiagnostics']
+      }
+    | undefined
 
   constructor(
     private readonly itemId: string,
@@ -86,15 +86,10 @@ export class DeleteItemCommand implements Command {
       id: this.itemId,
     }).blockers
     if (blockers.length) throw new ItemInUseError(this.itemId, blockers)
-    if (!this.removed) {
-      this.removed = structuredClone(state.items[index]!)
-      this.index = index
-    }
-    if (!this.capturedMigrationDiagnostics) {
-      this.migrationDiagnosticsBeforeDelete = state.migrationDiagnostics
-        ? structuredClone(state.migrationDiagnostics)
-        : undefined
-      this.capturedMigrationDiagnostics = true
+    this.removed ??= {
+      item: structuredClone(state.items[index]!),
+      index,
+      migrationDiagnostics: structuredClone(state.migrationDiagnostics),
     }
     const migrationDiagnostics = state.migrationDiagnostics
       ? {
@@ -117,49 +112,35 @@ export class DeleteItemCommand implements Command {
     if (state.items.some((item) => item.id === this.itemId))
       throw new Error(`无法撤销删除：物品 id 已被占用 ${this.itemId}`)
     const items = [...state.items]
-    items.splice(Math.min(Math.max(0, this.index), items.length), 0, structuredClone(this.removed))
-    return {
-      ...state,
-      items,
-      migrationDiagnostics: this.migrationDiagnosticsBeforeDelete
-        ? structuredClone(this.migrationDiagnosticsBeforeDelete)
-        : undefined,
-    }
+    const { index, item, migrationDiagnostics } = this.removed
+    items.splice(Math.min(Math.max(0, index), items.length), 0, structuredClone(item))
+    return { ...state, items, migrationDiagnostics: structuredClone(migrationDiagnostics) }
   }
 }
 
-/** 修改物品字段(undo 恢复旧值;undefined 值 = 删键,如清空 use)。 */
+/** Undo restores only the fields changed by this edit. An undefined value removes a field. */
 export class UpdateItemCommand implements Command {
   readonly label = '修改物品'
-  private readonly itemId: string
   private readonly patch: ItemPatch
-  private oldPatch: ItemPatch | undefined
+  private previous: ItemPatch | undefined
 
-  constructor(itemId: string, patch: ItemPatch) {
-    this.itemId = itemId
+  constructor(
+    private readonly itemId: string,
+    patch: ItemPatch,
+  ) {
     this.patch = structuredClone(patch)
   }
 
   apply(state: EditorState): EditorState {
-    const it = state.items.find((x) => x.id === this.itemId)
-    if (!it) return state
-    if (!this.oldPatch) {
-      const old: Record<string, unknown> = {}
-      for (const k of Object.keys(this.patch))
-        old[k] = structuredClone((it as unknown as Record<string, unknown>)[k])
-      this.oldPatch = old as ItemPatch
-    }
-    const next = { ...it, ...this.patch } as Record<string, unknown>
-    for (const [k, v] of Object.entries(this.patch)) if (v === undefined) delete next[k]
-    return withItem(state, this.itemId, next as unknown as ItemData)
+    const item = state.items.find((candidate) => candidate.id === this.itemId)
+    if (!item) return state
+    this.previous ??= captureDefinitionPatch(item, this.patch)
+    return withItem(state, this.itemId, applyDefinitionPatch(item, this.patch))
   }
 
   invert(state: EditorState): EditorState {
-    if (!this.oldPatch) return state
-    const it = state.items.find((x) => x.id === this.itemId)
-    if (!it) return state
-    const restored = { ...it, ...this.oldPatch } as Record<string, unknown>
-    for (const [k, v] of Object.entries(this.oldPatch)) if (v === undefined) delete restored[k]
-    return withItem(state, this.itemId, restored as unknown as ItemData)
+    const item = state.items.find((candidate) => candidate.id === this.itemId)
+    if (!item || !this.previous) return state
+    return withItem(state, this.itemId, applyDefinitionPatch(item, this.previous))
   }
 }

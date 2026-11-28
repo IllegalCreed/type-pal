@@ -21,3 +21,15 @@ test('same display name retains distinct stable instance IDs', () => {
   expect(entityDisplayLabel({ id: 'e59', label: '苗人随从' })).toBe('苗人随从 · e59')
   expect(entityDisplayLabel({ id: 'e60', label: '苗人随从' })).toBe('苗人随从 · e60')
 })
+
+test('only an actual actor definition supplies a fallback entity name', async () => {
+  const { state } = await loadBoundaryProject()
+  const initialActor = state.actors.find(({ id }) => id === 'hero')
+  if (!initialActor) throw new Error('blank project actor missing')
+  const entity = { id: 'counter', actor: 'constructor' }
+  const actors = { hero: initialActor }
+
+  expect(entityDisplayName(entity, actors, state.locale)).toBe('counter')
+  const registered = { ...actors, constructor: { ...initialActor, id: 'constructor' } }
+  expect(entityDisplayLabel(entity, registered, state.locale)).toBe('主角 · counter')
+})

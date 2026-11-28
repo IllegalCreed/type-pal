@@ -4,10 +4,6 @@
 import type { EntityDef, GridPos, SceneDef } from '@type-pal/content'
 import type { EditorState } from './edit-session.js'
 
-// ── 不可变更新工具 ──────────────────────────────────────────
-// 照 MoveEntityCommand 的写法:展开 state → map scenes → 命中 sceneId 时展开 scene → 改。
-// 旁场景/旁实体保持同引用(只展开命中路径,最小拷贝)。
-
 /** 不可变:把 sceneId 场景整体替换成 newScene;旁场景同引用。scene 不存在返回原 state。 */
 export function withScene(state: EditorState, sceneId: string, newScene: SceneDef): EditorState {
   let hit = false
@@ -47,7 +43,7 @@ export function withEntityPos(
   newPos: GridPos,
 ): EditorState {
   const scene = findScene(state, sceneId)
-  if (!scene) return state
+  if (!scene?.entities.some((entity) => entity.id === entityId)) return state
   return withEntities(
     state,
     sceneId,
@@ -61,6 +57,5 @@ export function entityPos(
   sceneId: string,
   entityId: string,
 ): GridPos | undefined {
-  const scene = state.scenes.find((s) => s.id === sceneId)
-  return scene?.entities.find((e) => e.id === entityId)?.pos
+  return findScene(state, sceneId)?.entities.find((entity) => entity.id === entityId)?.pos
 }

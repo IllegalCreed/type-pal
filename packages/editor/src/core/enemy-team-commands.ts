@@ -1,6 +1,3 @@
-/**
- * 敌队命令族。对 Command 仅 type import，运行期不回引 commands.ts。
- */
 import type { EnemyTeamDef } from '@type-pal/content'
 import type { Command } from './command-contract.js'
 import type { EditorState } from './edit-session.js'
@@ -9,24 +6,6 @@ import {
   type CurrentProjectReferenceIndexProvider,
   collectCurrentProjectDeletionImpact,
 } from './project-reference-adapters.js'
-
-/** 敌队整表替换(380 队,粗粒度 undo 足够;成员/增删队都经它)。 */
-export class UpdateEnemyTeamsCommand implements Command {
-  readonly label = '修改敌队'
-  private readonly teams: EnemyTeamDef[]
-  private old: EnemyTeamDef[] | undefined
-  constructor(teams: readonly EnemyTeamDef[]) {
-    this.teams = structuredClone(teams) as EnemyTeamDef[]
-  }
-  apply(state: EditorState): EditorState {
-    if (!this.old) this.old = structuredClone(state.enemyTeams ?? []) as EnemyTeamDef[]
-    return { ...state, enemyTeams: this.teams }
-  }
-  invert(state: EditorState): EditorState {
-    if (!this.old) return state
-    return { ...state, enemyTeams: this.old }
-  }
-}
 
 function withEnemyTeam(state: EditorState, teamId: string, next: EnemyTeamDef): EditorState {
   let hit = false

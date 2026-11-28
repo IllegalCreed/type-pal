@@ -1,6 +1,6 @@
 import type { ItemData, ItemUseEffect } from '@type-pal/content'
-import { UpdateItemCommand } from './commands.js'
 import type { EditSession } from './edit-session.js'
+import { UpdateItemCommand } from './item-commands.js'
 
 export type ItemAlchemySurface = 'crafting' | 'spirit-gourd'
 export type CraftRecipeEffect = Extract<ItemUseEffect, { kind: 'craftRecipe' }>
@@ -71,11 +71,10 @@ export function resizeResourcePoolEffect(
 ): ResourcePoolEffect {
   if (!Number.isSafeInteger(maxRoll) || maxRoll < 1 || maxRoll > MAX_EDITABLE_RESOURCE_TIERS)
     throw new Error(`奖励档位必须是 1..${MAX_EDITABLE_RESOURCE_TIERS} 的整数`)
-  const nextMax = maxRoll
-  const rewards = effect.rewards.slice(0, nextMax).map((entry) => ({ ...entry }))
-  const fallback = rewards.at(-1) ?? effect.rewards.at(-1) ?? { itemId: fallbackItemId, count: 1 }
-  while (rewards.length < nextMax) rewards.push({ ...fallback })
-  return { ...effect, maxRoll: nextMax, rewards }
+  const rewards = effect.rewards.slice(0, maxRoll).map((entry) => ({ ...entry }))
+  const fallback = rewards.at(-1) ?? { itemId: fallbackItemId, count: 1 }
+  while (rewards.length < maxRoll) rewards.push({ ...fallback })
+  return { ...effect, maxRoll, rewards }
 }
 
 function itemFromSession(session: EditSession, itemId: string): ItemData {
@@ -95,6 +94,27 @@ function patchedUse(
   return { ...item.use, effects }
 }
 
+type AlchemyEdit =
+  | [surface: 'crafting', mutate: (effect: CraftRecipeEffect) => CraftRecipeEffect]
+  | [surface: 'spirit-gourd', mutate: (effect: ResourcePoolEffect) => ResourcePoolEffect]
+
+function applyAlchemyEdit<Effect extends ItemAlchemyEffect>(
+  session: EditSession,
+  item: ItemData,
+  surface: ItemAlchemySurface,
+  located: LocatedItemAlchemyEffect<Effect> | undefined,
+  mutate: (effect: Effect) => Effect,
+): boolean {
+  if (!located) throw new Error(`物品 ${item.id} 缺 ${effectKind(surface)} effect`)
+  const next = mutate(structuredClone(located.effect))
+  if (next.kind !== effectKind(surface))
+    throw new Error(`炼化 surface ${surface} 不能改写为 ${next.kind}`)
+  if (JSON.stringify(next) === JSON.stringify(located.effect)) return false
+  return session.dispatch(
+    new UpdateItemCommand(item.id, { use: patchedUse(item, located.index, next) }),
+  )
+}
+
 export function mutateItemAlchemyEffect(
   session: EditSession,
   itemId: string,
@@ -110,17 +130,10 @@ export function mutateItemAlchemyEffect(
 export function mutateItemAlchemyEffect(
   session: EditSession,
   itemId: string,
-  surface: ItemAlchemySurface,
-  mutate: (effect: never) => ItemAlchemyEffect,
+  ...[surface, mutate]: AlchemyEdit
 ): boolean {
   const item = itemFromSession(session, itemId)
-  const located = findItemAlchemyEffect(item, surface)
-  if (!located) throw new Error(`物品 ${itemId} 缺 ${effectKind(surface)} effect`)
-  const next = mutate(structuredClone(located.effect) as never)
-  if (next.kind !== effectKind(surface))
-    throw new Error(`炼化 surface ${surface} 不能改写为 ${next.kind}`)
-  if (JSON.stringify(next) === JSON.stringify(located.effect)) return false
-  return session.dispatch(
-    new UpdateItemCommand(itemId, { use: patchedUse(item, located.index, next) }),
-  )
+  if (surface === 'crafting')
+    return applyAlchemyEdit(session, item, surface, findItemAlchemyEffect(item, surface), mutate)
+  return applyAlchemyEdit(session, item, surface, findItemAlchemyEffect(item, surface), mutate)
 }

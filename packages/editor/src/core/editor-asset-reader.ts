@@ -4,6 +4,7 @@ import {
   type AssetKind,
   type AssetRecordV1,
   type AssetRole,
+  findAssetRecord,
 } from '@type-pal/content'
 import type { AudioAssetReader, FileSource } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
@@ -24,7 +25,7 @@ export function createEditorAssetReader(
   const current = (): Pick<EditorState, 'assetCatalog' | 'assetBlobs' | 'manifest'> =>
     typeof state === 'function' ? state() : state
   const record = (asset: AssetId, expectedKind?: AssetKind): AssetRecordV1 => {
-    const value = current().assetCatalog.assets[asset]
+    const value = findAssetRecord(current().assetCatalog, asset)
     if (!value) throw new Error(`AssetId "${asset}" 不在 catalog`)
     if (expectedKind && value.kind !== expectedKind)
       throw new Error(`AssetId "${asset}" 期望 ${expectedKind}，实际 ${value.kind}`)
@@ -54,6 +55,3 @@ export function createEditorAssetReader(
     },
   }
 }
-
-/** 旧调用名保留在编辑器内部，返回值已经具备通用资源读取能力。 */
-export const createEditorAudioReader = createEditorAssetReader

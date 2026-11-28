@@ -1,7 +1,3 @@
-/**
- * 世界变量命令族：新建/修改/删除项目级变量。
- * 对 Command 仅 type import（commands.ts 反向 re-export），运行期无环。
- */
 import type { WorldVariableDefinitionV1 } from '@type-pal/content'
 import { validateWorldVariableIdV1, validateWorldVariableRegistryV1 } from '@type-pal/content'
 import type { Command } from './command-contract.js'
@@ -10,6 +6,14 @@ import {
   type CurrentProjectReferenceIndexProvider,
   collectCurrentProjectDeletionImpact,
 } from './project-reference-adapters.js'
+
+function registeredDefinition(
+  state: EditorState,
+  id: string,
+): WorldVariableDefinitionV1 | undefined {
+  const registry = state.worldVariables
+  return registry && Object.hasOwn(registry, id) ? registry[id] : undefined
+}
 
 export class WorldVariableInUseError extends Error {
   constructor(
@@ -34,7 +38,7 @@ export class AddWorldVariableCommand implements Command {
   }
 
   apply(state: EditorState): EditorState {
-    if (state.worldVariables?.[this.id]) return state
+    if (registeredDefinition(state, this.id)) return state
     this.added = true
     return {
       ...state,
@@ -65,7 +69,7 @@ export class UpdateWorldVariableCommand implements Command {
   }
 
   apply(state: EditorState): EditorState {
-    const current = state.worldVariables?.[this.id]
+    const current = registeredDefinition(state, this.id)
     if (!current) return state
     if (
       current.kind === this.definition.kind &&
@@ -106,7 +110,7 @@ export class DeleteWorldVariableCommand implements Command {
   ) {}
 
   apply(state: EditorState): EditorState {
-    const current = state.worldVariables?.[this.id]
+    const current = registeredDefinition(state, this.id)
     if (!current) return state
     const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
       kind: 'world-variable',
@@ -121,7 +125,7 @@ export class DeleteWorldVariableCommand implements Command {
 
   invert(state: EditorState): EditorState {
     if (!this.previous) return state
-    if (state.worldVariables?.[this.id])
+    if (registeredDefinition(state, this.id))
       throw new Error(`无法撤销删除：变量 id 已被占用 ${this.id}`)
     return {
       ...state,

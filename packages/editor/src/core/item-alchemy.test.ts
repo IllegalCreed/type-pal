@@ -1,7 +1,7 @@
-import type { ItemData } from '@type-pal/content'
+import { type ItemData, validateItems } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
-import { UpdateItemCommand } from './commands.js'
-import { type EditorState, EditSession } from './edit-session.js'
+import { loadBoundaryProject } from './__tests__/cursor-command-boundary-fixtures.js'
+import { EditSession } from './edit-session.js'
 import {
   assertSingleInputOutputCraftRecipes,
   findItemAlchemyEffect,
@@ -9,6 +9,7 @@ import {
   mutateItemAlchemyEffect,
   resizeResourcePoolEffect,
 } from './item-alchemy.js'
+import { UpdateItemCommand } from './item-commands.js'
 
 function item(id: string, effects: NonNullable<ItemData['use']>['effects']): ItemData {
   return {
@@ -18,7 +19,7 @@ function item(id: string, effects: NonNullable<ItemData['use']>['effects']): Ite
     buyPrice: 0,
     sellPrice: 0,
     sellable: false,
-    use: { target: 'scene', consuming: false, effects },
+    ...(effects.length ? { use: { target: 'scene', consuming: false, effects } } : {}),
   }
 }
 
@@ -42,15 +43,11 @@ const pool = {
   ],
 }
 
-function state(items: ItemData[]): EditorState {
-  return {
-    items,
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-  } as unknown as EditorState
+async function alchemySession(...owners: ItemData[]): Promise<EditSession> {
+  const { state } = await loadBoundaryProject()
+  const items = [...owners, ...['egg', 'egg-2', 'bug', 'a', 'b'].map((id) => item(id, []))]
+  validateItems(items)
+  return new EditSession({ ...state, items })
 }
 
 describe('item alchemy canonical owner', () => {
@@ -75,6 +72,10 @@ describe('item alchemy canonical owner', () => {
       { itemId: 'b', count: 1 },
     ])
     const shrunk = resizeResourcePoolEffect(grown, 1, 'fallback')
+    const firstCopy = grown.rewards[2]
+    if (!firstCopy) throw new Error('expected the first copied tier')
+    firstCopy.count = 5
+    expect(grown.rewards[3]?.count).toBe(1)
     expect(shrunk).toMatchObject({ maxRoll: 1, rewards: [{ itemId: 'a', count: 1 }] })
     expect(pool).toMatchObject({ maxRoll: 2, rewards: [{ itemId: 'a' }, { itemId: 'b' }] })
     for (const invalid of [0, -1, 1.5, Number.NaN, Number.POSITIVE_INFINITY, 1000])
@@ -111,15 +112,15 @@ describe('item alchemy canonical owner', () => {
     }
   })
 
-  it('mutates the latest item through exactly one UpdateItemCommand and preserves other effects', () => {
-    const session = new EditSession(state([item('vessel', [{ kind: 'healHp', amount: 1 }, craft])]))
+  it('mutates the latest item in one history step and preserves other effects', async () => {
+    const session = await alchemySession(item('vessel', [{ kind: 'gate', chance: 50 }, craft]))
     const latest = session.getState().items[0]!
     session.dispatch(
       new UpdateItemCommand('vessel', {
         desc: ['latest'],
         use: {
           ...latest.use!,
-          effects: [{ kind: 'healHp', amount: 2 }, ...latest.use!.effects.slice(1)],
+          effects: [{ kind: 'gate', chance: 75 }, ...latest.use!.effects.slice(1)],
         },
       }),
     )
@@ -139,7 +140,7 @@ describe('item alchemy canonical owner', () => {
       findItemAlchemyEffect(session.getState().items[0]!, 'crafting')?.effect.recipes,
     ).toHaveLength(2)
     expect(session.getState().items[0]!.desc).toEqual(['latest'])
-    expect(session.getState().items[0]!.use?.effects[0]).toEqual({ kind: 'healHp', amount: 2 })
+    expect(session.getState().items[0]!.use?.effects[0]).toEqual({ kind: 'gate', chance: 75 })
     expect(session.undo()).toBe(true)
     expect(
       findItemAlchemyEffect(session.getState().items[0]!, 'crafting')?.effect.recipes,
@@ -154,5 +155,26 @@ describe('item alchemy canonical owner', () => {
       mutateItemAlchemyEffect(session, 'vessel', 'crafting', (effect) => structuredClone(effect)),
     ).toBe(false)
     expect(session.getHistoryVersion()).toBe(noOpVersion)
+  })
+
+  it('a failed craft edit cannot publish a mutated value or history entry', async () => {
+    const session = await alchemySession(item('vessel', [craft]))
+    const before = session.getState()
+    const version = session.getHistoryVersion()
+
+    expect(() =>
+      mutateItemAlchemyEffect(session, 'vessel', 'crafting', (effect) => {
+        effect.recipes.length = 0
+        throw new Error('edit cancelled')
+      }),
+    ).toThrow('edit cancelled')
+    expect(session.getState()).toBe(before)
+    expect(session.getState().items[0]?.use?.effects).toEqual([craft])
+    expect(session.getHistoryVersion()).toBe(version)
+
+    expect(() => mutateItemAlchemyEffect(session, 'bug', 'crafting', (effect) => effect)).toThrow(
+      '物品 bug 缺 craftRecipe effect',
+    )
+    expect(session.canUndo()).toBe(false)
   })
 })

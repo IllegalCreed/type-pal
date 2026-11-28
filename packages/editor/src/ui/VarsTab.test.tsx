@@ -2,106 +2,43 @@
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { loadBoundaryProject } from '../core/__tests__/cursor-command-boundary-fixtures.js'
 import { type EditorState, EditSession } from '../core/edit-session.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
-import {
-  buildProjectReferenceSnapshot,
-  createProjectReferenceIndex,
-  createProjectReferenceSource,
-} from '../core/project-reference.js'
 import {
   type CurrentProjectReferenceIndexProvider,
   collectCurrentProjectReferenceIndex,
 } from '../core/project-reference-adapters.js'
 import type { ScriptEditorState } from '../core/script-editor.js'
-import type { WorldVariableReferenceIndexV1 } from '../core/world-variable-references.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyCanonicalObjectWorkspace } from './object-workspace-test-utils.js'
 import { VarsTab } from './VarsTab.js'
 
-const references: WorldVariableReferenceIndexV1 = {
-  all: [
-    {
-      id: 'quest.started',
-      kind: 'flag',
-      access: 'write',
-      detail: '= true',
-      path: 'sharedScripts.quest.body[0].flag',
-      owner: { kind: 'shared-script', scriptId: 'quest' },
-      ownerLabel: '可复用脚本 · 开始任务',
-      sourceLabel: 'quest',
-    },
-    {
-      id: 'score.total',
-      kind: 'number',
-      access: 'read',
-      detail: '>= 1',
-      path: 'scenes.s002.hooks.onEnter.cond',
-      owner: { kind: 'scene-hook', sceneId: 's002', slot: 'onEnter', hookId: 'main' },
-      ownerLabel: '场景 s002 · 进入场景',
-      sourceLabel: 's002/onEnter/main',
-    },
-    {
-      id: 'missing.value',
-      kind: 'number',
-      access: 'write',
-      detail: '= 2',
-      path: 'sharedScripts.quest.body[1].var',
-      owner: { kind: 'shared-script', scriptId: 'quest' },
-      ownerLabel: '可复用脚本 · 开始任务',
-      sourceLabel: 'quest',
-    },
-  ],
-  byId: new Map(),
-}
-;(references.byId as Map<string, typeof references.all>).set('quest.started', [references.all[0]!])
-;(references.byId as Map<string, typeof references.all>).set('score.total', [references.all[1]!])
-;(references.byId as Map<string, typeof references.all>).set('missing.value', [references.all[2]!])
-
-const referenceIndex = createProjectReferenceIndex(
-  buildProjectReferenceSnapshot(
-    references.all.map((reference) => ({
-      target: { kind: 'world-variable' as const, id: reference.id },
-      source: createProjectReferenceSource(
-        { kind: 'script-owner', owner: reference.owner },
-        reference.ownerLabel,
-      ),
-      relation: {
-        kind: 'world-variable' as const,
-        variableKind: reference.kind,
-        access: reference.access,
-      },
-      where: reference.path,
-      detail: reference.detail,
-      locator: { kind: 'script-owner' as const, owner: reference.owner },
-      deletePolicy: 'replace-suggest' as const,
-    })),
-  ),
-)
-
-function state(): EditorState {
-  return {
-    manifest: {
-      id: 'test',
-      name: 'test',
-      contentVersion: 23,
-      minimumSaveVersion: 12,
-      defaultEntryId: 'main',
-      content: { worldVariables: 'content/world-variables.json' },
-      assets: { catalog: 'assets/index.json', roles: {} },
-      entryPoints: [
+const canonicalReferences: ScriptEditorState = {
+  scenes: [],
+  items: [],
+  sharedScripts: {
+    quest: {
+      name: '开始任务',
+      self: 'none',
+      body: [
+        { kind: 'setFlag', flag: 'quest.started', value: true },
+        { kind: 'setVar', var: 'missing.value', value: 2 },
+        { kind: 'setFlag', flag: 'constructor', value: true },
         {
-          id: 'main',
-          label: '主要入口',
-          scene: 's',
-          startWorld: { party: [], money: 0, inventory: [] },
+          kind: 'branch',
+          cond: { kind: 'var', var: 'score.total', op: '>=', value: 1 },
+          then: [{ kind: 'wait', ms: 20 }],
         },
       ],
     },
-    sceneIndex: {
-      version: 1,
-      scenes: [{ id: 's', name: '场景', path: 'content/scenes/s.json' }],
-    },
+  },
+}
+let blank: EditorState
+
+function state(): EditorState {
+  return {
+    ...blank,
     worldVariables: {
       'quest.started': {
         kind: 'flag',
@@ -117,22 +54,6 @@ function state(): EditorState {
       },
       unused: { kind: 'flag', name: '未使用', description: '', initial: true },
     },
-    scenes: [],
-    actors: [],
-    skills: [],
-    levelUp: {},
-    items: [],
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    maps: {},
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    stamps: [],
-    tilesetBlobs: {},
-    scriptChunks: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
   }
 }
 
@@ -140,11 +61,13 @@ let root: Root
 let host: HTMLDivElement
 let session: EditSession
 
-beforeEach(() => {
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+beforeEach(async () => {
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
+  vi.stubGlobal('Blob', (await new Response().blob()).constructor)
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
+  blank = (await loadBoundaryProject('world-variables-panel')).state
   session = new EditSession(state())
   vi.stubGlobal(
     'confirm',
@@ -167,7 +90,10 @@ async function render(
     root.render(
       <VarsTab
         variables={session.getState().worldVariables ?? {}}
-        referenceIndex={referenceIndex}
+        referenceIndex={collectCurrentProjectReferenceIndex(
+          session.getState(),
+          canonicalReferences,
+        )}
         referenceStatus={referenceStatus}
         getCurrentReferenceIndex={getCurrentReferenceIndex}
         session={session}
@@ -313,5 +239,29 @@ describe('VarsTab world variable workbench', () => {
     await render('missing.variable')
     expect(host.querySelector('.ds-object-hero__title')?.textContent).toBe('任务已开始')
     expect(host.textContent).not.toContain('建立第一条变量定义')
+  })
+
+  test('a missing declared key remains a usable undeclared reference before creation and after undo', async () => {
+    await render('constructor')
+    const title = () => host.querySelector('.ds-object-hero__title')?.textContent
+    expect(title()).toBe('任务已开始')
+    const row = [...host.querySelectorAll<HTMLButtonElement>('button.ds-catalog-row')].find(
+      (item) => item.querySelector('.ds-catalog-row__title')?.textContent === 'constructor',
+    )
+    expect(row?.textContent).toContain('创建定义')
+    await act(async () => row!.click())
+    const create = [...host.querySelectorAll<HTMLButtonElement>('button')].find(
+      (button) => button.textContent?.trim() === '创建变量',
+    )
+    await act(async () => create!.click())
+    expect(Object.hasOwn(session.getState().worldVariables ?? {}, 'constructor')).toBe(true)
+    await render('constructor')
+    expect(title()).toBe('constructor')
+
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
+    await render('constructor')
+    expect(title()).toBe('任务已开始')
   })
 })

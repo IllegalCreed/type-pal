@@ -1,6 +1,8 @@
-import type { AssetRecordV1, ItemData } from '@type-pal/content'
+import { type AssetRecordV1, type ItemData, validateItems } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
-import * as oldEntry from './commands.js'
+import { loadBoundaryProject } from './__tests__/cursor-command-boundary-fixtures.js'
+import { originalPortrait, pngBytes, replacementPortrait } from './__tests__/portrait-bytes.js'
+import { sha256Hex } from './binary-signature.js'
 import {
   AddItemCommand,
   CompositeCommand,
@@ -11,12 +13,6 @@ import {
 } from './commands.js'
 import type { EditorState } from './edit-session.js'
 import { EditSession } from './edit-session.js'
-import {
-  AddItemCommand as AddItemMoved,
-  DeleteItemCommand as DeleteItemMoved,
-  ItemInUseError as ItemInUseErrorMoved,
-  UpdateItemCommand as UpdateItemMoved,
-} from './item-commands.js'
 import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 import type { ScriptEditorState } from './script-editor.js'
 
@@ -29,69 +25,23 @@ const item = (id: string): ItemData => ({
   sellable: false,
 })
 
-function state(items: ItemData[] = []): EditorState {
-  return {
-    items,
-    scenes: [],
-    actors: [],
-    skills: [],
-    levelUp: {},
-    manifest: {
-      id: 'items',
-      name: 'items',
-      contentVersion: 23,
-      defaultEntryId: 'main',
-      content: {},
-      assets: { catalog: 'assets/index.json', roles: {} },
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主要入口',
-          scene: 's',
-          startWorld: { party: [], money: 0, inventory: [] },
-        },
-      ],
-    },
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    stamps: [],
-    tilesetBlobs: {},
-    scriptChunks: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-  } as unknown as EditorState
+async function state(items: ItemData[] = []): Promise<EditorState> {
+  const { state } = await loadBoundaryProject()
+  validateItems(items)
+  return { ...state, items }
 }
-
-describe('C04 item command family', () => {
-  test('keeps item constructors on the old commands barrel and rejects duplicate id', () => {
-    expect(oldEntry.AddItemCommand).toBe(AddItemMoved)
-    expect(oldEntry.UpdateItemCommand).toBe(UpdateItemMoved)
-    expect(oldEntry.DeleteItemCommand).toBe(DeleteItemMoved)
-    expect(oldEntry.ItemInUseError).toBe(ItemInUseErrorMoved)
-    const command = new UpdateItemCommand('a', { buyPrice: 99 })
-    expect(command.label).toBe('修改物品')
-    const current = state([item('a')])
-    expect(command.apply(current).items[0]?.buyPrice).toBe(99)
-    expect(current.items[0]?.buyPrice).toBe(0)
-    expect(() => new AddItemCommand(item('a')).apply(current)).toThrow(/id 已存在/)
-  })
-})
 
 describe('物品 CRUD 命令', () => {
   const references = (current: EditorState, canonical?: ScriptEditorState) =>
     collectCurrentProjectReferenceIndex(current, canonical)
 
-  test('AddItem 深拷贝、按位置插入并拒绝 id 冲突', () => {
+  test('AddItem 深拷贝、按位置插入并拒绝 id 冲突', async () => {
     const source: ItemData = {
       ...item('new'),
       use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 5 }] },
     }
     const command = new AddItemCommand(source, 1)
-    const next = command.apply(state([item('a'), item('b')]))
+    const next = command.apply(await state([item('a'), item('b')]))
 
     source.use!.effects[0] = { kind: 'healHp', amount: 99 }
     expect(next.items.map((entry) => entry.id)).toEqual(['a', 'new', 'b'])
@@ -100,8 +50,8 @@ describe('物品 CRUD 命令', () => {
     expect(command.invert(next).items.map((entry) => entry.id)).toEqual(['a', 'b'])
   })
 
-  test('DeleteItem 有外部引用时 fail-loud，不会产生半删除状态', () => {
-    const current = state([item('used')])
+  test('DeleteItem 有外部引用时 fail-loud，不会产生半删除状态', async () => {
+    const current = await state([item('used')])
     current.manifest.entryPoints[0].startWorld.inventory = [{ itemId: 'used', count: 1 }]
 
     expect(() => new DeleteItemCommand('used', references).apply(current)).toThrow(ItemInUseError)
@@ -169,14 +119,14 @@ describe('物品 CRUD 命令', () => {
         },
       },
     },
-  ])('DeleteItem 会阻断 $name 引用', ({ owner }) => {
-    const current = state([item('used'), item('material'), item('product'), owner])
+  ])('DeleteItem 会阻断 $name 引用', async ({ owner }) => {
+    const current = await state([item('used'), item('material'), item('product'), owner])
     expect(() => new DeleteItemCommand('used', references).apply(current)).toThrow(ItemInUseError)
     expect(current.items.some((entry) => entry.id === 'used')).toBe(true)
   })
 
-  test('DeleteItem 每次从 canonical provider 重算脚本引用', () => {
-    const current = state([item('used')])
+  test('DeleteItem 每次从 canonical provider 重算脚本引用', async () => {
+    const current = await state([item('used')])
     const canonical: ScriptEditorState = {
       scenes: [],
       items: [],
@@ -195,8 +145,8 @@ describe('物品 CRUD 命令', () => {
     expect(command.apply(current).items).toHaveLength(0)
   })
 
-  test('DeleteItem 缺目标不调用 oracle，provider 失败不产生半删除', () => {
-    const current = state([item('used')])
+  test('DeleteItem 缺目标不调用 oracle，provider 失败不产生半删除', async () => {
+    const current = await state([item('used')])
     const provider = vi.fn(() => {
       throw new Error('reference oracle unavailable')
     })
@@ -209,7 +159,7 @@ describe('物品 CRUD 命令', () => {
     expect(current.items.map((entry) => entry.id)).toEqual(['used'])
   })
 
-  test('DeleteItem 的物品内部边随 owner 删除，不会造成自锁', () => {
+  test('DeleteItem 的物品内部边随 owner 删除，不会造成自锁', async () => {
     const owner = {
       ...item('vessel'),
       use: {
@@ -228,10 +178,12 @@ describe('物品 CRUD 命令', () => {
         ],
       },
     }
-    expect(new DeleteItemCommand('vessel', references).apply(state([owner])).items).toEqual([])
+    expect(new DeleteItemCommand('vessel', references).apply(await state([owner])).items).toEqual(
+      [],
+    )
   })
 
-  test('DeleteItem redo 会按最新 canonical oracle 重验并保留 redo', () => {
+  test('DeleteItem redo 会按最新 canonical oracle 重验并保留 redo', async () => {
     const canonical: ScriptEditorState = {
       scenes: [],
       items: [],
@@ -239,7 +191,7 @@ describe('物品 CRUD 命令', () => {
         reward: { name: '奖励', self: 'none', body: [] },
       },
     }
-    const session = new EditSession(state([item('a'), item('b')]))
+    const session = new EditSession(await state([item('a'), item('b')]))
     const command = new DeleteItemCommand('b', (current) => references(current, canonical))
 
     expect(session.dispatch(command)).toBe(true)
@@ -250,8 +202,8 @@ describe('物品 CRUD 命令', () => {
     expect(session.canRedo()).toBe(true)
   })
 
-  test('EditSession 删除、撤销和重做保持原位置与内容', () => {
-    const session = new EditSession(state([item('a'), item('b'), item('c')]))
+  test('EditSession 删除、撤销和重做保持原位置与内容', async () => {
+    const session = new EditSession(await state([item('a'), item('b'), item('c')]))
     expect(session.dispatch(new DeleteItemCommand('b', references))).toBe(true)
     expect(session.getState().items.map((entry) => entry.id)).toEqual(['a', 'c'])
     expect(session.undo()).toBe(true)
@@ -260,8 +212,8 @@ describe('物品 CRUD 命令', () => {
     expect(session.getState().items.map((entry) => entry.id)).toEqual(['a', 'c'])
   })
 
-  test('删除物品会同步移除其迁移诊断，撤销和重做精确恢复 sidecar', () => {
-    const current = state([item('a'), item('b')])
+  test('删除物品会同步移除其迁移诊断，撤销和重做精确恢复 sidecar', async () => {
+    const current = await state([item('a'), item('b')])
     current.migrationDiagnostics = {
       version: 1,
       diagnostics: [
@@ -313,18 +265,33 @@ describe('物品 CRUD 命令', () => {
     ])
   })
 
-  test('导入图标并绑定是一个撤销单元', () => {
-    const current = state([{ ...item('a'), icon: 'item-icon.old' }])
-    const bytes = new Uint8Array([137, 80, 78, 71]).buffer
+  test('导入图标并绑定是一个撤销单元', async () => {
+    const current = await state([item('a')])
+    const session = new EditSession(current)
+    const original = pngBytes(originalPortrait)
+    const bytes = pngBytes(replacementPortrait)
     const record: AssetRecordV1 = {
       kind: 'item-icon',
       path: 'assets/authored/item-icon/new.png',
       mediaType: 'image/png',
       bytes: bytes.byteLength,
-      sha256: 'a'.repeat(64),
+      sha256: await sha256Hex(bytes),
       origin: { kind: 'authored', ref: 'new.png' },
     }
-    const session = new EditSession(current)
+    session.dispatch(
+      new UpsertAssetCommand(
+        'item-icon.old',
+        {
+          ...record,
+          path: 'assets/authored/item-icon/old.png',
+          bytes: original.byteLength,
+          sha256: await sha256Hex(original),
+        },
+        original,
+      ),
+    )
+    session.dispatch(new UpdateItemCommand('a', { icon: 'item-icon.old' }))
+    const openingVersion = session.getHistoryVersion()
 
     session.dispatch(
       new CompositeCommand('导入并设置物品图标', [
@@ -332,6 +299,7 @@ describe('物品 CRUD 命令', () => {
         new UpdateItemCommand('a', { icon: 'item-icon.new' }),
       ]),
     )
+    expect(session.getHistoryVersion()).toBe(openingVersion + 1)
     expect(session.getState().items[0]?.icon).toBe('item-icon.new')
     expect(session.getState().assetCatalog.assets['item-icon.new']).toEqual(record)
     expect(session.getState().assetBlobs[record.path]).toEqual(bytes)
@@ -340,10 +308,26 @@ describe('物品 CRUD 命令', () => {
     expect(session.getState().items[0]?.icon).toBe('item-icon.old')
     expect(session.getState().assetCatalog.assets['item-icon.new']).toBeUndefined()
     expect(session.getState().assetBlobs[record.path]).toBeUndefined()
-    expect(session.canUndo()).toBe(false)
+    expect(session.getState().assetBlobs['assets/authored/item-icon/old.png']).toEqual(original)
 
     expect(session.redo()).toBe(true)
     expect(session.getState().items[0]?.icon).toBe('item-icon.new')
     expect(session.getState().assetCatalog.assets['item-icon.new']).toEqual(record)
+  })
+
+  test('clearing an optional use capability restores it without rolling back other fields', async () => {
+    const use: ItemData['use'] = {
+      target: 'oneAlly',
+      consuming: true,
+      effects: [{ kind: 'healHp', amount: 5 }],
+    }
+    const session = new EditSession(await state([{ ...item('tonic'), buyPrice: 9, use }]))
+    expect(session.dispatch(new UpdateItemCommand('tonic', { use: undefined }))).toBe(true)
+    expect(session.getState().items[0]).not.toHaveProperty('use')
+    expect(session.getState().items[0]?.buyPrice).toBe(9)
+    expect(session.undo()).toBe(true)
+    expect(session.getState().items[0]?.use).toEqual(use)
+    expect(session.redo()).toBe(true)
+    expect(session.getState().items[0]).not.toHaveProperty('use')
   })
 })

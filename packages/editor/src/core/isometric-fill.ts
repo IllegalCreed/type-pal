@@ -21,7 +21,7 @@ function neighbors(point: GridPointRef): GridPointRef[] {
 }
 
 /**
- * 错排菱形格上的四邻域填充域。tileId 与实例高度共同定义边界；
+ * 错排菱形格上的四邻域填充域。瓦片编号、所属瓦片集与实例高度共同定义边界；
  * `tileId: null, height: 0` 是普通空格，不是“不可访问”。
  */
 export function floodFillIsometricTiles(options: {
@@ -34,10 +34,10 @@ export function floodFillIsometricTiles(options: {
   if (!seed) return []
 
   const filled: GridPointRef[] = []
-  const queue: GridPointRef[] = [options.start]
+  const frontier: GridPointRef[] = [options.start]
   const visited = new Set<string>([pointKey(options.start)])
-  while (queue.length > 0) {
-    const current = queue.pop()
+  while (frontier.length > 0) {
+    const current = frontier.pop()
     if (!current) continue
     const sample = options.sampleAt(current)
     if (
@@ -52,7 +52,7 @@ export function floodFillIsometricTiles(options: {
       const key = pointKey(neighbor)
       if (visited.has(key) || !options.isInside(neighbor)) continue
       visited.add(key)
-      queue.push(neighbor)
+      frontier.push(neighbor)
     }
   }
   return filled

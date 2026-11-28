@@ -167,3 +167,54 @@ test('undo of a replacement restores the old bytes that originally lived only on
   const restored = session.getState().assetBlobs[path]
   expect(restored && new Uint8Array(restored)).toEqual(new Uint8Array(bytes))
 })
+
+test('a missing resource does not create a label-only catalog entry', async () => {
+  const { state } = await portraitProject()
+  const session = new EditSession(state)
+
+  expect(session.dispatch(new UpdateAssetLabelCommand('constructor', '未登记'))).toBe(false)
+  expect(session.getState()).toBe(state)
+  expect(session.canUndo()).toBe(false)
+})
+
+test('deleting a missing resource leaves the catalog and history unchanged', async () => {
+  const { state } = await portraitProject()
+  const session = new EditSession(state)
+
+  expect(
+    session.dispatch(new DeleteAssetCommand('constructor', collectCurrentProjectReferenceIndex)),
+  ).toBe(false)
+  expect(session.getState()).toBe(state)
+  expect(session.canUndo()).toBe(false)
+})
+
+test('an authored resource may register a name also found on the object prototype', async () => {
+  const { state, record, bytes } = await portraitProject()
+  const session = new EditSession(state)
+  const authored = { ...record, path: 'assets/authored/portraits/registered.png' }
+  session.dispatch(new UpsertAssetCommand('constructor', authored, bytes))
+  validateAssetCatalog(session.getState().assetCatalog)
+
+  expect(session.dispatch(new UpdateAssetLabelCommand('constructor', '真资源'))).toBe(true)
+  expect(Object.entries(session.getState().assetCatalog.assets)).toContainEqual([
+    'constructor',
+    { ...authored, label: '真资源' },
+  ])
+  expect(
+    session.dispatch(new DeleteAssetCommand('constructor', collectCurrentProjectReferenceIndex)),
+  ).toBe(true)
+  expect(Object.hasOwn(session.getState().assetCatalog.assets, 'constructor')).toBe(false)
+  expect(session.undo()).toBe(true)
+  expect(Object.hasOwn(session.getState().assetCatalog.assets, 'constructor')).toBe(true)
+})
+
+test('undo restores an explicitly empty stored resource label', async () => {
+  const { state, record, bytes } = await portraitProject()
+  const session = new EditSession(state)
+  session.dispatch(new UpsertAssetCommand(assetId, { ...record, label: '' }, bytes))
+  validateAssetCatalog(session.getState().assetCatalog)
+  session.dispatch(new UpdateAssetLabelCommand(assetId, '新名称'))
+
+  expect(session.undo()).toBe(true)
+  expect(session.getState().assetCatalog.assets[assetId]).toHaveProperty('label', '')
+})

@@ -101,14 +101,16 @@ export function VarsTab(props: {
   }, [referenceIndex])
   const [filter, setFilter] = useState('')
   const [selectedId, setSelectedId] = useState(
-    focusObjectId && variables[focusObjectId] ? focusObjectId : (Object.keys(variables)[0] ?? ''),
+    focusObjectId && Object.hasOwn(variables, focusObjectId)
+      ? focusObjectId
+      : (Object.keys(variables)[0] ?? ''),
   )
   const [creating, setCreating] = useState(false)
   const [createId, setCreateId] = useState('')
   const [createKind, setCreateKind] = useState<WorldVariableKindV1>('flag')
   const [createName, setCreateName] = useState('')
   const [notice, setNotice] = useState<string>()
-  const selected = variables[selectedId]
+  const selected = Object.hasOwn(variables, selectedId) ? variables[selectedId] : undefined
   const selectedRefs = refsFor(references, selected ? selectedId : undefined)
   const referenceCount =
     effectiveReferenceStatus === 'current'
@@ -131,12 +133,12 @@ export function VarsTab(props: {
   )
 
   useEffect(() => {
-    if (focusObjectId && variables[focusObjectId]) {
+    if (focusObjectId && Object.hasOwn(variables, focusObjectId)) {
       setSelectedId(focusObjectId)
       setCreating(false)
       return
     }
-    if (!creating && !variables[selectedId]) {
+    if (!creating && !Object.hasOwn(variables, selectedId)) {
       const fallbackId = Object.keys(variables)[0] ?? ''
       setSelectedId(fallbackId)
       onObjectFocus?.(fallbackId || undefined)
@@ -170,7 +172,7 @@ export function VarsTab(props: {
   const undeclared = useMemo(
     () =>
       [...references.entries()]
-        .filter(([id]) => !variables[id])
+        .filter(([id]) => !Object.hasOwn(variables, id))
         .map(([id, entries]) => ({
           id,
           entries,

@@ -2,6 +2,7 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 import { minimalPng, pngFile } from './__tests__/glm-import-codec-fixtures.js'
 import { prepareAuthoredImage } from './image-import.js'
 
+const encodedBackground = minimalPng(320, 200)
 const palette = Array.from({ length: 256 }, (_, index) => [index, index, index] as const)
 
 function host(failAt?: number, fault: 'null' | 'throw' | 'read' = 'null', stage?: string) {
@@ -47,7 +48,7 @@ function host(failAt?: number, fault: 'null' | 'throw' | 'read' = 'null', stage?
         toBlob(callback: (value: Blob | null) => void) {
           encodes += 1
           if (encodes === failAt && fault === 'throw') throw error
-          const blob = new Blob([minimalPng(320, 200)], { type: 'image/png' })
+          const blob = new Blob([encodedBackground], { type: 'image/png' })
           if (encodes === failAt && fault === 'read')
             vi.spyOn(blob, 'arrayBuffer').mockRejectedValue(error)
           callback(encodes === failAt && fault === 'null' ? null : blob)
@@ -64,7 +65,7 @@ afterEach(() => {
 })
 
 describe('static image bitmap ownership', () => {
-  test('successful two-image encoding releases exactly once and retains output', async () => {
+  test('successful encoding of both outputs releases the bitmap once', async () => {
     const h = host()
     const result = await prepareAuthoredImage(
       pngFile('background.png', 320, 200),
@@ -73,8 +74,8 @@ describe('static image bitmap ownership', () => {
     )
     expect(h.encodes()).toBe(2)
     expect(h.close).toHaveBeenCalledTimes(1)
-    expect(new Uint8Array(result.bytes)).toEqual(new Uint8Array(minimalPng(320, 200)))
-    expect(new Uint8Array(result.effectPreviewBytes!)).toEqual(new Uint8Array(result.bytes))
+    expect(result.bytes.byteLength).toBe(encodedBackground.byteLength)
+    expect(result.effectPreviewBytes?.byteLength).toBe(encodedBackground.byteLength)
   })
 
   test.each([

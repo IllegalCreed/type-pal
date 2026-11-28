@@ -1,15 +1,7 @@
-/**
- * 战场命令族(D24 战场页):新建/复制/删除/修改战场 + 表快照与 id 分配 helper。
- *
- * 自 commands.ts 原样搬移(模块归属治理,不改行为):命令合同与 commands.ts 头注一致 ——
- * apply 产新态(不可变)、invert 还原;旧值/旧表在首次 apply 捕获。删除命令经
- * collectCurrentProjectDeletionImpact 做引用阻断。对 Command 仅 type import
- * (commands.ts 反向 re-export 本文件),运行期无环。
- */
-
 import type { BattleFieldDef } from '@type-pal/content'
 import { DEFAULT_BATTLE_FIELD_ID, validateBattleFields } from '@type-pal/content'
-import type { Command } from './commands.js'
+import type { Command } from './command-contract.js'
+import { applyDefinitionPatch, captureDefinitionPatch } from './definition-patch.js'
 import type { EditorState } from './edit-session.js'
 import type { ProjectReferenceEdge } from './project-reference.js'
 import {
@@ -175,48 +167,36 @@ export class DeleteBattleFieldCommand implements Command {
   }
 }
 
-/** UpdateBattleField 的 patch 范围(id 不可改 —— 数字稳定身份被场景/脚本引用)。 */
+/** The stable battlefield ID is referenced by scenes and scripts. */
 export type BattleFieldPatch = Partial<
   Pick<BattleFieldDef, 'name' | 'background' | 'screenWave' | 'magicEffect'>
 >
 
-/** 改战场字段(D24 战场页)。语义同 UpdateItemCommand:首次 apply 捕获旧值,invert 还原。 */
 export class UpdateBattleFieldCommand implements Command {
   readonly label = '修改战场'
-  private readonly fieldId: number
   private readonly patch: BattleFieldPatch
-  private oldPatch: BattleFieldPatch | undefined
+  private previous: BattleFieldPatch | undefined
 
-  constructor(fieldId: number, patch: BattleFieldPatch) {
-    this.fieldId = fieldId
+  constructor(
+    private readonly fieldId: number,
+    patch: BattleFieldPatch,
+  ) {
     this.patch = structuredClone(patch)
   }
 
   apply(state: EditorState): EditorState {
-    const f = (state.battleFields ?? []).find((x) => x.id === this.fieldId)
-    if (!f) return state
-    if (!this.oldPatch) {
-      const old: Record<string, unknown> = {}
-      for (const k of Object.keys(this.patch))
-        old[k] = structuredClone((f as unknown as Record<string, unknown>)[k])
-      this.oldPatch = old as BattleFieldPatch
-    }
-    const next = { ...f, ...this.patch } as Record<string, unknown>
-    for (const [k, v] of Object.entries(this.patch)) if (v === undefined) delete next[k]
-    validateBattleFields(
-      (state.battleFields ?? []).map((field) =>
-        field.id === this.fieldId ? (next as unknown as BattleFieldDef) : field,
-      ),
-    )
-    return withBattleField(state, this.fieldId, next as unknown as BattleFieldDef)
+    const fields = state.battleFields ?? []
+    const current = fields.find((field) => field.id === this.fieldId)
+    if (!current) return state
+    this.previous ??= captureDefinitionPatch(current, this.patch)
+    const next = applyDefinitionPatch(current, this.patch)
+    validateBattleFields(fields.map((field) => (field.id === this.fieldId ? next : field)))
+    return withBattleField(state, this.fieldId, next)
   }
 
   invert(state: EditorState): EditorState {
-    if (!this.oldPatch) return state
-    const f = (state.battleFields ?? []).find((x) => x.id === this.fieldId)
-    if (!f) return state
-    const restored = { ...f, ...this.oldPatch } as Record<string, unknown>
-    for (const [k, v] of Object.entries(this.oldPatch)) if (v === undefined) delete restored[k]
-    return withBattleField(state, this.fieldId, restored as unknown as BattleFieldDef)
+    const current = state.battleFields?.find((field) => field.id === this.fieldId)
+    if (!current || !this.previous) return state
+    return withBattleField(state, this.fieldId, applyDefinitionPatch(current, this.previous))
   }
 }

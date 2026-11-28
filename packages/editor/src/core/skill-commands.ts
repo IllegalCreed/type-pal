@@ -1,10 +1,7 @@
-/**
- * 技能命令族：新建/修改/删除技能定义。
- * 对 Command 仅 type import（commands.ts 反向 re-export），运行期无环。
- */
 import type { SkillData } from '@type-pal/content'
 import { BattleDataInUseError } from './battle-data-command-errors.js'
 import type { Command } from './command-contract.js'
+import { applyDefinitionPatch, captureDefinitionPatch } from './definition-patch.js'
 import type { EditorState } from './edit-session.js'
 import {
   type CurrentProjectReferenceIndexProvider,
@@ -40,24 +37,15 @@ export class UpdateSkillCommand implements Command {
   apply(state: EditorState): EditorState {
     const sk = state.skills.find((x) => x.id === this.skillId)
     if (!sk) return state
-    if (!this.oldPatch) {
-      const old: Record<string, unknown> = {}
-      for (const k of Object.keys(this.patch))
-        old[k] = structuredClone((sk as unknown as Record<string, unknown>)[k])
-      this.oldPatch = old as SkillPatch
-    }
-    const next = { ...sk, ...this.patch } as Record<string, unknown>
-    for (const [k, v] of Object.entries(this.patch)) if (v === undefined) delete next[k]
-    return withSkill(state, this.skillId, next as unknown as SkillData)
+    this.oldPatch ??= captureDefinitionPatch(sk, this.patch)
+    return withSkill(state, this.skillId, applyDefinitionPatch(sk, this.patch))
   }
 
   invert(state: EditorState): EditorState {
     if (!this.oldPatch) return state
     const sk = state.skills.find((x) => x.id === this.skillId)
     if (!sk) return state
-    const next = { ...sk, ...this.oldPatch } as Record<string, unknown>
-    for (const [k, v] of Object.entries(this.oldPatch)) if (v === undefined) delete next[k]
-    return withSkill(state, this.skillId, next as unknown as SkillData)
+    return withSkill(state, this.skillId, applyDefinitionPatch(sk, this.oldPatch))
   }
 }
 

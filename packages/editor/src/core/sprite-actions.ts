@@ -13,12 +13,12 @@ export interface SortedSpriteAction {
   index: number
 }
 
-/** 动作显示顺序的唯一编辑器实现；显示编号不得进入持久引用。 */
+/** Missing orders follow explicit orders. The displayed index is never a persistent reference. */
 export function sortedSpriteActions(sprite: SpriteDef | undefined): SortedSpriteAction[] {
   return Object.entries(sprite?.poses ?? {})
     .sort(
       ([leftId, left], [rightId, right]) =>
-        (left.order ?? Number.MAX_SAFE_INTEGER) - (right.order ?? Number.MAX_SAFE_INTEGER) ||
+        (left.order ?? Number.POSITIVE_INFINITY) - (right.order ?? Number.POSITIVE_INFINITY) ||
         left.label.localeCompare(right.label) ||
         leftId.localeCompare(rightId),
     )

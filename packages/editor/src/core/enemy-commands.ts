@@ -1,15 +1,14 @@
-/**
- * 敌人命令族。BattleDataInUseError 来自 C00；withEnemy 留给同文件未迁出的战斗精灵切换命令使用。
- */
 import type { EnemyDef } from '@type-pal/content'
 import { BattleDataInUseError } from './battle-data-command-errors.js'
 import type { Command } from './command-contract.js'
+import { applyDefinitionPatch, captureDefinitionPatch } from './definition-patch.js'
 import type { EditorState } from './edit-session.js'
 import {
   type CurrentProjectReferenceIndexProvider,
   collectCurrentProjectDeletionImpact,
 } from './project-reference-adapters.js'
 
+/** Replace a live enemy while preserving its position in the author catalog. */
 export function withEnemy(state: EditorState, enemyId: string, next: EnemyDef): EditorState {
   const list = state.enemies ?? []
   let hit = false
@@ -37,37 +36,29 @@ export type EnemyPatch = Partial<
   >
 >
 
-/** 改敌人字段。语义同 UpdateActorCommand:首次 apply 捕获旧值,invert 还原;对象深拷贝。 */
 export class UpdateEnemyCommand implements Command {
   readonly label = '修改敌人'
-  private readonly enemyId: string
   private readonly patch: EnemyPatch
-  private oldPatch: EnemyPatch | undefined
+  private previous: EnemyPatch | undefined
 
-  constructor(enemyId: string, patch: EnemyPatch) {
-    this.enemyId = enemyId
+  constructor(
+    private readonly enemyId: string,
+    patch: EnemyPatch,
+  ) {
     this.patch = structuredClone(patch)
   }
 
   apply(state: EditorState): EditorState {
-    const e = (state.enemies ?? []).find((x) => x.id === this.enemyId)
-    if (!e) return state
-    if (!this.oldPatch) {
-      const old: Record<string, unknown> = {}
-      for (const k of Object.keys(this.patch))
-        old[k] = structuredClone((e as unknown as Record<string, unknown>)[k])
-      this.oldPatch = old as EnemyPatch
-    }
-    return withEnemy(state, this.enemyId, { ...e, ...this.patch })
+    const enemy = state.enemies?.find((entry) => entry.id === this.enemyId)
+    if (!enemy) return state
+    this.previous ??= captureDefinitionPatch(enemy, this.patch)
+    return withEnemy(state, this.enemyId, { ...enemy, ...this.patch })
   }
 
   invert(state: EditorState): EditorState {
-    if (!this.oldPatch) return state
-    const e = (state.enemies ?? []).find((x) => x.id === this.enemyId)
-    if (!e) return state
-    const restored = { ...e, ...this.oldPatch } as Record<string, unknown>
-    for (const [k, v] of Object.entries(this.oldPatch)) if (v === undefined) delete restored[k]
-    return withEnemy(state, this.enemyId, restored as unknown as EnemyDef)
+    const enemy = state.enemies?.find((entry) => entry.id === this.enemyId)
+    if (!enemy || !this.previous) return state
+    return withEnemy(state, this.enemyId, applyDefinitionPatch(enemy, this.previous))
   }
 }
 

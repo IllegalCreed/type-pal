@@ -108,3 +108,22 @@ test('roles select their registered resource and reject an absent role', async (
     source.dispose?.()
   }
 })
+
+test('asset IDs resolve to authored records even when their names overlap object keys', async () => {
+  const { source, session, original, record } = await portraitReader()
+  const reader = createEditorAssetReader(source, () => session.getState())
+  const read = vi.spyOn(source, 'readBytes')
+  try {
+    expect(() => reader.record('constructor')).toThrow('AssetId "constructor" 不在 catalog')
+    expect(read).not.toHaveBeenCalled()
+
+    const authored = { ...record, path: 'assets/authored/portraits/signed.png' }
+    session.dispatch(new UpsertAssetCommand('constructor', authored, original))
+    expect(reader.record('constructor', 'portrait')).toEqual(authored)
+    expect(await reader.readBytes('constructor', 'portrait')).toEqual(original)
+    expect(read).not.toHaveBeenCalled()
+  } finally {
+    read.mockRestore()
+    source.dispose?.()
+  }
+})
