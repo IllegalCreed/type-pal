@@ -13,12 +13,14 @@ import {
   useRef,
   useState,
 } from 'react'
-import { type SpriteLayoutEditProof, UpdateSpriteCommand } from '../core/commands.js'
-import type { EditSession } from '../core/edit-session.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ProjectReferenceEdge } from '../core/project-reference.js'
-import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
-import { nextSpriteActionId, sortedSpriteActions } from '../core/sprite-actions.js'
+import {
+  insertSpriteActionStep,
+  removeSpriteActionStep,
+  updateSpriteActionStep,
+} from '../core/sprite-action-steps.js'
+import { sortedSpriteActions } from '../core/sprite-actions.js'
 import {
   DsActionGroup,
   DsButton,
@@ -52,24 +54,18 @@ function sortedActions(sprite: SpriteDef): Array<[string, SpriteActionDef]> {
   return sortedSpriteActions(sprite).map(({ id, action }) => [id, action])
 }
 
-function firstSoundAsset(catalog: AssetCatalogV1): string | undefined {
-  return Object.entries(catalog.assets).find(([, record]) => record.kind === 'sound')?.[0]
-}
-
 function StepDurationInput(props: {
   id: string
   draftKey: string
   syncToken: number
   value: number
-  disabled?: boolean
-  onCommit: (value: number) => undefined | boolean
+  onCommit: (value: number) => boolean
 }) {
   return (
     <DsDraftNumberInput
       id={props.id}
       draftKey={props.draftKey}
       syncToken={props.syncToken}
-      disabled={props.disabled}
       min={1}
       step={10}
       integer
@@ -85,23 +81,21 @@ function StepDurationInput(props: {
 export function SpriteActionEditor(props: {
   definition: SpriteDef
   catalog: AssetCatalogV1
-  proof: SpriteLayoutEditProof | undefined
   frames: readonly SpriteFrameView[]
   selectedSourceFrame: number
   references: readonly ProjectReferenceEdge[]
   referenceStatus: EditorDerivedStatus
-  getCurrentReferenceIndex: CurrentProjectReferenceIndexProvider
-  session: EditSession
+  historyVersion: number
   selectedActionId?: string
-  mode?: 'create' | 'edit'
+  mode: 'create' | 'edit'
   restrictActionId?: string
-  onCommitPoses?: (poses: Record<string, SpriteActionDef> | undefined) => boolean
-  onRequestCreate?: () => void
-  onSelectedActionChange?: (actionId: string | undefined) => void
-  onOpenReferences?: (actionId: string) => void
-  onBeforeContextChange?: () => boolean
-  onMutationResult?: (result: { ok: boolean; reason?: unknown }) => void
-  onStatusNotice?: (notice: { kind: 'info' | 'error'; message: string } | undefined) => void
+  onCommitPoses: (poses: Record<string, SpriteActionDef>) => boolean
+  onRequestCreate: () => void
+  onSelectedActionChange: (actionId: string | undefined) => void
+  onOpenReferences: (actionId: string) => void
+  onBeforeContextChange: () => boolean
+  onMutationResult: (result: { ok: boolean; reason?: unknown }) => void
+  onStatusNotice: (notice: { kind: 'error'; message: string }) => void
 }) {
   const [query, setQuery] = useState('')
   const searchRef = useRef<HTMLInputElement>(null)
@@ -137,8 +131,12 @@ export function SpriteActionEditor(props: {
       if (mobilePage === 'list') searchRef.current?.focus()
       else if (props.mode !== 'create') detailHeadingRef.current?.focus()
     }
-    if (typeof requestAnimationFrame === 'function') requestAnimationFrame(focus)
-    else window.setTimeout(focus, 0)
+    if (typeof requestAnimationFrame === 'function') {
+      const frame = requestAnimationFrame(focus)
+      return () => cancelAnimationFrame(frame)
+    }
+    const timer = window.setTimeout(focus, 0)
+    return () => window.clearTimeout(timer)
   }, [mobilePage, narrow, props.mode])
   const actionDeleteReasonId = useId()
   const actions = useMemo(() => sortedActions(props.definition), [props.definition])
@@ -152,9 +150,8 @@ export function SpriteActionEditor(props: {
   const actionId = selectedEntry?.[0]
   const action = selectedEntry?.[1]
   const stepReorderKeys = useDsReorderKeys(action?.steps ?? [], (step) => JSON.stringify(step))
-  const historyVersion = props.session.getHistoryVersion()
+  const historyVersion = props.historyVersion
   const lastSeenHistoryVersionRef = useRef(historyVersion)
-  const locallyOwnedHistoryVersionRef = useRef<number | undefined>(undefined)
   const actionNumber = actionId ? actions.findIndex(([id]) => id === actionId) : -1
   const actionReferences = actionId
     ? props.references.filter(
@@ -172,70 +169,36 @@ export function SpriteActionEditor(props: {
         : props.referenceStatus === 'failed'
           ? '动作引用检查失败；恢复后才能删除。'
           : undefined
-  const actionBlockedReason = !props.proof
-    ? '源帧尚未读取完成，不能修改动作。'
-    : (referenceUnavailableReason ??
-      (actionReferences.length
-        ? `当前动作有 ${actionReferences.length} 个引用，处理引用后才能删除。`
-        : undefined))
+  const actionBlockedReason =
+    referenceUnavailableReason ??
+    (actionReferences.length
+      ? `当前动作有 ${actionReferences.length} 个引用，处理引用后才能删除。`
+      : undefined)
+  const firstActionId = actions[0]?.[0]
   useEffect(() => {
-    if (props.selectedActionId === undefined) props.onSelectedActionChange?.(actions[0]?.[0])
-  }, [actions, props.onSelectedActionChange, props.selectedActionId])
+    if (props.selectedActionId === undefined && firstActionId !== undefined)
+      props.onSelectedActionChange(firstActionId)
+  }, [firstActionId, props.onSelectedActionChange, props.selectedActionId])
   useEffect(() => {
     if (lastSeenHistoryVersionRef.current === historyVersion) return
-    const locallyOwned = locallyOwnedHistoryVersionRef.current === historyVersion
     lastSeenHistoryVersionRef.current = historyVersion
-    locallyOwnedHistoryVersionRef.current = undefined
-    if (!locallyOwned) stepReorderKeys.reset()
+    stepReorderKeys.reset()
   }, [historyVersion, stepReorderKeys.reset])
 
   const reportError = (reason: unknown): void =>
-    props.onStatusNotice?.({
+    props.onStatusNotice({
       kind: 'error',
       message: reason instanceof Error ? reason.message : String(reason),
     })
 
-  const rejectMutation = (reason: unknown): false => {
-    reportError(reason)
-    props.onMutationResult?.({ ok: false, reason })
-    return false
-  }
-
-  const commitPoses = (poses: Record<string, SpriteActionDef> | undefined): boolean => {
-    if (props.onCommitPoses) {
-      try {
-        const changed = props.onCommitPoses(poses)
-        props.onMutationResult?.({
-          ok: changed,
-          reason: changed ? undefined : '动作修改未能提交。',
-        })
-        return changed
-      } catch (reason) {
-        return rejectMutation(reason)
-      }
-    }
-    if (!props.proof) {
-      return rejectMutation('源帧尚未读取完成，不能编辑动作。')
-    }
+  const commitPoses = (poses: Record<string, SpriteActionDef>): boolean => {
     try {
-      if (
-        !props.session.dispatch(
-          new UpdateSpriteCommand(
-            props.definition.id,
-            { poses: poses && Object.keys(poses).length ? poses : undefined },
-            props.proof,
-            props.getCurrentReferenceIndex,
-          ),
-        )
-      ) {
-        return rejectMutation('精灵用途定义已变化，请重新选择后再编辑。')
-      }
-      locallyOwnedHistoryVersionRef.current = props.session.getHistoryVersion()
-      props.onStatusNotice?.(undefined)
-      props.onMutationResult?.({ ok: true })
-      return true
+      const changed = props.onCommitPoses(poses)
+      props.onMutationResult({ ok: changed, reason: changed ? undefined : '动作修改未能提交。' })
+      return changed
     } catch (reason) {
-      return rejectMutation(reason)
+      props.onMutationResult({ ok: false, reason })
+      return false
     }
   }
 
@@ -251,7 +214,7 @@ export function SpriteActionEditor(props: {
 
   const moveCurrentAction = (delta: -1 | 1): boolean => {
     if (!actionId || actionNumber < 0) return false
-    if (props.onBeforeContextChange?.() === false) return false
+    if (!props.onBeforeContextChange()) return false
     const targetIndex = actionNumber + delta
     const next = reorderDsItems(actions, { fromIndex: actionNumber, toIndex: targetIndex })
     if (next === actions) return false
@@ -261,37 +224,13 @@ export function SpriteActionEditor(props: {
   }
 
   const createAction = (): void => {
-    if (props.onBeforeContextChange?.() === false) return
-    if (props.onRequestCreate) {
-      props.onRequestCreate()
-      return
-    }
-    const id = nextSpriteActionId(props.definition)
-    const created = commitPoses({
-      ...Object.fromEntries(
-        actions.map(([actionKey, candidate], order) => [actionKey, { ...candidate, order }]),
-      ),
-      [id]: {
-        label: `动作 ${actions.length + 1}`,
-        order: actions.length,
-        steps: [
-          {
-            frame:
-              props.selectedSourceFrame >= 0 && props.selectedSourceFrame < props.frames.length
-                ? props.selectedSourceFrame
-                : 0,
-            durationMs: 250,
-          },
-        ],
-      },
-    })
-    if (created) props.onSelectedActionChange?.(id)
+    if (props.onBeforeContextChange()) props.onRequestCreate()
   }
 
   const deleteAction = (): void => {
     if (!actionId || !action || props.referenceStatus !== 'current' || actionReferences.length)
       return
-    if (props.onBeforeContextChange?.() === false) return
+    if (!props.onBeforeContextChange()) return
     if (!window.confirm(`删除预制动作“${action.label}”（${actionId}）？`)) return
     const nextActionId = actions[actionNumber + 1]?.[0] ?? actions[actionNumber - 1]?.[0]
     if (
@@ -305,19 +244,12 @@ export function SpriteActionEditor(props: {
     ) {
       setPendingDeleteFocus(nextActionId ? 'detail' : 'create')
       setMobilePage(nextActionId ? 'detail' : 'list')
-      props.onSelectedActionChange?.(nextActionId)
+      props.onSelectedActionChange(nextActionId)
     }
   }
 
   const insertStep = (step: SpriteActionStep, targetIndex: number): void => {
-    updateAction((current) => {
-      const loopStep = current.loopFrom === undefined ? undefined : current.steps[current.loopFrom]
-      const steps = [...current.steps]
-      steps.splice(Math.max(0, Math.min(targetIndex, steps.length)), 0, step)
-      const next = { ...current, steps }
-      if (loopStep) next.loopFrom = steps.indexOf(loopStep)
-      return next
-    })
+    updateAction((current) => insertSpriteActionStep(current, step, targetIndex))
   }
 
   const reorderSteps = (intent: DsReorderIntent): boolean => {
@@ -336,44 +268,35 @@ export function SpriteActionEditor(props: {
   }
 
   const removeStep = (index: number): void => {
-    updateAction((current) => {
-      if (current.steps.length <= 1) return current
-      const steps = current.steps.filter((_, position) => position !== index)
-      const next = { ...current, steps }
-      if (current.loopFrom !== undefined) {
-        if (index < current.loopFrom) next.loopFrom = current.loopFrom - 1
-        else if (index === current.loopFrom) next.loopFrom = Math.min(index, steps.length - 1)
-      }
-      return next
-    })
+    updateAction((current) => removeSpriteActionStep(current, index))
   }
 
+  const editStep = (index: number, update: (step: SpriteActionStep) => SpriteActionStep): boolean =>
+    updateAction((current) => updateSpriteActionStep(current, index, update))
+
+  const availableSoundAssets = Object.entries(props.catalog.assets).filter(
+    ([, record]) => record.kind === 'sound',
+  )
   const acceptDrop = (event: ReactDragEvent, targetIndex: number): void => {
     event.preventDefault()
     const transfer = inspectSpriteFrameDragPayload(event.dataTransfer)
+    if (transfer.kind === 'absent') return
     if (transfer.kind === 'invalid') {
       reportError('源帧拖拽数据无效。')
       return
     }
-    if (transfer.kind === 'payload') {
-      const frame = transfer.value
-      if (
-        frame.asset !== props.definition.asset ||
-        !Number.isInteger(frame.frame) ||
-        frame.frame < 0 ||
-        frame.frame >= props.frames.length
-      ) {
-        reportError('只能把当前源帧容器中的有效帧拖入动作。')
-        return
-      }
-      insertStep({ frame: frame.frame, durationMs: 250 }, targetIndex)
+    const frame = transfer.value
+    if (
+      frame.asset !== props.definition.asset ||
+      !Number.isInteger(frame.frame) ||
+      frame.frame < 0 ||
+      frame.frame >= props.frames.length
+    ) {
+      reportError('只能把当前源帧容器中的有效帧拖入动作。')
       return
     }
+    insertStep({ frame: frame.frame, durationMs: 250 }, targetIndex)
   }
-
-  const sounds = Object.entries(props.catalog.assets).filter(
-    ([, record]) => record.kind === 'sound',
-  )
   const normalizedQuery = query.trim().toLocaleLowerCase()
   const shownActions = normalizedQuery
     ? directoryActions.filter(([id, candidate]) =>
@@ -381,8 +304,8 @@ export function SpriteActionEditor(props: {
       )
     : directoryActions
   const chooseAction = (id: string): void => {
-    if (id !== actionId && props.onBeforeContextChange?.() === false) return
-    props.onSelectedActionChange?.(id)
+    if (id !== actionId && !props.onBeforeContextChange()) return
+    props.onSelectedActionChange(id)
     setMobilePage('detail')
   }
 
@@ -403,12 +326,7 @@ export function SpriteActionEditor(props: {
           <span>动作保存在精灵库；场景只引用稳定 ActionId。</span>
         </div>
         {props.mode === 'create' ? null : (
-          <DsButton
-            ref={createButtonRef}
-            variant="secondary"
-            disabled={!props.proof}
-            onClick={createAction}
-          >
+          <DsButton ref={createButtonRef} variant="secondary" onClick={createAction}>
             新建预制动作
           </DsButton>
         )}
@@ -494,27 +412,21 @@ export function SpriteActionEditor(props: {
                     label={`前移预制动作：${action.label}`}
                     icon="chevron-up"
                     variant="secondary"
-                    disabled={!props.proof || actionNumber <= 0}
-                    aria-describedby={!props.proof ? actionDeleteReasonId : undefined}
+                    disabled={actionNumber <= 0}
                     onClick={() => moveCurrentAction(-1)}
                   />
                   <DsIconButton
                     label={`后移预制动作：${action.label}`}
                     icon="chevron-down"
                     variant="secondary"
-                    disabled={!props.proof || actionNumber >= actions.length - 1}
-                    aria-describedby={!props.proof ? actionDeleteReasonId : undefined}
+                    disabled={actionNumber >= actions.length - 1}
                     onClick={() => moveCurrentAction(1)}
                   />
                   <DsIconButton
                     label={`删除预制动作：${action.label}`}
                     icon="delete"
                     variant="danger"
-                    disabled={
-                      !props.proof ||
-                      props.referenceStatus !== 'current' ||
-                      actionReferences.length > 0
-                    }
+                    disabled={props.referenceStatus !== 'current' || actionReferences.length > 0}
                     aria-describedby={actionBlockedReason ? actionDeleteReasonId : undefined}
                     onClick={deleteAction}
                   />
@@ -525,7 +437,7 @@ export function SpriteActionEditor(props: {
               <div className="sprite-action-reference-block" id={actionDeleteReasonId}>
                 <span>{actionBlockedReason}</span>
                 {props.referenceStatus === 'current' && actionReferences.length ? (
-                  <DsButton variant="secondary" onClick={() => props.onOpenReferences?.(actionId)}>
+                  <DsButton variant="secondary" onClick={() => props.onOpenReferences(actionId)}>
                     查看引用
                   </DsButton>
                 ) : null}
@@ -540,8 +452,7 @@ export function SpriteActionEditor(props: {
                     name="sprite-action-name"
                     autoComplete="off"
                     draftKey={`sprite:${props.definition.id}:action:${actionId}:label`}
-                    syncToken={props.session.getHistoryVersion()}
-                    disabled={!props.proof}
+                    syncToken={historyVersion}
                     value={action.label}
                     validate={(value) => (value.trim() ? undefined : '动作名称不能为空。')}
                     onCommit={(value) => {
@@ -620,8 +531,7 @@ export function SpriteActionEditor(props: {
                 key: stepReorderKeys.keys[index]!,
                 label: `第 ${index + 1} 步，帧 ${step.frame}`,
               }))}
-              revision={props.session.getHistoryVersion()}
-              disabled={!props.proof}
+              revision={historyVersion}
               onReorder={reorderSteps}
             >
               <ol className="sprite-action-timeline">
@@ -674,18 +584,10 @@ export function SpriteActionEditor(props: {
                                       <StepDurationInput
                                         id={field.id}
                                         draftKey={`sprite:${props.definition.id}:action:${actionId}:step:${reorderKey}:durationMs`}
-                                        syncToken={props.session.getHistoryVersion()}
+                                        syncToken={historyVersion}
                                         value={step.durationMs}
-                                        disabled={!props.proof}
                                         onCommit={(durationMs) =>
-                                          updateAction((current) => ({
-                                            ...current,
-                                            steps: current.steps.map((candidate, position) =>
-                                              position === index
-                                                ? { ...candidate, durationMs }
-                                                : candidate,
-                                            ),
-                                          }))
+                                          editStep(index, (step) => ({ ...step, durationMs }))
                                         }
                                       />
                                     }
@@ -721,21 +623,17 @@ export function SpriteActionEditor(props: {
                                         size="compact"
                                         aria-label={`第 ${index + 1} 步第 ${cueIndex + 1} 个音效`}
                                         value={cue.asset}
-                                        options={sounds.map(([asset, record]) => ({
+                                        options={availableSoundAssets.map(([asset, record]) => ({
                                           value: asset,
                                           label: record.label ?? asset,
                                           description: asset,
                                         }))}
                                         onValueChange={(value) =>
-                                          updateAction((current) => ({
-                                            ...current,
-                                            steps: current.steps.map((candidate, position) => {
-                                              if (position !== index) return candidate
-                                              const cues = [...(candidate.cues ?? [])]
-                                              cues[cueIndex] = { kind: 'sound', asset: value }
-                                              return { ...candidate, cues }
-                                            }),
-                                          }))
+                                          editStep(index, (step) => {
+                                            const cues = [...(step.cues ?? [])]
+                                            cues[cueIndex] = { kind: 'sound', asset: value }
+                                            return { ...step, cues }
+                                          })
                                         }
                                       />
                                     }
@@ -745,19 +643,15 @@ export function SpriteActionEditor(props: {
                                         icon="delete"
                                         variant="danger"
                                         onClick={() =>
-                                          updateAction((current) => ({
-                                            ...current,
-                                            steps: current.steps.map((candidate, position) => {
-                                              if (position !== index) return candidate
-                                              const cues = (candidate.cues ?? []).filter(
-                                                (_, position) => position !== cueIndex,
-                                              )
-                                              const next = { ...candidate }
-                                              if (cues.length) next.cues = cues
-                                              else delete next.cues
-                                              return next
-                                            }),
-                                          }))
+                                          editStep(index, (step) => {
+                                            const cues = (step.cues ?? []).filter(
+                                              (_, position) => position !== cueIndex,
+                                            )
+                                            const next = { ...step }
+                                            if (cues.length) next.cues = cues
+                                            else delete next.cues
+                                            return next
+                                          })
                                         }
                                       />
                                     }
@@ -767,23 +661,13 @@ export function SpriteActionEditor(props: {
                             ))}
                             <DsButton
                               data-ds-add-picker-deferred="asset/sprite-step-sound-cue-append-default"
-                              disabled={!firstSoundAsset(props.catalog)}
+                              disabled={!availableSoundAssets[0]?.[0]}
                               onClick={() => {
-                                const asset = firstSoundAsset(props.catalog)
+                                const asset = availableSoundAssets[0]?.[0]
                                 if (!asset) return
-                                updateAction((current) => ({
-                                  ...current,
-                                  steps: current.steps.map((candidate, position) =>
-                                    position === index
-                                      ? {
-                                          ...candidate,
-                                          cues: [
-                                            ...(candidate.cues ?? []),
-                                            { kind: 'sound', asset },
-                                          ],
-                                        }
-                                      : candidate,
-                                  ),
+                                editStep(index, (step) => ({
+                                  ...step,
+                                  cues: [...(step.cues ?? []), { kind: 'sound', asset }],
                                 }))
                               }}
                               variant="secondary"

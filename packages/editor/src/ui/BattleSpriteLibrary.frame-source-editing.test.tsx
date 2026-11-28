@@ -160,6 +160,7 @@ describe('战斗源帧编辑和整份替换', () => {
     await pickReplacement(pngFileOf('单帧替换.png', replacement.bytes), 'commit')
     const message = rawEditorMessage(host)
     expect(message?.classList.contains('error')).toBe(false)
+    expect(message?.getAttribute('role')).toBe('status')
     expect(message?.textContent).toBe('替换战斗精灵原始帧 #1；可使用撤销恢复。')
 
     const expectedCell = quantizeToRleFrame(

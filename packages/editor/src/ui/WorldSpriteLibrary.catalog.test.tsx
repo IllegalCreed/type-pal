@@ -14,11 +14,42 @@ import {
   waitMeta,
 } from '../__tests__/world-sprite-library-gestures.js'
 import type { MountedWorldSpriteLibrary } from '../__tests__/world-sprite-library-test-host.js'
+import { loadWorldSpriteProject } from '../__tests__/world-sprite-project.js'
 
 const suite = setupWorldSpriteLibrarySuite()
 let mounted: MountedWorldSpriteLibrary | undefined
 
 describe('目录选择与视图归属', () => {
+  test('共享源帧只占一行，空标签按资源类型展示并保留独立 AssetId', async () => {
+    const asset = 'sprite.authored.unnamed-shared'
+    const project = await loadWorldSpriteProject('world-sprite-unnamed-catalog', [
+      {
+        asset,
+        label: '  ',
+        frameCount: 4,
+        definitions: [
+          { id: 'first', label: '', layout: { kind: 'static' } },
+          { id: 'second', label: '共享用途', layout: { kind: 'directional', framesPerDir: 1 } },
+        ],
+      },
+    ])
+    const library = await suite.mount(project, { focus: 'second' })
+    await waitMeta(library.host, 4, 2)
+    const rows = [...library.host.querySelectorAll<HTMLElement>('.sprite-resource-row')].filter(
+      (row) => row.querySelector('.ds-catalog-row__meta')?.textContent === asset,
+    )
+    expect(rows).toHaveLength(1)
+    const [row] = rows
+    expect(row?.querySelector('.ds-catalog-row__title')?.textContent).toBe('未命名场景精灵')
+    expect(row?.getAttribute('aria-pressed')).toBe('true')
+    expect(row?.dataset.leading).toBe('none')
+    expect(row?.textContent).not.toMatch(/\.rle|四向|2 个用途|待定义/)
+    expect(library.host.querySelector('.who')?.textContent).toBe('共享用途')
+    const upload = library.host.querySelector('.ds-list-header__action[aria-label="导入源帧资源"]')!
+    const filter = library.host.querySelector('input[aria-label="过滤大世界精灵库"]')!
+    expect(upload.compareDocumentPosition(filter) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  })
+
   test('初始 definition 聚焦：检查器 who 显示用途标签且 meta 含实际帧数', async () => {
     const project = await multiAssetProject('c01-g01-01')
     mounted = await suite.mount(project, { focus: 'c01-alpha-walk' })

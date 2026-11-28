@@ -1,6 +1,9 @@
-import type { BattleSpriteDef, SpriteDef } from '@type-pal/content'
-import { describe, expect, test, vi } from 'vitest'
+import type { AuthorCommand } from '@type-pal/content'
+import { decodeBattleSpriteAssetBytes, decodeWorldSpriteAssetBytes } from '@type-pal/reforge'
+import { expect, test } from 'vitest'
+import { loadWorldSpriteProject } from '../__tests__/world-sprite-project.js'
 import {
+  AddBattleSpriteCommand,
   RemoveBattleSpriteDefinitionCommand,
   RemoveSpriteDefinitionCommand,
   SpriteInUseError,
@@ -8,233 +11,179 @@ import {
   UpdateSpriteCommand,
 } from './commands.js'
 import { type EditorState, EditSession } from './edit-session.js'
+import { assertProjectSaveValid } from './project-diagnostics.js'
 import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 import type { ScriptEditorState } from './script-editor.js'
 
-const sha = 'a'.repeat(64)
-const worldSprite: SpriteDef = {
-  id: 'world',
-  label: '世界精灵',
-  asset: 'asset.world',
-  layout: { kind: 'static' },
-  poses: { wave: { label: '挥手', steps: [{ frame: 0, durationMs: 120 }] } },
+const spriteId = 'command-reference-pose'
+const assetId = 'sprite.authored.command-reference'
+const battleId = 'command-reference-battle'
+const target = { scene: 'start', entity: 'scene-hero' }
+const actionUse: AuthorCommand = {
+  kind: 'playEntityAction',
+  target,
+  sprite: spriteId,
+  action: 'wave',
+  loop: false,
 }
-const battleSprite: BattleSpriteDef = {
-  id: 'battle',
-  label: '战斗精灵',
-  asset: 'asset.battle',
-  profile: {
-    kind: 'player-fighter',
-    frames: {
-      idle: 0,
-      dying: 1,
-      dead: 2,
-      defend: 3,
-      hurt: 4,
-      preMagic: 5,
-      magic: 6,
-      attackWindup: 7,
-      attackRush: 8,
-      attackStrike: 9,
-    },
-    castEffectBase: 0,
-    attackEffectBase: 0,
-  },
-}
+const appearanceUse: AuthorCommand = { kind: 'setActorSprite', actor: 'hero', sprite: spriteId }
 
-function state(): EditorState {
-  return {
-    manifest: {
-      id: 'sprite-refs',
-      name: 'sprite-refs',
-      contentVersion: 23,
-      minimumSaveVersion: 12,
-      content: {},
-      assets: { catalog: 'assets/index.json', roles: {} },
-      entryPoints: [],
-    },
-    scenes: [],
-    actors: [],
-    items: [],
-    skills: [],
-    levelUp: {},
-    locale: {},
-    sprites: [structuredClone(worldSprite)],
-    battleSprites: [structuredClone(battleSprite)],
-    enemies: [],
-    enemyTeams: [],
-    battleFields: [],
-    shops: [],
-    poisons: [],
-    ambiences: [],
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    tilesetBlobs: {},
-    stamps: [],
-    scriptChunks: {},
-    assetCatalog: {
-      version: 1,
-      assets: {
-        'asset.world': {
-          kind: 'sprite',
-          path: 'assets/world.rle',
-          mediaType: 'application/vnd.type-pal.rle',
-          bytes: 1,
-          sha256: sha,
-          origin: { kind: 'authored' },
-        },
-        'asset.battle': {
-          kind: 'battle-sprite',
-          path: 'assets/battle.rle',
-          mediaType: 'application/vnd.type-pal.rle',
-          bytes: 1,
-          sha256: sha,
-          origin: { kind: 'authored' },
-        },
+async function referenceProject(name: string) {
+  const project = await loadWorldSpriteProject(
+    name,
+    [
+      {
+        asset: assetId,
+        label: '引用素材',
+        frameCount: 2,
+        definitions: [
+          {
+            id: spriteId,
+            label: '引用动作',
+            layout: { kind: 'static' },
+            poses: { wave: { label: '挥手', steps: [{ frame: 1, durationMs: 120 }] } },
+          },
+        ],
       },
+    ],
+    {
+      entities: [{ id: target.entity, actor: 'hero', pos: { col: 2, row: 2, height: 0 } }],
     },
-    assetBlobs: {},
-  } as unknown as EditorState
-}
-
-function canonical(body: ScriptEditorState['sharedScripts'][string]['body']): ScriptEditorState {
-  return {
-    scenes: [],
-    items: [],
-    sharedScripts: { shared: { name: '共享演出', self: 'none', body } },
+  )
+  const record = project.state.assetCatalog.assets[assetId]!
+  const decoded = await decodeWorldSpriteAssetBytes(
+    record,
+    await project.source.readBytes(record.path),
+  )
+  const proof = { asset: assetId, sha256: record.sha256, actualFrameCount: decoded.frames.length }
+  const scriptState: ScriptEditorState = { ...project.canonical, items: [] }
+  const provider = (state: EditorState) => collectCurrentProjectReferenceIndex(state, scriptState)
+  function setSharedBody(body: AuthorCommand[], state = project.state) {
+    scriptState.sharedScripts = {
+      preview: { name: '引用演出', self: 'none', body },
+    }
+    assertProjectSaveValid({ ...state, sharedScripts: scriptState.sharedScripts })
   }
+  return { project, proof, provider, setSharedBody }
 }
 
-describe('sprite unified reference commands', () => {
-  test('action edge blocks both action and definition deletion while definition-only use does not lock action', () => {
-    const current = state()
-    const scripts = canonical([
-      {
-        kind: 'playEntityAction',
-        target: { scene: 'scene', entity: 'entity' },
-        sprite: 'world',
-        action: 'wave',
-        loop: false,
-      },
-    ])
-    const provider = (next: EditorState) => collectCurrentProjectReferenceIndex(next, scripts)
+test('动作引用阻止删除动作及其用途，角色外观引用只阻止删除用途', async () => {
+  const { project, proof, provider, setSharedBody } = await referenceProject(
+    'sprite-command-action-blockers',
+  )
+  const session = new EditSession(project.state)
+  const deletePose = () => new UpdateSpriteCommand(spriteId, { poses: undefined }, proof, provider)
+  setSharedBody([actionUse])
+  expect(() => session.dispatch(new RemoveSpriteDefinitionCommand(spriteId, provider))).toThrow(
+    SpriteInUseError,
+  )
+  expect(() => session.dispatch(deletePose())).toThrow(/动作 wave 仍被 1 处引用/)
+  expect(session.getState()).toBe(project.state)
+  expect(session.getHistoryVersion()).toBe(0)
 
-    expect(() => new RemoveSpriteDefinitionCommand('world', provider).apply(current)).toThrow(
-      SpriteInUseError,
-    )
-    expect(() =>
-      new UpdateSpriteCommand(
-        'world',
-        { poses: undefined },
-        { asset: 'asset.world', sha256: sha, actualFrameCount: 1 },
-        provider,
-      ).apply(current),
-    ).toThrow(SpriteInUseError)
+  setSharedBody([appearanceUse])
+  expect(() => session.dispatch(new RemoveSpriteDefinitionCommand(spriteId, provider))).toThrow(
+    SpriteInUseError,
+  )
+  expect(session.dispatch(deletePose())).toBe(true)
+  expect(session.getState().sprites.find((sprite) => sprite.id === spriteId)?.poses).toBeUndefined()
+  expect(session.getHistoryVersion()).toBe(1)
+})
 
-    scripts.sharedScripts.shared!.body = [
-      { kind: 'setActorSprite', actor: 'hero', sprite: 'world' },
-    ]
-    expect(() =>
-      new UpdateSpriteCommand(
-        'world',
-        { poses: undefined },
-        { asset: 'asset.world', sha256: sha, actualFrameCount: 1 },
-        provider,
-      ).apply(current),
-    ).not.toThrow()
-    expect(() => new RemoveSpriteDefinitionCommand('world', provider).apply(current)).toThrow(
-      SpriteInUseError,
-    )
-  })
-
-  test('battle definition removal and profile kind changes use the live canonical oracle', () => {
-    const current = state()
-    const scripts = canonical([
-      {
-        kind: 'setActorAppearance',
-        actor: 'hero',
-        battleSprite: 'battle',
-      },
-    ])
-    const provider = (next: EditorState) => collectCurrentProjectReferenceIndex(next, scripts)
-
-    expect(() =>
-      new RemoveBattleSpriteDefinitionCommand('battle', provider).apply(current),
-    ).toThrow(SpriteInUseError)
-    expect(() =>
-      new UpdateBattleSpriteDefinitionCommand(
-        'battle',
-        { profile: { kind: 'summon' } },
-        { asset: 'asset.battle', sha256: sha, actualFrameCount: 10 },
-        provider,
-      ).apply(current),
-    ).toThrow(/profile.*不兼容/)
-
-    scripts.sharedScripts.shared!.body = []
-    expect(
-      new RemoveBattleSpriteDefinitionCommand('battle', provider).apply(current).battleSprites,
-    ).toEqual([])
-  })
-
-  test('missing targets skip the provider, provider failures preserve state, and redo revalidates', () => {
-    const current = state()
-    const failed = vi.fn(() => {
-      throw new Error('oracle unavailable')
-    })
-    expect(new RemoveSpriteDefinitionCommand('missing', failed).apply(current)).toBe(current)
-    expect(new RemoveBattleSpriteDefinitionCommand('missing', failed).apply(current)).toBe(current)
-    expect(failed).not.toHaveBeenCalled()
-    expect(() => new RemoveSpriteDefinitionCommand('world', failed).apply(current)).toThrow(
-      /oracle unavailable/,
-    )
-    expect(current.sprites).toHaveLength(1)
-
-    const scripts = canonical([])
-    const provider = (next: EditorState) => collectCurrentProjectReferenceIndex(next, scripts)
-    const session = new EditSession(current)
-    expect(session.dispatch(new RemoveSpriteDefinitionCommand('world', provider))).toBe(true)
-    expect(session.undo()).toBe(true)
-    scripts.sharedScripts.shared!.body = [
-      { kind: 'setActorSprite', actor: 'hero', sprite: 'world' },
-    ]
-    expect(() => session.redo()).toThrow(SpriteInUseError)
-    expect(session.getState().sprites).toHaveLength(1)
-    expect(session.canRedo()).toBe(true)
-  })
-
-  test('action deletion preserves history on provider failure and revalidates live references on redo', () => {
-    const proof = { asset: 'asset.world', sha256: sha, actualFrameCount: 1 } as const
-    const failedSession = new EditSession(state())
-    expect(() =>
-      failedSession.dispatch(
-        new UpdateSpriteCommand('world', { poses: undefined }, proof, () => {
-          throw new Error('oracle unavailable')
-        }),
+test('引用当前战斗形象的作者脚本阻止删除及改变 profile，撤掉引用才可删除', async () => {
+  const { project, provider, setSharedBody } = await referenceProject(
+    'sprite-command-battle-blockers',
+  )
+  const session = new EditSession(project.state)
+  const starter = project.state.battleSprites.find((sprite) => sprite.id === 'starter-fighter')!
+  const record = project.state.assetCatalog.assets[starter.asset]!
+  const bytes = await project.source.readBytes(record.path)
+  const decoded = await decodeBattleSpriteAssetBytes(record, bytes)
+  const proof = {
+    asset: starter.asset,
+    sha256: record.sha256,
+    actualFrameCount: decoded.frames.length,
+  }
+  expect(
+    session.dispatch(
+      new AddBattleSpriteCommand(
+        { ...starter, id: battleId },
+        record,
+        bytes,
+        proof.actualFrameCount,
       ),
-    ).toThrow(/oracle unavailable/)
-    expect(failedSession.getHistoryVersion()).toBe(0)
-    expect(failedSession.getState().sprites[0]?.poses?.wave).toBeDefined()
+    ),
+  ).toBe(true)
 
-    const scripts = canonical([])
-    const provider = (next: EditorState) => collectCurrentProjectReferenceIndex(next, scripts)
-    const session = new EditSession(state())
-    expect(
-      session.dispatch(new UpdateSpriteCommand('world', { poses: undefined }, proof, provider)),
-    ).toBe(true)
-    expect(session.undo()).toBe(true)
-    scripts.sharedScripts.shared!.body = [
-      {
-        kind: 'playEntityAction',
-        target: { scene: 'scene', entity: 'entity' },
-        sprite: 'world',
-        action: 'wave',
-        loop: false,
-      },
-    ]
-    expect(() => session.redo()).toThrow(SpriteInUseError)
-    expect(session.getState().sprites[0]?.poses?.wave).toBeDefined()
-    expect(session.canRedo()).toBe(true)
-  })
+  setSharedBody(
+    [{ kind: 'setActorAppearance', actor: 'hero', battleSprite: battleId }],
+    session.getState(),
+  )
+  const active = session.getState()
+  const remove = () => new RemoveBattleSpriteDefinitionCommand(battleId, provider)
+  expect(() => session.dispatch(remove())).toThrow(SpriteInUseError)
+  expect(() =>
+    session.dispatch(
+      new UpdateBattleSpriteDefinitionCommand(
+        battleId,
+        {
+          profile: { kind: 'summon' },
+        },
+        proof,
+        provider,
+      ),
+    ),
+  ).toThrow(/profile.*不兼容/)
+  expect(session.getState()).toBe(active)
+  expect(session.getHistoryVersion()).toBe(1)
+
+  setSharedBody([])
+  expect(session.dispatch(remove())).toBe(true)
+  expect(session.getState().battleSprites.map((sprite) => sprite.id)).toEqual([starter.id])
+  expect(session.getState().assetCatalog.assets[starter.asset]).toEqual(record)
+})
+
+test('缺少删除目标不读取引用，引用来源失败时保持状态和撤销历史', async () => {
+  const { project, proof } = await referenceProject('sprite-command-reference-unavailable')
+  const session = new EditSession(project.state)
+  const failed = () => {
+    throw new Error('current-author unavailable')
+  }
+  expect(session.dispatch(new RemoveSpriteDefinitionCommand('missing', failed))).toBe(false)
+  expect(session.dispatch(new RemoveBattleSpriteDefinitionCommand('missing', failed))).toBe(false)
+  expect(() => session.dispatch(new RemoveSpriteDefinitionCommand(spriteId, failed))).toThrow(
+    'current-author unavailable',
+  )
+  expect(() =>
+    session.dispatch(new UpdateSpriteCommand(spriteId, { poses: undefined }, proof, failed)),
+  ).toThrow('current-author unavailable')
+  expect(session.getState()).toBe(project.state)
+  expect(session.getHistoryVersion()).toBe(0)
+  expect(session.canUndo()).toBe(false)
+})
+
+test.each([
+  ['definition', appearanceUse],
+  ['action', actionUse],
+] as const)('撤销 %s 删除后新增真实引用，重做会复核并保留已恢复记录', async (kind, reference) => {
+  const { project, proof, provider, setSharedBody } = await referenceProject(
+    'sprite-command-reference-redo',
+  )
+  const session = new EditSession(project.state)
+  const deleteCommand =
+    kind === 'definition'
+      ? new RemoveSpriteDefinitionCommand(spriteId, provider)
+      : new UpdateSpriteCommand(spriteId, { poses: undefined }, proof, provider)
+  expect(session.dispatch(deleteCommand)).toBe(true)
+  expect(session.undo()).toBe(true)
+  const restored = session.getState()
+  setSharedBody([reference])
+  const beforeRedo = session.getHistoryVersion()
+  expect(() => session.redo()).toThrow(SpriteInUseError)
+  expect(session.getState()).toBe(restored)
+  expect(session.getHistoryVersion()).toBe(beforeRedo)
+  expect(
+    session.getState().sprites.find((sprite) => sprite.id === spriteId)?.poses?.wave?.label,
+  ).toBe('挥手')
+  expect(session.canRedo()).toBe(true)
 })

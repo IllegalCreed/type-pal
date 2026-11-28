@@ -1,5 +1,5 @@
 import type { SpriteActionDef, SpriteDef } from '@type-pal/content'
-import type { SpriteReplacementProof } from './sprite-commands.js'
+import type { SpriteReplacementProof } from './sprite-asset-commands.js'
 
 export interface WorldSpriteFrameDeletionPlan {
   repairs: NonNullable<SpriteReplacementProof['repairs']>

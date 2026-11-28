@@ -1971,7 +1971,7 @@
       "contentKind": "selection-summary",
       "reveal": "selected-detail",
       "reason": "动作目录保持固定宽度；选中动作的完整稳定 ID 会在右侧详情中显示。",
-      "verification": "SpriteActionEditorDialog.test.tsx#filtered header movement keeps every stable ActionId and dispatches one command"
+      "verification": "SpriteActionEditor.catalog.test.tsx#使用过滤后的标题栏移动动作仍重排完整目录且保留固定 ID"
     },
     {
       "source": "editor.css",
@@ -1988,7 +1988,7 @@
       "contentKind": "selection-summary",
       "reveal": "selected-detail",
       "reason": "动作目录保持固定宽度；选中动作的完整名称会在右侧详情中显示。",
-      "verification": "SpriteActionEditorDialog.test.tsx#filtered header movement keeps every stable ActionId and dispatches one command"
+      "verification": "SpriteActionEditor.catalog.test.tsx#使用过滤后的标题栏移动动作仍重排完整目录且保留固定 ID"
     },
     {
       "source": "editor.css",

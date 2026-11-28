@@ -17,6 +17,7 @@ import {
   setupBattleSuite,
   sourceFrameButton,
   stageByLabel,
+  stageItems,
   usageNameInput,
   waitProof,
 } from '../__tests__/battle-sprite-library-gestures.js'
@@ -315,4 +316,37 @@ test('只接收存在的整数源帧，命中槽可经拖放修改和撤销', as
   expect(playerFrames(m.session.getState(), 'starter-fighter').attackStrike).toBe(7)
   expect(await applyBattleHistory(m, 'undo')).toBe(true)
   expect(playerFrames(m.session.getState(), 'starter-fighter').attackStrike).toBe(9)
+})
+
+test('普通攻击保持固定三槽和独立待机结尾，选中帧只在指定冲刺槽提交', async () => {
+  const mounted = await suite.mount('player-fixed-attack-slots', { focus: 'starter-fighter' }, [])
+  await waitProof(mounted.host, 10, 1)
+  await chooseActionRow(mounted.host, '普通攻击')
+  const stages = stageItems(mounted.host)
+  expect(
+    stages.map((stage) => stage.querySelector('.battle-action-stage-meta b')?.textContent),
+  ).toEqual(['蓄力', '冲刺', '命中'])
+  expect(mounted.host.querySelector('.battle-action-stage-list [draggable="true"]')).toBeNull()
+  expect(mounted.host.querySelector('.battle-action-end-behavior code')?.textContent).toBe('#0')
+  expect(mounted.host.querySelector('.battle-action-end-behavior')?.textContent).toContain(
+    '由待机动作派生，不占用当前动作槽位',
+  )
+  expect(mounted.host.querySelector('[aria-label="全部帧循环"]')).toBeNull()
+
+  await selectSourceFrame(mounted.host, 4)
+  const rush = () => stageByLabel(mounted.host, '冲刺')
+  expect(rush().querySelector('code')?.textContent).toBe('#8')
+  await clickButtonByText(rush(), '用已选 #4')
+  expect(rush().querySelector('code')?.textContent).toBe('#4')
+  expect(playerFrames(mounted.session.getState(), 'starter-fighter').attackRush).toBe(8)
+  const before = { ...playerFrames(mounted.session.getState(), 'starter-fighter') }
+
+  await clickButtonByText(mounted.host, '应用修改')
+
+  expect(playerFrames(mounted.session.getState(), 'starter-fighter')).toEqual({
+    ...before,
+    attackRush: 4,
+  })
+  expect(mounted.session.getHistoryVersion()).toBe(1)
+  assertProjectSaveValid(mounted.session.getState())
 })

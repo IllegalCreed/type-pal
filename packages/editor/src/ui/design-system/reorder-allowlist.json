@@ -115,7 +115,7 @@
       "fingerprint": "className=\"sprite-action-current-actions\"",
       "owner": "card:ED-SPRITE-ACTION-MODAL-1",
       "reason": "动作目录是搜索单选列表；只允许当前动作标题栏按稳定 ActionId 前移/后移，避免逐行排序控件破坏单焦点目录。",
-      "verification": "SpriteActionEditorDialog.test.tsx 证明过滤后仍按完整稳定 ActionId 集合单命令排序并可 undo。",
+      "verification": "SpriteActionEditor.catalog.test.tsx 证明过滤后仍按完整稳定 ActionId 集合单命令排序并可 undo。",
       "removalCondition": "动作排序移除，或公共 selected-item reorder owner 提供同等单焦点目录与稳定身份合同。"
     }
   ]

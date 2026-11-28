@@ -27,6 +27,11 @@ test('player preview appends the ready pose to attacks and casts but leaves an a
   expect(byId.get('fighter:defend')?.frames).toEqual([3])
   expect(byId.get('fighter:steal')?.frames).toEqual([])
   expect(byId.get('fighter:steal')?.loopFrom).toBeUndefined()
+  const withSteal = battleSpriteActionsForProfile(playerProfile({ steal: 10 }), 11)
+  expect(withSteal.find(({ key }) => key === 'steal')).toMatchObject({
+    frames: [10, 0],
+    frameMs: 160,
+  })
 })
 
 test('enemy preview keeps the pre-attack frame and changes a zero-tick action to its last pose', () => {

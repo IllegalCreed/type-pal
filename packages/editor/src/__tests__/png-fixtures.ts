@@ -153,7 +153,7 @@ export function gridAtlasPng(
 }
 
 /** 用于生成实心图集的不透明颜色。量化后的颜色能否区分由使用处核验。 */
-export function atlasColors(count: number): [number, number, number, number][] {
+export function atlasColors(count: number, offset = 0): [number, number, number, number][] {
   const base: [number, number, number][] = [
     [216, 32, 32],
     [32, 200, 64],
@@ -173,7 +173,10 @@ export function atlasColors(count: number): [number, number, number, number][] {
     [64, 64, 64],
   ]
   if (count > base.length) throw new Error(`atlasColors 最多 ${base.length} 色`)
-  return base.slice(0, count).map(([r, g, b]) => [r, g, b, 255])
+  return Array.from({ length: count }, (_, index) => {
+    const [r, g, b] = base[(index + offset) % base.length]!
+    return [r, g, b, 255]
+  })
 }
 
 /** File 实例（真实字节，name/type 齐备），供文件输入驱动。 */

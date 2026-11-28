@@ -1,6 +1,16 @@
 /** Gzip RLE assets and definitions admitted through the current project loader. */
 
-import type { AssetId, AssetRecordV1, SpriteDef, SpriteLayout } from '@type-pal/content'
+import {
+  type AssetId,
+  type AssetRecordV1,
+  type AuthorSceneDef,
+  type AuthorScriptLibrary,
+  SCENE_INDEX_PATH,
+  type SpriteDef,
+  type SpriteLayout,
+  validateAuthorScenes,
+  validateSceneIndex,
+} from '@type-pal/content'
 import {
   type AssetBase,
   compressGzip,
@@ -27,6 +37,10 @@ export interface WorldSpriteFixture {
   asset: AssetId
   label: string
   frameCount: number
+  /** Offset into the shared fixture colors to encode distinct revisions of the same frame count. */
+  colorOffset?: number
+  /** Per-frame pixel dimensions for source-viewer metadata. */
+  frameSizes?: readonly (readonly [number, number])[]
   /** 写入 catalog 合法但 gzip/RLE 不可解码的字节（测真实失败链）。 */
   corruptBytes?: boolean
   definitions: readonly {
@@ -51,6 +65,7 @@ export interface WorldSpriteProject {
   assetBase: AssetBase
   disk: ReturnType<typeof memoryAuthorDirectory>
   seeded: ReadonlyMap<AssetId, SeededWorldSprite>
+  canonical: { scenes: AuthorSceneDef[]; sharedScripts: AuthorScriptLibrary }
 }
 
 const FRAME = 8
@@ -58,18 +73,47 @@ const FRAME = 8
 export async function loadWorldSpriteProject(
   name: string,
   specs: readonly WorldSpriteFixture[],
+  authoring: {
+    entities?: AuthorSceneDef['entities']
+    additionalScenes?: readonly AuthorSceneDef[]
+    sharedScripts?: AuthorScriptLibrary
+  } = {},
 ): Promise<WorldSpriteProject> {
   const { palette } = await buildSeedAssets()
   const files = await buildBlankProject(name)
+  if (authoring.entities) {
+    const path = 'content/scenes/start.json'
+    const [scene] = validateAuthorScenes([files[path]])
+    files[path] = { ...scene, entities: authoring.entities }
+  }
+  if (authoring.additionalScenes?.length) {
+    const index = validateSceneIndex(files[SCENE_INDEX_PATH])
+    for (const scene of authoring.additionalScenes) {
+      const path = `content/scenes/${scene.id}.json`
+      index.scenes.push({ id: scene.id, name: scene.id, path })
+      files[path] = scene
+    }
+    files[SCENE_INDEX_PATH] = index
+  }
+  if (authoring.sharedScripts) files['content/shared-scripts.json'] = authoring.sharedScripts
   const spritesJson = files['content/sprites.json'] as SpriteDef[]
   const catalog = (files['assets/index.json'] as { assets: Record<AssetId, AssetRecordV1> }).assets
   const seeded = new Map<AssetId, SeededWorldSprite>()
   for (const spec of specs) {
     if (Object.hasOwn(catalog, spec.asset))
       throw new Error(`World sprite fixture: AssetId 与现有项目资源冲突 ${spec.asset}`)
-    const frames = atlasColors(spec.frameCount).map((color) =>
-      quantizeToRleFrame(solidRgba(FRAME, FRAME, color), FRAME, FRAME, palette),
-    )
+    if (spec.frameSizes && spec.frameSizes.length !== spec.frameCount)
+      throw new Error(`World sprite fixture: frame size count does not match ${spec.asset}`)
+    const colors = atlasColors(Math.min(spec.frameCount, 16), spec.colorOffset)
+    const frames = Array.from({ length: spec.frameCount }, (_, index) => {
+      const [width, height] = spec.frameSizes?.[index] ?? [FRAME, FRAME]
+      return quantizeToRleFrame(
+        solidRgba(width, height, colors[index % colors.length]!),
+        width,
+        height,
+        palette,
+      )
+    })
     const gzip = await compressGzip(encodeSpriteChunk(frames))
     const bytes = spec.corruptBytes
       ? new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7]).buffer
@@ -104,7 +148,14 @@ export async function loadWorldSpriteProject(
   const maps = await loadFixtureProjectMaps(project)
   const state = toEditorState(project, scenes, maps, {}, [])
   assertProjectSaveValid(state)
-  return { source, state, assetBase: project.assetBase, disk, seeded }
+  return {
+    source,
+    state,
+    assetBase: project.assetBase,
+    disk,
+    seeded,
+    canonical: { scenes, sharedScripts: project.authorContent.sharedScripts },
+  }
 }
 
 /** 以 catalog + 待落盘 blob 真实解码（含 sha/bytes/gzip 校验）。 */

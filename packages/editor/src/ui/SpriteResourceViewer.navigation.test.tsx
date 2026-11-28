@@ -22,6 +22,12 @@ const VIEW_SPECS = [
     asset: 'sprite.view.alpha' as AssetId,
     label: 'AlphaSrc',
     frameCount: 4,
+    frameSizes: [
+      [8, 8],
+      [16, 10],
+      [8, 8],
+      [10, 12],
+    ],
     definitions: [
       { id: 'use-alpha', label: 'Alpha 用途', layout: { kind: 'static' as const } },
       { id: 'use-alpha-b', label: 'Alpha 副用途', layout: { kind: 'static' as const } },
@@ -95,20 +101,54 @@ describe('大世界源帧检查器', () => {
     expect(raw.textContent).toContain('删除当前帧')
   })
 
-  test('工具栏「下一帧」从 #0 到 #1，读数与 canvas aria-label 同步', async () => {
-    const project = await loadWorldSpriteProject('c03-g03-02', VIEW_SPECS)
+  test('真实帧切换同步首末边界、读数、尺寸及画布标签', async () => {
+    const project = await loadWorldSpriteProject('world-frame-navigation', VIEW_SPECS)
     mounted = await mountViewer(project, {
       asset: 'sprite.view.alpha',
       label: 'Alpha 显示',
     })
     await waitMeta(m().host, 4, 2)
+    const previous = toolbarButton(m().host, '上一帧')
+    const next = toolbarButton(m().host, '下一帧')
+    expect(previous.disabled).toBe(true)
+    expect(next.disabled).toBe(false)
+    expect(frameCounter(m().host)).toMatch(/1\s*\/\s*4/)
     expect(m().host.textContent).toContain('8 × 8 px')
     expect(currentFrameLabel(m().host)).toBe('#0')
-    await act(async () => toolbarButton(m().host, '下一帧').click())
+    await act(async () => next.click())
     await vi.waitFor(() => {
       expect(mounted!.host.querySelector('canvas[aria-label="Alpha 显示 第 1 帧"]')).not.toBeNull()
     })
     expect(frameCounter(m().host)).toMatch(/2\s*\/\s*4/)
+    expect(m().host.textContent).toContain('16 × 10 px')
+    await selectFrame(m().host, 3)
+    expect(frameCounter(m().host)).toMatch(/4\s*\/\s*4/)
+    expect(m().host.textContent).toContain('10 × 12 px')
+    expect(m().host.querySelector('canvas[aria-label="Alpha 显示 第 3 帧"]')).not.toBeNull()
+    expect(next.disabled).toBe(true)
+    expect(previous.disabled).toBe(false)
+    await act(async () => {
+      expect(toolbarButton(m().host, '删除当前帧').disabled).toBe(false)
+      next.click()
+      expect(currentFrameLabel(m().host)).toBe('#3')
+      previous.click()
+    })
+    expect(currentFrameLabel(m().host)).toBe('#2')
+    expect(m().session.getHistoryVersion()).toBe(0)
+  })
+
+  test('未设置用途的帧源仍显示编辑入口和当前帧', async () => {
+    const asset = 'sprite.view.unassigned'
+    const project = await loadWorldSpriteProject('unassigned-frame-source', [
+      { asset, label: '备用帧源', frameCount: 2, definitions: [] },
+    ])
+    mounted = await mountViewer(project, { asset, label: '备用帧源' })
+    await waitMeta(m().host, 2, 0)
+    const inspector = m().host.querySelector('[aria-label="源帧检查器"]')!
+    expect(inspector.textContent).toContain('这 2 帧尚未设置用途，仍可直接编辑、保留或删除源资源。')
+    expect(inspector.querySelector('canvas[aria-label="备用帧源 第 0 帧"]')).not.toBeNull()
+    expect(toolbarButton(inspector, '删除当前帧').disabled).toBe(false)
+    expect(m().session.getHistoryVersion()).toBe(0)
   })
 
   test('源帧网格点选：selectedLog 记录且大图切到对应帧', async () => {

@@ -34,6 +34,7 @@ import {
   prepareBattleSpriteImport,
 } from '../core/battle-sprite-import.js'
 import { sha256Hex } from '../core/binary-signature.js'
+import { assertAssetDeletionRevision } from '../core/command-asset-record.js'
 import {
   AddBattleSpriteCommand,
   type BattleSpriteReplacementProof,
@@ -621,6 +622,7 @@ export function BattleSpriteLibrary(props: {
     try {
       const bytes = await props.assetReader.readBytes(selectedAsset, 'battle-sprite')
       await decodeBattleSpriteAssetBytes(record, bytes, `删除前校验 ${selectedAsset}`)
+      assertAssetDeletionRevision(props.session.getState().assetCatalog, selectedAsset, record)
       props.session.dispatch(
         new DeleteUnusedBattleSpriteAssetCommand(
           selectedAsset,

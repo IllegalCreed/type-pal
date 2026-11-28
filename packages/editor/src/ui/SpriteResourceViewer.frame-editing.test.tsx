@@ -428,6 +428,7 @@ describe('大世界源帧改动和撤销', () => {
     await clickButton(host, '删除当前帧')
     const message = rawEditorMessage()
     expect(message.classList.contains('error')).toBe(true)
+    expect(message.getAttribute('role')).toBe('alert')
     expect(message.textContent).toBe(
       '帧 #0 属于“占位主角”的四向行走结构；单独删除会打乱方向分组，请先在布局中调整每向帧数。',
     )

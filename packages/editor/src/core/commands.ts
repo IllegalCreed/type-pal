@@ -32,12 +32,14 @@ export {
 } from './battle-field-commands.js'
 export {
   AddBattleSpriteCommand,
-  type BattleSpriteEditProof,
-  type BattleSpritePatch,
   type BattleSpriteReplacementProof,
   DeleteUnusedBattleSpriteAssetCommand,
-  RemoveBattleSpriteDefinitionCommand,
   ReplaceBattleSpriteAssetCommand,
+} from './battle-sprite-asset-commands.js'
+export {
+  type BattleSpriteEditProof,
+  type BattleSpritePatch,
+  RemoveBattleSpriteDefinitionCommand,
   SetEnemyBattleSpriteCommand,
   UpdateBattleSpriteDefinitionCommand,
 } from './battle-sprite-commands.js'
@@ -119,14 +121,16 @@ export type { SkillPatch } from './skill-commands.js'
 export { AddSkillCommand, DeleteSkillCommand, UpdateSkillCommand } from './skill-commands.js'
 export {
   AddSpriteCommand,
-  AddSpriteDefinitionCommand,
   DeleteUnusedSpriteAssetCommand,
-  RemoveSpriteDefinitionCommand,
   ReplaceSpriteAssetCommand,
+  type SpriteReplacementProof,
+} from './sprite-asset-commands.js'
+export {
+  AddSpriteDefinitionCommand,
+  RemoveSpriteDefinitionCommand,
   SpriteInUseError,
   type SpriteLayoutEditProof,
   type SpritePatch,
-  type SpriteReplacementProof,
   UpdateSpriteCommand,
 } from './sprite-commands.js'
 export {

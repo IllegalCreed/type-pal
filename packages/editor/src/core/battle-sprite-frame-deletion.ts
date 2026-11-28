@@ -1,5 +1,5 @@
 import type { BattleSpriteDef, BattleSpriteProfile, PlayerFighterFrames } from '@type-pal/content'
-import type { BattleSpriteReplacementProof } from './battle-sprite-commands.js'
+import type { BattleSpriteReplacementProof } from './battle-sprite-asset-commands.js'
 
 export interface BattleSpriteFrameDeletionPlan {
   repairs: NonNullable<BattleSpriteReplacementProof['repairs']>

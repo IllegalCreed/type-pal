@@ -10,6 +10,7 @@ import {
   waitMeta,
 } from '../__tests__/world-sprite-library-gestures.js'
 import type { MountedWorldSpriteLibrary } from '../__tests__/world-sprite-library-test-host.js'
+import { verifyInspectorTabs } from './inspector-tabs-test-utils.js'
 
 const suite = setupWorldSpriteLibrarySuite()
 let mounted: MountedWorldSpriteLibrary | undefined
@@ -134,5 +135,43 @@ describe('检查器页签/动作入口/引用面板与选择恢复', () => {
     mounted = await suite.mount(project, { focus: 'c01-alpha-walk' })
     await waitMeta(mounted.host, 8, 2)
     expect(mounted.host.querySelector('.what')?.textContent).toBe('大世界精灵用途')
+    await verifyInspectorTabs(mounted.host, '大世界精灵检查器', ['用途', /^引用 \d+$/, '源资源'])
+  })
+
+  test('共享源文件深链打开来源页，切换用途依然保留引用页', async () => {
+    const asset = 'sprite.authored.c01alpha'
+    const project = await multiAssetProject('world-sprite-source-route')
+    const library = await suite.mount(project, { view: 'asset', focus: asset })
+    await waitMeta(library.host, 8, 2)
+    const source = library.host.querySelector<HTMLElement>('#world-sprite-inspector-panel-source')!
+    const seeded = project.seeded.get(asset)!
+    expect(source.hidden).toBe(false)
+    expect(
+      [...source.querySelectorAll('code.ds-inspector-readonly')].map((code) => code.textContent),
+    ).toEqual([asset, seeded.path, seeded.sha256])
+    expect(source.querySelector('.ds-overflow-text[title]')).toBeNull()
+    const usageTab = library.host.querySelector<HTMLButtonElement>(
+      '[role="tab"][aria-controls="world-sprite-inspector-panel-layout"]',
+    )!
+    await act(async () => usageTab.click())
+    expect(library.host.querySelector('.who')?.textContent).toBe('AlphaWalk')
+    expect(usageTab.getAttribute('aria-selected')).toBe('true')
+    const references = library.host.querySelector<HTMLButtonElement>(
+      '[role="tab"][aria-controls="world-sprite-inspector-panel-references"]',
+    )!
+    await act(async () => references.click())
+    expect(library.host.querySelector('.who')?.textContent).toBe('AlphaWalk')
+    const panel = library.host.querySelector<HTMLElement>(
+      '#world-sprite-inspector-panel-references',
+    )!
+    const usages = panel.querySelector('[aria-label="选择要查看的用途定义"]')!
+    const sibling = [...usages.querySelectorAll<HTMLButtonElement>('.ds-catalog-row')].find(
+      (button) => button.querySelector('.ds-catalog-row__meta')?.textContent === 'c01-alpha-idle',
+    )!
+    await act(async () => sibling.click())
+    expect(library.host.querySelector('.who')?.textContent).toBe('AlphaIdle')
+    expect(panel.hidden).toBe(false)
+    expect(references.getAttribute('aria-selected')).toBe('true')
+    expect(library.session.getHistoryVersion()).toBe(0)
   })
 })

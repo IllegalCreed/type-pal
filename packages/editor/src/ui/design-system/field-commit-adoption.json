@@ -510,7 +510,7 @@
             "sprites.*.poses.*.label",
             "sprites.*.poses.*.steps.*.durationMs"
           ],
-          "verification": "WorldSpriteLibrary.test.tsx + SpriteActionEditor.test.tsx + SpriteActionEditorDialog.test.tsx"
+          "verification": "WorldSpriteLibrary.resource-proof.test.tsx + SpriteActionEditor.timeline.test.tsx + SpriteActionEditorDialog.guards.test.tsx + WorldSpriteLibrary.action-navigation.test.tsx"
         },
         {
           "id": "battle-sprite-definition",
@@ -519,7 +519,7 @@
           "files": ["BattleSpriteLibrary.tsx"],
           "controlOwners": ["BattleSpriteLibrary", "ProfileEditor", "NumberField"],
           "fields": ["battleSprites.*.label", "battleSprites.*.profile"],
-          "verification": "BattleSpriteLibrary.test.tsx"
+          "verification": "BattleSpriteLibrary.history.test.tsx + BattleSpriteLibrary.action-editing.test.tsx"
         }
       ]
     },

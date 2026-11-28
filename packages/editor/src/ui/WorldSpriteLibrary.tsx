@@ -2,6 +2,7 @@ import type { AssetCatalogV1, AssetId, SpriteDef, SpriteLayout } from '@type-pal
 import type { AssetBase } from '@type-pal/reforge'
 import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
+import { assertAssetDeletionRevision } from '../core/command-asset-record.js'
 import {
   AddSpriteDefinitionCommand,
   DeleteUnusedSpriteAssetCommand,
@@ -15,7 +16,7 @@ import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
-import { sortedSpriteActions } from '../core/sprite-actions.js'
+import { findSpriteAction, sortedSpriteActions } from '../core/sprite-actions.js'
 import {
   type CanonicalSpritePreviewState,
   collectAutomaticScriptSpriteInstanceSites,
@@ -293,7 +294,8 @@ export function WorldSpriteLibrary(props: {
     if (pendingRoute && props.focusActionId !== pendingRoute.actionId) return
     if (pendingRoute) pendingActionRouteRef.current = undefined
     if (props.focusActionId) {
-      if (!definition.poses?.[props.focusActionId]) {
+      const routeChanged = previousFocusActionIdRef.current !== props.focusActionId
+      if (!findSpriteAction(definition, props.focusActionId)) {
         setSelectedActionId(props.focusActionId)
         setActionDialog(undefined)
         props.onStatusNotice?.({
@@ -307,12 +309,12 @@ export function WorldSpriteLibrary(props: {
       setReferenceActionId(props.focusActionId)
       if (loadedProof)
         setActionDialog((current) => {
-          if (
-            current?.kind === 'edit' &&
-            current.definition.id === definition.id &&
-            current.owner === 'route'
-          )
+          if (current?.kind === 'edit' && current.definition.id === definition.id) {
+            // Acknowledging the dialog's own selection keeps its directory and detail state alive.
+            if (!pendingRoute && routeChanged && current.owner === 'browse')
+              return { ...current, owner: 'route' }
             return current
+          }
           actionDialogRevisionRef.current += 1
           return {
             revision: actionDialogRevisionRef.current,
@@ -333,7 +335,7 @@ export function WorldSpriteLibrary(props: {
     )
       setActionDialog(undefined)
     previousFocusActionIdRef.current = undefined
-    if (selectedActionId && definition.poses?.[selectedActionId]) return
+    if (selectedActionId && findSpriteAction(definition, selectedActionId)) return
     const first = orderedWorldSpriteActions(definition)[0]?.[0]
     setSelectedActionId(first)
     setReferenceActionId((current) => (current && definition.poses?.[current] ? current : first))
@@ -377,7 +379,9 @@ export function WorldSpriteLibrary(props: {
     setCreatingUsage(false)
     setShowUsageMenu(false)
     setSelectedActionId(
-      props.view === 'definition' && props.focusActionId && focused?.poses?.[props.focusActionId]
+      props.view === 'definition' &&
+        props.focusActionId &&
+        findSpriteAction(focused, props.focusActionId)
         ? props.focusActionId
         : undefined,
     )
@@ -487,7 +491,7 @@ export function WorldSpriteLibrary(props: {
 
   const openEditAction = (next: SpriteDef, actionId?: string): void => {
     const targetId = actionId ?? sortedSpriteActions(next)[0]?.id
-    if (!targetId || !next.poses?.[targetId]) {
+    if (!targetId || !findSpriteAction(next, targetId)) {
       props.onStatusNotice?.({ kind: 'error', message: '当前用途尚无可编辑的预制动作。' })
       return
     }
@@ -624,6 +628,7 @@ export function WorldSpriteLibrary(props: {
       return
     try {
       const bytes = await props.assetReader.readBytes(selectedAsset, 'sprite')
+      assertAssetDeletionRevision(props.session.getState().assetCatalog, selectedAsset, record)
       props.session.dispatch(
         new DeleteUnusedSpriteAssetCommand(selectedAsset, props.getCurrentReferenceIndex, bytes),
       )
@@ -1147,8 +1152,10 @@ export function WorldSpriteLibrary(props: {
                                       {
                                         label:
                                           reference.target.kind === 'world-sprite-action'
-                                            ? (definition.poses?.[reference.target.actionId]
-                                                ?.label ?? reference.target.actionId)
+                                            ? (findSpriteAction(
+                                                definition,
+                                                reference.target.actionId,
+                                              )?.label ?? reference.target.actionId)
                                             : '动作引用',
                                       },
                                     ]}
@@ -1427,11 +1434,13 @@ export function WorldSpriteLibrary(props: {
           onSelectedSourceFrameChange={setSelectedSourceFrame}
           onRequestCreate={openCreateAction}
           onOpenReferences={(actionId) => {
+            const objectId = actionDialog.definition.id
+            pendingInspectorTab.current = { view: 'definition', objectId, tab: 'references' }
             setReferenceActionId(actionId)
             setInspectorTab('references')
             setActionDialog(undefined)
             pendingActionRouteRef.current = { actionId: undefined }
-            props.onViewChange('definition', actionDialog.definition.id)
+            props.onViewChange('definition', objectId)
           }}
           onRequestSave={props.onRequestSave}
           onClose={closeActionDialog}

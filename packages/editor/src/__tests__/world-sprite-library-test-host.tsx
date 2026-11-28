@@ -3,7 +3,7 @@
  * 不 mock SpriteResourceViewer / SpriteUploadWizard；不使用 as never 资产桥。
  */
 import { type AssetBase, type FileSource, loadStandardPalette } from '@type-pal/reforge'
-import { act, useState, useSyncExternalStore } from 'react'
+import { act, type ComponentProps, useEffect, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { EditSession } from '../core/edit-session.js'
 import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -14,6 +14,20 @@ import type { WorldSpriteProject } from './world-sprite-project.js'
 
 export type Notice = { kind: 'info' | 'error'; message: string } | undefined
 
+interface WorldSpriteLocation {
+  view: 'definition' | 'asset'
+  objectId?: string
+  actionId?: string
+}
+
+type LibraryProps = ComponentProps<typeof WorldSpriteLibrary>
+type LibraryBindings = Pick<
+  LibraryProps,
+  'onOpenReference' | 'onJumpAutomaticScriptInstance' | 'onRequestSave' | 'canonical'
+> & {
+  references?: Pick<LibraryProps, 'referenceStatus' | 'referenceIndex' | 'getCurrentReferenceIndex'>
+}
+
 export interface MountedWorldSpriteLibrary {
   project: WorldSpriteProject
   session: EditSession
@@ -23,15 +37,15 @@ export interface MountedWorldSpriteLibrary {
   host: HTMLDivElement
   root: Root
   focusHistory: Array<{ view: 'definition' | 'asset'; objectId?: string }>
+  navigate: (location: WorldSpriteLocation) => Promise<void>
 }
 
 function Harness(props: {
   session: EditSession
   assetBase: AssetBase
   reader: EditorAssetReader
-  initialView: 'definition' | 'asset'
-  initialFocus?: string
-  initialActionId?: string
+  location: WorldSpriteLocation
+  bindings?: LibraryBindings
   notices: Notice[]
   battleDomainCalls: number[]
   focusHistory: Array<{ view: 'definition' | 'asset'; objectId?: string }>
@@ -41,9 +55,13 @@ function Harness(props: {
     () => props.session.getVersion(),
   )
   const current = props.session.getState()
-  const [view, setView] = useState<'definition' | 'asset'>(props.initialView)
-  const [focus, setFocus] = useState<string | undefined>(props.initialFocus)
-  const [actionId, setActionId] = useState<string | undefined>(props.initialActionId)
+  const [location, setLocation] = useState(props.location)
+  useEffect(() => setLocation(props.location), [props.location])
+  const references: NonNullable<LibraryBindings['references']> = props.bindings?.references ?? {
+    referenceIndex: collectCurrentProjectReferenceIndex(current),
+    referenceStatus: 'current',
+    getCurrentReferenceIndex: collectCurrentProjectReferenceIndex,
+  }
   return (
     <WorldSpriteLibrary
       definitions={current.sprites}
@@ -52,20 +70,30 @@ function Harness(props: {
       assetReader={props.reader}
       session={props.session}
       tabBar={null}
-      view={view}
-      focusObjectId={focus}
-      focusActionId={actionId}
-      onViewChange={(next, objectId) => {
-        setView(next)
-        setFocus(objectId)
-        props.focusHistory.push({ view: next, objectId })
+      view={location.view}
+      focusObjectId={location.objectId}
+      focusActionId={location.actionId}
+      onViewChange={(view, objectId) => {
+        // DataMode's view callback replaces the route and drops any previous action selection.
+        setLocation({ view, objectId })
+        props.focusHistory.push({ view, objectId })
       }}
-      onObjectFocus={setFocus}
-      onActionFocus={(_spriteId, nextAction) => setActionId(nextAction)}
+      onObjectFocus={(objectId) =>
+        setLocation((current) =>
+          current.objectId === objectId ? current : { ...current, objectId },
+        )
+      }
+      onActionFocus={(objectId, actionId) =>
+        setLocation({ view: 'definition', objectId, actionId })
+      }
       onBattleDomain={() => props.battleDomainCalls.push(Date.now())}
-      referenceIndex={collectCurrentProjectReferenceIndex(current)}
-      referenceStatus="current"
-      getCurrentReferenceIndex={(state) => collectCurrentProjectReferenceIndex(state)}
+      referenceIndex={references.referenceIndex}
+      referenceStatus={references.referenceStatus}
+      getCurrentReferenceIndex={references.getCurrentReferenceIndex}
+      onOpenReference={props.bindings?.onOpenReference}
+      onJumpAutomaticScriptInstance={props.bindings?.onJumpAutomaticScriptInstance}
+      onRequestSave={props.bindings?.onRequestSave}
+      canonical={props.bindings?.canonical}
       onStatusNotice={(notice) => props.notices.push(notice)}
     />
   )
@@ -78,6 +106,7 @@ export async function mountWorldSpriteLibrary(
     focus?: string
     actionId?: string
     source?: FileSource
+    bindings?: LibraryBindings
     /** Pending-state tests retain the read gate and release it inside their own act. */
     waitForResource?: boolean
   } = {},
@@ -102,22 +131,27 @@ export async function mountWorldSpriteLibrary(
     host,
     root,
     focusHistory,
-  }
+    navigate: (location: WorldSpriteLocation) =>
+      act(async () => {
+        root.render(
+          <Harness
+            session={session}
+            assetBase={project.assetBase}
+            reader={reader}
+            location={location}
+            bindings={input.bindings}
+            notices={notices}
+            battleDomainCalls={battleDomainCalls}
+            focusHistory={focusHistory}
+          />,
+        )
+      }),
+  } satisfies MountedWorldSpriteLibrary
   try {
-    await act(async () => {
-      root.render(
-        <Harness
-          session={session}
-          assetBase={project.assetBase}
-          reader={reader}
-          initialView={input.view ?? 'definition'}
-          initialFocus={input.focus}
-          initialActionId={input.actionId}
-          notices={notices}
-          battleDomainCalls={battleDomainCalls}
-          focusHistory={focusHistory}
-        />,
-      )
+    await mounted.navigate({
+      view: input.view ?? 'definition',
+      objectId: input.focus,
+      actionId: input.actionId,
     })
     if (input.waitForResource !== false) {
       const asset =
