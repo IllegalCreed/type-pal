@@ -1,4 +1,5 @@
 import type { AssetCatalogV1, AssetId, AssetRecordV1 } from '@type-pal/content'
+import { sha256Hex } from './binary-signature.js'
 import type { StaticImageKind } from './static-image.js'
 
 export type ImagePalette = readonly (readonly [number, number, number])[]
@@ -68,11 +69,6 @@ async function canvasPng(canvas: HTMLCanvasElement): Promise<ArrayBuffer> {
     ),
   )
   return blob.arrayBuffer()
-}
-
-async function sha256Hex(bytes: ArrayBuffer): Promise<string> {
-  const digest = await crypto.subtle.digest('SHA-256', bytes)
-  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('')
 }
 
 export interface PreparedImageImport {

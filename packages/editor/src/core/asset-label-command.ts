@@ -1,47 +1,43 @@
-/**
- * 资源显示名命令。
- * 对 Command 仅 type import（commands.ts 反向 re-export），运行期无环。
- */
-import type { AssetId } from '@type-pal/content'
+import { type AssetId, type AssetRecordV1, findAssetRecord } from '@type-pal/content'
 import type { Command } from './command-contract.js'
 import type { EditorState } from './edit-session.js'
 
-/** 改资源显示名；AssetId/path/引用保持不变。 */
+/** Change the label without changing the catalog identity or the asset's bytes. */
 export class UpdateAssetLabelCommand implements Command {
   readonly label = '修改资源名称'
-  private readonly assetId: AssetId
   private readonly next: string | undefined
-  private old: string | undefined
+  private previous: string | undefined
   private captured = false
 
-  constructor(assetId: AssetId, label: string | undefined) {
-    this.assetId = assetId
+  constructor(
+    private readonly assetId: AssetId,
+    label: string | undefined,
+  ) {
     this.next = label || undefined
   }
 
   apply(state: EditorState): EditorState {
-    const current = state.assetCatalog.assets[this.assetId]
+    const current = findAssetRecord(state.assetCatalog, this.assetId)
     if (!current) return state
     if (!this.captured) {
+      this.previous = current.label
       this.captured = true
-      this.old = current.label
     }
-    const record = { ...current, label: this.next }
-    if (!this.next) delete record.label
-    return {
-      ...state,
-      assetCatalog: {
-        ...state.assetCatalog,
-        assets: { ...state.assetCatalog.assets, [this.assetId]: record },
-      },
-    }
+    return this.withLabel(state, current, this.next)
   }
 
   invert(state: EditorState): EditorState {
-    const current = state.assetCatalog.assets[this.assetId]
-    if (!current) return state
-    const record = { ...current, label: this.old }
-    if (!this.old) delete record.label
+    const current = findAssetRecord(state.assetCatalog, this.assetId)
+    return current && this.captured ? this.withLabel(state, current, this.previous) : state
+  }
+
+  private withLabel(
+    state: EditorState,
+    current: AssetRecordV1,
+    label: string | undefined,
+  ): EditorState {
+    const record = { ...current, label }
+    if (label === undefined) delete record.label
     return {
       ...state,
       assetCatalog: {

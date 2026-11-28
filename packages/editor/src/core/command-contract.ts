@@ -1,8 +1,8 @@
 import type { EditorState } from './edit-session.js'
 
 /**
- * 一次编辑操作。apply/invert 都返回**新** EditorState(不可变 —— 不得 mutate 传入)。
- * invert(s) 接收的是 apply 之后的态,要还原成 apply 之前的态。
+ * An immutable editor transition. Return the input state when no edit occurs.
+ * Undo receives the current applied state and restores the fields owned by this command.
  */
 export interface Command {
   readonly label: string

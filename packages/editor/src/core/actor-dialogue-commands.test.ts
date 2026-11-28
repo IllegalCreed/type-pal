@@ -1,138 +1,273 @@
-import { describe, expect, test } from 'vitest'
+import {
+  type AuthorCommand,
+  validateAuthorEnemies,
+  validateAuthorItems,
+  validateAuthorScenes,
+  validateAuthorSharedScripts,
+} from '@type-pal/content'
+import { loadCurrentProjectFrom } from '@type-pal/reforge'
+import { expect, test } from 'vitest'
+import {
+  loadBoundaryProject,
+  withSharedEnemyBattleSprite,
+} from './__tests__/cursor-command-boundary-fixtures.js'
+import { mkEnemy } from './__tests__/glm-state-commands-b.js'
+import { originalPortrait, pngBytes } from './__tests__/portrait-bytes.js'
+import { AddActorCommand, UpdateActorCommand } from './actor-commands.js'
 import {
   RemoveActorPortraitExpressionCommand,
   RemoveActorPortraitSetCommand,
   RenameActorPortraitExpressionCommand,
 } from './actor-dialogue-commands.js'
 import { collectEditorDialoguePortraitReferences } from './actor-references.js'
-import type { EditorState } from './edit-session.js'
+import { UpsertAssetCommand } from './asset-commands.js'
+import { sha256Hex } from './binary-signature.js'
+import { EditSession } from './edit-session.js'
+import { UpdateLocaleCommand } from './locale-commands.js'
+import { assertProjectSaveValid } from './project-diagnostics.js'
+import { toEditorState } from './project-io.js'
 
-const actorCue = () => ({
-  kind: 'dialog' as const,
-  cue: {
-    identity: {
-      kind: 'actor' as const,
-      actor: 'hero',
-      portrait: { kind: 'expression' as const, expression: 'angry' },
-    },
-    slot: 'bottom' as const,
-    rows: ['dialog.hero'],
-  },
-})
+const portraitId = 'portrait.park'
 
-function state(): EditorState {
+function expressionCue(actor: string, expression: string) {
   return {
-    manifest: {
-      id: 'dialogue-expression',
-      name: 'dialogue expression',
-      contentVersion: 23,
-      defaultEntryId: 'main',
-      content: {},
-      assets: { catalog: 'assets/index.json', roles: {} },
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主要入口',
-          scene: 's',
-          startWorld: { party: [], money: 0, inventory: [] },
-        },
-      ],
-      minimumSaveVersion: 12,
+    kind: 'dialog' as const,
+    cue: {
+      identity: {
+        kind: 'actor' as const,
+        actor,
+        portrait: { kind: 'expression' as const, expression, side: 'left' as const },
+      },
+      rows: [{ text: 'portrait.line' }],
     },
-    scenes: [
-      {
-        id: 's',
-        mapId: 'map-s',
-        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-        entities: [],
-        onEnter: [{ body: [actorCue()] }],
-      },
-    ],
-    actors: [
-      {
-        id: 'hero',
-        name: 'name.hero',
-        spriteId: 'sprite.hero',
-        portraits: {
-          default: 'portrait.hero',
-          expressions: { angry: 'portrait.hero.angry', calm: 'portrait.hero.calm' },
-        },
-      },
-    ],
-    items: [
-      {
-        id: 'item',
-        name: 'item.name',
-        desc: [],
-        buyPrice: 0,
-        sellPrice: 0,
-        sellable: false,
-        use: { effects: [{ kind: 'itemPrivateScript', script: { body: [actorCue()] } }] },
-      },
-    ],
-    sharedScripts: {
-      shared: { name: 'shared.name', self: { scene: 's', entity: 'e' }, body: [actorCue()] },
-    },
-    scriptChunks: {
-      chunk: { version: 1, scripts: { script: [actorCue()] } },
-    },
-    enemies: [
-      {
-        id: 'enemy',
-        name: 'enemy.name',
-        ai: { rules: [] },
-        onDefeated: [actorCue()],
-      },
-    ],
-    skills: [],
-    levelUp: {},
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    stamps: [],
-    tilesetBlobs: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-  } as unknown as EditorState
+  } satisfies AuthorCommand
 }
 
-describe('人物立绘表情引用事务', () => {
-  test('重命名一次改写所有作者面并可精确撤销', () => {
-    const before = state()
-    expect(collectEditorDialoguePortraitReferences(before)).toHaveLength(5)
-    const command = new RenameActorPortraitExpressionCommand('hero', 'angry', 'furious')
-    const after = command.apply(before)
+async function portraitSession(withCues = false): Promise<EditSession> {
+  const { source, state } = await loadBoundaryProject()
+  const session = new EditSession(state)
+  const bytes = pngBytes(originalPortrait)
+  session.dispatch(
+    new UpsertAssetCommand(
+      portraitId,
+      {
+        kind: 'portrait',
+        path: 'assets/authored/portraits/park.png',
+        mediaType: 'image/png',
+        bytes: bytes.byteLength,
+        sha256: await sha256Hex(bytes),
+        label: '青色立绘',
+        origin: { kind: 'authored' },
+      },
+      bytes,
+    ),
+  )
+  session.dispatch(
+    new UpdateActorCommand('hero', {
+      portraits: { default: portraitId, expressions: { tired: portraitId } },
+    }),
+  )
+  if (!withCues) {
+    assertProjectSaveValid(session.getState())
+    return session
+  }
 
-    expect(before.actors[0]?.portraits?.expressions).toHaveProperty('angry')
-    expect(after.actors[0]?.portraits?.expressions).not.toHaveProperty('angry')
-    expect(after.actors[0]?.portraits?.expressions?.furious).toBe('portrait.hero.angry')
-    expect(
-      collectEditorDialoguePortraitReferences(after).map((reference) => reference.expression),
-    ).toEqual(['furious', 'furious', 'furious', 'furious', 'furious'])
-    expect(command.invert(after)).toEqual(before)
+  session.dispatch(new UpdateLocaleCommand('name.friend', '旅伴'))
+  session.dispatch(
+    new AddActorCommand({
+      id: 'friend',
+      name: 'name.friend',
+      spriteId: 'hero',
+      portraits: { default: portraitId, expressions: { tired: portraitId } },
+    }),
+  )
+  const authored = await loadCurrentProjectFrom(source)
+  const cue = expressionCue('hero', 'tired')
+  const scenes = validateAuthorScenes(
+    state.scenes.map((scene) => ({
+      ...scene,
+      hooks: {
+        onEnter: {
+          variants: {
+            arrival: {
+              label: '开场',
+              order: 0,
+              flow: {
+                kind: 'stages',
+                initial: 'start',
+                stages: [{ id: 'start', body: [cue] }],
+              },
+            },
+          },
+        },
+      },
+    })),
+  )
+  const items = validateAuthorItems([
+    {
+      id: 'memory',
+      name: 'item.memory',
+      desc: '',
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      use: {
+        target: 'scene',
+        consuming: false,
+        effects: [{ kind: 'itemPrivateScript', script: { id: 'use', body: [cue] } }],
+      },
+    },
+  ])
+  const enemies = validateAuthorEnemies([{ ...mkEnemy('watcher'), onDefeated: [cue] }])
+  const sharedScripts = validateAuthorSharedScripts({
+    morning: {
+      name: '清晨',
+      self: 'none',
+      body: [cue, expressionCue('friend', 'tired')],
+    },
   })
+  const projected = toEditorState(
+    {
+      ...authored,
+      authorContent: { ...authored.authorContent, items, enemies, sharedScripts },
+    },
+    scenes,
+    {},
+    {},
+    [],
+  )
+  const withPorts = await withSharedEnemyBattleSprite(source, session.getState(), 'enemy-shape')
+  const current = {
+    ...withPorts,
+    scenes: projected.scenes,
+    items: projected.items,
+    enemies: projected.enemies,
+    sharedScripts: projected.sharedScripts,
+  }
+  assertProjectSaveValid(current)
+  return new EditSession(current)
+}
 
-  test('被引用的表情和整个立绘组都禁止删除', () => {
-    const current = state()
-    expect(() => new RemoveActorPortraitExpressionCommand('hero', 'angry').apply(current)).toThrow(
-      /仍被 5 处对话引用/,
-    )
-    expect(() => new RemoveActorPortraitSetCommand('hero').apply(current)).toThrow(
-      /仍被 5 处对话引用/,
-    )
-  })
+test('renaming to an absent legal name registers the same portrait through undo and redo', async () => {
+  const session = await portraitSession()
 
-  test('未引用表情可删且不改变默认立绘', () => {
-    const before = state()
-    const command = new RemoveActorPortraitExpressionCommand('hero', 'calm')
-    const after = command.apply(before)
-    expect(after.actors[0]?.portraits).toEqual({
-      default: 'portrait.hero',
-      expressions: { angry: 'portrait.hero.angry' },
-    })
-    expect(command.invert(after)).toEqual(before)
+  expect(() =>
+    session.dispatch(new RenameActorPortraitExpressionCommand('hero', 'tired', 'constructor')),
+  ).not.toThrow()
+  expect(Object.entries(session.getState().actors[0]?.portraits?.expressions ?? {})).toEqual([
+    ['constructor', portraitId],
+  ])
+  assertProjectSaveValid(session.getState())
+  expect(session.undo()).toBe(true)
+  expect(session.getState().actors[0]?.portraits?.expressions).toEqual({ tired: portraitId })
+  expect(session.redo()).toBe(true)
+  expect(
+    Object.hasOwn(session.getState().actors[0]?.portraits?.expressions ?? {}, 'constructor'),
+  ).toBe(true)
+})
+
+test('a missing inherited name is rejected as a rename source', async () => {
+  const session = await portraitSession()
+  const original = session.getState()
+  const version = session.getHistoryVersion()
+
+  expect(() =>
+    session.dispatch(new RenameActorPortraitExpressionCommand('hero', 'constructor', 'tired2')),
+  ).toThrow('人物 hero 不存在表情“constructor”')
+  expect(session.getState()).toBe(original)
+  expect(session.getHistoryVersion()).toBe(version)
+})
+
+test('deleting an unregistered expression adds no history', async () => {
+  const session = await portraitSession()
+  const original = session.getState()
+  const version = session.getHistoryVersion()
+
+  expect(session.dispatch(new RemoveActorPortraitExpressionCommand('hero', 'constructor'))).toBe(
+    false,
+  )
+  expect(session.getState()).toBe(original)
+  expect(session.getHistoryVersion()).toBe(version)
+})
+
+test('deleting an unused expression keeps its default portrait and undo restores the name', async () => {
+  const session = await portraitSession()
+  const expressions = { tired: portraitId, calm: portraitId }
+  session.dispatch(
+    new UpdateActorCommand('hero', { portraits: { default: portraitId, expressions } }),
+  )
+
+  expect(session.dispatch(new RemoveActorPortraitExpressionCommand('hero', 'tired'))).toBe(true)
+  expect(session.getState().actors[0]?.portraits).toEqual({
+    default: portraitId,
+    expressions: { calm: portraitId },
   })
+  expect(session.dispatch(new RemoveActorPortraitExpressionCommand('hero', 'calm'))).toBe(true)
+  expect(session.getState().actors[0]?.portraits).toEqual({ default: portraitId })
+  expect(session.undo()).toBe(true)
+  expect(session.getState().actors[0]?.portraits?.expressions).toEqual({ calm: portraitId })
+  expect(session.undo()).toBe(true)
+  expect(session.getState().actors[0]?.portraits?.expressions).toEqual(expressions)
+  expect(session.dispatch(new RemoveActorPortraitSetCommand('hero'))).toBe(true)
+  expect(session.getState().actors[0]?.portraits).toBeUndefined()
+  expect(session.undo()).toBe(true)
+  expect(session.getState().actors[0]?.portraits).toEqual({ default: portraitId, expressions })
+})
+
+test('rename rewrites all four authored cue roots and preserves another actor with the same expression', async () => {
+  const session = await portraitSession(true)
+  const before = session.getState()
+  const references = () => collectEditorDialoguePortraitReferences(session.getState())
+  expect(references().map(({ actorId, expression }) => [actorId, expression])).toEqual([
+    ['hero', 'tired'],
+    ['hero', 'tired'],
+    ['hero', 'tired'],
+    ['friend', 'tired'],
+    ['hero', 'tired'],
+  ])
+
+  expect(session.dispatch(new RenameActorPortraitExpressionCommand('hero', 'tired', 'calm'))).toBe(
+    true,
+  )
+  expect(references().map(({ actorId, expression }) => [actorId, expression])).toEqual([
+    ['hero', 'calm'],
+    ['hero', 'calm'],
+    ['hero', 'calm'],
+    ['friend', 'tired'],
+    ['hero', 'calm'],
+  ])
+  expect(session.getState().actors[0]?.portraits?.expressions).toEqual({ calm: portraitId })
+  expect(session.getState().actors[1]?.portraits?.expressions).toEqual({ tired: portraitId })
+  assertProjectSaveValid(session.getState())
+  expect(session.undo()).toBe(true)
+  expect(session.getState()).toEqual(before)
+})
+
+test('referenced expression and portrait set fail before entering history', async () => {
+  const session = await portraitSession(true)
+  const before = session.getState()
+
+  expect(() => session.dispatch(new RemoveActorPortraitExpressionCommand('hero', 'tired'))).toThrow(
+    /仍被 4 处对话引用/,
+  )
+  expect(() => session.dispatch(new RemoveActorPortraitSetCommand('hero'))).toThrow(
+    /仍被 4 处对话引用/,
+  )
+  expect(session.getState()).toBe(before)
+  expect(session.canUndo()).toBe(false)
+})
+
+test('rename rejects an undefined source or invalid destination and skips an unchanged name', async () => {
+  const session = await portraitSession()
+  const version = session.getHistoryVersion()
+  expect(() =>
+    session.dispatch(new RenameActorPortraitExpressionCommand('hero', 'tired', ' calm ')),
+  ).toThrow(/表情名不能为空或包含首尾空格/)
+  expect(() =>
+    session.dispatch(new RenameActorPortraitExpressionCommand('hero', 'calm', 'tired')),
+  ).toThrow(/不存在表情“calm”/)
+  expect(session.dispatch(new RenameActorPortraitExpressionCommand('hero', 'tired', 'tired'))).toBe(
+    false,
+  )
+  expect(session.getHistoryVersion()).toBe(version)
 })

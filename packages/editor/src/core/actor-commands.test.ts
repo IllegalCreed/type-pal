@@ -1,365 +1,330 @@
-import type { ActorDef, EntityDef, SpriteDef } from '@type-pal/content'
-import { resolveEntitySpriteId } from '@type-pal/content'
-import { describe, expect, test, vi } from 'vitest'
+import { type ActorDef, type EntityDef, resolveEntitySpriteId } from '@type-pal/content'
+import { expect, test } from 'vitest'
+import {
+  loadBoundaryProject,
+  withSharedEnemyBattleSprite,
+  withSharedWorldSprite,
+} from './__tests__/cursor-command-boundary-fixtures.js'
 import {
   ActorInUseError,
   AddActorCommand,
-  CompositeCommand,
   CopyActorCommand,
   DeleteActorCommand,
   DetachActorEntityCommand,
-  MoveEntityCommand,
+  SetActorBattleSpriteCommand,
   UpdateActorCommand,
-  UpdateLocaleCommand,
-} from './commands.js'
-import { type EditorState, EditSession } from './edit-session.js'
+} from './actor-commands.js'
+import { CompositeCommand } from './composite-command.js'
+import { EditSession } from './edit-session.js'
+import { AddEntityCommand, MoveEntityCommand } from './entity-commands.js'
+import { UpdateLevelUpCommand } from './level-up-commands.js'
+import { UpdateLocaleCommand } from './locale-commands.js'
+import { assertProjectSaveValid } from './project-diagnostics.js'
 import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
+import { AddSkillCommand } from './skill-commands.js'
 
-const sprite: SpriteDef = {
-  id: 'sprite.hero',
-  label: '主角精灵',
-  asset: 'asset.sprite.hero',
-  layout: { kind: 'directional', framesPerDir: 3 },
+const resident: ActorDef = { id: 'resident', name: 'name.hero', spriteId: 'hero' }
+const learning = { level: 3, skillId: 'step' }
+
+async function projectSession(): Promise<EditSession> {
+  const { state } = await loadBoundaryProject()
+  return new EditSession(state)
 }
 
-function state(actors: ActorDef[] = []): EditorState {
-  return {
-    manifest: {
-      id: 'actor-crud',
-      name: 'actor crud',
-      contentVersion: 23,
-      defaultEntryId: 'main',
-      content: {},
-      assets: { catalog: 'assets/index.json', roles: {} },
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主要入口',
-          scene: 's',
-          startWorld: { party: [], money: 0, inventory: [] },
-        },
-      ],
-    },
-    scenes: [
-      {
-        id: 's',
-        mapId: 'map-s',
-        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-        entities: [],
-      },
-    ],
-    actors,
-    skills: [],
-    levelUp: {},
-    items: [],
-    locale: {},
-    sprites: [sprite],
-    battleSprites: [],
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    stamps: [],
-    tilesetBlobs: {},
-    scriptChunks: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-  } as unknown as EditorState
+function addLearning(session: EditSession, actorId: string): void {
+  session.dispatch(new AddSkillCommand(learning.skillId, '入门步'))
+  session.dispatch(new UpdateLevelUpCommand(actorId, [learning]))
 }
 
-function actor(id = 'hero', name = 'name.hero'): ActorDef {
-  return { id, name, spriteId: sprite.id }
-}
+test('creation registers the actor and their display text in one history step', async () => {
+  const session = await projectSession()
+  const draft = { ...resident, name: 'name.resident' }
+  const command = new CompositeCommand('创建人物', [
+    new UpdateLocaleCommand(draft.name, '店员'),
+    new AddActorCommand(draft),
+  ])
+  draft.spriteId = 'missing'
 
-const currentReferences = (state: EditorState) => collectCurrentProjectReferenceIndex(state)
+  expect(session.dispatch(command)).toBe(true)
+  expect(session.getState().actors.at(-1)).toEqual({ ...resident, name: 'name.resident' })
+  expect(session.getState().locale['name.resident']).toBe('店员')
+  expect(session.getHistoryVersion()).toBe(1)
+  assertProjectSaveValid(session.getState())
+  expect(session.undo()).toBe(true)
+  expect(session.getState().actors.map(({ id }) => id)).toEqual(['hero'])
+  expect(session.getState().locale).not.toHaveProperty('name.resident')
+  expect(session.redo()).toBe(true)
+  expect(session.getState().locale['name.resident']).toBe('店员')
+})
 
-describe('人物 CRUD 与解除关联', () => {
-  test('空白项目以 locale + Actor 单事务创建第一人，undo/redo 对称且默认无 levelUp', () => {
-    const session = new EditSession(state())
-    const command = new CompositeCommand('创建人物', [
-      new UpdateLocaleCommand('name.hero', '主角'),
-      new AddActorCommand(actor()),
-    ])
-    expect(session.dispatch(command)).toBe(true)
-    expect(session.getState().actors).toEqual([actor()])
-    expect(session.getState().locale['name.hero']).toBe('主角')
-    expect(session.getState().levelUp.hero).toBeUndefined()
-    expect(session.undo()).toBe(true)
-    expect(session.getState().actors).toEqual([])
-    expect(session.getState().locale['name.hero']).toBeUndefined()
-    expect(session.redo()).toBe(true)
-    expect(session.getState().actors).toEqual([actor()])
-  })
+test('a missing sprite rolls back the whole creation including its proposed text', async () => {
+  const session = await projectSession()
+  const original = session.getState()
+  const command = new CompositeCommand('创建人物', [
+    new UpdateLocaleCommand('name.resident', '店员'),
+    new AddActorCommand({ ...resident, name: 'name.resident', spriteId: 'missing' }),
+  ])
 
-  test('创建失败不会留下半条 locale，且冲突/空 id/悬空 sprite fail-loud', () => {
-    const session = new EditSession(state())
-    expect(() =>
-      session.dispatch(
-        new CompositeCommand('坏人物', [
-          new UpdateLocaleCommand('name.bad', '坏人物'),
-          new AddActorCommand({ id: 'bad', name: 'name.bad', spriteId: 'missing' }),
-        ]),
-      ),
-    ).toThrow(/默认精灵不存在/)
-    expect(session.getState().locale['name.bad']).toBeUndefined()
-    expect(session.getState().actors).toEqual([])
+  expect(() => session.dispatch(command)).toThrow('默认精灵不存在')
+  expect(session.getState()).toBe(original)
+  expect(session.getState().locale).not.toHaveProperty('name.resident')
+  expect(session.canUndo()).toBe(false)
+})
 
-    const withHero = { ...state([actor()]), locale: { 'name.hero': '主角', 'name.copy': '复制' } }
-    expect(() => new AddActorCommand(actor()).apply(withHero)).toThrow(/id 已存在/)
-    expect(() =>
-      new AddActorCommand({ id: '', name: 'name.copy', spriteId: sprite.id }).apply(withHero),
-    ).toThrow(/id 必须/)
-  })
+test.each([
+  { patch: { id: '' }, reason: '人物 id 必须' },
+  { patch: { name: ' name.hero ' }, reason: '人物 name 必须' },
+  { patch: { id: 'hero' }, reason: '人物 id 已存在' },
+  { patch: { name: 'name.missing' }, reason: '名称文本不存在或为空' },
+  { patch: { name: 'constructor' }, reason: '名称文本不存在或为空' },
+  { patch: { face: 'portrait.missing' }, reason: '小头像资源不存在或类型错误' },
+])('actor creation rejects $patch with its authoring diagnostic', async ({ patch, reason }) => {
+  const session = await projectSession()
+  const original = session.getState()
+  expect(() => session.dispatch(new AddActorCommand({ ...resident, ...patch }))).toThrow(reason)
+  expect(session.getState()).toBe(original)
+  expect(session.canUndo()).toBe(false)
+})
 
-  test('复制人物深拷贝定义与 levelUp；共享资产只保留引用', () => {
-    const current = state([actor()])
-    current.locale = { 'name.hero': '主角' }
-    current.levelUp = { hero: [{ level: 3, skillId: 'skill.fire' }] }
-    const session = new EditSession(current)
-    const command = new CompositeCommand('复制人物', [
-      new UpdateLocaleCommand('name.hero-copy', '主角副本'),
-      new CopyActorCommand('hero', 'hero-copy', 'name.hero-copy'),
-    ])
-    session.dispatch(command)
-    const copied = session.getState().actors[1]!
-    expect(copied).toEqual({ ...actor(), id: 'hero-copy', name: 'name.hero-copy' })
-    expect(copied.spriteId).toBe(actor().spriteId)
-    expect(session.getState().levelUp['hero-copy']).toEqual([{ level: 3, skillId: 'skill.fire' }])
-    expect(session.getState().levelUp['hero-copy']).not.toBe(current.levelUp.hero)
-    session.getState().levelUp.hero![0]!.level = 99
-    expect(session.getState().levelUp['hero-copy']![0]!.level).toBe(3)
-    session.undo()
-    expect(session.getState().actors.map((entry) => entry.id)).toEqual(['hero'])
-    expect(session.getState().levelUp['hero-copy']).toBeUndefined()
-    session.redo()
-    expect(session.getState().levelUp['hero-copy']![0]!.level).toBe(3)
-  })
+test('copy shares authored assets and owns an independent learning history', async () => {
+  const session = await projectSession()
+  addLearning(session, 'hero')
+  const source = session.getState().actors[0]
+  expect(session.dispatch(new CopyActorCommand('hero', 'replica', 'name.hero'))).toBe(true)
+  const copied = session.getState()
 
-  test('复制事务失败时不留下 locale 或 levelUp 半状态', () => {
-    const current = state([actor(), actor('hero-copy', 'name.existing')])
-    current.locale = { 'name.hero': '主角', 'name.existing': '已有角色' }
-    current.levelUp = { hero: [{ level: 3, skillId: 'skill.fire' }] }
-    const session = new EditSession(current)
-    expect(() =>
-      session.dispatch(
-        new CompositeCommand('复制人物', [
-          new UpdateLocaleCommand('name.hero-copy', '主角副本'),
-          new CopyActorCommand('hero', 'hero-copy', 'name.hero-copy'),
-        ]),
-      ),
-    ).toThrow(/id 已存在/)
-    expect(session.getState().locale['name.hero-copy']).toBeUndefined()
-    expect(session.getState().levelUp['hero-copy']).toBeUndefined()
-    expect(session.getState().actors).toEqual([actor(), actor('hero-copy', 'name.existing')])
-    expect(session.canUndo()).toBe(false)
-  })
+  expect(copied.actors.at(-1)).toEqual({ ...source, id: 'replica' })
+  expect(copied.levelUp.replica).toEqual([learning])
+  expect(copied.levelUp.replica).not.toBe(copied.levelUp.hero)
+  assertProjectSaveValid(copied)
+  expect(session.undo()).toBe(true)
+  expect(session.getState().levelUp).not.toHaveProperty('replica')
+  expect(session.redo()).toBe(true)
+  expect(session.getState().levelUp.replica).toEqual([learning])
+})
 
-  test('删除未引用人物同步清理 levelUp，undo/redo 精确恢复', () => {
-    const current = state([actor()])
-    current.locale = { 'name.hero': '主角' }
-    current.levelUp = { hero: [{ level: 2, skillId: 'skill' }] }
-    const session = new EditSession(current)
-    session.dispatch(new DeleteActorCommand('hero', currentReferences))
-    expect(session.getState().actors).toEqual([])
-    expect(session.getState().levelUp.hero).toBeUndefined()
-    session.undo()
-    expect(session.getState().actors).toEqual([actor()])
-    expect(session.getState().levelUp.hero).toEqual([{ level: 2, skillId: 'skill' }])
-    session.redo()
-    expect(session.getState().actors).toEqual([])
-  })
+test('a duplicate copy rolls back a new locale key and its associated learning rows', async () => {
+  const session = await projectSession()
+  addLearning(session, 'hero')
+  session.dispatch(new AddActorCommand(resident))
+  const original = session.getState()
+  const version = session.getHistoryVersion()
 
-  test('删除被场景实例引用的人物 fail-loud 且无半删除', () => {
-    const current = state([actor()])
-    current.locale = { 'name.hero': '主角' }
-    current.scenes[0]!.entities = [{ id: 'e', pos: { col: 1, row: 1, height: 0 }, actor: 'hero' }]
-    expect(() => new DeleteActorCommand('hero', currentReferences).apply(current)).toThrow(
-      /场景 s · 实体 e/,
-    )
-    expect(current.actors).toEqual([actor()])
-  })
-
-  test('DeleteActor 在动作边界读取 current author 新引用', () => {
-    const shell = state([actor()])
-    const currentAuthor = structuredClone(shell)
-    currentAuthor.scenes[0]!.entities = [
-      { id: 'live', pos: { col: 1, row: 1, height: 0 }, actor: 'hero' },
-    ]
-    expect(() =>
-      new DeleteActorCommand('hero', () =>
-        collectCurrentProjectReferenceIndex(currentAuthor),
-      ).apply(shell),
-    ).toThrow(/场景 s · 实体 live/)
-    expect(() =>
-      new DeleteActorCommand('hero', () => {
-        throw new Error('oracle down')
-      }).apply(shell),
-    ).toThrow(/oracle down/)
-  })
-
-  test('DeleteActor 缺目标跳过 oracle，provider 失败不写历史', () => {
-    const current = state([actor()])
-    const unused = vi.fn(() => {
-      throw new Error('不应调用')
-    })
-    expect(new DeleteActorCommand('missing', unused).apply(current)).toBe(current)
-    expect(unused).not.toHaveBeenCalled()
-
-    const session = new EditSession(current)
-    expect(() =>
-      session.dispatch(
-        new DeleteActorCommand('hero', () => {
-          throw new Error('oracle down')
-        }),
-      ),
-    ).toThrow('oracle down')
-    expect(session.getState()).toBe(current)
-    expect(session.getHistoryVersion()).toBe(0)
-  })
-
-  test('coveredBy 自引用与 levelUp 伴随边随人物删除，外部 coveredBy 仍阻断', () => {
-    const self = state([
-      {
-        ...actor(),
-        battler: {
-          battleSprite: 'battle.hero',
-          baseStats: {} as never,
-          initialEquipment: {},
-          initialMagic: [],
-          coveredBy: 'hero',
-        },
-      },
-    ])
-    self.levelUp.hero = [{ level: 2, skillId: 'skill' }]
-    const deleted = new DeleteActorCommand('hero', currentReferences).apply(self)
-    expect(deleted.actors).toEqual([])
-    expect(deleted.levelUp.hero).toBeUndefined()
-
-    const external = state([
-      actor(),
-      {
-        ...actor('guard', 'name.guard'),
-        battler: {
-          battleSprite: 'battle.guard',
-          baseStats: {} as never,
-          initialEquipment: {},
-          initialMagic: [],
-          coveredBy: 'hero',
-        },
-      },
-    ])
-    expect(() => new DeleteActorCommand('hero', currentReferences).apply(external)).toThrow(
-      ActorInUseError,
-    )
-  })
-
-  test('redo 会按最新 oracle 重验并在新增引用时保留人物与 redo', () => {
-    const initial = state([actor()])
-    let live = initial
-    const session = new EditSession(initial)
+  expect(() =>
     session.dispatch(
-      new DeleteActorCommand('hero', () => collectCurrentProjectReferenceIndex(live)),
-    )
-    expect(session.undo()).toBe(true)
-    live = structuredClone(session.getState())
-    live.scenes[0]!.entities = [{ id: 'live', pos: { col: 1, row: 1, height: 0 }, actor: 'hero' }]
-    expect(() => session.redo()).toThrow(ActorInUseError)
-    expect(session.getState().actors.some((entry) => entry.id === 'hero')).toBe(true)
-    expect(session.canRedo()).toBe(true)
-  })
+      new CompositeCommand('复制人物', [
+        new UpdateLocaleCommand('name.replica', '副本'),
+        new CopyActorCommand('hero', 'resident', 'name.replica'),
+      ]),
+    ),
+  ).toThrow('人物 id 已存在')
+  expect(session.getState()).toBe(original)
+  expect(session.getState().locale).not.toHaveProperty('name.replica')
+  expect(session.getState().levelUp).not.toHaveProperty('resident')
+  expect(session.getHistoryVersion()).toBe(version)
+})
 
-  test('解除人物关联只替换 actor→sprite，所有实例字段与行为保持并可 undo/redo', () => {
-    const source: EntityDef = {
-      id: 'npc',
-      actor: 'hero',
-      pos: { col: 4, row: 5, height: 0 },
-      facing: 'left',
-      collide: true,
-      hidden: true,
-      zBias: 7,
-      pages: [{ state: 2 }],
-      hostile: {
-        enemyTeamId: 'team-1',
-        chase: { range: 3, speed: 2, floating: true },
-      },
-    }
-    const current = state([actor()])
-    current.locale = { 'name.hero': '主角' }
-    current.scenes[0]!.entities = [source]
-    const session = new EditSession(current)
-    session.dispatch(new DetachActorEntityCommand('s', 'npc'))
-    const detached = session.getState().scenes[0]!.entities[0]!
-    expect(detached).toEqual({
-      id: 'npc',
-      sprite: 'sprite.hero',
-      pos: { col: 4, row: 5, height: 0 },
-      facing: 'left',
-      collide: true,
-      hidden: true,
-      zBias: 7,
-      pages: [{ state: 2 }],
-      hostile: {
-        enemyTeamId: 'team-1',
-        chase: { range: 3, speed: 2, floating: true },
-      },
-    })
-    session.undo()
-    expect(session.getState().scenes[0]!.entities[0]).toEqual(source)
-    session.redo()
-    expect(session.getState().scenes[0]!.entities[0]).toEqual(detached)
-  })
+test('actor deletion removes owned rows and restores them in the original catalog slot', async () => {
+  const session = await projectSession()
+  session.dispatch(new AddActorCommand(resident))
+  addLearning(session, resident.id)
+  const before = session.getState()
 
-  test('两个场景共享人物资源，但位置与脚本仍各自属于实例', () => {
-    const current = state([actor()])
-    current.locale = { 'name.hero': '主角' }
-    current.sprites.push({ ...sprite, id: 'sprite.hero.next', label: '新形象' })
-    current.scenes = [
-      {
-        ...current.scenes[0]!,
-        id: 'a',
-        entities: [{ id: 'one', actor: 'hero', pos: { col: 1, row: 1, height: 0 }, pages: [{}] }],
-      },
-      {
-        ...current.scenes[0]!,
-        id: 'b',
-        entities: [
-          { id: 'two', actor: 'hero', pos: { col: 8, row: 8, height: 0 }, pages: [{ state: 2 }] },
-        ],
-      },
-    ]
-    const session = new EditSession(current)
-    session.dispatch(new UpdateActorCommand('hero', { spriteId: 'sprite.hero.next' }))
-    const actorsById = Object.fromEntries(
-      session.getState().actors.map((entry) => [entry.id, entry]),
-    )
-    expect(resolveEntitySpriteId(session.getState().scenes[0]!.entities[0]!, actorsById)).toBe(
-      'sprite.hero.next',
-    )
-    expect(resolveEntitySpriteId(session.getState().scenes[1]!.entities[0]!, actorsById)).toBe(
-      'sprite.hero.next',
-    )
-    session.dispatch(new MoveEntityCommand('a', 'one', { col: 2, row: 3, height: 0 }))
-    expect(session.getState().scenes[0]!.entities[0]!.pos).toEqual({ col: 2, row: 3, height: 0 })
-    expect(session.getState().scenes[1]!.entities[0]!.pos).toEqual({ col: 8, row: 8, height: 0 })
-    expect(session.getState().scenes[1]!.entities[0]!.pages).toEqual([{ state: 2 }])
-  })
+  const deleteResident = new DeleteActorCommand(resident.id, collectCurrentProjectReferenceIndex)
+  expect(session.dispatch(deleteResident)).toBe(true)
+  expect(session.getState().actors.map(({ id }) => id)).toEqual(['hero'])
+  expect(session.getState().levelUp).not.toHaveProperty(resident.id)
+  expect(session.undo()).toBe(true)
+  expect(session.getState().actors).toEqual(before.actors)
+  expect(session.getState().levelUp[resident.id]).toEqual([learning])
+  expect(session.redo()).toBe(true)
+  expect(session.getState().levelUp).not.toHaveProperty(resident.id)
+})
 
-  test('编辑人物引用在提交前校验，失败时不产生历史或半更新', () => {
-    const current = state([actor()])
-    current.locale = { 'name.hero': '主角' }
-    const session = new EditSession(current)
-    expect(() => session.dispatch(new UpdateActorCommand('hero', { spriteId: 'missing' }))).toThrow(
-      /默认精灵不存在/,
-    )
-    expect(session.getState().actors).toEqual([actor()])
-    expect(session.canUndo()).toBe(false)
-    expect(() =>
-      session.dispatch(
-        new UpdateActorCommand('hero', {
-          portraits: { default: 'portrait.missing' },
-        }),
-      ),
-    ).toThrow(/默认立绘资源不存在/)
-    expect(session.getState().actors).toEqual([actor()])
-    expect(session.canUndo()).toBe(false)
-  })
+test('deletion and redo reject a real incoming scene reference without modifying history', async () => {
+  const session = await projectSession()
+  session.dispatch(new AddActorCommand(resident))
+  const unreferenced = session.getState()
+  const withResident = new AddEntityCommand('start', {
+    id: 'shopkeeper',
+    actor: resident.id,
+    pos: { col: 5, row: 0, height: 0 },
+  }).apply(unreferenced)
+  assertProjectSaveValid(withResident)
+  let current = withResident
+  const command = new DeleteActorCommand(resident.id, () =>
+    collectCurrentProjectReferenceIndex(current),
+  )
+  const version = session.getHistoryVersion()
+
+  expect(() => session.dispatch(command)).toThrow(/场景 start · 实体 shopkeeper/)
+  expect(session.getHistoryVersion()).toBe(version)
+  expect(session.getState()).toBe(unreferenced)
+  current = unreferenced
+  expect(
+    session.dispatch(
+      new DeleteActorCommand(resident.id, () => collectCurrentProjectReferenceIndex(current)),
+    ),
+  ).toBe(true)
+  expect(session.undo()).toBe(true)
+  current = withResident
+  expect(() => session.redo()).toThrow(ActorInUseError)
+  expect(session.getState().actors.some(({ id }) => id === resident.id)).toBe(true)
+  expect(session.canRedo()).toBe(true)
+})
+
+test('missing deletion targets skip lookup and a failing reference provider cannot publish state', async () => {
+  const session = await projectSession()
+  session.dispatch(new AddActorCommand(resident))
+  const before = session.getState()
+  const version = session.getHistoryVersion()
+  const provider = () => {
+    throw new Error('reference index unavailable')
+  }
+
+  expect(session.dispatch(new DeleteActorCommand('missing', provider))).toBe(false)
+  expect(() => session.dispatch(new DeleteActorCommand(resident.id, provider))).toThrow(
+    'reference index unavailable',
+  )
+  expect(session.getState()).toBe(before)
+  expect(session.getHistoryVersion()).toBe(version)
+})
+
+test('detaching an actor replaces only the instance appearance binding', async () => {
+  const session = await projectSession()
+  session.dispatch(new AddActorCommand(resident))
+  const source: EntityDef = {
+    id: 'counter',
+    actor: resident.id,
+    pos: { col: 5, row: 0, height: 0 },
+    facing: 'left',
+    collide: true,
+    hidden: true,
+    zBias: 7,
+  }
+  session.dispatch(new AddEntityCommand('start', source))
+  assertProjectSaveValid(session.getState())
+
+  expect(session.dispatch(new DetachActorEntityCommand('start', source.id))).toBe(true)
+  const { actor: _actor, ...instance } = source
+  expect(session.getState().scenes[0]?.entities).toEqual([{ ...instance, sprite: 'hero' }])
+  expect(session.undo()).toBe(true)
+  expect(session.getState().scenes[0]?.entities).toEqual([source])
+  expect(session.redo()).toBe(true)
+  expect(session.getState().scenes[0]?.entities).toEqual([{ ...instance, sprite: 'hero' }])
+})
+
+test('instances follow changes to the shared actor sprite and retain their positions', async () => {
+  const { source, state } = await loadBoundaryProject()
+  const session = new EditSession(await withSharedWorldSprite(source, state, 'costume'))
+  session.dispatch(new AddActorCommand(resident))
+  session.dispatch(
+    new AddEntityCommand('start', {
+      id: 'west',
+      actor: resident.id,
+      pos: { col: 5, row: 0, height: 0 },
+    }),
+  )
+  session.dispatch(
+    new AddEntityCommand('start', {
+      id: 'east',
+      actor: resident.id,
+      pos: { col: 6, row: 0, height: 0 },
+      facing: 'right',
+    }),
+  )
+  assertProjectSaveValid(session.getState())
+
+  expect(session.dispatch(new UpdateActorCommand(resident.id, { spriteId: 'costume' }))).toBe(true)
+  expect(
+    session.dispatch(new MoveEntityCommand('start', 'west', { col: 4, row: 0, height: 0 })),
+  ).toBe(true)
+  const current = session.getState()
+  const byId = Object.fromEntries(current.actors.map((actor) => [actor.id, actor]))
+  expect(current.scenes[0]?.entities.map((entity) => resolveEntitySpriteId(entity, byId))).toEqual([
+    'costume',
+    'costume',
+  ])
+  expect(current.scenes[0]?.entities.map(({ pos }) => pos)).toEqual([
+    { col: 4, row: 0, height: 0 },
+    { col: 6, row: 0, height: 0 },
+  ])
+  expect(current.scenes[0]?.entities.find(({ id }) => id === 'east')?.facing).toBe('right')
+})
+
+test('bad actor resources and relationships are rejected before entering history', async () => {
+  const { source, state } = await loadBoundaryProject()
+  const session = new EditSession(await withSharedEnemyBattleSprite(source, state, 'enemy-shape'))
+  const before = session.getState()
+  const battler = before.actors[0]?.battler
+  if (!battler) throw new Error('blank project hero has no battler')
+
+  expect(() => session.dispatch(new UpdateActorCommand('hero', { spriteId: 'missing' }))).toThrow(
+    '默认精灵不存在',
+  )
+  expect(() =>
+    session.dispatch(new UpdateActorCommand('hero', { portraits: { default: 'missing' } })),
+  ).toThrow('默认立绘资源不存在')
+  expect(() => session.dispatch(new UpdateActorCommand('hero', { face: 'missing-face' }))).toThrow(
+    '小头像资源不存在或类型错误',
+  )
+  expect(() =>
+    session.dispatch(
+      new UpdateActorCommand('hero', { battler: { ...battler, battleSprite: 'missing' } }),
+    ),
+  ).toThrow('战斗精灵不存在')
+  expect(() =>
+    session.dispatch(
+      new UpdateActorCommand('hero', { battler: { ...battler, coveredBy: 'ghost' } }),
+    ),
+  ).toThrow('援护者不存在')
+  expect(() => session.dispatch(new SetActorBattleSpriteCommand('hero', 'enemy-shape'))).toThrow(
+    '只能引用 player-fighter',
+  )
+  expect(session.getState()).toBe(before)
+  expect(session.canUndo()).toBe(false)
+})
+
+test('deleting an actor owns self-cover and learning entries, but cannot remove an incoming reference', async () => {
+  const session = await projectSession()
+  session.dispatch(new CopyActorCommand('hero', resident.id, resident.name))
+  addLearning(session, resident.id)
+  const battler = session.getState().actors[0]?.battler
+  if (!battler) throw new Error('blank project hero has no battler')
+
+  const remove = () => new DeleteActorCommand(resident.id, collectCurrentProjectReferenceIndex)
+  session.dispatch(
+    new UpdateActorCommand(resident.id, { battler: { ...battler, coveredBy: resident.id } }),
+  )
+  expect(session.dispatch(remove())).toBe(true)
+  expect(session.getState().levelUp).not.toHaveProperty(resident.id)
+  expect(session.undo()).toBe(true)
+  expect(session.getState().levelUp[resident.id]).toEqual([learning])
+  session.dispatch(
+    new UpdateActorCommand('hero', { battler: { ...battler, coveredBy: resident.id } }),
+  )
+
+  expect(() => session.dispatch(remove())).toThrow(ActorInUseError)
+  expect(session.getState().actors.map(({ id }) => id)).toEqual(['hero', resident.id])
+  expect(session.getState().levelUp[resident.id]).toEqual([learning])
+})
+
+test('adding a battler rejects unregistered sprite and cover references independently', async () => {
+  const session = await projectSession()
+  const original = session.getState()
+  const battler = original.actors[0]?.battler
+  if (!battler) throw new Error('blank project hero has no battler')
+
+  expect(() =>
+    session.dispatch(
+      new AddActorCommand({ ...resident, battler: { ...battler, battleSprite: 'missing' } }),
+    ),
+  ).toThrow('战斗精灵不存在')
+  expect(() =>
+    session.dispatch(
+      new AddActorCommand({ ...resident, battler: { ...battler, coveredBy: 'ghost' } }),
+    ),
+  ).toThrow('援护者不存在')
+  expect(session.getState()).toBe(original)
+  expect(session.canUndo()).toBe(false)
 })

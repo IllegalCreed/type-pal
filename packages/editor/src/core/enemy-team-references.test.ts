@@ -13,7 +13,6 @@ import {
   DeleteEnemyTeamCommand as DeleteEnemyTeamMoved,
   EnemyTeamInUseError as EnemyTeamInUseErrorMoved,
   UpdateEnemyTeamCommand as UpdateEnemyTeamMoved,
-  UpdateEnemyTeamsCommand as UpdateEnemyTeamsMoved,
 } from './enemy-team-commands.js'
 import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
 import type { ScriptEditorState } from './script-editor.js'
@@ -97,7 +96,6 @@ describe('enemy team authoring commands and references', () => {
   test('keeps enemy-team constructors and in-use error on the old commands barrel', () => {
     expect(oldEntry.AddEnemyTeamCommand).toBe(AddEnemyTeamMoved)
     expect(oldEntry.UpdateEnemyTeamCommand).toBe(UpdateEnemyTeamMoved)
-    expect(oldEntry.UpdateEnemyTeamsCommand).toBe(UpdateEnemyTeamsMoved)
     expect(oldEntry.DeleteEnemyTeamCommand).toBe(DeleteEnemyTeamMoved)
     expect(oldEntry.EnemyTeamInUseError).toBe(EnemyTeamInUseErrorMoved)
     const error = new EnemyTeamInUseError('team-c1', [])

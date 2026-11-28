@@ -121,11 +121,13 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // This census sums snapshot count deltas, not retired unique business contracts.
   // Scene governance: one target guard duplicate, five parameter-label duplicates,
   // and fifteen cases retained in responsibility-specific motion suites.
-  assert.equal(historical.length, 136)
-  assert.equal(new Set(historical.map((entry) => entry.file)).size, 136)
+  // Editor authoring: two battle-field export duplicates and one image ID case
+  // moved to the catalog suite. The per-file count decreases by three.
+  assert.equal(historical.length, 138)
+  assert.equal(new Set(historical.map((entry) => entry.file)).size, 138)
   assert.equal(
     historical.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    740,
+    743,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

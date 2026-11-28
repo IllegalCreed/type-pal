@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "ff5135956688e7f009f5929474a9dd42e0223513609858662fa7ad8590dc2776",
+      "afterSha256": "5b567692249bd50c442c199372f441e54e6971f0572caf666e01fad80e2db2f4",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
         "author": "/root",
         "reviewer": "/root/scene_window_docs_review",
-        "date": "2026-11-27",
-        "conclusion": "接收实际新增与继续留审的逐路径登记及机器计数。",
-        "reviewedLines": 1821,
-        "acceptanceScope": "限本窗口新增裁定、有效原件及未决边界。存量原件与活动 E2E 结论按原版本解释。"
+        "date": "2026-11-28",
+        "conclusion": "接受基点与本轮新增路径、同一归档索引以及经机器核对的账本计数。",
+        "reviewedLines": 1893,
+        "acceptanceScope": "限本窗口已复核的路径、退役去向和计数。不继承支持套件的全文件信用。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "483b3a1dd438407100d56cd2bfb47da5188cfca95c6af7b7862fe8289db8134b",
+      "afterSha256": "9cc1a19c9852fa2e667ef3de7bad5611fd14700a140f4d1f82784f9b224eaed2",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/scene_window_docs_review",
-        "date": "2026-11-27",
-        "conclusion": "接收治理窗口和待裁定存档项的现行导航。",
-        "reviewedLines": 154,
-        "acceptanceScope": "限本窗口新增裁定、有效原件及未决边界。存量原件与活动 E2E 结论按原版本解释。"
+        "date": "2026-11-28",
+        "conclusion": "接受本窗口状态、已闭合留审与当前任务入口。",
+        "reviewedLines": 156,
+        "acceptanceScope": "限本批导航和旧存档留审去向。其它在办 E2E 状态沿各自卡。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "f0ccd03e27c6d55a5a8a55ad759bc6104325c433550b0a98e072db320e3dff8e",
+      "afterSha256": "8e3da02c17d60640234b28e50e90dde041ecebcab7f073fd7230068251277306",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/scene_window_docs_review",
-        "date": "2026-11-27",
-        "conclusion": "接收根据原卡产生的导航和任务状态。",
-        "reviewedLines": 625,
-        "acceptanceScope": "限本窗口新增裁定、有效原件及未决边界。存量原件与活动 E2E 结论按原版本解释。"
+        "date": "2026-11-28",
+        "conclusion": "接受根据卡面生成的当前和历史任务导航。",
+        "reviewedLines": 627,
+        "acceptanceScope": "限本窗口三张卡的可检索状态。"
       }
     },
     {
@@ -3455,14 +3455,14 @@
       "path": "docs/phase2/specs/save-system.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "3873c5a120b0c6c7f97335d5f2caa9ae1ee7cf92877897b172bccfd9c237cdf5",
+      "afterSha256": "f61c766c5f7b23bb1e725d5e0a40abf29d9afd433bb765cd6f9ffb0e09bdf52d",
       "review": {
         "author": "/root",
-        "reviewer": "/root/world_docs_review",
-        "date": "2026-11-26",
-        "conclusion": "接收存档浏览元数据更新的现行合同。",
-        "reviewedLines": 156,
-        "acceptanceScope": "核用户裁决、真实写入反例和当前浏览层的读写模式、光标及覆盖确认归属。原保存编码及硬门身份不改。"
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-28",
+        "conclusion": "接受 JSON 可序列化成员、帧顺序与场景实际条目的当前读档合同。",
+        "reviewedLines": 158,
+        "acceptanceScope": "核两组正式入口的红绿原件和现行 SAVE12 规则。"
       }
     },
     {
@@ -6015,14 +6015,40 @@
     {
       "path": "docs/tasks/cards/REFORGE-SAVE-CURSOR-IDENTITY-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "9e05e0e31ed87778ac31271ef672c825e1ba10494e6246bee48247104afa8a8b",
+      "afterSha256": "f539875d8bf00d46de8cf2757de504c4e3ee26516274120eff80e7e41f694b9c",
       "review": {
         "author": "/root",
         "reviewer": "/root/scene_window_docs_review",
-        "date": "2026-11-27",
-        "conclusion": "接收游标换序的真实 codec 复现和窄草案范围。",
-        "reviewedLines": 30,
-        "acceptanceScope": "录入证实的存档边界问题。普通玩法可达性、修复准入和产品行为留原卡。"
+        "date": "2026-11-28",
+        "conclusion": "接受游标等义比较的实际失败与现行恢复边界。",
+        "reviewedLines": 37,
+        "acceptanceScope": "核真实自动脚本和保存屏障、唯一指定红例及 163 项定向回归，维持未证实的普通剧情可达性。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "f4be1b362ba0a304a1a064ee31df4350bf210f63899464ed9ae52cd1a3446b45",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-28",
+        "conclusion": "接受实际路径及八维索引，保留退役归属、已核范围和 Git 恢复入口。",
+        "reviewedLines": 74,
+        "acceptanceScope": "限本窗口独立复核的清单、证据及阶段门的真实身份。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/REFORGE-SAVE-SCENE-REFERENCES-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "df0834e7ffc03a4432028cc3bdd74a9b18b6130030584e4f71598f84ba8a3700",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-28",
+        "conclusion": "接受同名合法实体的实际登记查找、四条红例和相邻绿回归。",
+        "reviewedLines": 35,
+        "acceptanceScope": "限当前读档 codec 与已登记场景、实体坐标和自动操作归属。"
       }
     }
   ],
@@ -7770,6 +7796,12 @@
       "sha256": "9dd245da366b409d2b92d5ae98a76416cffce9ec5df1403f1e89ad16e0c6ee4b",
       "bytes": 1057645,
       "purpose": "Reforge 场景与脚本治理逐文件八维、版本和测试身份、原始执行与失败回执、命令出口退役和阶段代码变动。"
+    },
+    {
+      "path": "docs/tasks/evidence/QUALITY-EDITOR-AUTHOR-COMMANDS-1.tar.gz",
+      "sha256": "10591972df772aa3fc70a6ae28cf3f3f418079257994d99f43d4622ee28cd015",
+      "bytes": 644989,
+      "purpose": "作者数据命令与存档留审的逐文件八维、语义组织迁移、只读 Git 恢复来源和原始执行。"
     }
   ],
   "artifactAliases": [],

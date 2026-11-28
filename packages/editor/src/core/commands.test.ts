@@ -63,7 +63,6 @@ import {
   UpdateBattleFieldCommand,
   UpdateBattleSpriteDefinitionCommand,
   UpdateEnemyCommand,
-  UpdateEnemyTeamsCommand,
   UpdateEntityCommand,
   UpdateLevelUpCommand,
   UpdateManifestAssetRolesCommand,
@@ -694,7 +693,7 @@ describe('M4c-3 敌人命令(不可变 + invert)', () => {
     expect(s0.enemies![0]!.ai.rules).toBeUndefined()
     expect(cmd.invert(s1).enemies![0]!.ai.rules).toBeUndefined()
   })
-  test('Add/Delete:末尾增,原位删还原;Teams 整表替换可逆', () => {
+  test('Add/Delete:末尾增,原位删还原', () => {
     const s0 = stE()
     const add = new AddEnemyCommand(mkE('enemy-9'))
     const s1 = add.apply(s0)
@@ -706,10 +705,6 @@ describe('M4c-3 敌人命令(不可变 + invert)', () => {
     const s2 = del.apply(unreferenced)
     expect(s2.enemies![0]!.id).toBe('enemy-2')
     expect(del.invert(s2).enemies![0]!.id).toBe('enemy-1')
-    const t = new UpdateEnemyTeamsCommand([{ id: 'team-1', slots: ['enemy-2'] }])
-    const s3 = t.apply(s0)
-    expect(s3.enemyTeams![0]!.slots).toEqual(['enemy-2'])
-    expect(t.invert(s3).enemyTeams![0]!.slots).toEqual(['enemy-1'])
   })
 })
 

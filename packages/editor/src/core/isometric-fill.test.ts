@@ -26,6 +26,15 @@ describe('floodFillIsometricTiles', () => {
     ])
   })
 
+  test('相邻瓦片即使编号和高度一致，也不能跨过瓦片集边界', () => {
+    expect(
+      fixture({
+        '0:0': { tileId: 7, tilesetId: 'tiles-a', height: 1 },
+        '1:0': { tileId: 7, tilesetId: 'tiles-b', height: 1 },
+      }),
+    ).toEqual([{ row: 0, col: 0 }])
+  })
+
   test('空瓦片是 tileId=null、height=0 的普通可填充连通域', () => {
     expect(
       fixture({

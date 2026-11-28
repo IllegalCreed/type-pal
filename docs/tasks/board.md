@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（分类与分工维护；各卡 Owner 负责事实写回）
-Last reviewed: 2026-11-24
+Last reviewed: 2026-11-28
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -67,9 +67,11 @@ Reforge 战斗治理已完成本窗口。账本为 1,492 closed、0 review。#77
 
 ### 代码治理：Reforge 场景作用域
 
-`QUALITY-REFORGE-SCENE-OWNERSHIP-1` 完成 96 个原 pending 并闭合基点两个 review。场景实体地址和旧编译出口退役随本窗收口，同由[生成任务索引](cards/index.md)查阅。账本余 [存档游标等义比较](cards/REFORGE-SAVE-CURSOR-IDENTITY-1.md) 一项 review，已有真实 codec 反例并待有限准入。
+`QUALITY-REFORGE-SCENE-OWNERSHIP-1` 完成 96 个原 pending 并闭合基点两个 review。场景实体地址和旧编译出口退役随本窗收口，同由[生成任务索引](cards/index.md)查阅。SAVE12 游标与场景引用在后继窗口通过真实 codec 和恢复入口验证，账本的唯一存档留审已闭合。
 
 ### 代码治理：最近完成的文件批次
+
+`QUALITY-EDITOR-AUTHOR-COMMANDS-1` 完成 94 个原 pending 的逐文件处置。60 个路径验证保留，34 个旧路径按职责退役或合并，10 个接替路径单列。从[生成任务索引](cards/index.md)查看本轮范围和执行归档。
 
 `QUALITY-MIGRATION-SOURCE-PROJECTIONS-1` 已完成 98 个原 pending 文件的逐文件处置。合并时新增 100 条关闭登记，七项留审。当前后继裁定从上方回溯卡进入。集中门的完整结果见[单一执行归档](evidence/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.tar.gz)。
 

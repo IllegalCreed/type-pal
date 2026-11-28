@@ -1,7 +1,3 @@
-/**
- * 氛围(昼夜)命令族：新建/修改/删除氛围定义。
- * 对 Command 仅 type import（commands.ts 反向 re-export），运行期无环。
- */
 import type { AmbienceDef } from '@type-pal/content'
 import type { Command } from './command-contract.js'
 import type { EditorState } from './edit-session.js'
@@ -26,13 +22,13 @@ export class UpdateAmbienceCommand implements Command {
   }
 
   apply(state: EditorState): EditorState {
-    const a = (state.ambiences ?? []).find((x) => x.id === this.id)
-    if (!a) return state
+    const ambience = state.ambiences?.find((entry) => entry.id === this.id)
+    if (!ambience) return state
     if (!this.oldPatch) {
-      const old: Record<string, unknown> = {}
-      for (const k of Object.keys(this.patch))
-        old[k] = structuredClone((a as unknown as Record<string, unknown>)[k])
-      this.oldPatch = old as AmbiencePatch
+      const previous: AmbiencePatch = {}
+      if (Object.hasOwn(this.patch, 'name')) previous.name = ambience.name
+      if (Object.hasOwn(this.patch, 'tint')) previous.tint = structuredClone(ambience.tint)
+      this.oldPatch = previous
     }
     const ambiences = (state.ambiences ?? []).map((x) =>
       x.id === this.id ? { ...x, ...this.patch } : x,

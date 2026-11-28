@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+
 import { binarySnapshotSignature, sha256Hex } from './binary-signature.js'
 
 describe('binary-signature', () => {
@@ -8,9 +9,8 @@ describe('binary-signature', () => {
     expect(a.byteLength).toBe(b.byteLength)
     const hashA = await sha256Hex(a)
     const hashB = await sha256Hex(b)
-    expect(hashA).toMatch(/^[0-9a-f]{64}$/)
-    expect(hashB).toMatch(/^[0-9a-f]{64}$/)
-    expect(hashA).not.toBe(hashB)
+    expect(hashA).toBe('3d1f57c984978ef98a18378c8166c1cb8ede02c03eeb6aee7e2f121dfeee3e56')
+    expect(hashB).toBe('d316709e2303b9b97bcef71b446c30044895ad4866c4fa8c73407054d9006cc8')
     expect(await binarySnapshotSignature(a.buffer)).toBe(`bin:${a.byteLength}:${hashA}`)
     expect(await binarySnapshotSignature(b.buffer)).not.toBe(
       await binarySnapshotSignature(a.buffer),

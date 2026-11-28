@@ -6,6 +6,7 @@ import {
   type EntityLifecycleReferenceIndex,
   normalizeEntityLifecycleTable,
 } from '@type-pal/content'
+import { readOwnEntry } from '../scene-entity-values.js'
 import { assertCurrentSaveStructure } from './current-structure.js'
 import { type CurrentSavePayload, SAVE_VERSION } from './types.js'
 
@@ -54,6 +55,39 @@ function normalizeAndValidateSkillUseCounts(world: unknown, path: string): void 
         throw new Error(`${path}.skillUseCounts.${actorId}.${skillId}: 期望非负安全整数`)
     }
   }
+}
+
+/** Match the checked world cursor against its persisted scene copy.
+ * JSON omits undefined object members. Execution frames retain their array order.
+ */
+function sameCursorSnapshot(expected: unknown, stored: unknown): boolean {
+  if (expected === stored) return true
+  if (Array.isArray(expected)) {
+    return (
+      Array.isArray(stored) &&
+      expected.length === stored.length &&
+      expected.every((entry, index) => sameCursorSnapshot(entry, stored[index]))
+    )
+  }
+  if (
+    typeof expected !== 'object' ||
+    expected === null ||
+    typeof stored !== 'object' ||
+    stored === null ||
+    Array.isArray(stored)
+  )
+    return false
+
+  const expectedMembers: [string, unknown][] = Object.entries(expected).filter(
+    ([, value]) => value !== undefined,
+  )
+  const storedMembers = new Map<string, unknown>(
+    Object.entries(stored).filter(([, value]) => value !== undefined),
+  )
+  return (
+    expectedMembers.length === storedMembers.size &&
+    expectedMembers.every(([key, value]) => sameCursorSnapshot(value, storedMembers.get(key)))
+  )
 }
 
 /** 开发期只接受一个存档合同；拒绝发生在任何兼容 I/O 或内容改写之前。 */
@@ -116,20 +150,26 @@ export function normalizeCurrentSave(
   for (const [sceneId, saved] of Object.entries(payload.sceneRuntime)) {
     const ids = references.get(sceneId)
     if (!ids) throw new Error(`payload.sceneRuntime.${sceneId}: 场景不存在`)
+    const positions = readOwnEntry(payload.world.script?.entityPos, sceneId)
+    const behaviors = readOwnEntry(payload.world.script?.behaviors.entities, sceneId)
     for (const [id, pose] of Object.entries(saved.entities)) {
       if (!ids.has(id)) throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 实体不存在`)
-      if (!payload.world.script?.entityPos?.[sceneId]?.[id])
+      if (!readOwnEntry(positions, id))
         throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 缺少同步保存的位置`)
-      if (pose.motion.move && !saved.automatic[pose.motion.move.owner])
-        throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 移动缺少自动脚本续跑身份`)
-      if (pose.motion.move && !saved.automatic[pose.motion.move.owner]?.cursor.resume)
-        throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 移动缺少正在执行的指令`)
-      if (pose.motion.gait?.owner && !saved.automatic[pose.motion.gait.owner])
+      const { move, gait } = pose.motion
+      if (move) {
+        const owner = readOwnEntry(saved.automatic, move.owner)
+        if (!owner)
+          throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 移动缺少自动脚本续跑身份`)
+        if (!owner.cursor.resume)
+          throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 移动缺少正在执行的指令`)
+      }
+      if (gait?.owner && !readOwnEntry(saved.automatic, gait.owner))
         throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 步态缺少自动脚本续跑身份`)
     }
     for (const [id, automatic] of Object.entries(saved.automatic)) {
-      const cursor = payload.world.script?.behaviors.entities?.[sceneId]?.[id]?.auto?.cursor
-      if (!ids.has(id) || !cursor || JSON.stringify(cursor) !== JSON.stringify(automatic.cursor))
+      const cursor = readOwnEntry(behaviors, id)?.auto?.cursor
+      if (!ids.has(id) || !cursor || !sameCursorSnapshot(cursor, automatic.cursor))
         throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 自动脚本续跑身份不一致`)
       if (automatic.wait && !cursor.resume)
         throw new Error(`payload.sceneRuntime.${sceneId}.${id}: 等待缺少正在执行的指令`)
@@ -138,7 +178,10 @@ export function normalizeCurrentSave(
       if (!ids.has(action.entity))
         throw new Error(`payload.sceneRuntime.${sceneId}: 动作实体不存在`)
       for (const track of [action.override, ...(action.completed ?? [])]) {
-        if (track?.source === 'automatic' && (!track.owner || !saved.automatic[track.owner]))
+        if (
+          track?.source === 'automatic' &&
+          (!track.owner || !readOwnEntry(saved.automatic, track.owner))
+        )
           throw new Error(`payload.sceneRuntime.${sceneId}.${action.entity}: 动作缺少自动脚本身份`)
       }
     }

@@ -10,7 +10,8 @@ export function entityDisplayName(
   locale: Locale = {},
 ): string {
   if (entity.label) return entity.label
-  const actor = entity.actor ? actors[entity.actor] : undefined
+  const actorId = entity.actor
+  const actor = actorId && Object.hasOwn(actors, actorId) ? actors[actorId] : undefined
   return actor ? lookupText(actor.name, locale) : entity.id
 }
 

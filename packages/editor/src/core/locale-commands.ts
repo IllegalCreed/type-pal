@@ -1,7 +1,3 @@
-/**
- * locale 文本命令族。
- * 对 Command 仅 type import（commands.ts 反向 re-export），运行期无环。
- */
 import type { Command } from './command-contract.js'
 import type { EditorState } from './edit-session.js'
 
@@ -11,7 +7,6 @@ export class UpdateLocaleCommand implements Command {
   private readonly key: string
   private readonly text: string
   private old: string | undefined
-  private had = false
   private captured = false
 
   constructor(key: string, text: string) {
@@ -22,16 +17,16 @@ export class UpdateLocaleCommand implements Command {
   apply(state: EditorState): EditorState {
     if (!this.captured) {
       this.captured = true
-      this.had = this.key in state.locale
-      this.old = state.locale[this.key]
+      this.old = Object.hasOwn(state.locale, this.key) ? state.locale[this.key] : undefined
     }
     return { ...state, locale: { ...state.locale, [this.key]: this.text } }
   }
 
   invert(state: EditorState): EditorState {
+    if (this.old !== undefined)
+      return { ...state, locale: { ...state.locale, [this.key]: this.old } }
     const locale = { ...state.locale }
-    if (this.had) locale[this.key] = this.old!
-    else delete locale[this.key]
+    delete locale[this.key]
     return { ...state, locale }
   }
 }

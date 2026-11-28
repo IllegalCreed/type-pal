@@ -1,6 +1,6 @@
 import type { ProjectReferenceEdge } from './project-reference.js'
 
-/** 删除敌人。apply 记原索引,invert 插回原位。 */
+/** Carries the blocking references for the editor to show when deleting battle data. */
 export class BattleDataInUseError extends Error {
   readonly references: readonly ProjectReferenceEdge[]
 

@@ -1,4 +1,4 @@
-import type { ItemData } from '@type-pal/content'
+import { type ItemData, validateItems } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   cloneItemForAuthoring,
@@ -30,11 +30,16 @@ describe('item authoring ids', () => {
       use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 20 }] },
     }
     expect(nextCopiedItemId('key', [source])).toBe('key-copy')
-    const copy = cloneItemForAuthoring(source, [source, item('key-copy')])
+    validateItems([source])
+    const copy = cloneItemForAuthoring(source, [item('key-copy-3'), source, item('key-copy')])
     expect(copy.id).toBe('key-copy-2')
+    expect(copy.name).toBe('key 副本')
     expect(copy.icon).toBe(source.icon)
     expect(copy.use).not.toBe(source.use)
     copy.use!.effects[0] = { kind: 'healHp', amount: 99 }
     expect(source.use!.effects[0]).toEqual({ kind: 'healHp', amount: 20 })
+    expect(nextCopiedItemId('key', [item('key-copy-3'), copy, source, item('key-copy')])).toBe(
+      'key-copy-4',
+    )
   })
 })

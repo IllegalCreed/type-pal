@@ -54,7 +54,6 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-REFORGE-PRESENTATION-1 — Reforge 资源与呈现代码治理](QUALITY-REFORGE-PRESENTATION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [REFORGE-SAVE-CURSOR-IDENTITY-1 — 读档时自动游标的等义比较](REFORGE-SAVE-CURSOR-IDENTITY-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
@@ -554,6 +553,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-COVERAGE-PREFLIGHT-PROBES-1 — 工具预检与原生合并探针](QUALITY-COVERAGE-PREFLIGHT-PROBES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1 — 二阶段对话引用的定义归属](QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界](QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EDITOR-AUTHOR-COMMANDS-1 — 编辑器作者数据命令质量审核](QUALITY-EDITOR-AUTHOR-COMMANDS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle](QUALITY-EDITOR-FORM-FIXTURES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取](QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 — 大世界精灵宿主与真实资源见证](QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -604,6 +604,8 @@ Template: governance-index-v1 / 1.0.0
 | [REFORGE-IMAGE-CACHE-DISPOSAL-1 — 静态图片在途解码的释放生命周期](REFORGE-IMAGE-CACHE-DISPOSAL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-MENU-SAVE-REFRESH-OWNERSHIP-1 — 存档完成只更新当前浏览界面的元数据](REFORGE-MENU-SAVE-REFRESH-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-RUNTIME-COMPILER-ENTRY-1 — 退役仅旧专测使用的命令编译出口](REFORGE-RUNTIME-COMPILER-ENTRY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [REFORGE-SAVE-CURSOR-IDENTITY-1 — 读档时自动游标的等义比较](REFORGE-SAVE-CURSOR-IDENTITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [REFORGE-SAVE-SCENE-REFERENCES-1 — 保存现场按真实实体记录验证引用](REFORGE-SAVE-SCENE-REFERENCES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-SCENE-NAMED-ENTRY-OWNERSHIP-1 — 运行时只解析工程登记的命名落点](REFORGE-SCENE-NAMED-ENTRY-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-VIDEO-PLAY-RETRY-1 — 二阶段视频多次播放重试](REFORGE-VIDEO-PLAY-RETRY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REPO-SLIM-PLAN-1 仓库瘦身总纲](REPO-SLIM-PLAN-1.md) | done | 完成证据、历史签字与交接见原卡。 |

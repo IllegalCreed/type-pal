@@ -1,6 +1,6 @@
 import { renameDialoguePortraitExpression } from '@type-pal/content'
 import { collectEditorDialoguePortraitReferences } from './actor-references.js'
-import type { Command } from './commands.js'
+import type { Command } from './command-contract.js'
 import type { EditorState } from './edit-session.js'
 
 type DialogueStateSlice = Pick<
@@ -56,19 +56,20 @@ export class RenameActorPortraitExpressionCommand implements Command {
     if (!to || to !== this.to) throw new Error('表情名不能为空或包含首尾空格')
     if (this.from === to) return state
     const actorIndex = state.actors.findIndex((actor) => actor.id === this.actorId)
-    const actor = state.actors[actorIndex]
-    if (!actor?.portraits?.expressions?.[this.from])
+    const portraits = state.actors[actorIndex]?.portraits
+    const expressions = portraits?.expressions
+    const asset =
+      expressions && Object.hasOwn(expressions, this.from) ? expressions[this.from] : undefined
+    if (!portraits || !expressions || asset === undefined)
       throw new Error(`人物 ${this.actorId} 不存在表情“${this.from}”`)
-    if (actor.portraits.expressions[to]) throw new Error(`人物 ${this.actorId} 已存在表情“${to}”`)
+    if (Object.hasOwn(expressions, to)) throw new Error(`人物 ${this.actorId} 已存在表情“${to}”`)
     if (!this.previous) this.previous = capture(state)
 
-    const expressions = { ...actor.portraits.expressions }
-    const asset = expressions[this.from]!
-    delete expressions[this.from]
-    expressions[to] = asset
+    const nextExpressions = { ...expressions, [to]: asset }
+    delete nextExpressions[this.from]
     const actors = state.actors.map((candidate, index) =>
       index === actorIndex
-        ? { ...candidate, portraits: { ...actor.portraits!, expressions } }
+        ? { ...candidate, portraits: { ...portraits, expressions: nextExpressions } }
         : candidate,
     )
     let rewritten = 0
@@ -115,7 +116,8 @@ export class RemoveActorPortraitExpressionCommand implements Command {
     const actorIndex = state.actors.findIndex((actor) => actor.id === this.actorId)
     const actor = state.actors[actorIndex]
     const expressions = actor?.portraits?.expressions
-    if (!actor?.portraits || !expressions?.[this.expression]) return state
+    if (!actor?.portraits || !expressions || !Object.hasOwn(expressions, this.expression))
+      return state
     if (!this.previous) this.previous = capture(state)
     const nextExpressions = { ...expressions }
     delete nextExpressions[this.expression]

@@ -3,6 +3,8 @@ import {
   CONTENT_VERSION,
   CURRENT_PROJECT_MINIMUM_SAVE_VERSION,
   type CurrentManifest,
+  type RuntimeSceneDef,
+  validateRuntimeScenes,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { makeTestWorld } from '../test-fixtures.js'
@@ -128,5 +130,82 @@ describe('current-codec · script 深层语义接线（结构层只验 record）
     expect(() => normalizeCurrentSave(raw, resolver, references)).toThrow(
       /payload\.world\.script\.vars\.reputation: 期望有限数/,
     )
+  })
+})
+
+describe('current-codec · scene snapshot references', () => {
+  const scene = 's001'
+  const id = 'constructor'
+  const position = { col: 2, row: 3, height: 4 }
+
+  async function withSceneSnapshot() {
+    const raw = payload()
+    const script = raw.world.script
+    if (!script) throw new Error('fixture requires a persisted script state')
+    script.entityPos = { [scene]: { e001: position } }
+    raw.sceneRuntime[scene] = {
+      entities: { [id]: { motion: {} } },
+      automatic: {},
+      actions: [],
+      chaseClaims: [],
+    }
+    const def: RuntimeSceneDef = {
+      id: scene,
+      mapId: 'map',
+      entry: { pos: position, facing: 'left' },
+      entities: [
+        { id: 'e001', zone: true, pos: position },
+        { id, zone: true, pos: position },
+      ],
+    }
+    validateRuntimeScenes([def])
+    const references = buildEntityLifecycleReferenceIndex([def])
+    const resolver = await currentResolver(raw)
+    return { raw, script, normalize: () => normalizeCurrentSave(raw, resolver, references) }
+  }
+
+  test('requires an actual saved position for an entity with an inherited property name', async () => {
+    const { script, normalize } = await withSceneSnapshot()
+    expect(normalize).toThrow('payload.sceneRuntime.s001.constructor: 缺少同步保存的位置')
+
+    script.entityPos![scene] = { e001: position, [id]: position }
+    expect(normalize().world.script?.entityPos?.[scene]?.[id]).toEqual(position)
+  })
+
+  test('reports a missing registered move owner before inspecting the owner cursor', async () => {
+    const { raw, script, normalize } = await withSceneSnapshot()
+    script.entityPos![scene] = { [id]: position }
+    raw.sceneRuntime[scene]!.entities[id]!.motion.move = {
+      owner: id,
+      to: { col: 3, row: 3, height: 4 },
+      speed: 'normal',
+      slowCadence: false,
+      slowRestPending: false,
+    }
+    expect(normalize).toThrow('payload.sceneRuntime.s001.constructor: 移动缺少自动脚本续跑身份')
+  })
+
+  test('requires a registered owner for an automatic gait', async () => {
+    const { raw, script, normalize } = await withSceneSnapshot()
+    script.entityPos![scene] = { [id]: position }
+    raw.sceneRuntime[scene]!.entities[id]!.motion.gait = { owner: id, phase: 0, source: 'auto' }
+    expect(normalize).toThrow('payload.sceneRuntime.s001.constructor: 步态缺少自动脚本续跑身份')
+  })
+  test('requires a registered owner for a retained automatic action', async () => {
+    const { raw, script, normalize } = await withSceneSnapshot()
+    script.entityPos![scene] = { [id]: position }
+    raw.sceneRuntime[scene]!.actions.push({
+      entity: id,
+      override: {
+        binding: { sprite: 'hero-sprite', action: 'idle', loop: true },
+        source: 'automatic',
+        owner: id,
+        stepIndex: 0,
+        elapsedInStepMs: 0,
+        finished: false,
+        awaited: false,
+      },
+    })
+    expect(normalize).toThrow('payload.sceneRuntime.s001.constructor: 动作缺少自动脚本身份')
   })
 })

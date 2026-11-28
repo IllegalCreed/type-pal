@@ -1,8 +1,4 @@
-/**
- * 资源 catalog 增删命令。
- * 对 Command 仅 type import（commands.ts 反向 re-export），运行期无环。
- */
-import type { AssetId, AssetRecordV1 } from '@type-pal/content'
+import { type AssetId, type AssetRecordV1, findAssetRecord } from '@type-pal/content'
 import { AssetInUseError } from './command-asset-record.js'
 import type { Command } from './command-contract.js'
 import type { EditorState } from './edit-session.js'
@@ -30,7 +26,7 @@ export class UpsertAssetCommand implements Command {
       this.oldCatalog = state.assetCatalog
       this.oldBlobs = state.assetBlobs
     }
-    const previous = state.assetCatalog.assets[this.assetId]
+    const previous = findAssetRecord(state.assetCatalog, this.assetId)
     const assetBlobs = { ...state.assetBlobs }
     if (
       previous &&
@@ -57,7 +53,7 @@ export class UpsertAssetCommand implements Command {
   invert(state: EditorState): EditorState {
     if (!this.oldCatalog || !this.oldBlobs) return state
     const assetBlobs = { ...this.oldBlobs }
-    const previous = this.oldCatalog.assets[this.assetId]
+    const previous = findAssetRecord(this.oldCatalog, this.assetId)
     if (previous && this.previousBytes) assetBlobs[previous.path] = this.previousBytes.slice(0)
     return { ...state, assetCatalog: this.oldCatalog, assetBlobs }
   }
@@ -77,7 +73,8 @@ export class DeleteAssetCommand implements Command {
   ) {}
 
   apply(state: EditorState): EditorState {
-    if (!state.assetCatalog.assets[this.assetId]) return state
+    const current = findAssetRecord(state.assetCatalog, this.assetId)
+    if (!current) return state
     const references = collectCurrentProjectDeletionImpact(this.currentReferences, state, {
       kind: 'asset',
       id: this.assetId,
@@ -88,7 +85,7 @@ export class DeleteAssetCommand implements Command {
       this.oldBlobs = state.assetBlobs
     }
     const assets = { ...state.assetCatalog.assets }
-    const path = assets[this.assetId]!.path
+    const { path } = current
     delete assets[this.assetId]
     const assetBlobs = { ...state.assetBlobs }
     if (!Object.values(assets).some((asset) => asset.path === path)) delete assetBlobs[path]
@@ -102,7 +99,7 @@ export class DeleteAssetCommand implements Command {
   invert(state: EditorState): EditorState {
     if (!this.oldCatalog || !this.oldBlobs) return state
     const assetBlobs = { ...this.oldBlobs }
-    const previous = this.oldCatalog.assets[this.assetId]
+    const previous = findAssetRecord(this.oldCatalog, this.assetId)
     if (previous && this.previousBytes) assetBlobs[previous.path] = this.previousBytes.slice(0)
     return { ...state, assetCatalog: this.oldCatalog, assetBlobs }
   }

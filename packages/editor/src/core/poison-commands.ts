@@ -1,10 +1,7 @@
-/**
- * 毒定义命令族：新建/修改/删除毒状态。
- * 对 Command 仅 type import（commands.ts 反向 re-export），运行期无环。
- */
 import type { PoisonDef } from '@type-pal/content'
 import { BattleDataInUseError } from './battle-data-command-errors.js'
 import type { Command } from './command-contract.js'
+import { applyDefinitionPatch, captureDefinitionPatch } from './definition-patch.js'
 import type { EditorState } from './edit-session.js'
 import {
   type CurrentProjectReferenceIndexProvider,
@@ -38,24 +35,15 @@ export class UpdatePoisonCommand implements Command {
   apply(state: EditorState): EditorState {
     const p = (state.poisons ?? []).find((x) => x.id === this.id)
     if (!p) return state
-    if (!this.oldPatch) {
-      const old: Record<string, unknown> = {}
-      for (const k of Object.keys(this.patch))
-        old[k] = structuredClone((p as unknown as Record<string, unknown>)[k])
-      this.oldPatch = old as PoisonPatch
-    }
-    const next = { ...p, ...this.patch } as Record<string, unknown>
-    for (const [k, v] of Object.entries(this.patch)) if (v === undefined) delete next[k]
-    return withPoison(state, this.id, next as unknown as PoisonDef)
+    this.oldPatch ??= captureDefinitionPatch(p, this.patch)
+    return withPoison(state, this.id, applyDefinitionPatch(p, this.patch))
   }
 
   invert(state: EditorState): EditorState {
     if (!this.oldPatch) return state
     const p = (state.poisons ?? []).find((x) => x.id === this.id)
     if (!p) return state
-    const restored = { ...p, ...this.oldPatch } as Record<string, unknown>
-    for (const [k, v] of Object.entries(this.oldPatch)) if (v === undefined) delete restored[k]
-    return withPoison(state, this.id, restored as unknown as PoisonDef)
+    return withPoison(state, this.id, applyDefinitionPatch(p, this.oldPatch))
   }
 }
 

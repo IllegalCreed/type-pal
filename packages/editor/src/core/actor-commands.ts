@@ -1,12 +1,10 @@
-/**
- * 人物命令族：增删改/复制、解除实体关联、切换战斗精灵。
- * 对 Command 仅 type import（commands.ts 反向 re-export），运行期无环。
- */
 import type { ActorDef, AssetId, EntityDef, LevelUpSkill } from '@type-pal/content'
 import { validateActors } from '@type-pal/content'
 import type { Command } from './command-contract.js'
 import { findScene, withEntities } from './command-scene-state.js'
+import { captureDefinitionPatch } from './definition-patch.js'
 import type { EditorState } from './edit-session.js'
+import { readLevelUpRows, replaceLevelUpRows } from './level-up-commands.js'
 import type { ProjectReferenceEdge } from './project-reference.js'
 import {
   type CurrentProjectReferenceIndexProvider,
@@ -37,7 +35,7 @@ function assertActorCanBeAdded(state: EditorState, actor: ActorDef): void {
     throw new Error(`人物 id 已存在：${actor.id}`)
   if (!state.sprites.some((sprite) => sprite.id === actor.spriteId))
     throw new Error(`人物 ${actor.id} 的默认精灵不存在：${actor.spriteId}`)
-  if (!(actor.name in state.locale) || !state.locale[actor.name]?.trim())
+  if (!Object.hasOwn(state.locale, actor.name) || !state.locale[actor.name]?.trim())
     throw new Error(`人物 ${actor.id} 的名称文本不存在或为空：${actor.name}`)
   const assertAsset = (id: AssetId | undefined, kind: 'portrait' | 'face', field: string): void => {
     if (!id) return
@@ -151,9 +149,7 @@ export class CopyActorCommand implements Command {
       this.copiedActor = structuredClone(source)
       this.copiedActor.id = this.nextActorId
       this.copiedActor.name = this.nextNameId
-      this.copiedLevelUp = state.levelUp[this.sourceActorId]
-        ? structuredClone(state.levelUp[this.sourceActorId])
-        : undefined
+      this.copiedLevelUp = structuredClone(readLevelUpRows(state.levelUp, this.sourceActorId))
     }
     const actor = structuredClone(this.copiedActor)
     assertActorCanBeAdded(state, actor)
@@ -162,19 +158,17 @@ export class CopyActorCommand implements Command {
       ...state,
       actors: [...state.actors, actor],
       levelUp: this.copiedLevelUp
-        ? { ...state.levelUp, [this.nextActorId]: structuredClone(this.copiedLevelUp) }
+        ? replaceLevelUpRows(state.levelUp, this.nextActorId, this.copiedLevelUp)
         : state.levelUp,
     }
   }
 
   invert(state: EditorState): EditorState {
     if (!this.copied) return state
-    const levelUp = { ...state.levelUp }
-    delete levelUp[this.nextActorId]
     return {
       ...state,
       actors: state.actors.filter((actor) => actor.id !== this.nextActorId),
-      levelUp,
+      levelUp: replaceLevelUpRows(state.levelUp, this.nextActorId, undefined),
     }
   }
 }
@@ -199,7 +193,6 @@ export class DeleteActorCommand implements Command {
   readonly label = '删除人物'
   private removed: ActorDef | undefined
   private removedLevelUp: LevelUpSkill[] | undefined
-  private hadLevelUp = false
   private index = -1
 
   constructor(
@@ -218,17 +211,12 @@ export class DeleteActorCommand implements Command {
     if (!this.removed) {
       this.removed = structuredClone(state.actors[index]!)
       this.index = index
-      this.hadLevelUp = Object.hasOwn(state.levelUp, this.actorId)
-      this.removedLevelUp = state.levelUp[this.actorId]
-        ? structuredClone(state.levelUp[this.actorId])
-        : undefined
+      this.removedLevelUp = structuredClone(readLevelUpRows(state.levelUp, this.actorId))
     }
-    const levelUp = { ...state.levelUp }
-    delete levelUp[this.actorId]
     return {
       ...state,
       actors: state.actors.filter((actor) => actor.id !== this.actorId),
-      levelUp,
+      levelUp: replaceLevelUpRows(state.levelUp, this.actorId, undefined),
     }
   }
 
@@ -242,11 +230,11 @@ export class DeleteActorCommand implements Command {
       0,
       structuredClone(this.removed),
     )
-    const levelUp = { ...state.levelUp }
-    if (this.hadLevelUp && this.removedLevelUp)
-      levelUp[this.actorId] = structuredClone(this.removedLevelUp)
-    else delete levelUp[this.actorId]
-    return { ...state, actors, levelUp }
+    return {
+      ...state,
+      actors,
+      levelUp: replaceLevelUpRows(state.levelUp, this.actorId, this.removedLevelUp),
+    }
   }
 }
 
@@ -298,43 +286,31 @@ export type ActorPatch = Partial<
   Pick<ActorDef, 'name' | 'portraits' | 'face' | 'battler' | 'spriteId'>
 >
 
-/** 改角色字段。语义同上:首次 apply 捕获旧值,invert 还原;portraits/battler 深拷贝。 */
 export class UpdateActorCommand implements Command {
   readonly label = '修改角色'
-  private readonly actorId: string
   private readonly patch: ActorPatch
-  private oldPatch: ActorPatch | undefined
+  private previous: ActorPatch | undefined
 
-  constructor(actorId: string, patch: ActorPatch) {
-    this.actorId = actorId
+  constructor(
+    private readonly actorId: string,
+    patch: ActorPatch,
+  ) {
     this.patch = structuredClone(patch)
   }
 
   apply(state: EditorState): EditorState {
-    const a = state.actors.find((x) => x.id === this.actorId)
-    if (!a) return state
-    if (!this.oldPatch) this.oldPatch = this.captureOld(a)
-    const next = { ...a, ...this.patch }
-    assertActorPatchCanBeApplied(state, a, next, this.patch)
+    const actor = state.actors.find((candidate) => candidate.id === this.actorId)
+    if (!actor) return state
+    this.previous ??= captureDefinitionPatch(actor, this.patch)
+    const next = { ...actor, ...this.patch }
+    assertActorPatchCanBeApplied(state, actor, next, this.patch)
     return withActor(state, this.actorId, next)
   }
 
-  private captureOld(a: ActorDef): ActorPatch {
-    const old: ActorPatch = {}
-    if ('name' in this.patch) old.name = a.name
-    if ('spriteId' in this.patch) old.spriteId = a.spriteId
-    if ('face' in this.patch) old.face = a.face
-    if ('portraits' in this.patch)
-      old.portraits = a.portraits ? structuredClone(a.portraits) : undefined
-    if ('battler' in this.patch) old.battler = a.battler ? structuredClone(a.battler) : undefined
-    return old
-  }
-
   invert(state: EditorState): EditorState {
-    if (!this.oldPatch) return state
-    const a = state.actors.find((x) => x.id === this.actorId)
-    if (!a) return state
-    return withActor(state, this.actorId, { ...a, ...this.oldPatch })
+    const actor = state.actors.find((candidate) => candidate.id === this.actorId)
+    if (!actor || !this.previous) return state
+    return withActor(state, this.actorId, { ...actor, ...this.previous })
   }
 }
 
