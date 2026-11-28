@@ -1,7 +1,7 @@
 # 逐文件代码治理账本
 
 Status: current
-Last reviewed: 2026-11-27
+Last reviewed: 2026-11-28
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -17,8 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,870。
-当前已闭合核验：1,672；已读但待审：1；尚未逐文件核验：2,197；合计未闭合：2,198。
+起始基点机器清单：2,962。当前 tracked 清单：3,846。
+当前已闭合核验：1,743；已读但待审：0；尚未逐文件核验：2,103；合计未闭合：2,103。
 
 2026-11-02 按当前 index 库存同步：相对固定159cd库存新增12个工具路径并退役1份N3历史生成物，净增11项 pending；846 条既有 live 记录逐字节保留，没有新增关闭。`已验证/保留`只表示原专项已登记的核验，适用性仍须查对应版本、caller 与证据，不表示本轮重读产品或重跑测试。
 
@@ -140,6 +140,8 @@ Template: governance-index-v1 / 1.0.0
 2026-11-27，宿主夹具、场景绑定与持久操作完成 14 个原 pending，四份原路径按职责退出，五份后继单列。整文件复核与只修调用路径的证据分开登记。 [本片记录](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作)
 
 2026-11-27，页面启动、真实观测及浏览器宿主完成 13 个原 pending。三个旧专测按职责迁移，三份后继与测试包作用域登记。 [本片记录](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主)
+
+2026-11-28 [作者数据命令窗口](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收)处理 94 个原 pending。60 个原路径验证，34 个旧路径按职责退役并记录有效用例去向。10 个后继单列。原 SAVE12 游标留审已闭合。
 
 ## 逐文件登记
 
@@ -1817,4 +1819,74 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/world-motion-runtime.contention.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 按独立 epoch 值核竞争状态，检查保留及移出的侧避记录。 |
 | `packages/reforge/src/world-motion-runtime.presentation.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 十条步态交接条件核真实移动注册与相位值。 |
 | `packages/reforge/src/world-motion-runtime.trace.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 诊断观察真实位移、让行、阻挡归因和限长。 |
-| `packages/reforge/src/save/current-codec.ts` | product | review | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 真实 codec 拒绝成员顺序变更后的等义游标。处理范围和原件由 REFORGE-SAVE-CURSOR-IDENTITY-1 持有。 |
+| `packages/reforge/src/save/current-codec.ts` | product | 已验证 | [读档留审](../cards/REFORGE-SAVE-CURSOR-IDENTITY-1.md#本轮验收) | 等义游标、实际内容分歧与真实实体记录在 SAVE12 正式入口通过。 |
+| `packages/editor/src/core/actor-commands.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/actor-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/actor-dialogue-commands.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/actor-dialogue-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/ambience-commands.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/ambience-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/asset-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/asset-label-command.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/battle-data-command-errors.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/battle-field-commands.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/battle-field-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/binary-signature.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/binary-signature.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/command-contract.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/command-scene-state.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/composite-command.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 后继路径单列，按当前合同完成八维复核。 |
+| `packages/editor/src/core/composite-command.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/definition-patch.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 后继路径单列，按当前合同完成八维复核。 |
+| `packages/editor/src/core/editor-asset-reader.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/enemy-commands.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/enemy-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/enemy-team-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/enemy-team-history.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 后继路径单列，按当前合同完成八维复核。 |
+| `packages/editor/src/core/entity-display.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/entity-display.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/entity-move-history.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 后继路径单列，按当前合同完成八维复核。 |
+| `packages/editor/src/core/frame-animation-images.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/image-import-catalog.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 后继路径单列，按当前合同完成八维复核。 |
+| `packages/editor/src/core/image-import.cleanup.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/image-import.stages.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/image-import.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/image-import.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/isometric-brush.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/isometric-brush.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/isometric-fill.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/isometric-fill.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/item-alchemy.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/item-alchemy.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/item-authoring.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/item-authoring.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/item-commands.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/item-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/level-up-commands.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 后继路径单列，按当前合同完成八维复核。 |
+| `packages/editor/src/core/level-up-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/locale-commands.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/locale-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/poison-commands.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/poison-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/project-battle-settings-command.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/project-name-command.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/shop-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/shop-lifecycle.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/skill-commands.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/skill-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/sprite-actions.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/sprite-actions.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/sprite-assets.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 后继路径单列，按当前合同完成八维复核。 |
+| `packages/editor/src/core/sprite-assets.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/static-image.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/world-variable-commands.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/world-variable-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/ui/ActorMode.growth-history.test.tsx` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 后继路径单列，按当前合同完成八维复核。 |
+| `packages/editor/src/ui/ActorMode.tsx` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/ui/MediaAssetLifecycle.test.tsx` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/ui/MediaAssetLifecycle.tsx` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/ui/VarsTab.test.tsx` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/ui/VarsTab.tsx` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/ui/image-asset-catalog.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 后继路径单列，按当前合同完成八维复核。 |
+| `packages/reforge/src/save/automatic-cursor-consistency.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 后继路径单列，按当前合同完成八维复核。 |

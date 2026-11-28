@@ -7,6 +7,23 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // Editor author commands: exact case successors and redundant bindings in the window archive.
+    {
+      file: 'packages/editor/src/core/battle-field-commands.test.ts',
+      previous: 6,
+      current: 4,
+      previousIdentityDigest: 'b8d5df2b01cd348d461aab657be706156984f9e91c3f77dcc75fcf38b7183479',
+      currentIdentityDigest: 'a8e59cc4bb9a1c41c7574c8bf9e405a2561d55e3faf544c34d5a678f0938a5d5',
+      fileSha256: '97645656e35096b89545991cf952dbd0684e1d81dfe266019dbda09acb3c2ea0',
+    },
+    {
+      file: 'packages/editor/src/core/image-import.stages.test.ts',
+      previous: 5,
+      current: 4,
+      previousIdentityDigest: '7e2f5f5b925763fd89a9e2e51bac6ca11f611de5ff79d1791e2031fd52f7300a',
+      currentIdentityDigest: 'b51e4410288a5213706db6b89a0456e6068ed59788153b47c53f1a421fba15fa',
+      fileSha256: '9ad28fcd3422da369bf056930481215e5f71951c0aae49c38d46f1f85b15c5d0',
+    },
     // Reforge scene governance. Stable test identities and their successors live in the task archive.
     {
       file: 'packages/reforge/src/automatic-target-command.test.ts',

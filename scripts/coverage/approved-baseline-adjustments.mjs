@@ -5,6 +5,163 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'editor-author-commands-20261128',
+    authority:
+      'User permits exact recounts for justified refactoring. Editor merged effective command and image tests around current authoring and real history. The measured scope removed a dormant hit test, repeatedly tested export aliases, and duplicated or unreachable fixtures. Legal actor reference rejection and resource identity cases were retained and remeasured. The original protected baseline, changed source bytes, test dispositions, and per-file measurements are pinned. Only Editor metrics that actually fall are rebased; all other floors and scope protections remain unchanged.',
+    evidence: 'docs/tasks/evidence/QUALITY-EDITOR-AUTHOR-COMMANDS-1.tar.gz',
+    baselineSha256: '332f60726864f88a29a4d540391e503a3f79605cb34524331b66cad65f999275',
+    sources: [
+      {
+        path: 'packages/editor/src/core/actor-commands.test.ts',
+        sha256: '8b8ad814ce44b22f3e4f7049eb07467bad81e68ce36a62383202f535f355a128',
+      },
+      {
+        path: 'packages/editor/src/core/actor-commands.ts',
+        sha256: '3a30cda22798d2cc3db9a87af865135d9676345d3bc303f545ecc7879a36e822',
+      },
+      {
+        path: 'packages/editor/src/core/actor-dialogue-commands.test.ts',
+        sha256: '80ca5bc2fea0e4ef2afcdcc22ec9db65fd21ba7f923c393cf41c976aae48223a',
+      },
+      {
+        path: 'packages/editor/src/core/actor-dialogue-commands.ts',
+        sha256: 'ada1a3f9e9077e6ccf599126e7d6356c8ed911879999b5b181e296b16021e156',
+      },
+      {
+        path: 'packages/editor/src/core/actor-references.ts',
+        sha256: '6fc2e5f5ea20a7e4a229218dc6d19a319515219a4c8b1fcec5822b52917508d3',
+      },
+      {
+        path: 'packages/editor/src/core/ambience-commands.ts',
+        sha256: '7a9a36864fb6c8f4f5e5fb15ed9835e7036bcf26a18ee17c6c3f986add518d4f',
+      },
+      {
+        path: 'packages/editor/src/core/asset-commands.ts',
+        sha256: '9fb8f913d9bc4abb1bc6aff6742282068faef9c956b0518faa48a8722334731c',
+      },
+      {
+        path: 'packages/editor/src/core/asset-label-command.ts',
+        sha256: '39198772acd4d30e2c9a260a18e58b9e278a47f645e6c8881ce626d907fd4a00',
+      },
+      {
+        path: 'packages/editor/src/core/battle-field-commands.test.ts',
+        sha256: '97645656e35096b89545991cf952dbd0684e1d81dfe266019dbda09acb3c2ea0',
+      },
+      {
+        path: 'packages/editor/src/core/battle-field-commands.ts',
+        sha256: '95bc035315b22677b9563148e81e61a264ae53339284a6f2853fb243ce354f68',
+      },
+      {
+        path: 'packages/editor/src/core/command-scene-state.ts',
+        sha256: '40bf49300d0ca6f12ec525778b5e752f8262b1c4b21d99ddbbaf63ab77d505a2',
+      },
+      {
+        path: 'packages/editor/src/core/definition-patch.ts',
+        sha256: 'f83a75b2d48b2b6c10fcab17cdafe3d63bdf90211c17ab5175df87e3d9048688',
+      },
+      {
+        path: 'packages/editor/src/core/editor-asset-reader.ts',
+        sha256: '5c2a49453f5c7b1b96634537df0c610e4e7b1a5876482ba2588b8c143f4dafa6',
+      },
+      {
+        path: 'packages/editor/src/core/enemy-commands.ts',
+        sha256: 'a73d7b00b4e7af4832014b3bbb0264c3aa56c08eff1e763779339aa51ac70e89',
+      },
+      {
+        path: 'packages/editor/src/core/enemy-team-commands.ts',
+        sha256: 'f8d2eb9b4de3697cbb3d1028bd6755853abf7ede7eda6ebe1b63e7044e1935a3',
+      },
+      {
+        path: 'packages/editor/src/core/entity-display.ts',
+        sha256: 'fc06021cb3f3df438ed655d2b7a91c14803fa55a277f217d56250a2183e54923',
+      },
+      {
+        path: 'packages/editor/src/core/image-import-catalog.test.ts',
+        sha256: 'd7dffd800f75f2ba6a822a56636ec82d85df8ca65c945b330e61fdffe70019b4',
+      },
+      {
+        path: 'packages/editor/src/core/image-import.stages.test.ts',
+        sha256: '9ad28fcd3422da369bf056930481215e5f71951c0aae49c38d46f1f85b15c5d0',
+      },
+      {
+        path: 'packages/editor/src/core/image-import.ts',
+        sha256: 'e5b7f98d3da2ad4d73049c5c64cdcaf3313f3c9eae4ea8fe180857a4432e0430',
+      },
+      {
+        path: 'packages/editor/src/core/isometric-brush.ts',
+        sha256: 'cef5c2b8cbe14fcd5f75d7fd6f8220a7a08ca41df7a24168b3f40a1cb9c0d1b1',
+      },
+      {
+        path: 'packages/editor/src/core/item-alchemy.ts',
+        sha256: '9785ec4f1b61e58bf022fa2ecfa174aea1aef46e5d061779f06233d76aeece2c',
+      },
+      {
+        path: 'packages/editor/src/core/item-commands.ts',
+        sha256: '09040b50f2f672c7a2afa1931b947178dc735eeb7756087bb7edcd24203db7d8',
+      },
+      {
+        path: 'packages/editor/src/core/level-up-commands.ts',
+        sha256: '7ef5dcc99e02ede943a355f16673f499928f29b5ed643e1f63100bf12a3747bb',
+      },
+      {
+        path: 'packages/editor/src/core/locale-commands.ts',
+        sha256: 'e9b2e1fa1ebc888136e12cc433b9ab5a29fcd599e821c83a605c0b929db75616',
+      },
+      {
+        path: 'packages/editor/src/core/poison-commands.ts',
+        sha256: 'bcbb7fba81ecceeefa37efe73571f5a95f3808d44b2b4275dd23c7d4a8863bda',
+      },
+      {
+        path: 'packages/editor/src/core/shop-commands.ts',
+        sha256: 'e1207d8a728af53a8470509613e2fd849f1138e4003f1d3ee02110a25e3a3557',
+      },
+      {
+        path: 'packages/editor/src/core/skill-commands.ts',
+        sha256: '282b15abdd138f61ccc6022e2974b24fd5edfc2cd6a946fbc3e08fdca37d3226',
+      },
+      {
+        path: 'packages/editor/src/core/sprite-actions.test.ts',
+        sha256: '8221f8a381dda2eeb7261f151fef9322ff7f161b54f616c9899d5ebc602cbac3',
+      },
+      {
+        path: 'packages/editor/src/core/sprite-actions.ts',
+        sha256: '9d32c218e0ccb4d464c8cba8139813a2b3899d7eea05ff8dccc62db6cbc7b5d7',
+      },
+      {
+        path: 'packages/editor/src/core/sprite-assets.ts',
+        sha256: '8cd0acd97d50505f5a50f9e131efecb3c7815a083b168f9757dfcfe437aa1781',
+      },
+      {
+        path: 'packages/editor/src/core/world-variable-commands.ts',
+        sha256: '6f13aa09025f1731d36d8046460110e51e4c1c2581b8b623e85e9739382fbba0',
+      },
+      {
+        path: 'packages/editor/src/ui/ActorMode.tsx',
+        sha256: 'b780c71447fa4ead858d0b5e1ac0c5a52494cfe01cc1f2bbf14bc40810a6e26e',
+      },
+      {
+        path: 'packages/editor/src/ui/VarsTab.tsx',
+        sha256: '53199ee93a63f11c019300d18def6c486c8b5db49747ec7fc3d344b0591a6ab9',
+      },
+    ],
+    packages: {
+      editor: {
+        before: {
+          statements: { covered: 31726, total: 35093 },
+          branches: { covered: 25690, total: 30672 },
+          functions: { covered: 8084, total: 8988 },
+          lines: { covered: 28404, total: 30685 },
+        },
+        after: {
+          statements: { covered: 31599, total: 34986 },
+          branches: { covered: 25600, total: 30616 },
+          functions: { covered: 8084, total: 8988 },
+          lines: { covered: 28331, total: 30609 },
+        },
+      },
+    },
+  },
+  {
     id: 'reforge-world-controls-20261126',
     authority:
       'User authorizes exact coverage recounts for justified refactoring and test reorganization. The unused movement adapter had four covered statements, exercised only by its retired test. Reforge world runtime still uses the real motion planner. Recount only those four statements. All branch, function and line floors, every other package floor and production scope checks remain strict. The measured per-file deltas and exact test successors are in the archive.',
