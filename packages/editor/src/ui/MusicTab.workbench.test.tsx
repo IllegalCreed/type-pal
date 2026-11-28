@@ -15,7 +15,7 @@ import {
   clickButton,
   inputByAriaLabel,
   loadFilesIntoInput,
-} from './__tests__/glm-ui-wave-kit.js'
+} from './__tests__/dom-gestures.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 
 /** 两音符真实 SMF：0–0.25s vel127、0.5–1.0s vel32（96 tick/四分音符，默认速度总长 1.0s）。 */

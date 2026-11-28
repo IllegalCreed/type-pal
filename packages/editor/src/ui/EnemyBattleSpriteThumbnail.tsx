@@ -14,8 +14,8 @@ const HERO_THUMBNAIL_SIZE = 56
 const THUMBNAIL_CACHE_CAPACITY = 64
 
 /**
- * 敌人目录专用单帧缓存。生命周期由 EnemyTab 持有，避免跨项目无界保留；
- * 同一资源并发共享 Promise，定义或资源 revision 变化时自动换 key。
+ * EnemyTab shares this cache between its catalog and hero for one asset base and reader.
+ * An entry is reusable within that scope while the definition, profile and frame source agree.
  */
 export class EnemyBattleSpriteThumbnailCache {
   private readonly spriteCache: BattleSpriteAssetCache
@@ -82,7 +82,7 @@ export class EnemyBattleSpriteThumbnailCache {
     this.entries.set(key, promise)
     const limit = Math.max(1, this.capacity)
     while (this.entries.size > limit) {
-      const oldest = this.entries.keys().next().value as string | undefined
+      const oldest = this.entries.keys().next().value
       if (oldest === undefined) break
       this.entries.delete(oldest)
     }

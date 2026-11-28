@@ -1,180 +1,123 @@
 // @vitest-environment jsdom
+
 import type { SpriteDef } from '@type-pal/content'
-import type { LoadedWorldSprite, RleFrame } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import { installBrowserHardwarePorts } from '../__tests__/canvas-test-ports.js'
+import { pixelAt } from '../__tests__/cursor-asset-r1/canvas-pixels.js'
+import { installReactActEnvironment, waitForReact } from '../__tests__/react-io-wait.js'
+import { loadWorldSpriteProject } from '../__tests__/world-sprite-project.js'
+import { createEditorAssetReader } from '../core/editor-asset-reader.js'
 import { SpriteFrames } from './SpriteFrames.js'
 
-const mocks = vi.hoisted(() => ({
-  loadSprite: vi.fn(),
-  loadPalette: vi.fn(),
-  bakeFrame: vi.fn(),
-}))
+const asset = 'sprite.authored.actor-preview'
+let host: HTMLDivElement
+let root: Root
+let restoreAct: () => void
 
-vi.mock('../core/sprite-assets.js', () => ({ loadEditorSprite: mocks.loadSprite }))
-vi.mock('@type-pal/reforge', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@type-pal/reforge')>()),
-  loadStandardPalette: mocks.loadPalette,
-  bakeFrame: mocks.bakeFrame,
-}))
+beforeEach(() => {
+  restoreAct = installReactActEnvironment()
+  installBrowserHardwarePorts()
+  host = document.createElement('div')
+  document.body.append(host)
+  root = createRoot(host)
+})
 
-function frame(width = 20, height = 30): RleFrame {
-  return {
-    width,
-    height,
-    pixels: new Uint8Array(width * height),
-    opaque: new Uint8Array(width * height),
-  }
-}
-
-function loadedSprite(frameCount: number): LoadedWorldSprite {
-  const frames = Array.from({ length: frameCount }, () => frame())
-  return {
-    frames,
-    anchorX: 10,
-    anchorY: 30,
-    profile: 'canonical',
-    decode: { declaredSlots: frameCount, trailingSentinel: false, skippedLegacyTailSlots: 0 },
-  }
-}
-
-const definition: SpriteDef = {
-  id: 'sprite.hero',
-  label: '主角行走精灵',
-  asset: 'sprite.hero.asset',
-  layout: { kind: 'directional', framesPerDir: 3 },
-  poses: {
-    wave: {
-      label: '挥手',
-      order: 1,
-      steps: [
-        { frame: 12, durationMs: 120 },
-        { frame: 13, durationMs: 180 },
-      ],
-      loopFrom: 0,
-    },
-  },
-}
-
-describe('SpriteFrames embedded preview', () => {
-  let host: HTMLDivElement
-  let root: Root
-  let contextSpy: ReturnType<typeof vi.spyOn>
-
-  beforeEach(() => {
-    ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
-    host = document.createElement('div')
-    document.body.append(host)
-    root = createRoot(host)
-    contextSpy = vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({
-      clearRect: vi.fn(),
-      drawImage: vi.fn(),
-      imageSmoothingEnabled: true,
-    } as unknown as CanvasRenderingContext2D)
-    mocks.loadSprite.mockReset().mockResolvedValue(loadedSprite(14))
-    mocks.loadPalette.mockReset().mockResolvedValue({ colors: [], cycles: [] })
-    mocks.bakeFrame.mockReset().mockImplementation((source: RleFrame) => {
-      const canvas = document.createElement('canvas')
-      canvas.width = source.width
-      canvas.height = source.height
-      return canvas
-    })
-  })
-
-  afterEach(async () => {
+afterEach(async () => {
+  try {
     await act(async () => root.unmount())
-    contextSpy.mockRestore()
+  } finally {
     host.remove()
-  })
-
-  async function renderPreview(sprite: SpriteDef): Promise<void> {
-    await act(async () => {
-      root.render(
-        <SpriteFrames
-          sprite={sprite}
-          assetBase={{} as never}
-          assetReader={
-            {
-              record: () => ({ sha256: 'sprite-sha' }),
-            } as never
-          }
-        />,
-      )
-    })
+    restoreAct()
+    vi.unstubAllGlobals()
   }
+})
 
-  test('复用共享 embedded 动作架展示四向与命名动作，不渲染旧预览皮肤', async () => {
-    await renderPreview(definition)
+async function renderActorPreview(layout: SpriteDef['layout'], poses?: SpriteDef['poses']) {
+  const definition = { id: 'preview', label: '主角精灵', layout, poses }
+  const project = await loadWorldSpriteProject('actor-sprite-preview', [
+    { asset, label: '主角精灵源帧', frameCount: 14, definitions: [definition] },
+  ])
+  const sprite = project.state.sprites.find((value) => value.id === definition.id)
+  if (!sprite) throw new Error('The loaded definition is missing')
+  const reader = createEditorAssetReader(project.source, () => project.state)
+  await act(async () =>
+    root.render(
+      <SpriteFrames sprite={sprite} assetBase={project.assetBase} assetReader={reader} />,
+    ),
+  )
+  await waitForReact(() =>
+    expect(host.querySelector('.semantic-frame-shelf--embedded')).not.toBeNull(),
+  )
+  const shelf = host.querySelector<HTMLElement>('.semantic-frame-shelf--embedded')
+  if (!shelf) throw new Error('The actor preview did not mount the embedded shelf')
+  return shelf
+}
 
-    const shelf = host.querySelector<HTMLElement>(
-      '.semantic-frame-shelf--embedded[data-presentation="embedded"]',
-    )!
-    expect(shelf).not.toBeNull()
-    expect(shelf.getAttribute('aria-label')).toBe('四向行走与动作帧预览')
-    expect(shelf.querySelector(':scope > header')).toBeNull()
-    expect(shelf.querySelector('.semantic-frame-group-head')).toBeNull()
-    expect(
-      [...shelf.querySelectorAll('.semantic-frame-row-label b')].map((node) => node.textContent),
-    ).toEqual(['下 · 行走', '左 · 行走', '上 · 行走', '右 · 行走', '挥手'])
-    expect(shelf.querySelectorAll('.semantic-frame-row')).toHaveLength(5)
-    expect(shelf.textContent).toContain('#0 为站立帧')
-    expect(shelf.textContent).toContain('#3 为站立帧')
-    expect(shelf.textContent).toContain('#6 为站立帧')
-    expect(shelf.textContent).toContain('#9 为站立帧')
-    expect(shelf.textContent).toContain('循环动作 · 第 1 步开始循环')
-    const rows = shelf.querySelectorAll('.semantic-frame-row')
-    for (const row of [...rows].slice(0, 4)) {
-      expect(row.querySelectorAll('.sprite-frame-cell')).toHaveLength(4)
-      expect(row.querySelectorAll('.sprite-frame-cell.animated')).toHaveLength(1)
-    }
-    expect(rows[4]?.querySelectorAll('.sprite-frame-cell')).toHaveLength(3)
-    expect(shelf.querySelectorAll('button,input,select,textarea')).toHaveLength(0)
-    expect(host.querySelector('.sprite-frames > .toolbar')).toBeNull()
-    expect(host.querySelector('.frames-preview')).toBeNull()
-    expect(host.querySelector('.dirgroup')).toBeNull()
-    expect(host.querySelector('.fcell')).toBeNull()
-    expect(host.querySelector('.posegroup')).toBeNull()
-  })
+function readFrames(row: Element): Array<string | null> {
+  return [
+    ...row.querySelectorAll('.sprite-frame-cell:not(.animated) .sprite-frame-cell-caption b'),
+  ].map((label) => label.textContent)
+}
 
-  test('shows available source frames when the declaration exceeds any RLE table', async () => {
-    await renderPreview({
-      ...definition,
-      layout: { kind: 'directional', framesPerDir: 2 ** 32 },
-      poses: undefined,
-    })
-
-    expect(host.textContent).toContain('资源实际 14 帧')
-    const rows = [...host.querySelectorAll('.semantic-frame-row')]
-    expect(rows).toHaveLength(4)
-    expect(
-      rows.map((row) => row.querySelectorAll('.sprite-frame-cell:not(.animated)').length),
-    ).toEqual([14, 0, 0, 0])
-  })
-
-  test.each([
-    { name: 'keeps the declared loop of a normal sprite', frameCount: 3, expectedFrames: 3 },
+test('actor view shows read-only direction slots and a named action from a loaded sprite', async () => {
+  const shelf = await renderActorPreview(
+    { kind: 'directional', framesPerDir: 3 },
     {
-      name: 'limits an impossible loop to the decoded frames',
-      frameCount: 2 ** 32,
-      expectedFrames: 14,
+      wave: {
+        label: '挥手',
+        order: 1,
+        steps: [
+          { frame: 12, durationMs: 120 },
+          { frame: 13, durationMs: 180 },
+        ],
+        loopFrom: 0,
+      },
     },
-  ])('$name', async ({ frameCount, expectedFrames }) => {
-    await renderPreview({
-      ...definition,
-      layout: { kind: 'loop', frameCount, ticksPerFrame: 2 },
-      poses: undefined,
-    })
+  )
+  expect(shelf.getAttribute('aria-label')).toBe('四向行走与动作帧预览')
+  expect(shelf.querySelector(':scope > header')).toBeNull()
+  expect(shelf.querySelector('.semantic-frame-group-head')).toBeNull()
+  expect(shelf.querySelector('button,input,select,textarea')).toBeNull()
+  const rows = [...shelf.querySelectorAll('.semantic-frame-row')]
+  expect(rows.map((row) => row.querySelector('.semantic-frame-row-label b')?.textContent)).toEqual([
+    '下 · 行走',
+    '左 · 行走',
+    '上 · 行走',
+    '右 · 行走',
+    '挥手',
+  ])
+  expect(rows.map(readFrames)).toEqual([
+    ['#0', '#1', '#2'],
+    ['#3', '#4', '#5'],
+    ['#6', '#7', '#8'],
+    ['#9', '#10', '#11'],
+    ['#12', '#13'],
+  ])
+  expect(shelf.textContent).toContain('循环动作 · 第 1 步开始循环')
+  const first = rows[0]?.querySelector<HTMLCanvasElement>(
+    '.sprite-frame-cell:not(.animated) canvas',
+  )
+  if (!first) throw new Error('The south-facing standing frame did not mount')
+  expect(pixelAt(first, 36, 60)).toEqual([200, 84, 68, 255])
+})
 
-    const tracks = host.querySelectorAll('.semantic-frame-track')
-    expect(tracks).toHaveLength(1)
-    expect(host.textContent).toContain('自动循环')
-    expect(host.querySelector('[aria-label="主角行走精灵 自动循环动态预览"]')).not.toBeNull()
-    const labels = tracks[0]?.querySelectorAll(
-      '.sprite-frame-cell:not(.animated) .sprite-frame-cell-caption b',
-    )
-    expect(Array.from(labels ?? [], (label) => label.textContent)).toEqual(
-      Array.from({ length: expectedFrames }, (_, index) => `#${index}`),
-    )
-  })
+test('a historical frame declaration above the RLE table budget shows only existing frames', async () => {
+  const shelf = await renderActorPreview({ kind: 'directional', framesPerDir: 2 ** 32 })
+  expect(host.textContent).toContain('资源实际 14 帧')
+  const rows = [...shelf.querySelectorAll('.semantic-frame-row')]
+  expect(rows.map((row) => readFrames(row).length)).toEqual([14, 0, 0, 0])
+})
+
+test('an absent historical slot keeps the requested index and paints the first source image', async () => {
+  const shelf = await renderActorPreview({ kind: 'directional', framesPerDir: 4 })
+  expect(host.textContent).toContain('声明需要 16 帧，资源实际 14 帧')
+  const missing = [...shelf.querySelectorAll('.sprite-frame-cell.missing')]
+  expect(missing.map((frame) => frame.querySelector('b')?.textContent)).toEqual(['#14', '#15'])
+  const first = shelf.querySelector<HTMLCanvasElement>('.sprite-frame-cell:not(.animated) canvas')
+  const missingFrame = missing[1]?.querySelector<HTMLCanvasElement>('canvas')
+  if (!first || !missingFrame) throw new Error('Fallback source/target image is missing')
+  expect(pixelAt(first, 36, 60)).toEqual([200, 84, 68, 255])
+  expect(pixelAt(missingFrame, 36, 60)).toEqual([200, 84, 68, 255])
 })

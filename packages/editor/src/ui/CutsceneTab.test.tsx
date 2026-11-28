@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
 
 import { describe, expect, test } from 'vitest'
-import { mp4AudioBytes, mp4SilentBytes } from './__tests__/cutscene-resource-fixtures.js'
+import { solidRgba } from '../__tests__/png-fixtures.js'
+import { mp4AudioBytes, mp4SilentBytes } from '../__tests__/video-fixtures.js'
 import { installCutsceneTestHost } from './__tests__/cutscene-test-host.js'
-import { buttonByLabel } from './__tests__/glm-ui-wave-kit.js'
-import { solidRgba } from './__tests__/kimi-editor-workflows/kit.js'
+import { buttonByLabel } from './__tests__/dom-gestures.js'
 
 const { host, mountTab } = installCutsceneTestHost()
 

@@ -1,6 +1,5 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import { pngRgba } from '../__tests__/cursor-asset-r1/image-ports.js'
-import { deepSnapshot, minimalPng, pngFile } from './__tests__/glm-import-codec-fixtures.js'
+import { pngRgba, transparentPng, transparentPngFile } from '../__tests__/png-fixtures.js'
 import { prepareAuthoredImage } from './image-import.js'
 
 /** 非同色映射调色板：palette[i] ≠ [i,i,i] → 量化索引帧与预览帧的实际像素天然不同。 */
@@ -29,7 +28,7 @@ const PNG_PAYLOAD_SHA256 = {
   preview: 'ee694d7766f4e69c15464f2c6d33c851fa638877aedf12a02fe6ec0126be8529',
 } as const
 
-/** portrait 直传域源字节（minimalPng(4,4)）的离线真实 SHA-256。 */
+/** portrait 直传域源字节（transparentPng(4,4)）的离线真实 SHA-256。 */
 const SOURCE_PNG_4x4_SHA256 = 'ff127c16d10d400afeca3db3709a50da874740b19e01112fcd9180df55902ba3'
 
 /** 读 PNG IHDR 宽高（字节偏移 16/20，u32 BE）。 */
@@ -128,29 +127,29 @@ afterEach(() => {
 describe('PNG 签名和解码错误', () => {
   test('非 PNG 扩展名拒绝；坏签名拒绝（真实 8 字节签名域）；解码失败带文件名与原因', async () => {
     installCanvasHost({ width: 4, height: 4 })
-    const notPngName = new File([minimalPng(4, 4)], 'a.jpg', { type: 'image/jpeg' })
+    const notPngName = new File([transparentPng(4, 4)], 'a.jpg', { type: 'image/jpeg' })
     await expect(prepareAuthoredImage(notPngName, 'portrait')).rejects.toThrow(
       '只允许导入 PNG 文件',
     )
     // 坏签名：合法扩展名但首字节错
-    const badSignature = new Uint8Array(minimalPng(4, 4))
+    const badSignature = new Uint8Array(transparentPng(4, 4))
     badSignature[0] = 0x00
     const badFile = new File([badSignature], 'bad.png', { type: 'image/png' })
     expect(await rejectionOf(prepareAuthoredImage(badFile, 'portrait'))).toBe(
       'bad.png: 不是有效 PNG 文件',
     )
     installCanvasHost({ width: 4, height: 4, decodeFails: true })
-    await expect(prepareAuthoredImage(pngFile('broken.png', 4, 4), 'portrait')).rejects.toThrow(
-      'broken.png: PNG 解码失败；libpng corrupt',
-    )
+    await expect(
+      prepareAuthoredImage(transparentPngFile('broken.png', 4, 4), 'portrait'),
+    ).rejects.toThrow('broken.png: PNG 解码失败；libpng corrupt')
   })
 })
 
 describe('战场背景和静态图像导入', () => {
   test('非 battle-background kind 直传源字节（不解码量化）；record 字段完整', async () => {
     const host = installCanvasHost({ width: 4, height: 4 })
-    const file = pngFile('hero.png', 4, 4)
-    const sourceSnapshot = deepSnapshot(new Uint8Array(await file.arrayBuffer()))
+    const file = transparentPngFile('hero.png', 4, 4)
+    const sourceSnapshot = new Uint8Array(await file.arrayBuffer())
     const prepared = await prepareAuthoredImage(file, 'portrait')
     expect(prepared.width).toBe(4)
     expect(prepared.height).toBe(4)
@@ -165,7 +164,7 @@ describe('战场背景和静态图像导入', () => {
     expect(prepared.record.label).toBe('hero')
     expect(prepared.record.path).toContain('assets/authored/portrait/')
     // 真实摘要：hash = 离线预计算的源字节 SHA-256（独立 oracle，不依赖产品 digest 实现）
-    expect(sourceSnapshot.byteLength).toBe(136) // minimalPng(4,4) 确定性长度自检
+    expect(sourceSnapshot.byteLength).toBe(136) // transparentPng(4,4) 确定性长度自检
     expect(prepared.hash).toBe(SOURCE_PNG_4x4_SHA256)
     expect(prepared.record.sha256).toBe(SOURCE_PNG_4x4_SHA256)
     expect(prepared.record.bytes).toBe(136)
@@ -173,7 +172,7 @@ describe('战场背景和静态图像导入', () => {
   test('battle-background：320×200 + palette 通过并产出 preview；宿主产物与实际 canvas 尺寸/像素一致；尺寸不符拒绝、缺 palette 拒绝', async () => {
     const okHost = installCanvasHost({ width: 320, height: 200 })
     const prepared = await prepareAuthoredImage(
-      pngFile('bg.png', 320, 200),
+      transparentPngFile('bg.png', 320, 200),
       'battle-background',
       palette(),
     )
@@ -183,9 +182,9 @@ describe('战场背景和静态图像导入', () => {
     expect(okHost.events).toContain('drawImage')
     expect(okHost.events.filter((e) => e === 'toBlob').length).toBe(2) // 主图 + preview
     // 宿主尺寸合同：源图/主图/preview 的 IHDR 与声明/返回宽高全部 320×200
-    expect(pngDims(new Uint8Array(await pngFile('bg.png', 320, 200).arrayBuffer()))).toEqual([
-      320, 200,
-    ])
+    expect(
+      pngDims(new Uint8Array(await transparentPngFile('bg.png', 320, 200).arrayBuffer())),
+    ).toEqual([320, 200])
     expect(pngDims(new Uint8Array(prepared.bytes))).toEqual([320, 200])
     expect(pngDims(new Uint8Array(prepared.effectPreviewBytes!))).toEqual([320, 200])
     // 真实不同像素：量化索引帧与调色板预览帧的实际 putImageData 交付内容不同（两份快照）
@@ -218,24 +217,28 @@ describe('战场背景和静态图像导入', () => {
     installCanvasHost({ width: 320, height: 201 })
     expect(
       await rejectionOf(
-        prepareAuthoredImage(pngFile('bg2.png', 320, 201), 'battle-background', palette()),
+        prepareAuthoredImage(
+          transparentPngFile('bg2.png', 320, 201),
+          'battle-background',
+          palette(),
+        ),
       ),
     ).toBe('bg2.png: 战场背景必须是 320×200，实际 320×201')
     installCanvasHost({ width: 320, height: 200 })
     await expect(
-      prepareAuthoredImage(pngFile('bg3.png', 320, 200), 'battle-background'),
+      prepareAuthoredImage(transparentPngFile('bg3.png', 320, 200), 'battle-background'),
     ).rejects.toThrow('战场背景导入缺项目标准色彩')
   })
   test('label 缺省用文件名去扩展；显式 label 优先', async () => {
     installCanvasHost({ width: 4, height: 4 })
     const withLabel = await prepareAuthoredImage(
-      pngFile('x.png', 4, 4),
+      transparentPngFile('x.png', 4, 4),
       'portrait',
       undefined,
       '自定义',
     )
     expect(withLabel.record.label).toBe('自定义')
-    const noLabel = await prepareAuthoredImage(pngFile('y-name.png', 4, 4), 'portrait')
+    const noLabel = await prepareAuthoredImage(transparentPngFile('y-name.png', 4, 4), 'portrait')
     expect(noLabel.record.label).toBe('y-name')
   })
 })

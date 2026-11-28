@@ -9,7 +9,7 @@ import {
   installAudioWorkbenchTestHost,
   seedSound,
 } from './__tests__/audio-workbench-harness.js'
-import { buttonByLabel, inputByAriaLabel } from './__tests__/glm-ui-wave-kit.js'
+import { buttonByLabel, inputByAriaLabel } from './__tests__/dom-gestures.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 
 const { host, renderTab, catalogRow, waitPlayerState } = installAudioWorkbenchTestHost()

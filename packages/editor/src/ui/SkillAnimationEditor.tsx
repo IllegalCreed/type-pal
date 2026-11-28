@@ -275,6 +275,7 @@ export function SkillAnimationEditor(props: {
               assetBase={props.assetBase}
               anim={props.animation}
               assetReader={props.assetReader}
+              previewScope={props.draftScope}
             />
           ) : (
             <div className="skill-animation-preview-panel__empty" role="status">

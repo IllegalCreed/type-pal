@@ -25,47 +25,6 @@ function ownedBuffer(bytes: Uint8Array): ArrayBuffer {
   return Uint8Array.from(bytes).buffer
 }
 
-function joinBytes(parts: readonly Uint8Array[]): Uint8Array {
-  const total = parts.reduce((sum, part) => sum + part.byteLength, 0)
-  const out = new Uint8Array(total)
-  let offset = 0
-  for (const part of parts) {
-    out.set(part, offset)
-    offset += part.byteLength
-  }
-  return out
-}
-
-function u32be(value: number): Uint8Array {
-  const bytes = new Uint8Array(4)
-  new DataView(bytes.buffer).setUint32(0, value)
-  return bytes
-}
-
-function fourCc(value: string): Uint8Array {
-  return new TextEncoder().encode(value)
-}
-
-/** ISO BMFF 盒：size(4, 大端含头) + type(4) + content。 */
-function mp4Box(type: string, content: Uint8Array): Uint8Array {
-  return joinBytes([u32be(8 + content.byteLength), fourCc(type), content])
-}
-
-/** 仅用于盒级元数据的 ftyp fixture，无音视频 sample。 */
-export function mp4SilentBytes(): Uint8Array {
-  return mp4Box(
-    'ftyp',
-    joinBytes([fourCc('isom'), u32be(0), fourCc('isom'), fourCc('iso2'), fourCc('mp41')]),
-  )
-}
-
-/** ftyp + moov/trak/mdia/hdlr(soun)：产品 mp4HasAudioTrack 真实解析结果为 true。 */
-export function mp4AudioBytes(): Uint8Array {
-  const hdlr = mp4Box('hdlr', joinBytes([u32be(0), u32be(0), fourCc('soun')]))
-  const ftyp = mp4Box('ftyp', joinBytes([fourCc('isom'), u32be(0), fourCc('isom')]))
-  return joinBytes([ftyp, mp4Box('moov', mp4Box('trak', mp4Box('mdia', hdlr)))])
-}
-
 export interface CutsceneVideoSeed {
   id: AssetId
   label: string

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 const { Buffer } = createRequire(join(selfDir(), '../../../package.json'))('node:buffer')
 
 import { vi } from 'vitest'
-import { type Deferred, deferred } from './glm-ui-wave-kit.js'
+import { type Deferred, deferred } from '../../__tests__/test-promises.js'
 
 /** 本文件真实磁盘路径（vitest 下 import.meta.url 可能是 http /@fs 形式，两种都还原）。 */
 function selfDir(): string {

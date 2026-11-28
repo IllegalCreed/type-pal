@@ -1,16 +1,16 @@
-/**
- * FIRE 法术特效实时预览(技能编辑,2026-07-05 作者拍板)。
- * 帧源 = loadFireSprite(FIRE.MKF 招式精灵,0 号板 bake);播放语义对齐引擎考证:
- * 帧时长 (speed+5)×10ms、fireDelay 为循环起点、音效在循环点播。参数改动即重启。
- * 完整战斗语境(施法者/飞行/命中)待引擎 B5 召唤·变身动画补齐后上。
- */
-import { type AssetId, palMagicEffectSpriteAssetId, type SkillAnimation } from '@type-pal/content'
+/** Standalone FIRE frames and a repeating cue for the editor's animation controls. */
+import {
+  type AssetId,
+  palMagicEffectSpriteAssetId,
+  type SkillAnimation,
+  skillAnimationFrameDurationMs,
+} from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
-import { bakeFrame, loadFireSprite, loadStandardPalette, type SfxPlayer } from '@type-pal/reforge'
-import { useEffect, useId, useRef, useState } from 'react'
+import { bakeFrame, loadFireSprite, loadStandardPalette } from '@type-pal/reforge'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import { prepareSoundPreview } from '../core/sound-picker-preview.js'
 import { DsButton, DsField, DsSelect } from './design-system/controls.js'
+import { useFirePreviewPlayback } from './use-fire-preview-playback.js'
 
 const fireCache = new WeakMap<AssetBase, Map<string, Promise<HTMLCanvasElement[] | null>>>()
 
@@ -29,13 +29,17 @@ function fireRevision(assetBase: AssetBase, chunk: number): string {
   }
 }
 
-function loadFrames(assetBase: AssetBase, chunk: number): Promise<HTMLCanvasElement[] | null> {
+function loadFrames(
+  assetBase: AssetBase,
+  chunk: number,
+  revision: string,
+): Promise<HTMLCanvasElement[] | null> {
   let cache = fireCache.get(assetBase)
   if (!cache) {
     cache = new Map()
     fireCache.set(assetBase, cache)
   }
-  const key = `${chunk}\0${fireRevision(assetBase, chunk)}`
+  const key = `${chunk}\0${revision}`
   let p = cache.get(key)
   if (!p) {
     p = (async () => {
@@ -45,7 +49,7 @@ function loadFrames(assetBase: AssetBase, chunk: number): Promise<HTMLCanvasElem
           loadStandardPalette(assetBase),
         ])
         if (!sprite.frames.length) return null
-        return sprite.frames.map((f: Parameters<typeof bakeFrame>[0]) => bakeFrame(f, palette))
+        return sprite.frames.map((frame) => bakeFrame(frame, palette))
       } catch {
         return null
       }
@@ -60,6 +64,17 @@ function loadFrames(assetBase: AssetBase, chunk: number): Promise<HTMLCanvasElem
 
 const W = 200
 const H = 170
+const MAX_BROWSER_INTERVAL_MS = 2_147_483_647
+
+function soundRevision(reader: EditorAssetReader, sound: AssetId | undefined): string | undefined {
+  if (!sound) return undefined
+  try {
+    return reader.record(sound, 'sound').sha256
+  } catch {
+    // The play action reports the catalog error when the author requests the sound.
+    return undefined
+  }
+}
 
 function drawPreviewFrame(context: CanvasRenderingContext2D, image: HTMLCanvasElement): void {
   context.clearRect(0, 0, W, H)
@@ -74,72 +89,93 @@ export function FireEffectPreview(props: {
   assetBase: AssetBase
   anim: SkillAnimation
   assetReader: EditorAssetReader
+  previewScope?: string
 }) {
-  const { assetBase, anim, assetReader } = props
-  const revision = fireRevision(assetBase, anim.effectSprite)
+  const { assetBase, anim, assetReader, previewScope } = props
+  const effectSprite = anim.effectSprite
+  const revision = fireRevision(assetBase, effectSprite)
   const rateId = useId()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [frames, setFrames] = useState<HTMLCanvasElement[] | null | 'loading'>('loading')
-  // 音效准备必须发生在用户手势中；准备完成后才起动动画，不做迟到补播。
   const [rate, setRate] = useState(0.5) // 默认半速(编辑时看清帧)
-  const [playing, setPlaying] = useState(false)
-  const [audioError, setAudioError] = useState('')
-  const sfxRef = useRef<SfxPlayer | null>(null)
-  const preparedSoundRef = useRef<AssetId | undefined>(undefined)
-  const preparedReaderRef = useRef<EditorAssetReader | null>(null)
+  const frameDurationMs = skillAnimationFrameDurationMs(anim.speed)
+  const intervalMs = frameDurationMs / rate
+  const loopStart = anim.fireDelay ?? 0
+  const timingError =
+    !Number.isSafeInteger(loopStart) || loopStart < 0
+      ? '循环起点必须为非负整数。'
+      : !Number.isFinite(intervalMs) || intervalMs <= 0
+        ? '帧时长必须为正的有限数。'
+        : intervalMs > MAX_BROWSER_INTERVAL_MS
+          ? '当前倍速的帧时长超出浏览器限值。'
+          : ''
+  const canPlay = timingError === ''
+  const sound = anim.sound
+  const soundSha = soundRevision(assetReader, sound)
+  const selection = useMemo(
+    () => ({
+      reader: assetReader,
+      sound,
+      soundSha,
+      assetBase,
+      effectSprite,
+      revision,
+      previewScope,
+      canPlay,
+    }),
+    [assetReader, sound, soundSha, assetBase, effectSprite, revision, previewScope, canPlay],
+  )
+  const {
+    active,
+    playing,
+    player,
+    error: audioError,
+    toggle,
+    fail,
+  } = useFirePreviewPlayback(selection)
 
   useEffect(() => {
-    // Render-time catalog changes invalidate the effect; loadFrames re-reads its key at admission.
-    void revision
     let alive = true
     setFrames('loading')
-    void loadFrames(assetBase, anim.effectSprite).then((f) => {
-      if (alive) setFrames(f)
+    void loadFrames(assetBase, effectSprite, revision).then((resolvedFrames) => {
+      if (alive) setFrames(resolvedFrames)
     })
     return () => {
       alive = false
     }
-  }, [assetBase, anim.effectSprite, revision])
+  }, [assetBase, effectSprite, revision])
 
   useEffect(() => {
     if (!Array.isArray(frames) || !frames.length || !playing) return
     const ctx = canvasRef.current?.getContext('2d')
     if (!ctx) return
     const n = frames.length
-    const fireDelay = Math.min(anim.fireDelay ?? 0, n - 1)
-    const stepMs = (((anim.speed ?? 0) + 5) * 10) / rate // 倍速:rate 0.5 = 半速
-    let idx = 0
+    const fireDelay = Math.min(loopStart, n - 1)
+    let index = 0
     let disposed = false
-    const draw = (): void => {
-      const img = frames[idx]!
-      drawPreviewFrame(ctx, img)
-    }
     const tick = (): void => {
       if (disposed) return
-      draw()
-      // 音效:引擎语义 (i−fireDelay)%(n−fireDelay)===0 循环点播;单实例复位重播,画帧同 tick = 同步
-      const span = n - fireDelay
-      if (anim.sound && span > 0 && idx >= fireDelay && (idx - fireDelay) % span === 0) {
-        if (preparedSoundRef.current !== anim.sound || preparedReaderRef.current !== assetReader) {
-          setPlaying(false)
+      const image = frames[index]
+      if (!image) return
+      drawPreviewFrame(ctx, image)
+      // Cue the sound on the loop-start frame. The player owns any still-playing source.
+      if (sound && index === fireDelay) {
+        try {
+          player?.play(sound)
+        } catch (cause) {
+          fail(cause)
           return
         }
-        try {
-          sfxRef.current?.play(anim.sound)
-        } catch (cause) {
-          setAudioError(cause instanceof Error ? cause.message : String(cause))
-          setPlaying(false)
-        }
       }
-      idx = idx + 1 >= n ? fireDelay : idx + 1 // 到尾回循环起点(预览无限循环)
+      index = index + 1 >= n ? fireDelay : index + 1
     }
     tick()
-    const timer = window.setInterval(tick, stepMs)
+    const timer = window.setInterval(tick, intervalMs)
     return () => {
       disposed = true
       window.clearInterval(timer)
     }
-  }, [frames, anim.speed, anim.fireDelay, anim.sound, assetReader, rate, playing])
+  }, [frames, intervalMs, loopStart, sound, playing, player, fail])
 
   useEffect(() => {
     if (!Array.isArray(frames) || !frames.length || playing) return
@@ -147,22 +183,6 @@ export function FireEffectPreview(props: {
     const firstFrame = frames[0]
     if (context && firstFrame) drawPreviewFrame(context, firstFrame)
   }, [frames, playing])
-
-  const togglePlayback = async (): Promise<void> => {
-    if (playing) {
-      setPlaying(false)
-      return
-    }
-    setAudioError('')
-    try {
-      sfxRef.current = anim.sound ? await prepareSoundPreview(assetReader, anim.sound) : null
-      preparedSoundRef.current = anim.sound
-      preparedReaderRef.current = assetReader
-      setPlaying(true)
-    } catch (cause) {
-      setAudioError(cause instanceof Error ? cause.message : String(cause))
-    }
-  }
 
   return (
     <figure className="fire-preview">
@@ -194,11 +214,12 @@ export function FireEffectPreview(props: {
             <legend className="ds-visually-hidden">特效预览控制</legend>
             <DsButton
               size="compact"
-              variant={playing ? 'primary' : 'secondary'}
-              aria-label={playing ? '暂停 FIRE 特效预览' : '播放 FIRE 特效预览'}
-              onClick={() => void togglePlayback()}
+              variant={active ? 'primary' : 'secondary'}
+              aria-label={active ? '暂停 FIRE 特效预览' : '播放 FIRE 特效预览'}
+              disabled={!canPlay}
+              onClick={() => void toggle()}
             >
-              {playing ? '暂停' : '播放'}
+              {active ? '暂停' : '播放'}
             </DsButton>
             <DsField id={rateId} label="速度" layout="inline" className="fp-rate-field">
               <DsSelect
@@ -215,9 +236,13 @@ export function FireEffectPreview(props: {
               />
             </DsField>
           </fieldset>
-          {audioError ? <div className="cf-err">{audioError}</div> : null}
+          {timingError || audioError ? (
+            <div className="cf-err" role="status">
+              {timingError || audioError}
+            </div>
+          ) : null}
           <figcaption className="hint2">
-            #{anim.effectSprite} · {frames.length} 帧 · 实速 {((anim.speed ?? 0) + 5) * 10}ms/帧
+            #{anim.effectSprite} · {frames.length} 帧 · 实速 {frameDurationMs}ms/帧
           </figcaption>
         </>
       )}

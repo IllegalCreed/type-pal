@@ -19,6 +19,7 @@ import { ReplaceSpriteAssetCommand, type SpriteReplacementProof } from '../core/
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import { loadEditorSprite } from '../core/sprite-assets.js'
+import { readSpriteImagePixels } from '../core/sprite-image-pixels.js'
 import {
   planWorldSpriteFrameDeletion,
   type WorldSpriteFrameDeletionPlan,
@@ -39,12 +40,6 @@ import {
 } from './SpriteFrameWorkbench.js'
 import { worldSpriteSemanticGroups } from './world-sprite-action-preview.js'
 
-export {
-  planWorldSpriteFrameDeletion,
-  type WorldSpriteFrameDeletionPlan,
-} from '../core/world-sprite-frame-deletion.js'
-export { worldSpriteSemanticGroups } from './world-sprite-action-preview.js'
-
 export interface SpriteResourceLoadProof {
   asset: AssetId
   revision: string
@@ -59,23 +54,6 @@ interface LoadedSnapshot {
   sprite: LoadedWorldSprite
   palette: Palette
   frames: SpriteFrameView[]
-}
-
-async function fileToRgba(file: File): Promise<{ rgba: Uint8Array; w: number; h: number }> {
-  const bitmap = await createImageBitmap(file)
-  const canvas = document.createElement('canvas')
-  canvas.width = bitmap.width
-  canvas.height = bitmap.height
-  const context = canvas.getContext('2d')
-  if (!context) throw new Error('2d context 不可用')
-  context.drawImage(bitmap, 0, 0)
-  bitmap.close()
-  const data = context.getImageData(0, 0, canvas.width, canvas.height)
-  return {
-    rgba: new Uint8Array(data.data.buffer.slice(0)),
-    w: canvas.width,
-    h: canvas.height,
-  }
 }
 
 export function SpriteResourceViewer(props: {
@@ -106,8 +84,8 @@ export function SpriteResourceViewer(props: {
   const [editorMessageKind, setEditorMessageKind] = useState<'info' | 'error'>('info')
   const [appendDraft, setAppendDraft] = useState<{
     rgba: Uint8Array
-    w: number
-    h: number
+    width: number
+    height: number
     cols: number
     rows: number
   }>()
@@ -211,14 +189,15 @@ export function SpriteResourceViewer(props: {
     frames: RleFrame[],
     label: string,
     deletionPlan?: WorldSpriteFrameDeletionPlan,
-  ): Promise<void> => {
-    if (!loaded) return
+  ): Promise<boolean> => {
+    if (!loaded) return false
     setBusy(true)
     setEditorMessage('')
     try {
       const currentState = props.session.getState()
       const record = currentState.assetCatalog.assets[props.asset]
       if (!record || record.kind !== 'sprite') throw new Error('当前精灵源资源已不在 catalog')
+      if (record.sha256 !== loaded.revision) throw new Error('精灵源帧已更新，请重新选择后再编辑。')
       const consumers = currentState.sprites.filter((candidate) => candidate.asset === props.asset)
       const shrinking = frames.length < loaded.sprite.frames.length
       const gzip = await compressGzip(encodeSpriteChunk(frames))
@@ -237,7 +216,7 @@ export function SpriteResourceViewer(props: {
       }
       const proof: SpriteReplacementProof = {
         asset: props.asset,
-        previousSha256: record.sha256,
+        previousSha256: loaded.revision,
         previousFrameCount: loaded.sprite.frames.length,
         nextFrameCount: frames.length,
         consumerIds: consumers.map((consumer) => consumer.id),
@@ -262,8 +241,10 @@ export function SpriteResourceViewer(props: {
       setEditorMessage(`${label}；可使用撤销恢复。`)
       setEditorMessageKind('info')
       props.onStatusNotice?.({ kind: 'info', message: `${label}；可撤销。` })
+      return true
     } catch (reason) {
       reportError(reason)
+      return false
     } finally {
       setBusy(false)
     }
@@ -273,8 +254,8 @@ export function SpriteResourceViewer(props: {
     if (!loaded) return
     const index = Math.min(selectedFrame, loaded.sprite.frames.length - 1)
     try {
-      const { rgba, w, h } = await fileToRgba(file)
-      const replacement = quantizeToRleFrame(rgba, w, h, loaded.palette)
+      const { rgba, width, height } = await readSpriteImagePixels(file)
+      const replacement = quantizeToRleFrame(rgba, width, height, loaded.palette)
       if (
         props.consumers.length &&
         !window.confirm(`替换源帧 #${index} 会同时影响 ${props.consumers.length} 个用途。继续吗？`)
@@ -293,14 +274,15 @@ export function SpriteResourceViewer(props: {
 
   const appendFrames = async (): Promise<void> => {
     if (!loaded || !appendDraft) return
-    if (appendDraft.w % appendDraft.cols !== 0 || appendDraft.h % appendDraft.rows !== 0) return
+    if (appendDraft.width % appendDraft.cols !== 0 || appendDraft.height % appendDraft.rows !== 0)
+      return
     try {
       const appended = sliceAtlasGrid(
         appendDraft.rgba,
-        appendDraft.w,
-        appendDraft.h,
-        appendDraft.w / appendDraft.cols,
-        appendDraft.h / appendDraft.rows,
+        appendDraft.width,
+        appendDraft.height,
+        appendDraft.width / appendDraft.cols,
+        appendDraft.height / appendDraft.rows,
       ).map((frame) => quantizeToRleFrame(frame.rgba, frame.width, frame.height, loaded.palette))
       if (
         props.consumers.length &&
@@ -309,9 +291,12 @@ export function SpriteResourceViewer(props: {
         )
       )
         return
-      await commitFrames([...loaded.sprite.frames, ...appended], `追加源帧 ×${appended.length}`)
-      setAppendDraft(undefined)
-      selectFrame(loaded.sprite.frames.length)
+      if (
+        await commitFrames([...loaded.sprite.frames, ...appended], `追加源帧 ×${appended.length}`)
+      ) {
+        setAppendDraft(undefined)
+        selectFrame(loaded.sprite.frames.length)
+      }
     } catch (reason) {
       reportError(reason)
     }
@@ -334,13 +319,12 @@ export function SpriteResourceViewer(props: {
         : ''
       if (!window.confirm(`删除源帧 #${index}？后续物理帧号会全部前移，操作可撤销。${impact}`))
         return
-      await commitFrames(
+      const committed = await commitFrames(
         loaded.sprite.frames.filter((_, frameIndex) => frameIndex !== index),
         `删除源帧 #${index}`,
         plan,
       )
-      const next = Math.min(index, loaded.sprite.frames.length - 2)
-      selectFrame(next)
+      if (committed) selectFrame(Math.min(index, loaded.sprite.frames.length - 2))
     } catch (reason) {
       reportError(reason)
     }
@@ -368,7 +352,7 @@ export function SpriteResourceViewer(props: {
   const appendPanel = appendDraft ? (
     <div className="sprite-raw-append-panel">
       <span>
-        将 {appendDraft.w}×{appendDraft.h} 图片切为
+        将 {appendDraft.width}×{appendDraft.height} 图片切为
       </span>
       <DsField label="列" className="sprite-raw-append-panel__field">
         {(field) => (
@@ -406,8 +390,8 @@ export function SpriteResourceViewer(props: {
         )}
       </DsField>
       <span className="hint2">
-        {appendDraft.w % appendDraft.cols === 0 && appendDraft.h % appendDraft.rows === 0
-          ? `${appendDraft.cols * appendDraft.rows} 帧，每帧 ${appendDraft.w / appendDraft.cols}×${appendDraft.h / appendDraft.rows}`
+        {appendDraft.width % appendDraft.cols === 0 && appendDraft.height % appendDraft.rows === 0
+          ? `${appendDraft.cols * appendDraft.rows} 帧，每帧 ${appendDraft.width / appendDraft.cols}×${appendDraft.height / appendDraft.rows}`
           : '图片宽高必须能被行列整除'}
       </span>
       <span className="spacer" />
@@ -417,7 +401,9 @@ export function SpriteResourceViewer(props: {
       <DsButton
         variant="primary"
         disabled={
-          busy || appendDraft.w % appendDraft.cols !== 0 || appendDraft.h % appendDraft.rows !== 0
+          busy ||
+          appendDraft.width % appendDraft.cols !== 0 ||
+          appendDraft.height % appendDraft.rows !== 0
         }
         onClick={() => void appendFrames()}
       >
@@ -454,7 +440,7 @@ export function SpriteResourceViewer(props: {
           const file = event.target.files?.[0]
           event.target.value = ''
           if (!file) return
-          void fileToRgba(file)
+          void readSpriteImagePixels(file)
             .then((image) => setAppendDraft({ ...image, cols: 1, rows: 1 }))
             .catch(reportError)
         }}

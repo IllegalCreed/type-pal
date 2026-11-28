@@ -2,14 +2,10 @@ import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { vi } from 'vitest'
-import { installBrowserHardwarePorts as installBitmapPort } from '../ui/__tests__/kimi-editor-workflows/kit.js'
+import { installBrowserHardwarePorts as installBitmapPort } from './bitmap-test-port.js'
 
-export {
-  dispatchDragEvent,
-  MemoryDataTransfer,
-  pngFileOf,
-  pngRgba,
-} from '../ui/__tests__/kimi-editor-workflows/kit.js'
+export { dispatchDragEvent, MemoryDataTransfer } from './drag-test-ports.js'
+export { pngFileOf, pngRgba } from './png-fixtures.js'
 
 function selfDir(): string {
   const url = new URL(import.meta.url)

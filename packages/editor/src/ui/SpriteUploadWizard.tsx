@@ -1,11 +1,6 @@
 /**
- * 精灵上传向导(A4;2026-07-11 按作者反馈两轮收口):
- * - **只管新建**:导入源帧容器，并同时建立一个初始用途定义；用途不是源资源分类。
- * - 行走图支持**动作帧行**:4 行走路(下/左/上/右)之后可另加 K 行特殊动作帧
- *   (接在 4×N 帧之后平铺;入库后到中间帧工作区框选命名姿势,poses 体系 C1d)。
- * - 帧级编辑(替换某帧/追加帧带)**不在这里** —— 在中间帧工作区就地做
- *   (作者:「替换一帧还要回上传选追加?动线太复杂」)。
- * 量化贴盘 0 预览(所见即入库);保存项目时落盘 assets/authored/sprites/<content-hash>.rle。
+ * Import source frames and register their initial purpose. Extra directional rows stay in
+ * the source strip for named actions. Replacing or appending frames belongs to the workbench.
  */
 import type { AssetRecordV1, SpriteDef, SpriteLayout } from '@type-pal/content'
 import type { AssetBase, Palette, RleFrame } from '@type-pal/reforge'
@@ -61,19 +56,20 @@ interface Draft {
   srcUrl: string
 }
 
-const DIR_LABELS = ['下', '左', '上', '右'] // 行走图 4 行序(FACING_TO_DIR)
+const DIR_LABELS = ['下', '左', '上', '右'] // 与 FACING_TO_DIR 的图集方向一致。
 
-const KIND_META: { v: SpriteLayout['kind']; label: string; hint: string }[] = [
+type InitialSpriteLayout = Extract<SpriteLayout, { kind: 'directional' | 'static' }>
+
+const KIND_META: readonly { v: InitialSpriteLayout['kind']; label: string; hint: string }[] = [
   {
     v: 'directional',
     label: '🚶 四向行走',
     hint: '4 行 = 下/左/上/右 × 每向 N 帧;可另加动作帧行(挥手/施法等,入库后在中间帧工作区框选命名)',
   },
-  { v: 'loop', label: '🔥 自动循环', hint: '建立定义级自动循环；单行 N 帧依次播放' },
   {
     v: 'static',
     label: '📌 默认定格',
-    hint: '建立默认显示 #0 的用途；之后仍可向源容器追加帧，供命名动作或场景脚本使用',
+    hint: '建立默认显示 #0 的用途；其余源帧可用于预制动作或场景脚本',
   },
 ]
 
@@ -85,10 +81,9 @@ export function SpriteUploadWizard(props: {
 }) {
   const { sprites, assetBase, session, onDone } = props
   const [draft, setDraft] = useState<Draft | null>(null)
-  const [kind, setKind] = useState<SpriteLayout['kind']>('directional')
+  const [kind, setKind] = useState<InitialSpriteLayout['kind']>('directional')
   const [framesPerDir, setFramesPerDir] = useState(3)
   const [actionRows, setActionRows] = useState(0)
-  const [frameCount, setFrameCount] = useState(4)
   const [sourceCols, setSourceCols] = useState(1)
   const [sourceRows, setSourceRows] = useState(1)
   const [newId, setNewId] = useState('')
@@ -155,16 +150,12 @@ export function SpriteUploadWizard(props: {
         ? { cols, rows, w: draft.imgW / cols, h: draft.imgH / rows }
         : null
     }
-    if (kind === 'loop') {
-      const n = Math.max(1, frameCount)
-      return draft.imgW % n === 0 ? { cols: n, rows: 1, w: draft.imgW / n, h: draft.imgH } : null
-    }
     const n = Math.max(1, framesPerDir)
     const rows = 4 + Math.max(0, actionRows)
     return draft.imgW % n === 0 && draft.imgH % rows === 0
       ? { cols: n, rows, w: draft.imgW / n, h: draft.imgH / rows }
       : null
-  }, [draft, kind, framesPerDir, actionRows, frameCount, sourceCols, sourceRows])
+  }, [draft, kind, framesPerDir, actionRows, sourceCols, sourceRows])
 
   const quantized = useMemo(() => {
     if (!draft || !palette || !grid) return []
@@ -244,12 +235,8 @@ export function SpriteUploadWizard(props: {
       const chunk = encodeSpriteChunk(quantized)
       const gz = await compressGzip(chunk)
       const buf = gz.buffer.slice(gz.byteOffset, gz.byteOffset + gz.byteLength) as ArrayBuffer
-      const layout: SpriteLayout =
-        kind === 'directional'
-          ? { kind, framesPerDir: Math.max(1, framesPerDir) }
-          : kind === 'loop'
-            ? { kind, frameCount: Math.max(1, frameCount) }
-            : { kind: 'static' }
+      const layout: InitialSpriteLayout =
+        kind === 'directional' ? { kind, framesPerDir: Math.max(1, framesPerDir) } : { kind }
       const hash = await sha256Hex(buf)
       const state = session.getState()
       const shared = Object.entries(state.assetCatalog.assets).find(
@@ -346,7 +333,7 @@ export function SpriteUploadWizard(props: {
                 <DsField
                   id="sprite-upload-frames-per-direction"
                   label="每向帧数"
-                  help="原版走姿 3 帧（中间为立姿）"
+                  help="每个方向以第一帧为站立姿势。"
                 >
                   {(field) => (
                     <DsFieldMeasure measure="short-number">
@@ -384,22 +371,6 @@ export function SpriteUploadWizard(props: {
                   )}
                 </DsField>
               </>
-            ) : null}
-            {kind === 'loop' ? (
-              <DsField id="sprite-upload-frame-count" label="帧数">
-                {(field) => (
-                  <DsFieldMeasure measure="short-number">
-                    <DsNumberInput
-                      id={field.id}
-                      min={1}
-                      max={64}
-                      disabled={submitting}
-                      value={frameCount}
-                      onChange={(e) => setFrameCount(Math.floor(e.target.valueAsNumber) || 1)}
-                    />
-                  </DsFieldMeasure>
-                )}
-              </DsField>
             ) : null}
             {kind === 'static' ? (
               <>

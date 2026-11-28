@@ -2,19 +2,21 @@
 
 import { act } from 'react'
 import { describe, expect, test, vi } from 'vitest'
+import { fileOfBytes } from '../__tests__/audio-fixtures.js'
+import type { GatedFileSource } from '../__tests__/gated-file-source.js'
+import { solidRgba } from '../__tests__/png-fixtures.js'
 import { waitForReact } from '../__tests__/react-io-wait.js'
+import { deferred } from '../__tests__/test-promises.js'
+import {
+  mp4AudioBytes,
+  mp4SilentBytes,
+  paddedMp4Bytes,
+  webmHeaderBytes,
+} from '../__tests__/video-fixtures.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
-import { mp4AudioBytes, mp4SilentBytes } from './__tests__/cutscene-resource-fixtures.js'
 import { installCutsceneTestHost } from './__tests__/cutscene-test-host.js'
-import { fileOf, mp4Bytes, webmBytes } from './__tests__/glm-authoring-kit.js'
-import {
-  buttonByLabel,
-  deferred,
-  inputByAccept,
-  loadFilesIntoInput,
-} from './__tests__/glm-ui-wave-kit.js'
-import { type GatedFileSource, solidRgba } from './__tests__/kimi-editor-workflows/kit.js'
+import { buttonByLabel, inputByAccept, loadFilesIntoInput } from './__tests__/dom-gestures.js'
 
 const {
   host,
@@ -318,9 +320,9 @@ describe('过场视频导入与预览', () => {
     const mounted = await mountTab({
       focus: 'video.c1-b',
       videos: [
-        { id: 'video.c1-b', label: '半 KB 片', bytes: mp4Bytes(512) },
-        { id: 'video.c1-kb', label: '整 KB 片', bytes: mp4Bytes(2048) },
-        { id: 'video.c1-mb', label: '兆级片', bytes: mp4Bytes(3 * 1024 * 1024) },
+        { id: 'video.c1-b', label: '半 KB 片', bytes: paddedMp4Bytes(512) },
+        { id: 'video.c1-kb', label: '整 KB 片', bytes: paddedMp4Bytes(2048) },
+        { id: 'video.c1-mb', label: '兆级片', bytes: paddedMp4Bytes(3 * 1024 * 1024) },
       ],
     })
     const sizes = new Map<string, string>()
@@ -357,7 +359,7 @@ describe('过场视频导入与预览', () => {
 
     // 正控：.webm 名 + video/webm 类型 + EBML 魔数 → 识别为 webm 落账。
     await act(async () => {
-      await loadFilesIntoInput(input, [fileOf(webmBytes(), 'intro.webm', 'video/webm')])
+      await loadFilesIntoInput(input, [fileOfBytes('intro.webm', 'video/webm', webmHeaderBytes())])
     })
     await waitForReact(() => expect(authoredVideoIds()).toHaveLength(1))
     const record = mounted.session.getState().assetCatalog.assets[authoredVideoIds()[0]!]!
@@ -371,7 +373,7 @@ describe('过场视频导入与预览', () => {
 
     // 名实不符：.mp4 名 + mp4 类型 + webm 字节 → 魔数对不上扩展，拒绝且零提交。
     await act(async () => {
-      await loadFilesIntoInput(input, [fileOf(webmBytes(0x77), 'fake.mp4', 'video/mp4')])
+      await loadFilesIntoInput(input, [fileOfBytes('fake.mp4', 'video/mp4', webmHeaderBytes())])
     })
     await waitForReact(() => expect(host.textContent).toContain('只支持有效的 MP4 或 WebM'))
     expect(authoredVideoIds()).toHaveLength(1)
@@ -396,7 +398,7 @@ describe('过场视频导入与预览', () => {
     const sha256 = await sha256Hex(bytes)
     const id = `video.authored.${sha256.slice(0, 16)}`
     const input = inputByAccept(host, 'video/mp4,video/webm')
-    await loadFilesIntoInput(input, [fileOf(bytes, 'opening.mp4', 'video/mp4')])
+    await loadFilesIntoInput(input, [fileOfBytes('opening.mp4', 'video/mp4', bytes)])
     await waitForReact(() => expect(session.getState().assetCatalog.assets[id]).toBeDefined())
     const record = session.getState().assetCatalog.assets[id]
     expect(record).toEqual({
@@ -412,7 +414,7 @@ describe('过场视频导入与预览', () => {
     expect(focusLog).toEqual([id])
     expect(session.getHistoryVersion()).toBe(1)
 
-    await loadFilesIntoInput(input, [fileOf(new Uint8Array(24), 'invalid.mp4', 'video/mp4')])
+    await loadFilesIntoInput(input, [fileOfBytes('invalid.mp4', 'video/mp4', new Uint8Array(24))])
     await waitForReact(() => expect(host.textContent).toContain('只支持有效的 MP4 或 WebM'))
     expect(session.getState().assetCatalog.assets[id]).toEqual(record)
     expect(session.getHistoryVersion()).toBe(1)

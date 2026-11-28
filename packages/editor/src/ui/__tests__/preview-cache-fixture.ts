@@ -14,16 +14,9 @@ import {
   type FileSource,
   type Palette,
 } from '@type-pal/reforge'
+import type { deferred } from '../../__tests__/test-promises.js'
 import { sha256Hex } from '../../core/binary-signature.js'
 import { createEditorAssetReader } from '../../core/editor-asset-reader.js'
-
-export function deferred<T>() {
-  let resolve!: (value: T) => void
-  const promise = new Promise<T>((done) => {
-    resolve = done
-  })
-  return { promise, resolve }
-}
 
 /** Reader-level fixture: validated catalog/roles and real gzip RLE bytes, never a fake decoder. */
 export async function previewCacheFixture(

@@ -1,8 +1,4 @@
-/**
- * 战斗外观上传器(A4c,敌/我共用)—— 比行走图更简:PNG → 帧宽×帧高网格切**顺序帧**
- * (敌人动画 = 待机/施法/攻击帧数字段各自指进这条帧带,工作台既有字段可调;玩家侧建议
- * 照原版帧序)。量化贴盘 0 预览(所见即入库)→ 应用(调用方 dispatch 复合命令)。
- */
+/** Splits a local image into row-major battle frames; the caller owns the import command. */
 import type { AssetBase, Palette, RleFrame } from '@type-pal/reforge'
 import {
   bakeFrame,
@@ -12,7 +8,8 @@ import {
   quantizeToRleFrame,
   sliceAtlasGrid,
 } from '@type-pal/reforge'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { readSpriteImagePixels } from '../core/sprite-image-pixels.js'
 import {
   DsButton,
   DsField,
@@ -44,19 +41,25 @@ function FrameThumb(props: { frame: RleFrame; palette: Palette; idx: number }) {
 
 export function BattleSpriteUploader(props: {
   assetBase: AssetBase
-  /** 应用:调用方 dispatch 复合命令(path 由调用方按 id 定死)。 */
+  /** Returns the encoded frame source; the caller registers and assigns it. */
   onApply: (blob: ArrayBuffer, frameCount: number) => void | Promise<void>
   onCancel: () => void
 }) {
   const { assetBase, onApply, onCancel } = props
-  const [rgba, setRgba] = useState<{ data: Uint8Array; w: number; h: number; name: string } | null>(
-    null,
-  )
+  const [rgba, setRgba] = useState<{ data: Uint8Array; w: number; h: number } | null>(null)
   const [frameW, setFrameW] = useState(64)
   const [frameH, setFrameH] = useState(64)
   const [err, setErr] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [palette, setPalette] = useState<Palette | null>(null)
+  const imageSelection = useRef(0)
+
+  useLayoutEffect(
+    () => () => {
+      imageSelection.current++
+    },
+    [],
+  )
 
   useEffect(() => {
     let alive = true
@@ -64,7 +67,9 @@ export function BattleSpriteUploader(props: {
       .then((p) => {
         if (alive) setPalette(p)
       })
-      .catch((e) => setErr(e instanceof Error ? e.message : String(e)))
+      .catch((e) => {
+        if (alive) setErr(e instanceof Error ? e.message : String(e))
+      })
     return () => {
       alive = false
     }
@@ -83,28 +88,19 @@ export function BattleSpriteUploader(props: {
   }, [rgba, palette, frameW, frameH])
 
   const pickFile = async (file: File): Promise<void> => {
+    const selection = ++imageSelection.current
+    // A pending or failed selection must not leave a previous image available to apply.
+    setRgba(null)
     setErr('')
     try {
-      const bitmap = await createImageBitmap(file)
-      const cvs = document.createElement('canvas')
-      cvs.width = bitmap.width
-      cvs.height = bitmap.height
-      const ctx = cvs.getContext('2d')
-      if (!ctx) throw new Error('2d context 不可用')
-      ctx.drawImage(bitmap, 0, 0)
-      bitmap.close()
-      const data = ctx.getImageData(0, 0, cvs.width, cvs.height)
-      setRgba({
-        data: new Uint8Array(data.data.buffer.slice(0)),
-        w: cvs.width,
-        h: cvs.height,
-        name: file.name,
-      })
-      // 缺省帧尺寸:单行猜整图高;方帧猜高
-      setFrameH(cvs.height)
-      setFrameW(cvs.height <= cvs.width && cvs.width % cvs.height === 0 ? cvs.height : cvs.width)
+      const { rgba, width, height } = await readSpriteImagePixels(file)
+      if (selection !== imageSelection.current) return
+      setRgba({ data: rgba, w: width, h: height })
+      // A horizontal strip of squares uses the image height as its frame width.
+      setFrameH(height)
+      setFrameW(height <= width && width % height === 0 ? height : width)
     } catch (e) {
-      setErr(e instanceof Error ? e.message : String(e))
+      if (selection === imageSelection.current) setErr(e instanceof Error ? e.message : String(e))
     }
   }
 

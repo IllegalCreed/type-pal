@@ -12,9 +12,11 @@
  * 全部合法 loader 项目 + 真命令播种 + 真实组件 DOM；BattleSpriteInlinePreview 沿用两份旧测的
  * 展示桩先例（被测对象是 ActorMode 面板，非该预览组件）。
  */
+
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { encodeWavPcm16 } from '../__tests__/audio-fixtures.js'
 import {
   AddActorCommand,
   AddSkillCommand,
@@ -25,12 +27,11 @@ import {
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
 import {
-  type AuthoringBundle,
-  buildLegalBundle,
-  dispatchAll,
-  seededAssetCommand,
-  wavBytes,
-} from './__tests__/glm-authoring-kit.js'
+  type AuthoringSessionFixture,
+  createAssetSeedCommand,
+  createAuthoringSession,
+  dispatchFixtureCommands,
+} from './__tests__/authoring-session-fixture.js'
 import {
   buttonByLabel,
   chooseComboboxOption,
@@ -47,7 +48,7 @@ vi.mock('./BattleSpriteInlinePreview.js', () => ({
   ),
 }))
 
-function Harness(props: { bundle: AuthoringBundle; onActorFocus?: (id: string) => void }) {
+function Harness(props: { bundle: AuthoringSessionFixture; onActorFocus?: (id: string) => void }) {
   const session = props.bundle.session
   useSyncExternalStore(
     (listener) => session.subscribe(listener),
@@ -113,7 +114,7 @@ afterEach(async () => {
 
 describe('A 组 ActorMode 作者面板残差', () => {
   test('A1 新建守卫：空字段零派发保留面板，重复 id 报命令层错误，合法新建可 undo', async () => {
-    const bundle = await buildLegalBundle('glm-authoring-actor-create-guard')
+    const bundle = await createAuthoringSession('glm-authoring-actor-create-guard')
     const dispatch = vi.spyOn(bundle.session, 'dispatch')
     await act(async () => {
       root.render(<Harness bundle={bundle} />)
@@ -164,9 +165,9 @@ describe('A 组 ActorMode 作者面板残差', () => {
   })
 
   test('A2 删除当前 actor：选择回落剩余第一名并回报 onActorFocus，undo 还原', async () => {
-    const bundle = await buildLegalBundle('glm-authoring-actor-delete-fallback')
+    const bundle = await createAuthoringSession('glm-authoring-actor-delete-fallback')
     // 真命令播种第二名 NPC（无 battler、无引用，可删）。
-    await dispatchAll(bundle.session, [
+    await dispatchFixtureCommands(bundle.session, [
       new CompositeCommand('播种守卫', [
         new UpdateLocaleCommand('name.guard', '守卫'),
         new AddActorCommand({ id: 'guard', name: 'name.guard', spriteId: 'hero' }),
@@ -200,9 +201,9 @@ describe('A 组 ActorMode 作者面板残差', () => {
   })
 
   test('A3 战斗音效空值删除：逐键删除，最后一键删除后 battler.sounds 整键消失，undo 还原', async () => {
-    const bundle = await buildLegalBundle('glm-authoring-actor-sound-unset')
-    const wav = wavBytes(4)
-    const asset = await seededAssetCommand({
+    const bundle = await createAuthoringSession('glm-authoring-actor-sound-unset')
+    const wav = encodeWavPcm16([0, 0, 0, 0], 22050)
+    const asset = await createAssetSeedCommand({
       id: 'sound.authored.cue',
       kind: 'sound',
       extension: 'wav',
@@ -213,7 +214,7 @@ describe('A 组 ActorMode 作者面板残差', () => {
       bytes: wav,
     })
     const hero = bundle.session.getState().actors[0]!
-    await dispatchAll(bundle.session, [
+    await dispatchFixtureCommands(bundle.session, [
       asset.command,
       new UpdateActorCommand('hero', {
         battler: {
@@ -250,7 +251,7 @@ describe('A 组 ActorMode 作者面板残差', () => {
   })
 
   test('A4 非法数值拒绝与 no-op 抑制：负数零派发带回显错误，同值重提交零派发，改值单命令', async () => {
-    const bundle = await buildLegalBundle('glm-authoring-actor-stat-guard')
+    const bundle = await createAuthoringSession('glm-authoring-actor-stat-guard')
     const dispatch = vi.spyOn(bundle.session, 'dispatch')
     const historyAtMount = bundle.session.getHistoryVersion()
     await act(async () => {
@@ -280,8 +281,8 @@ describe('A 组 ActorMode 作者面板残差', () => {
   })
 
   test('A5 initial magic 选项去重：每行选项排除其它行已用技能，全部用尽后添加禁用', async () => {
-    const bundle = await buildLegalBundle('glm-authoring-actor-magic-dedup')
-    await dispatchAll(bundle.session, [
+    const bundle = await createAuthoringSession('glm-authoring-actor-magic-dedup')
+    await dispatchFixtureCommands(bundle.session, [
       new AddSkillCommand('fire-spell', '火咒'),
       new AddSkillCommand('ice-spell', '冰咒'),
     ])

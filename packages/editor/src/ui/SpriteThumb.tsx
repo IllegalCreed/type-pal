@@ -1,9 +1,5 @@
-/**
- * 精灵缩略图(放置 palette / 检查器;2026-07-05 作者:「光看名字不清楚是什么」)。
- * 懒加载:进入视口才按 AssetId 解码(全量精灵不预拉);bake 结果模块级缓存(跨行复用)。
- * 0 号调色板 bake(编辑器缩略不追场景准色,同 BattleFieldPicker 约定)。
- * pending bytes 由 EditorAssetReader 统一覆盖磁盘，组件不接触物理路径。
- */
+/** Lazy, revision-aware world sprite thumbnails using the project's standard palette. */
+
 import type { AssetId } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
 import { actualFrameIndex, bakeFrame, loadStandardPalette } from '@type-pal/reforge'
@@ -41,6 +37,7 @@ function loadThumb(
   asset: AssetId,
   revision: string,
   frameIndex: number,
+  metadataRevision: string,
 ): Promise<HTMLCanvasElement | null> {
   let readers = thumbCache.get(assetBase)
   if (!readers) {
@@ -52,7 +49,7 @@ function loadThumb(
     cache = new Map()
     readers.set(assetReader, cache)
   }
-  const cacheKey = `${asset}\0${revision}\0${frameIndex}\0${thumbRevision(assetBase, assetReader, asset)}`
+  const cacheKey = `${asset}\0${revision}\0${frameIndex}\0${metadataRevision}`
   let p = cache.get(cacheKey)
   if (!p) {
     p = (async () => {
@@ -65,7 +62,7 @@ function loadThumb(
         if (!f) return null
         return bakeFrame(f, palette)
       } catch {
-        return null // 缺图静默(项目无此精灵资产)
+        return null // Missing or unreadable thumbnails leave the row usable.
       }
     })().then((baked) => {
       if (baked === null && cache.get(cacheKey) === p) cache.delete(cacheKey)
@@ -112,7 +109,9 @@ export function SpriteThumb(props: {
     if (!el) return
     const io = new IntersectionObserver(
       (entries) => {
-        if (entries.some((e) => e.isIntersecting)) setVisible(true)
+        if (!entries.some((entry) => entry.isIntersecting)) return
+        io.disconnect()
+        setVisible(true)
       },
       { rootMargin: '120px' },
     )
@@ -121,24 +120,24 @@ export function SpriteThumb(props: {
   }, [])
 
   useEffect(() => {
-    // Observe metadata changes even when the reader object and caller-provided SHA are unchanged.
-    void metadataRevision
     if (!visible) return
     let alive = true
-    void loadThumb(assetBase, assetReader, asset, revision, frameIndex).then((baked) => {
-      if (!alive || !hostRef.current) return
-      const ctx = hostRef.current.getContext('2d')
-      if (!ctx) return
-      ctx.clearRect(0, 0, size, size)
-      if (!baked) return
-      ctx.imageSmoothingEnabled = false
-      // 等比缩放塞进方格;palette 默认脚底锚定,独立查看器改用几何居中。
-      const scale = Math.min(size / baked.width, size / baked.height, maxScale)
-      const w = baked.width * scale
-      const h = baked.height * scale
-      const y = align === 'center' ? (size - h) / 2 : size - h
-      ctx.drawImage(baked, (size - w) / 2, y, w, h)
-    })
+    void loadThumb(assetBase, assetReader, asset, revision, frameIndex, metadataRevision).then(
+      (baked) => {
+        if (!alive || !hostRef.current) return
+        const ctx = hostRef.current.getContext('2d')
+        if (!ctx) return
+        ctx.clearRect(0, 0, size, size)
+        if (!baked) return
+        ctx.imageSmoothingEnabled = false
+        // 等比缩放塞进方格;palette 默认脚底锚定,独立查看器改用几何居中。
+        const scale = Math.min(size / baked.width, size / baked.height, maxScale)
+        const w = baked.width * scale
+        const h = baked.height * scale
+        const y = align === 'center' ? (size - h) / 2 : size - h
+        ctx.drawImage(baked, (size - w) / 2, y, w, h)
+      },
+    )
     return () => {
       alive = false
     }

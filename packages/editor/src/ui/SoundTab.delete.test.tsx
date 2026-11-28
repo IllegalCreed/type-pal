@@ -5,6 +5,7 @@ import { act } from 'react'
 import { beforeEach, describe, expect, test } from 'vitest'
 import { encodeWavPcm16 } from '../__tests__/audio-fixtures.js'
 import { type AudioContextPort, installAudioContextPort } from '../__tests__/audio-ports.js'
+import { gatedFileSource } from '../__tests__/gated-file-source.js'
 import { loadFixtureProjectMaps } from '../__tests__/project-map-fixtures.js'
 import { waitForReact } from '../__tests__/react-io-wait.js'
 import { memoryAuthorDirectory } from '../core/__tests__/author-save-fixture.js'
@@ -20,8 +21,8 @@ import {
   installAudioWorkbenchTestHost,
   seedSound,
 } from './__tests__/audio-workbench-harness.js'
-import { buttonByLabel, clickButton, deepSnapshot } from './__tests__/glm-ui-wave-kit.js'
-import { gatedFileSource } from './__tests__/kimi-editor-workflows/kit.js'
+import { buttonByLabel, clickButton } from './__tests__/dom-gestures.js'
+import { deepSnapshot } from './__tests__/glm-ui-wave-kit.js'
 
 /** 交替 ±0.5 的 0.5s 采样（8kHz 单声道）：每个峰值 bucket 恒为 max 0.5 / min -0.5。 */
 const HIT_SAMPLES = Array.from({ length: 4000 }, (_, index) => (index % 2 === 0 ? 0.5 : -0.5))

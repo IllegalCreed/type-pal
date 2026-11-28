@@ -2,17 +2,13 @@
 
 import { act } from 'react'
 import { expect, test, vi } from 'vitest'
+import { pngFileOf, pngRgba, solidRgba } from '../__tests__/png-fixtures.js'
 import { waitForReact } from '../__tests__/react-io-wait.js'
+import { deferred } from '../__tests__/test-promises.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
-import {
-  buttonByLabel,
-  clickButton,
-  deferred,
-  loadFilesIntoInput,
-} from './__tests__/glm-ui-wave-kit.js'
+import { buttonByLabel, clickButton, loadFilesIntoInput } from './__tests__/dom-gestures.js'
 import { installImageWorkbenchTestHost } from './__tests__/image-workbench-test-host.js'
-import { pngFileOf, pngRgba, solidRgba } from './__tests__/kimi-editor-workflows/kit.js'
 import { seedImage } from './__tests__/static-image-fixtures.js'
 
 const { host, mountTab, replacePng, waitPreviewSize, fileInputAt } = installImageWorkbenchTestHost()

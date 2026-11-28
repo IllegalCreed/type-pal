@@ -48,6 +48,7 @@ import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
+import { readSpriteImagePixels } from '../core/sprite-image-pixels.js'
 import {
   BattleSpriteInlinePreview,
   type BattleSpritePreviewProof,
@@ -92,33 +93,10 @@ import {
 import { SpriteFrameCanvas } from './SpriteFrameWorkbench.js'
 
 const RAW_FRAME_MIME = 'application/x-type-pal-battle-raw-frame'
-
-export {
-  type BattleSpriteFrameDeletionPlan,
-  planBattleSpriteFrameDeletion,
-} from '../core/battle-sprite-frame-deletion.js'
-
 const RAW_FRAME_TEXT_PREFIX = 'type-pal-battle-raw-frame:'
 
 type InspectorTab = 'actions' | 'references' | 'source'
 type KindFilter = BattleSpriteProfileKind | 'all' | 'unconfigured'
-
-async function imageFileToRgba(file: File): Promise<{ rgba: Uint8Array; w: number; h: number }> {
-  const bitmap = await createImageBitmap(file)
-  const canvas = document.createElement('canvas')
-  canvas.width = bitmap.width
-  canvas.height = bitmap.height
-  const context = canvas.getContext('2d')
-  if (!context) throw new Error('2d context 不可用')
-  context.drawImage(bitmap, 0, 0)
-  bitmap.close()
-  const image = context.getImageData(0, 0, canvas.width, canvas.height)
-  return {
-    rgba: new Uint8Array(image.data.buffer.slice(0)),
-    w: canvas.width,
-    h: canvas.height,
-  }
-}
 
 function definitionIdStem(value: string): string {
   return (
@@ -344,8 +322,8 @@ export function BattleSpriteLibrary(props: {
   const [rawEditorMessageKind, setRawEditorMessageKind] = useState<'info' | 'error'>('info')
   const [rawAppendDraft, setRawAppendDraft] = useState<{
     rgba: Uint8Array
-    w: number
-    h: number
+    width: number
+    height: number
     cols: number
     rows: number
   }>()
@@ -723,8 +701,11 @@ export function BattleSpriteLibrary(props: {
     frames: RleFrame[],
     label: string,
     deletionPlan?: BattleSpriteFrameDeletionPlan,
-  ): Promise<void> => {
-    if (!resourceSnapshot || !record || record.kind !== 'battle-sprite') return
+  ): Promise<boolean> => {
+    if (!resourceSnapshot || !proofReady) {
+      reportRawError(new Error('战斗精灵源帧未就绪，请重新选择后再编辑。'))
+      return false
+    }
     setRawEditorBusy(true)
     setRawEditorMessage('')
     try {
@@ -732,6 +713,8 @@ export function BattleSpriteLibrary(props: {
       const currentRecord = currentState.assetCatalog.assets[selectedAsset]
       if (!currentRecord || currentRecord.kind !== 'battle-sprite')
         throw new Error('当前战斗精灵源文件已不在 catalog')
+      if (currentRecord.sha256 !== previewProof.sha256)
+        throw new Error('战斗精灵源帧已更新，请重新选择后再编辑。')
       const currentConsumers = currentState.battleSprites.filter(
         (entry) => entry.asset === selectedAsset,
       )
@@ -752,7 +735,7 @@ export function BattleSpriteLibrary(props: {
       const shrinking = frames.length < resourceSnapshot.frames.length
       const proof: BattleSpriteReplacementProof = {
         asset: selectedAsset,
-        previousSha256: currentRecord.sha256,
+        previousSha256: previewProof.sha256,
         previousFrameCount: resourceSnapshot.frames.length,
         nextFrameCount: frames.length,
         consumerIds: currentConsumers.map((entry) => entry.id),
@@ -776,8 +759,10 @@ export function BattleSpriteLibrary(props: {
       setRawEditorMessage(`${label}；可使用撤销恢复。`)
       setRawEditorMessageKind('info')
       props.onStatusNotice?.({ kind: 'info', message: `${label}；可撤销。` })
+      return true
     } catch (reason) {
       reportRawError(reason)
+      return false
     } finally {
       setRawEditorBusy(false)
     }
@@ -786,8 +771,13 @@ export function BattleSpriteLibrary(props: {
   const replaceRawFrame = async (file: File, index: number): Promise<void> => {
     if (!resourceSnapshot || index < 0 || index >= resourceSnapshot.frames.length) return
     try {
-      const image = await imageFileToRgba(file)
-      const replacement = quantizeToRleFrame(image.rgba, image.w, image.h, resourceSnapshot.palette)
+      const image = await readSpriteImagePixels(file)
+      const replacement = quantizeToRleFrame(
+        image.rgba,
+        image.width,
+        image.height,
+        resourceSnapshot.palette,
+      )
       if (
         consumers.length &&
         !window.confirm(`替换原始帧 #${index} 会同时影响 ${consumers.length} 个用途。继续吗？`)
@@ -807,17 +797,17 @@ export function BattleSpriteLibrary(props: {
   const appendRawFrames = async (): Promise<void> => {
     if (!resourceSnapshot || !rawAppendDraft) return
     if (
-      rawAppendDraft.w % rawAppendDraft.cols !== 0 ||
-      rawAppendDraft.h % rawAppendDraft.rows !== 0
+      rawAppendDraft.width % rawAppendDraft.cols !== 0 ||
+      rawAppendDraft.height % rawAppendDraft.rows !== 0
     )
       return
     try {
       const appended = sliceAtlasGrid(
         rawAppendDraft.rgba,
-        rawAppendDraft.w,
-        rawAppendDraft.h,
-        rawAppendDraft.w / rawAppendDraft.cols,
-        rawAppendDraft.h / rawAppendDraft.rows,
+        rawAppendDraft.width,
+        rawAppendDraft.height,
+        rawAppendDraft.width / rawAppendDraft.cols,
+        rawAppendDraft.height / rawAppendDraft.rows,
       ).map((frame) =>
         quantizeToRleFrame(frame.rgba, frame.width, frame.height, resourceSnapshot.palette),
       )
@@ -828,11 +818,11 @@ export function BattleSpriteLibrary(props: {
         )
       )
         return
-      await commitRawFrames(
+      const committed = await commitRawFrames(
         [...resourceSnapshot.frames, ...appended],
         `追加战斗精灵原始帧 ×${appended.length}`,
       )
-      setRawAppendDraft(undefined)
+      if (committed) setRawAppendDraft(undefined)
     } catch (reason) {
       reportRawError(reason)
     }
@@ -945,7 +935,7 @@ export function BattleSpriteLibrary(props: {
   const rawAppendPanel = rawAppendDraft ? (
     <div className="sprite-raw-append-panel">
       <span>
-        将 {rawAppendDraft.w}×{rawAppendDraft.h} 图片切为
+        将 {rawAppendDraft.width}×{rawAppendDraft.height} 图片切为
       </span>
       <label>
         列
@@ -977,9 +967,9 @@ export function BattleSpriteLibrary(props: {
         />
       </label>
       <span className="hint2">
-        {rawAppendDraft.w % rawAppendDraft.cols === 0 &&
-        rawAppendDraft.h % rawAppendDraft.rows === 0
-          ? `${rawAppendDraft.cols * rawAppendDraft.rows} 帧，每帧 ${rawAppendDraft.w / rawAppendDraft.cols}×${rawAppendDraft.h / rawAppendDraft.rows}`
+        {rawAppendDraft.width % rawAppendDraft.cols === 0 &&
+        rawAppendDraft.height % rawAppendDraft.rows === 0
+          ? `${rawAppendDraft.cols * rawAppendDraft.rows} 帧，每帧 ${rawAppendDraft.width / rawAppendDraft.cols}×${rawAppendDraft.height / rawAppendDraft.rows}`
           : '图片宽高必须能被行列整除'}
       </span>
       <span className="spacer" />
@@ -989,8 +979,8 @@ export function BattleSpriteLibrary(props: {
       <DsButton
         disabled={
           rawEditorBusy ||
-          rawAppendDraft.w % rawAppendDraft.cols !== 0 ||
-          rawAppendDraft.h % rawAppendDraft.rows !== 0
+          rawAppendDraft.width % rawAppendDraft.cols !== 0 ||
+          rawAppendDraft.height % rawAppendDraft.rows !== 0
         }
         onClick={() => void appendRawFrames()}
         size="compact"
@@ -1246,7 +1236,7 @@ export function BattleSpriteLibrary(props: {
                 const file = event.target.files?.[0]
                 event.target.value = ''
                 if (!file) return
-                void imageFileToRgba(file)
+                void readSpriteImagePixels(file)
                   .then((image) => setRawAppendDraft({ ...image, cols: 1, rows: 1 }))
                   .catch(reportRawError)
               }}
@@ -1258,7 +1248,6 @@ export function BattleSpriteLibrary(props: {
               assetReader={props.assetReader}
               layout="library"
               semanticGroups={semanticGroups}
-              activeDefinitionId={draftDefinitionId ?? definition?.id}
               consumerCount={consumers.length}
               onDefinitionSelect={(id) => {
                 const next = consumers.find((entry) => entry.id === id)

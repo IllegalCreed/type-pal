@@ -25,7 +25,9 @@ import {
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { encodeWavPcm16 } from '../__tests__/audio-fixtures.js'
 import { loadFixtureProjectMaps } from '../__tests__/project-map-fixtures.js'
+import { paddedMp4Bytes } from '../__tests__/video-fixtures.js'
 import { memoryAuthorDirectory } from '../core/__tests__/author-save-fixture.js'
 import { SetStartupEntriesCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
@@ -38,12 +40,10 @@ import {
 import { toEditorState } from '../core/project-io.js'
 import { buildBlankProject } from '../core/seed.js'
 import {
-  buildLegalBundle,
-  dispatchAll,
-  mp4Bytes,
-  seededAssetCommand,
-  wavBytes,
-} from './__tests__/glm-authoring-kit.js'
+  createAssetSeedCommand,
+  createAuthoringSession,
+  dispatchFixtureCommands,
+} from './__tests__/authoring-session-fixture.js'
 import {
   buttonByLabel,
   clickCheckboxByLabel,
@@ -90,7 +90,7 @@ async function legalPoisonBundle(name: string): Promise<Bundle> {
 
 /** 无毒表需求的用例：直接用共享 kit 的合法 blank 项目。 */
 async function legalBundle(name: string): Promise<Bundle> {
-  return buildLegalBundle(name)
+  return createAuthoringSession(name)
 }
 
 /** 父级直接持有 focus（导航深链场景）：focus 变化不依赖 onObjectFocus 回喂。 */
@@ -309,7 +309,7 @@ describe('P 组 ProjectWorkbenchTab 作者面板残差', () => {
   test('P4 advanced 问题页 focus 入向同步：选中目标分组、非法 focus 保持当前分组', async () => {
     const bundle = await legalBundle('glm-authoring-pwt-issue-focus')
     // 真命令制造两个可区分的未引用资源分组（音效/视频；音乐资源会触发音频角色全绑定要求，不采用）。
-    const sound = await seededAssetCommand({
+    const sound = await createAssetSeedCommand({
       id: 'sound.authored.issue',
       kind: 'sound',
       extension: 'wav',
@@ -317,9 +317,9 @@ describe('P 组 ProjectWorkbenchTab 作者面板残差', () => {
       directory: 'sounds',
       label: '未引用音',
       ref: 'unused.wav',
-      bytes: wavBytes(2),
+      bytes: encodeWavPcm16([0, 0], 22050),
     })
-    const video = await seededAssetCommand({
+    const video = await createAssetSeedCommand({
       id: 'video.authored.issue',
       kind: 'video',
       extension: 'mp4',
@@ -327,9 +327,9 @@ describe('P 组 ProjectWorkbenchTab 作者面板残差', () => {
       directory: 'video',
       label: '未引用片',
       ref: 'unused.mp4',
-      bytes: mp4Bytes(32),
+      bytes: paddedMp4Bytes(32),
     })
-    await dispatchAll(bundle.session, [sound.command, video.command])
+    await dispatchFixtureCommands(bundle.session, [sound.command, video.command])
     const issues = collectProjectIssues(bundle.session.getState())
     const groups = groupProjectIssues(issues)
     expect(groups.length, '至少两个分组').toBeGreaterThanOrEqual(2)

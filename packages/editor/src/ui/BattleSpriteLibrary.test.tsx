@@ -25,13 +25,8 @@ vi.mock('./BattleSpriteInlinePreview.js', async () => {
       asset?: string
       definition?: BattleSpriteDef
       label?: string
-      displayId?: string
-      frameSequence?: readonly number[]
       layout?: 'compact' | 'library'
-      playAllFrames?: boolean
-      showAllFrames?: boolean
       semanticGroups?: readonly SemanticFrameGroup[]
-      activeDefinitionId?: string
       onFrameSelect?: (index: number) => void
       onRawFrameDragStart?: (event: ReactDragEvent<HTMLButtonElement>, index: number) => void
       onResourceLoaded?: (snapshot: BattleSpriteResourceSnapshot) => void
@@ -66,7 +61,10 @@ vi.mock('./BattleSpriteInlinePreview.js', async () => {
         })
       }, [asset, frameCount, props.definition?.id, props.onLoaded, props.onResourceLoaded])
       return (
-        <div data-preview={`raw:${props.asset}`} data-active-definition={props.activeDefinitionId}>
+        <div
+          data-preview={`raw:${props.asset}`}
+          data-active-definition={props.semanticGroups?.find((group) => group.active)?.id}
+        >
           {props.onFrameSelect ? (
             <>
               <button type="button" onClick={() => props.onFrameSelect?.(4)}>

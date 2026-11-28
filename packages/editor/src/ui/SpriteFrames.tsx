@@ -4,7 +4,7 @@
  */
 
 import { type SpriteDef, spriteDefinitionFrameDemand } from '@type-pal/content'
-import type { AssetBase, LoadedSprite } from '@type-pal/reforge'
+import type { AssetBase } from '@type-pal/reforge'
 import { bakeFrame, loadStandardPalette } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -14,7 +14,6 @@ import { SemanticFrameShelf, type SpriteFrameView } from './SpriteFrameWorkbench
 import { worldSpriteSemanticGroups } from './world-sprite-action-preview.js'
 
 interface LoadedPreview {
-  sprite: LoadedSprite
   frames: SpriteFrameView[]
   revision: string
 }
@@ -38,7 +37,6 @@ export function SpriteFrames(props: {
       .then(([loadedSprite, palette]) => {
         if (!alive) return
         setLoadedResult({
-          sprite: loadedSprite,
           revision,
           frames: loadedSprite.frames.map((frame) => ({
             canvas: bakeFrame(frame, palette),
@@ -68,7 +66,7 @@ export function SpriteFrames(props: {
       </div>
     )
 
-  const total = loaded.sprite.frames.length
+  const total = loaded.frames.length
   const declaredDemand = spriteDefinitionFrameDemand(sprite)
 
   return (
