@@ -58,6 +58,8 @@ Visual Verification Timing: functional
 
 本卡的本地验收只涵盖上述实际执行。PR 发布以同一提交的 GitHub `documentation` 和 `fast-coverage` 结果为准。活动 E2E 的执行归原任务卡。
 
+PR #83 首次 `fast-coverage` 通过。文档作业通过其 595 项工具测试、文档模型和严格内容审查后，在最后的进度报告阶段达到 30 分钟作业时限。GitHub 标记取消。作业总时限改为 45 分钟，仍由同一检查执行完整命令图和原用例时限。首轮诊断和原始输出归档为 `remote/pr-83/attempt-1-documentation.log`。 [首次文档 CI](https://github.com/IllegalCreed/type-pal/actions/runs/46138511528/job/140959066393)
+
 ## 后续范围
 
 本轮在预览、导入和源帧写入形成完整验收边界后冻结。三项 review 可从 `file-index.ndjson` 查到实际续办条件。战斗精灵库的旧通用专测仍使用替身预览，其引用故障、空工作区和组合筛选要看真实入口再迁移。两份旧夹具转接仍有场景和初态编排消费者，待相关 Owner 释放后分职责移除。优先续审动作编辑器与其适用测试，包含大世界精灵库尚未复审的通用专测。缓存按读者和工程释放；活跃工程连续积累旧帧版本的内存成本待量测。
