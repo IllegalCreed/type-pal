@@ -68,6 +68,7 @@ export function DsRadioGroup(props: {
 /**
  * Enables or disables one independent setting immediately.
  * Keep `label` stable and self-describing; never reduce it to state-only copy such as “已启用”.
+ * Echo the controlled value. Uncontrolled switches inherit the browser's native checked state.
  */
 export function DsSwitch(
   props: Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className' | 'style'> & {
@@ -78,12 +79,7 @@ export function DsSwitch(
   const { label, className, ...inputProps } = props
   return (
     <label className={classes('ds-switch-label', className)}>
-      <input
-        {...inputProps}
-        type="checkbox"
-        role="switch"
-        aria-checked={inputProps.checked ?? inputProps.defaultChecked ?? false}
-      />
+      <input {...inputProps} type="checkbox" role="switch" aria-checked={inputProps.checked} />
       <span className="ds-switch-control" aria-hidden="true" />
       <span>{label}</span>
     </label>

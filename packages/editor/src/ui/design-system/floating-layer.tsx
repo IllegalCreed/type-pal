@@ -119,8 +119,9 @@ export function DsFloatingLayer(props: {
     if (dismissOnPointerDown) document.addEventListener('pointerdown', onPointerDown, true)
     window.addEventListener('resize', onViewportChange)
     document.addEventListener('scroll', onScroll, true)
-    window.visualViewport?.addEventListener('resize', onViewportChange)
-    window.visualViewport?.addEventListener('scroll', onViewportChange)
+    const visualViewport = window.visualViewport
+    visualViewport?.addEventListener('resize', onViewportChange)
+    visualViewport?.addEventListener('scroll', onViewportChange)
     const observer =
       typeof ResizeObserver === 'undefined'
         ? null
@@ -133,8 +134,8 @@ export function DsFloatingLayer(props: {
       if (dismissOnPointerDown) document.removeEventListener('pointerdown', onPointerDown, true)
       window.removeEventListener('resize', onViewportChange)
       document.removeEventListener('scroll', onScroll, true)
-      window.visualViewport?.removeEventListener('resize', onViewportChange)
-      window.visualViewport?.removeEventListener('scroll', onViewportChange)
+      visualViewport?.removeEventListener('resize', onViewportChange)
+      visualViewport?.removeEventListener('scroll', onViewportChange)
       observer?.disconnect()
     }
   }, [anchorRef, dismissOnPointerDown, layerRef, onDismiss, open, updateLayout])

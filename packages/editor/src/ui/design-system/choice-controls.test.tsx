@@ -35,6 +35,31 @@ test('a partial selection updates both the native mixed state and accessible ann
   expect(input.getAttribute('aria-checked')).toBe('true')
 })
 
+test('an uncontrolled switch has no stale checked override after a native label click', async () => {
+  const selections: boolean[] = []
+  await act(async () =>
+    root.render(
+      <DsSwitch
+        label="显示即时预览"
+        defaultChecked
+        onChange={({ currentTarget }) => {
+          selections.push(currentTarget.checked)
+        }}
+      />,
+    ),
+  )
+  const input = host.querySelector<HTMLInputElement>('input[role="switch"]')!
+  const label = host.querySelector('label')!
+  expect(input.checked).toBe(true)
+  expect(label.textContent).toBe('显示即时预览')
+  await act(async () => label.click())
+  expect(input.checked).toBe(false)
+  expect(selections).toEqual([false])
+  const accessibleState = input.getAttribute('aria-checked') ?? String(input.checked)
+  expect(accessibleState).toBe('false')
+  expect(label.textContent).toBe('显示即时预览')
+})
+
 test('group selection cannot move to a disabled layout choice and reports the selected value', async () => {
   function LayoutChoices() {
     const [value, setValue] = useState('static')
