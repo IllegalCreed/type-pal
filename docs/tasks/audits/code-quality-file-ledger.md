@@ -1,7 +1,7 @@
 # 逐文件代码治理账本
 
 Status: current
-Last reviewed: 2026-11-28
+Last reviewed: 2026-11-29
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -17,8 +17,10 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,872。
-当前已闭合核验：1,920；已读但待审：3；尚未逐文件核验：1,949；合计未闭合：1,952。
+起始基点机器清单：2,962。当前 tracked 清单：3,870。
+当前已闭合核验：2,018；已读但待审：3；尚未逐文件核验：1,849；合计未闭合：1,852。
+
+2026-11-29，Editor 精灵动作、引用及共用控件完成 100 个基点原路径。56 个原路径验证保留、44 个按职责退役，42 个承接路径单独核验。两份活跃夹具及旧菜单搜索出口留审，依据见[精灵作者治理](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织)。
 
 2026-11-28，Editor 战斗与大世界精灵预览逐文件完成 73 个原 pending 路径，含 24 个现行路径和 49 个按职责退役路径。68 个承接路径逐项验收，3 个明确留审。活动 E2E 与仅改接线的相邻文件沿用原状态。合同映射和集中门见[治理卡](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收)。
 
@@ -583,7 +585,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/editor/src/core/fsa-copy.test.ts` | test | 已验证 | [目录清单与克隆八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-本地目录清单与-pal-克隆) | 原十身份及独立的别名清单断言；反控有业务分辨力。 |
 | `packages/editor/src/core/clone.ts` | product | 已验证 | [目录清单与克隆八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-本地目录清单与-pal-克隆) | 合法目标及种子逐文件准备和授权提交；保留顺序、签名和报错。 |
 | `packages/editor/src/core/clone.test.ts` | test | 已验证 | [目录清单与克隆八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-本地目录清单与-pal-克隆) | 七条真实克隆路径，完整 PNG 字节和实际失败恢复。 |
-| `packages/editor/src/core/command-asset-record.ts` | product | 已验证 | [RLE 记录与资产读取八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-rle-命令记录与实际资源读取) | 三种实际 RLE caller 使用同类私有守卫，顺序诊断不变。 |
+| `packages/editor/src/core/command-asset-record.ts` | product | 已验证 | [RLE 记录与资产读取八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-rle-命令记录与实际资源读取) · [删除修订边界](../cards/EDITOR-SPRITE-DELETE-REVISION-1.md) | 三种 RLE 入参守卫及双精灵库删除前的当前修订校验。 |
 | `packages/editor/src/core/command-asset-record.test.ts` | test | 已验证 | [RLE 记录与资产读取八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-rle-命令记录与实际资源读取) | 合法二进制、各真实错误、来源 ref 精确反控；旧混杂用例有映射。 |
 | `packages/editor/src/core/editor-asset-reader.test.ts` | test | 已验证 | [RLE 记录与资产读取八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-rle-命令记录与实际资源读取) | 正式装配、会话切换及角色、未保存数据独立副本的真字节反控。 |
 | `packages/editor/src/core/frame-animation-worker-client.test.ts` | test | 已验证 | [过场 Worker 八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-过场帧动画-worker-传输) | 两份旧专测身份齐；原生转移、并发应答与具体字节的定向反控。 |
@@ -1879,6 +1881,90 @@ Template: governance-index-v1 / 1.0.0
 | `packages/editor/src/core/shop-lifecycle.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
 | `packages/editor/src/core/skill-commands.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
 | `packages/editor/src/core/skill-commands.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
+| `packages/editor/src/core/sprite-action-steps.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 动作步骤序号、帧关联及循环起点的不可变规则。 |
+| `packages/editor/src/core/sprite-reference-commands.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 合法作者场景、真实精灵字节和当前脚本引用，验证删除、换型及重做复核。 |
+| `packages/editor/src/core/sprite-commands.ts` | product | 已验证 | [精灵命令证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#精灵定义和资产命令) | 语义用途、布局证明及引用拦截，核对真实上传和编辑事务。 |
+| `packages/editor/src/core/sprite-asset-commands.ts` | product | 已验证 | [精灵命令证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#精灵定义和资产命令) | 入库、替换、删除和撤销按真实源帧修订及字节核验。 |
+| `packages/editor/src/core/sprite-asset-commands.test.ts` | test | 已验证 | [精灵命令证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#精灵定义和资产命令) | 已编入可合法加载的原资源，分开验证磁盘和待写字节。 |
+| `packages/editor/src/core/sprite-asset-replacement.test.ts` | test | 已验证 | [精灵命令证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#精灵定义和资产命令) | 验证全体共享用途原子替换、过期拦截及撤销重读。 |
+| `packages/editor/src/core/sprite-definition-commands.test.ts` | test | 已验证 | [精灵命令证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#精灵定义和资产命令) | 合法布局、真实帧域、有效引用和不写入反例。 |
+| `packages/editor/src/__tests__/world-sprite-command-fixture.ts` | test | 已验证 | [精灵命令证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#精灵定义和资产命令) | 来源证明读取真实压缩资源，用合法字节构造独立修订。 |
+| `packages/editor/src/ui/design-system/draft-input-state.ts` | product | 已验证 | [连续文本字段证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#连续文本字段) | 核实际字段变更、外部历史同步和提交归属；删除不可达分支。 |
+| `packages/editor/src/ui/design-system/draft-text-inputs.tsx` | product | 已验证 | [连续文本字段证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#连续文本字段) | 核单行、多行、输入法与原生键盘边界。 |
+| `packages/editor/src/ui/design-system/draft-text-inputs.test.tsx` | test | 已验证 | [连续文本字段证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#连续文本字段) | 在 canonical 文本不变时反控历史同步，保留真实提交和取消结果。 |
+| `packages/editor/src/ui/design-system/field-controls.tsx` | product | 已验证 | [连续文本字段证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#连续文本字段) | 核真实上传和作者字段，保留外壳与输入生命周期的职责。 |
+| `packages/editor/src/ui/design-system/field-controls.test.tsx` | test | 已验证 | [连续文本字段证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#连续文本字段) | 对照实际原生控制、合并说明与错误语义。 |
+| `packages/editor/src/core/battle-sprite-commands.ts` | product | 已验证 | [战斗精灵命令证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#战斗精灵命令) | 定义、配置证明、引用和敌人绑定按当前会话核验。 |
+| `packages/editor/src/core/battle-sprite-asset-commands.ts` | product | 已验证 | [战斗精灵命令证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#战斗精灵命令) | 源帧事务与撤销，重做拥有导入时的记录和原字节。 |
+| `packages/editor/src/core/battle-sprite-definition-commands.test.ts` | test | 已验证 | [战斗精灵命令证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#战斗精灵命令) | 真实项目核对过期证明、引用换型、用途移除与敌人选择。 |
+| `packages/editor/src/core/battle-sprite-asset-commands.test.ts` | test | 已验证 | [战斗精灵命令证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#战斗精灵命令) | 真实资源的共享、替换条件、删除撤销与两条重做回归。 |
+| `packages/editor/src/core/world-sprite-behavior.ts` | product | 已验证 | [精灵预览证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#大世界精灵自动脚本预览) | 引用展示和可定位实例独立，按裁决退役旧汇总及包装。 |
+| `packages/editor/src/core/sprite-script-preview-projection.ts` | product | 已验证 | [精灵预览证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#大世界精灵自动脚本预览) | 按完整场景地址编译支持的视觉指令，不可安全投影时保留实例定位。 |
+| `packages/editor/src/core/sprite-script-frame-preview.ts` | product | 已验证 | [精灵预览证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#大世界精灵自动脚本预览) | 实际素材帧界、时间单位、调用返回、分支与截断由有界采样处理。 |
+| `packages/editor/src/core/sprite-script-projected-frames.test.ts` | test | 已验证 | [精灵预览证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#大世界精灵自动脚本预览) | 真实解码容器及引用边，保留稳定循环、首次前缀和预算。 |
+| `packages/editor/src/core/sprite-script-canonical-sampling.test.ts` | test | 已验证 | [精灵预览证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#大世界精灵自动脚本预览) | 当前作者载入、共享作用域、分支帧与回返单红反控。 |
+| `packages/editor/src/core/world-sprite-reference-behavior.test.ts` | test | 已验证 | [精灵预览证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#大世界精灵自动脚本预览) | 当前初始页、实例定位、只读所有权和实际帧证明。 |
+| `packages/editor/src/core/__tests__/scripted-sprite-preview-fixture.ts` | fixture | 已验证 | [精灵预览证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#大世界精灵自动脚本预览) | 加载可保存场景、实际索引和解码帧证明，保留作者态。 |
+| `packages/editor/src/ui/design-system/field-layout.tsx` | product | 已验证 | [字段和公共出口](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#字段和公共出口) | 表单列轨、可访问说明与动作槽，各自核对实际生产接入。 |
+| `packages/editor/src/ui/design-system/text-inputs.tsx` | product | 已验证 | [字段和公共出口](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#字段和公共出口) | 原生输入与多行文本保留真实 label、ref、状态及提交边界。 |
+| `packages/editor/src/ui/design-system/control-utils.ts` | product | 已验证 | [字段和公共出口](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#字段和公共出口) | 现用样式组合及说明 ID 的边界与空输入语义。 |
+| `packages/editor/src/ui/design-system/control-utils.test.ts` | test | 已验证 | [字段和公共出口](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#字段和公共出口) | 分开核样式顺序与两源可访问说明，检查缺省输出。 |
+| `packages/editor/src/ui/design-system/control-types.ts` | product | 已验证 | [字段和公共出口](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#字段和公共出口) | 按密度、图标及常规操作限制做编译层隔离。 |
+| `packages/editor/src/ui/design-system/controls.tsx` | product | 已验证 | [字段和公共出口](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#字段和公共出口) | 真实场景控件所在分层，保留公共构件及现用 aliases。 |
+| `packages/editor/src/ui/design-system/index.ts` | product | 已验证 | [字段和公共出口](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#字段和公共出口) | 动作、帧工作区和 DesignLab 使用现行公共出口。 |
+| `packages/editor/src/ui/design-system/buttons.tsx` | product | 已验证 | [原生操作控件](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#原生操作控件) | 统一按钮和链接的共享样式组合，保留原生焦点、提交和 busy 语义。 |
+| `packages/editor/src/ui/design-system/buttons.test.tsx` | test | 已验证 | [原生操作控件](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#原生操作控件) | 通过真实表单事件核对按键提交与非提交动作，并检查可导航链接。 |
+| `packages/editor/src/ui/design-system/icon-button.tsx` | product | 已验证 | [原生操作控件](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#原生操作控件) | 核动作步骤移动及帧导航调用，图标与按钮的可访问语义分离。 |
+| `packages/editor/src/ui/design-system/icon-button.test.tsx` | test | 已验证 | [原生操作控件](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#原生操作控件) | 以真实播放图标核受控按钮的名称、提示及装饰 SVG。 |
+| `packages/editor/src/ui/design-system/icons.tsx` | product | 已验证 | [原生操作控件](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#原生操作控件) | 闭合集合与图标映射核对现用动作、定位与预览出口。 |
+| `packages/editor/src/ui/design-system/native-inputs.tsx` | product | 已验证 | [原生操作控件](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#原生操作控件) | 隐藏上传与原生可用文件选择职责独立，保留单位和边界。 |
+| `packages/editor/src/ui/design-system/native-inputs.test.tsx` | test | 已验证 | [原生操作控件](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#原生操作控件) | 原生文件、范围和颜色控件按实际属性与 HTML 关系验证。 |
+| `packages/editor/src/ui/design-system/choice-controls.tsx` | product | 已验证 | [原生操作控件](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#原生操作控件) | 原生混合、单选及开关逻辑，开关受控和默认态各自正确表达。 |
+| `packages/editor/src/ui/design-system/choice-controls.test.tsx` | test | 已验证 | [原生操作控件](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#原生操作控件) | 真实 label 点击、禁用选项、混合状态恢复且有原红例。 |
+| `packages/editor/tests/world-sprite-behavior.pal.test.ts` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/text-overflow-adoption.test.ts` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/label-association.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/virtual-listbox.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/virtual-list.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/virtual-listbox.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 独立列表焦点与操作提交，经正式红绿和相邻生产入口验收。 |
+| `packages/editor/src/ui/design-system/virtual-window.ts` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/virtual-list.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 独立列表焦点与操作提交，经正式红绿和相邻生产入口验收。 |
+| `packages/editor/src/ui/design-system/list-header.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/list-header.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/toolbar.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/toolbar.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/menu-bar.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/navigation.tsx` | product | review | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 现行菜单和动作工具栏已核。仅旧专测调用的公开字符搜索出口仍待裁决。 |
+| `packages/editor/src/ui/design-system/media.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/media.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/tooltip-dismissal.ts` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/floating-layer.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/floating-layer.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/overflow-text.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/overflow-text.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/help-tips.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/help-tips.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/status-values.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/status-values.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/feedback.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/feedback.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/card.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/card.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/tabs.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/tabs.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/multi-select.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/multi-select.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/add-picker.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 独立列表焦点与操作提交，经正式红绿和相邻生产入口验收。 |
+| `packages/editor/src/ui/design-system/add-picker.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 独立列表焦点与操作提交，经正式红绿和相邻生产入口验收。 |
+| `packages/editor/src/ui/design-system/collection-search.test.ts` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/collection-search.ts` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/select.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/select.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/overlays.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/overlays.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/draft-number-inputs.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/number-inputs.test.tsx` | test | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
+| `packages/editor/src/ui/design-system/number-inputs.tsx` | product | 已验证 | [本窗逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#共享控件与测试组织) | 对应路径、八维、当前调用及测试承接见冻结执行归档。 |
 | `packages/editor/src/core/sprite-actions.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
 | `packages/editor/src/core/sprite-actions.ts` | product | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 八维依据、真实 caller 和必要执行身份见本批归档。 |
 | `packages/editor/src/core/sprite-assets.test.ts` | test | 已验证 | [QUALITY-EDITOR-AUTHOR-COMMANDS-1](../cards/QUALITY-EDITOR-AUTHOR-COMMANDS-1.md#逐文件验收) | 后继路径单列，按当前合同完成八维复核。 |
@@ -2023,8 +2109,10 @@ Template: governance-index-v1 / 1.0.0
 | `packages/editor/src/ui/BattleSpriteLibrary.keyboard.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
 | `packages/editor/src/ui/BattleSpriteLibrary.proof-ownership.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
 | `packages/editor/src/ui/BattleSpriteLibrary.selection.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
-| `packages/editor/src/ui/BattleSpriteLibrary.test.tsx` | test | review | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 已定位继续复核的来源和职责，见卡内留项。 |
-| `packages/editor/src/ui/BattleSpriteLibrary.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.catalog.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 按已登记的实际帧资源核目录、过滤和选择。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.references.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 真实命令、引用快照与拒绝提交具备反证。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.workspace.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 正式解码、上传和空态复用唯一工作区合同。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) · [删除修订边界](../cards/EDITOR-SPRITE-DELETE-REVISION-1.md) | 增量实测过期删除保留新版和历史，既有工作区证据继续使用。 |
 | `packages/editor/src/ui/BattleSpritePicker.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
 | `packages/editor/src/ui/BattleSpritePicker.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
 | `packages/editor/src/ui/BattleSpriteUploader.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
@@ -2055,12 +2143,24 @@ Template: governance-index-v1 / 1.0.0
 | `packages/editor/src/ui/SpriteUploadWizard.registration.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
 | `packages/editor/src/ui/SpriteUploadWizard.selection.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
 | `packages/editor/src/ui/SpriteUploadWizard.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/SpriteActionEditorDialog.draft.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 经真实精灵库、素材和编辑会话承接动作对话框合同。 |
+| `packages/editor/src/ui/SpriteActionEditorDialog.guards.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 经真实精灵库、素材和编辑会话承接动作对话框合同。 |
+| `packages/editor/src/__tests__/sprite-action-workspace.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 真实作者素材、当前库入口和焦点时序共用测试。 |
+| `packages/editor/src/ui/SpriteActionEditor.catalog.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 实际目录筛选、排序、选择与删除合同。 |
+| `packages/editor/src/ui/SpriteActionEditor.timeline.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 实际帧素材、循环、拖放、字段与音效事务合同。 |
+| `packages/editor/src/ui/WorldSpriteLibrary.action-navigation.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 实际精灵工作区入口、外部深链及动作草稿隔离。 |
+| `packages/editor/src/ui/SpriteActionEditor.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 组件负责动作选择、目录和时间线；对话框持有全部会话写入。 |
+| `packages/editor/src/ui/SpriteActionEditorDialog.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 创建草稿、作用域证明、保存屏障、明确放弃和单次命令。 |
+| `packages/editor/src/ui/SpriteActionEditor.layout.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 真实资源、52 动作、窄屏详情及键盘焦点。 |
+| `packages/editor/src/ui/SpriteLibraries.asset-deletion-revision.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 真实双库入口核对删除在途换版、当前字节和撤销历史。 |
+| `packages/editor/src/ui/WorldSpriteLibrary.references.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 真实场景和 runtime 来源，引用失效、删除与精确定位。 |
+| `packages/editor/src/ui/WorldSpriteLibrary.scripted-usage.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 作者自动脚本的深度状态及与预制动作的独立筛选。 |
 | `packages/editor/src/ui/WorldSpriteLibrary.asset-deletion.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
 | `packages/editor/src/ui/WorldSpriteLibrary.catalog.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
 | `packages/editor/src/ui/WorldSpriteLibrary.definition-editing.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
 | `packages/editor/src/ui/WorldSpriteLibrary.inspector.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
 | `packages/editor/src/ui/WorldSpriteLibrary.resource-proof.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
-| `packages/editor/src/ui/WorldSpriteLibrary.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/WorldSpriteLibrary.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md#逐文件验收) | 地址、删除修订、资源证明及作者显式动作 ID 合同，复用媒体证据。 |
 | `packages/editor/src/ui/__tests__/authoring-project-fixture.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
 | `packages/editor/src/ui/__tests__/authoring-session-fixture.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
 | `packages/editor/src/ui/__tests__/dom-gestures.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |

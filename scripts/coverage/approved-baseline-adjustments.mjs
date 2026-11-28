@@ -5,6 +5,227 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'editor-sprite-authoring-20261129',
+    authority:
+      'User permits exact recounting after justified structural changes. The native before/after branch inventory, per-file attribution and real-case retention distinguish Editor control extraction and tests moved to their owning workflows. Only the measured Editor branch fraction is recounted.',
+    evidence: 'docs/tasks/evidence/QUALITY-EDITOR-SPRITE-AUTHORING-1.tar.gz',
+    baselineSha256: '67242dfd05d93c37363575f33eea6f700acde7e7ca420fd6f2dcf71a7e9ddf35',
+    sources: [
+      {
+        path: 'packages/editor/src/core/battle-sprite-asset-commands.ts',
+        sha256: '9f9663253ffd4547b86137df8cdb6ee65abfa4c48a92cb05bda6ac5d4558cb34',
+      },
+      {
+        path: 'packages/editor/src/core/battle-sprite-commands.ts',
+        sha256: 'd2ba270569295469175906115db220da3aefee027fe717997ff9be13ae6f0277',
+      },
+      {
+        path: 'packages/editor/src/core/battle-sprite-frame-deletion.ts',
+        sha256: '73431b49e2092b39de0751ae176dfc78f4598ded296b8c67ba2835c4e31d5809',
+      },
+      {
+        path: 'packages/editor/src/core/command-asset-record.ts',
+        sha256: '855db5e134872cda030b67d5f8c1705d816039592427ccb5cc79359a9f0ff433',
+      },
+      {
+        path: 'packages/editor/src/core/commands.ts',
+        sha256: 'c2a9cc8cd876a2a23bab3cd04fd0cf5f5a67320accd644f4319c614cbfbba303',
+      },
+      {
+        path: 'packages/editor/src/core/sprite-action-steps.ts',
+        sha256: 'b8b2c62575d23c5f12045e8d4b44015fc557fdc65ccc70c31c90b8b33d5f6b9f',
+      },
+      {
+        path: 'packages/editor/src/core/sprite-actions.ts',
+        sha256: 'e96946197c0104fca5aab57b9aacec1def28293502dd6dd39175080f6e84ec68',
+      },
+      {
+        path: 'packages/editor/src/core/sprite-asset-commands.ts',
+        sha256: '6fa4042292186e2327b45f0b0008aa7cf4e8466bce2f0dac69411e1e195a7ce9',
+      },
+      {
+        path: 'packages/editor/src/core/sprite-commands.ts',
+        sha256: 'f0fe4e452b7d77b282227cc88a2a1701b28cb39dc11eda0665a045542f43929a',
+      },
+      {
+        path: 'packages/editor/src/core/sprite-script-frame-preview.ts',
+        sha256: '7aa6025f7084a61a9d1432f7dc4e8752f8a2cd52aaf8b966bdd2d3572aa48750',
+      },
+      {
+        path: 'packages/editor/src/core/sprite-script-preview-projection.ts',
+        sha256: '1c325acaf3418cc703d68630c7afe4c957b7bbca5cd27804a9487f7941fcda86',
+      },
+      {
+        path: 'packages/editor/src/core/world-sprite-behavior.ts',
+        sha256: '03690a092d3bf0802d10156b1564158f5ed65444f3f8919829d5fba7d6e96f9b',
+      },
+      {
+        path: 'packages/editor/src/core/world-sprite-frame-deletion.ts',
+        sha256: 'f780a855aadddd1a631670a0cee03fd17721d2173bbed5790372e6807e011049',
+      },
+      {
+        path: 'packages/editor/src/ui/BattleSpriteLibrary.tsx',
+        sha256: '9d12556dc41244e3d3f41f08aeb0e994416fabcba38ef72a3b5ff540ab900455',
+      },
+      {
+        path: 'packages/editor/src/ui/SpriteActionEditor.tsx',
+        sha256: '36f32ce07fb571b0a43ede7c180f8ef151a78858f8c095d0172e3f74465a2b13',
+      },
+      {
+        path: 'packages/editor/src/ui/SpriteActionEditorDialog.tsx',
+        sha256: 'ce5eeca85a397278dee312e3c1f7a527e84b1e0d2bc7ca0810ff656d464b5a8d',
+      },
+      {
+        path: 'packages/editor/src/ui/WorldSpriteLibrary.tsx',
+        sha256: '303de927bc80c095669de23ea75b2b63ea9f2d894d9cc7b79fb14664671f3487',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/add-picker.test.tsx',
+        sha256: 'e0dbd9832485920f86362007ce23c6f61403853400e1889d8d8c0679b7a0b1a7',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/add-picker.tsx',
+        sha256: 'dade60e8182136ecb1839351c4b5e7817c14a7b27b7f1ba53a05698edc701c38',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/buttons.tsx',
+        sha256: '95734f401ebf6a103124372b2c175b27ae52953c3d06b4ffe1c02de6f057ef58',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/choice-controls.tsx',
+        sha256: 'ed0acd17c7fcc72cb85b363b336d5dcc9a1f896ee0268290b59c8af1f3e89037',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/draft-input-state.ts',
+        sha256: '8061069f0fae1625025b21783145a354b8ed43d6442e437c3d842f40c1b6d7ee',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/draft-text-inputs.tsx',
+        sha256: '27df8a2b1b1407d28fddc1d5aa442916d9cf65bc7d07714c515e291a3ddca8cc',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/floating-layer.tsx',
+        sha256: '4d6c1401a641fd79fd84a829c8acbbd7c378690497c0ef1d7f821c85b39b2858',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/help-tips.tsx',
+        sha256: '7a44fd536b23fd309c593be63158e1fe33168c899317d3f599d6b50f4e1ed5b9',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/index.ts',
+        sha256: '0d1a15080a5b737724b9fb5d0c91de83257bd71554702cc3091a371e49cdd599',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/label-association.test.tsx',
+        sha256: 'f30c83fb2b657b9ce1584e81335bc31615365b2209455109c6afd856c67c2ffd',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/media.tsx',
+        sha256: 'c315be5838801e22ed42d3100e6b5ca98de1a10e4d6e563cf96a8a1e1af54887',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/multi-select.tsx',
+        sha256: '4129e35e60b99001e9fbe44fe6a826c48b2fe0575db88d3831513ea9fb0532ee',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/navigation.tsx',
+        sha256: '73cbad93f0af42d53b6149dfbd17b275d7eb4413445388806acbd4d93a8a2dde',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/number-inputs.tsx',
+        sha256: '0b0bebbc0ff5e63c394a23360045fd405873b0d45f1ff4bb5842482301407e42',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/overflow-text.test.tsx',
+        sha256: '41e87f59316ac09f66ad25f6c7750f7d147d51a4d7a798acb749d8c01fd27346',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/overflow-text.tsx',
+        sha256: 'b9497e746723922359b776f42ed61d2e16c153b8d278060fa50f4fe60f16b91e',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/overlays.tsx',
+        sha256: 'c740d8918e088e7fd76bed879992ba3b8b6e6d75fe547304b706b4b386144340',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/select.tsx',
+        sha256: 'c801df4b8812e1b048d0a207cc98152a5fa287ef37f1fe8617004f628832fb6f',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/status-values.tsx',
+        sha256: '8868f3ac8c73014f51cf09ea14ad7b830f5a6ad2cd5845e7e29cb6e76d57c1e1',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/toolbar.tsx',
+        sha256: '42917e12c3c25908a5394c96c9556b013f09dd56c1e20c2457b2a6d6b41caaa6',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/tooltip-dismissal.ts',
+        sha256: '2aec09efa8814dcde3ce6bdefe8d4668b388cce34c18e2eb48431257d4ecace0',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/virtual-list.test.tsx',
+        sha256: '5db73201f0ea006380ad72630188d1e07121d50fdb49c35561f44b4757796ae6',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/virtual-list.tsx',
+        sha256: 'cea5cd3f6142a888f3851d0c06e59b0789b8321f19556f8b0bd42086b1f1e8dd',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/virtual-listbox.test.tsx',
+        sha256: '86baba6b0cc6c111c3a7361f0a0182715f6e1844874c0118e24a16281382accd',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/virtual-listbox.tsx',
+        sha256: '6a630d3415071c06b3db4bb129a98967d4c5a045e20be03e44d7badeb824b095',
+      },
+      {
+        path: 'packages/editor/src/ui/design-system/virtual-window.ts',
+        sha256: '9ab9735a4e2f753634a803cf9d28a202825743b67df4e1efa1df63b3a15a59d6',
+      },
+    ],
+    packages: {
+      editor: {
+        before: {
+          statements: {
+            covered: 31614,
+            total: 34996,
+          },
+          branches: {
+            covered: 25614,
+            total: 30618,
+          },
+          functions: {
+            covered: 8070,
+            total: 8973,
+          },
+          lines: {
+            covered: 28340,
+            total: 30606,
+          },
+        },
+        after: {
+          statements: {
+            covered: 31614,
+            total: 34996,
+          },
+          branches: {
+            covered: 25508,
+            total: 30508,
+          },
+          functions: {
+            covered: 8070,
+            total: 8973,
+          },
+          lines: {
+            covered: 28340,
+            total: 30606,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'editor-combat-sprite-previews-20261128',
     authority:
       'User permits precise rebasing for justified refactoring. The Editor report retains 23 additional covered statements and 12 additional covered lines after extracting frame planners, strengthening real PNG and canvas oracles, and removing invalid legacy layout fixtures. The two fraction changes are fixed by the native counts; branch and function floors, all other packages and test membership stay under the original comparison.',

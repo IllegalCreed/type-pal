@@ -126,11 +126,13 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // Editor previews: one unused draft helper case and four Cutscene tests
   // moved to the actual frame and resource lifecycle suites.
   // Sprite previews: combine real thumbnail placement checks and retire invalid loop fixtures.
-  assert.equal(historical.length, 142)
-  assert.equal(new Set(historical.map((entry) => entry.file)).size, 142)
+  // Sprite authoring: move one catalog case and five net listbox cases.
+  // Retire one barrel identity assertion, retaining six cases on the actual export.
+  assert.equal(historical.length, 145)
+  assert.equal(new Set(historical.map((entry) => entry.file)).size, 145)
   assert.equal(
     historical.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    750,
+    757,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

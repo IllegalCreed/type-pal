@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-28T10:35:27.962Z",
+  "generatedAt": "2026-11-28T17:29:04.266Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 868,
-  "testCount": 20086,
+  "sourceFileCount": 877,
+  "testCount": 19921,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -6738,7 +6738,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 320,
+      "sourceFileCount": 329,
       "sourceFiles": [
         "packages/editor/src/core/actor-commands.ts",
         "packages/editor/src/core/actor-dialogue-commands.ts",
@@ -6763,6 +6763,7 @@
         "packages/editor/src/core/battle-simulator-commands.ts",
         "packages/editor/src/core/battle-simulator-library.ts",
         "packages/editor/src/core/battle-simulator-state.ts",
+        "packages/editor/src/core/battle-sprite-asset-commands.ts",
         "packages/editor/src/core/battle-sprite-commands.ts",
         "packages/editor/src/core/battle-sprite-frame-deletion.ts",
         "packages/editor/src/core/battle-sprite-import.ts",
@@ -6850,10 +6851,14 @@
         "packages/editor/src/core/shop-commands.ts",
         "packages/editor/src/core/skill-commands.ts",
         "packages/editor/src/core/sound-picker-preview.ts",
+        "packages/editor/src/core/sprite-action-steps.ts",
         "packages/editor/src/core/sprite-actions.ts",
+        "packages/editor/src/core/sprite-asset-commands.ts",
         "packages/editor/src/core/sprite-assets.ts",
         "packages/editor/src/core/sprite-commands.ts",
         "packages/editor/src/core/sprite-image-pixels.ts",
+        "packages/editor/src/core/sprite-script-frame-preview.ts",
+        "packages/editor/src/core/sprite-script-preview-projection.ts",
         "packages/editor/src/core/stamp-commands.ts",
         "packages/editor/src/core/stamp-draft.ts",
         "packages/editor/src/core/stamp-group-command.ts",
@@ -7027,7 +7032,11 @@
         "packages/editor/src/ui/design-system/status-values.tsx",
         "packages/editor/src/ui/design-system/tabs.tsx",
         "packages/editor/src/ui/design-system/text-inputs.tsx",
+        "packages/editor/src/ui/design-system/toolbar.tsx",
+        "packages/editor/src/ui/design-system/tooltip-dismissal.ts",
         "packages/editor/src/ui/design-system/virtual-list.tsx",
+        "packages/editor/src/ui/design-system/virtual-listbox.tsx",
+        "packages/editor/src/ui/design-system/virtual-window.ts",
         "packages/editor/src/ui/editor-navigation.ts",
         "packages/editor/src/ui/editor-target.ts",
         "packages/editor/src/ui/enemy-defeated-events.ts",
@@ -7061,10 +7070,10 @@
         "packages/editor/src/ui/use-scene-workspace-session.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "e6a45ba5eae994ee007a245f03ce238c627e51a93ec821b740cca380a95ad735",
+      "scopeDigest": "4ad234249321949fd1ac5d2c15f87efc84d9f464c3d549c72e631ccb3341949d",
       "fastTests": {
-        "testCount": 4602,
-        "testFileCount": 590,
+        "testCount": 4437,
+        "testFileCount": 580,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
           "packages/editor/scripts/battle-simulator-http.test.mjs",
@@ -7112,9 +7121,8 @@
           "packages/editor/src/core/battle-simulator-persistence.test.ts",
           "packages/editor/src/core/battle-simulator-state.wave2.test.ts",
           "packages/editor/src/core/battle-simulator.glm-p.test.ts",
-          "packages/editor/src/core/battle-sprite-commands.glm-boundaries.test.ts",
-          "packages/editor/src/core/battle-sprite-commands.glm-next-wave.test.ts",
-          "packages/editor/src/core/battle-sprite-commands.residual.test.ts",
+          "packages/editor/src/core/battle-sprite-asset-commands.test.ts",
+          "packages/editor/src/core/battle-sprite-definition-commands.test.ts",
           "packages/editor/src/core/battle-sprite-frame-deletion.test.ts",
           "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
           "packages/editor/src/core/battle-trial-launch.glm-next-wave.test.ts",
@@ -7258,14 +7266,14 @@
           "packages/editor/src/core/shop-lifecycle.test.ts",
           "packages/editor/src/core/skill-commands.test.ts",
           "packages/editor/src/core/sprite-actions.test.ts",
+          "packages/editor/src/core/sprite-asset-commands.test.ts",
+          "packages/editor/src/core/sprite-asset-replacement.test.ts",
           "packages/editor/src/core/sprite-assets.test.ts",
-          "packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
-          "packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
-          "packages/editor/src/core/sprite-commands.glm-boundaries.test.ts",
-          "packages/editor/src/core/sprite-commands.glm-next-wave.test.ts",
-          "packages/editor/src/core/sprite-commands.residual.test.ts",
+          "packages/editor/src/core/sprite-definition-commands.test.ts",
           "packages/editor/src/core/sprite-frame-capacity.test.ts",
           "packages/editor/src/core/sprite-reference-commands.test.ts",
+          "packages/editor/src/core/sprite-script-canonical-sampling.test.ts",
+          "packages/editor/src/core/sprite-script-projected-frames.test.ts",
           "packages/editor/src/core/stamp-commands.boundaries.test.ts",
           "packages/editor/src/core/stamp-commands.c08-g04.cursor-r1.test.ts",
           "packages/editor/src/core/stamp-commands.test.ts",
@@ -7311,12 +7319,8 @@
           "packages/editor/src/core/workspace-open-identity.test.ts",
           "packages/editor/src/core/workspace-persistence.test.ts",
           "packages/editor/src/core/workspace-save-admission.test.ts",
-          "packages/editor/src/core/world-sprite-behavior.cov85-lowering.test.ts",
-          "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
-          "packages/editor/src/core/world-sprite-behavior.kimi-workflows.test.ts",
-          "packages/editor/src/core/world-sprite-behavior.test.ts",
-          "packages/editor/src/core/world-sprite-behavior.wave2.test.ts",
           "packages/editor/src/core/world-sprite-frame-deletion.test.ts",
+          "packages/editor/src/core/world-sprite-reference-behavior.test.ts",
           "packages/editor/src/core/world-variable-commands.test.ts",
           "packages/editor/src/core/world-variable-references.test.ts",
           "packages/editor/src/core/world-variable-references.wave2.test.ts",
@@ -7347,14 +7351,16 @@
           "packages/editor/src/ui/BattleSpriteInlinePreview.test.tsx",
           "packages/editor/src/ui/BattleSpriteLibrary.action-editing.test.tsx",
           "packages/editor/src/ui/BattleSpriteLibrary.asset-deletion.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.catalog.test.tsx",
           "packages/editor/src/ui/BattleSpriteLibrary.frame-revision.test.tsx",
           "packages/editor/src/ui/BattleSpriteLibrary.frame-source-editing.test.tsx",
           "packages/editor/src/ui/BattleSpriteLibrary.history.test.tsx",
           "packages/editor/src/ui/BattleSpriteLibrary.import.test.tsx",
           "packages/editor/src/ui/BattleSpriteLibrary.keyboard.test.tsx",
           "packages/editor/src/ui/BattleSpriteLibrary.proof-ownership.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.references.test.tsx",
           "packages/editor/src/ui/BattleSpriteLibrary.selection.test.tsx",
-          "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.workspace.test.tsx",
           "packages/editor/src/ui/BattleSpritePicker.test.tsx",
           "packages/editor/src/ui/BattleSpriteUploader.test.tsx",
           "packages/editor/src/ui/CasualtyEditor.glm-leaf-wave.test.tsx",
@@ -7524,20 +7530,18 @@
           "packages/editor/src/ui/SoundTab.import.test.tsx",
           "packages/editor/src/ui/SoundTab.playback.test.tsx",
           "packages/editor/src/ui/SoundTab.preview-ownership.test.tsx",
-          "packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
-          "packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
-          "packages/editor/src/ui/SpriteActionEditor.kimi-workflows.test.tsx",
-          "packages/editor/src/ui/SpriteActionEditor.test.tsx",
-          "packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
-          "packages/editor/src/ui/SpriteActionEditorDialog.glm-l.test.tsx",
-          "packages/editor/src/ui/SpriteActionEditorDialog.test.tsx",
+          "packages/editor/src/ui/SpriteActionEditor.catalog.test.tsx",
+          "packages/editor/src/ui/SpriteActionEditor.layout.test.tsx",
+          "packages/editor/src/ui/SpriteActionEditor.timeline.test.tsx",
+          "packages/editor/src/ui/SpriteActionEditorDialog.draft.test.tsx",
+          "packages/editor/src/ui/SpriteActionEditorDialog.guards.test.tsx",
           "packages/editor/src/ui/SpriteFrameCanvas.pixels.test.tsx",
           "packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx",
           "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
           "packages/editor/src/ui/SpriteFrameWorkbench.focus-lifecycle.test.tsx",
-          "packages/editor/src/ui/SpriteFrameWorkbench.glm-next-wave.test.tsx",
           "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
           "packages/editor/src/ui/SpriteFrames.test.tsx",
+          "packages/editor/src/ui/SpriteLibraries.asset-deletion-revision.test.tsx",
           "packages/editor/src/ui/SpriteResourceViewer.frame-editing.test.tsx",
           "packages/editor/src/ui/SpriteResourceViewer.frame-revision.test.tsx",
           "packages/editor/src/ui/SpriteResourceViewer.navigation.test.tsx",
@@ -7565,12 +7569,14 @@
           "packages/editor/src/ui/TilesetTab.test.tsx",
           "packages/editor/src/ui/VarsTab.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/VarsTab.test.tsx",
+          "packages/editor/src/ui/WorldSpriteLibrary.action-navigation.test.tsx",
           "packages/editor/src/ui/WorldSpriteLibrary.asset-deletion.test.tsx",
           "packages/editor/src/ui/WorldSpriteLibrary.catalog.test.tsx",
           "packages/editor/src/ui/WorldSpriteLibrary.definition-editing.test.tsx",
           "packages/editor/src/ui/WorldSpriteLibrary.inspector.test.tsx",
+          "packages/editor/src/ui/WorldSpriteLibrary.references.test.tsx",
           "packages/editor/src/ui/WorldSpriteLibrary.resource-proof.test.tsx",
-          "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
+          "packages/editor/src/ui/WorldSpriteLibrary.scripted-usage.test.tsx",
           "packages/editor/src/ui/app-command-registry.test.ts",
           "packages/editor/src/ui/app-layout-commands.test.ts",
           "packages/editor/src/ui/app-session-ownership.test.ts",
@@ -7585,44 +7591,37 @@
           "packages/editor/src/ui/design-system/add-picker.test.tsx",
           "packages/editor/src/ui/design-system/audit-ast.test.mjs",
           "packages/editor/src/ui/design-system/buttons.test.tsx",
+          "packages/editor/src/ui/design-system/card.test.tsx",
           "packages/editor/src/ui/design-system/choice-controls.test.tsx",
+          "packages/editor/src/ui/design-system/collection-search.test.ts",
           "packages/editor/src/ui/design-system/control-utils.test.ts",
-          "packages/editor/src/ui/design-system/controls.test.tsx",
+          "packages/editor/src/ui/design-system/draft-number-inputs.test.tsx",
           "packages/editor/src/ui/design-system/draft-text-inputs.test.tsx",
+          "packages/editor/src/ui/design-system/feedback.test.tsx",
           "packages/editor/src/ui/design-system/field-controls.test.tsx",
-          "packages/editor/src/ui/design-system/field-layout.test.tsx",
-          "packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
           "packages/editor/src/ui/design-system/floating-layer.test.tsx",
           "packages/editor/src/ui/design-system/help-tips.test.tsx",
           "packages/editor/src/ui/design-system/icon-button.test.tsx",
           "packages/editor/src/ui/design-system/label-association.test.tsx",
-          "packages/editor/src/ui/design-system/list-header.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/design-system/list-header.test.tsx",
-          "packages/editor/src/ui/design-system/media.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/design-system/media.test.tsx",
-          "packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
-          "packages/editor/src/ui/design-system/multi-select.glm-leaf-wave.test.tsx",
+          "packages/editor/src/ui/design-system/menu-bar.test.tsx",
+          "packages/editor/src/ui/design-system/multi-select.test.tsx",
           "packages/editor/src/ui/design-system/native-inputs.test.tsx",
-          "packages/editor/src/ui/design-system/navigation.glm-leaf-wave.test.tsx",
-          "packages/editor/src/ui/design-system/number-inputs.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/design-system/number-inputs.test.tsx",
-          "packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
           "packages/editor/src/ui/design-system/overflow-text.test.tsx",
-          "packages/editor/src/ui/design-system/overlays.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/design-system/overlays.test.tsx",
-          "packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
           "packages/editor/src/ui/design-system/recipes.test.tsx",
           "packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
           "packages/editor/src/ui/design-system/reorder.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/design-system/reorder.test.tsx",
-          "packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
-          "packages/editor/src/ui/design-system/select.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/design-system/select.test.tsx",
           "packages/editor/src/ui/design-system/selector-prefilter.test.ts",
-          "packages/editor/src/ui/design-system/tabs-card-feedback.test.tsx",
-          "packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
-          "packages/editor/src/ui/design-system/virtual-list.glm-leaf-wave.test.tsx",
+          "packages/editor/src/ui/design-system/status-values.test.tsx",
+          "packages/editor/src/ui/design-system/tabs.test.tsx",
+          "packages/editor/src/ui/design-system/toolbar.test.tsx",
           "packages/editor/src/ui/design-system/virtual-list.test.tsx",
+          "packages/editor/src/ui/design-system/virtual-listbox.test.tsx",
           "packages/editor/src/ui/editor-navigation.test.ts",
           "packages/editor/src/ui/editor-target.glm-leaf-wave.test.ts",
           "packages/editor/src/ui/editor-target.test.ts",
@@ -7889,19 +7888,14 @@
             "identityDigest": "7978ec7aa8362d90555359c62420acdd9b39d78dff0634aa401d75a75b20053f"
           },
           {
-            "file": "packages/editor/src/core/battle-sprite-commands.glm-boundaries.test.ts",
+            "file": "packages/editor/src/core/battle-sprite-asset-commands.test.ts",
             "testCount": 6,
-            "identityDigest": "80433fd34658e7240feaced3d85c0f39b71c68afa7bc8aa31f36f0f5d82436cf"
+            "identityDigest": "be8ba4cf9c4eef7b50edb586f2f9d8340aed1a4fa5e169ef0575cfc8e6bce0c5"
           },
           {
-            "file": "packages/editor/src/core/battle-sprite-commands.glm-next-wave.test.ts",
-            "testCount": 2,
-            "identityDigest": "c04f805d143994d9106c129a961b1e017e23a7049b020188f840743c5b8b7310"
-          },
-          {
-            "file": "packages/editor/src/core/battle-sprite-commands.residual.test.ts",
+            "file": "packages/editor/src/core/battle-sprite-definition-commands.test.ts",
             "testCount": 4,
-            "identityDigest": "2e4e860587c0fab79c573f7748a28b65f77c4740b665c21307a8fb21a5c52fd2"
+            "identityDigest": "1f75362a03951ac1f16a32c9fb6ed626822af57b5848bb669aaa0e971e74a9b7"
           },
           {
             "file": "packages/editor/src/core/battle-sprite-frame-deletion.test.ts",
@@ -8619,34 +8613,24 @@
             "identityDigest": "fb00a9ac342e070673b2a2130830a1eb7824fe1cc87f5e957f1f0fec5a71b278"
           },
           {
+            "file": "packages/editor/src/core/sprite-asset-commands.test.ts",
+            "testCount": 4,
+            "identityDigest": "30776bb6126e0c616b060b07b117292aea82c7e32bbec194a6c361c9e558cd69"
+          },
+          {
+            "file": "packages/editor/src/core/sprite-asset-replacement.test.ts",
+            "testCount": 6,
+            "identityDigest": "bb44b334bef3af0a1a42f3be4690a23a2441623c5d7ab8a141620df31ca7b0ea"
+          },
+          {
             "file": "packages/editor/src/core/sprite-assets.test.ts",
             "testCount": 1,
             "identityDigest": "06236aff04bb34f857382aa0af91db78c4484c352ea28dd68959020d4963050c"
           },
           {
-            "file": "packages/editor/src/core/sprite-commands.c05-g02.cursor-r1.test.ts",
-            "testCount": 12,
-            "identityDigest": "678946c7446323a17e05d6710c74c9c73e205e95d898c7b9d8c617673f33a491"
-          },
-          {
-            "file": "packages/editor/src/core/sprite-commands.c05-g03.cursor-r1.test.ts",
-            "testCount": 13,
-            "identityDigest": "0148f0e03f320bb789ec7f897bae286b823bd21a9235b8cea96be7c143c42997"
-          },
-          {
-            "file": "packages/editor/src/core/sprite-commands.glm-boundaries.test.ts",
-            "testCount": 10,
-            "identityDigest": "91c4f1df504fe74a81cdf6f66031cb658bf19d6bbcb2d1a1ca4bd732bbe8fe86"
-          },
-          {
-            "file": "packages/editor/src/core/sprite-commands.glm-next-wave.test.ts",
-            "testCount": 2,
-            "identityDigest": "89f673d5fcb8855f9f8552927713334fb01376c4146267aa81331a9d9c018d8e"
-          },
-          {
-            "file": "packages/editor/src/core/sprite-commands.residual.test.ts",
-            "testCount": 5,
-            "identityDigest": "2004aadb6a9c74b25f0f88dbd9f9560c1ca8ed68ba425dc55307f9ed1da45ffb"
+            "file": "packages/editor/src/core/sprite-definition-commands.test.ts",
+            "testCount": 8,
+            "identityDigest": "44c752f87c39e7712b33f944c53624f6ab2d4180edea40650b87fd77d8a934d0"
           },
           {
             "file": "packages/editor/src/core/sprite-frame-capacity.test.ts",
@@ -8655,8 +8639,18 @@
           },
           {
             "file": "packages/editor/src/core/sprite-reference-commands.test.ts",
-            "testCount": 4,
-            "identityDigest": "5744142e7a61ac5e6e52224564dcda62034e133e31c34a92caf0e35dd9cfa521"
+            "testCount": 5,
+            "identityDigest": "0f60fce227a0bd2a50961c3884eee8f12a2a1c99b744d5eed70fc267084d0192"
+          },
+          {
+            "file": "packages/editor/src/core/sprite-script-canonical-sampling.test.ts",
+            "testCount": 17,
+            "identityDigest": "1713e69d2c8b657ff1e05cc3ab72e935527f3989186e345a2ad4350f8d72c78b"
+          },
+          {
+            "file": "packages/editor/src/core/sprite-script-projected-frames.test.ts",
+            "testCount": 25,
+            "identityDigest": "5fc88ba2a07b0ebba4359a3ce8d7543e9ad399db67a286c0495bc346baf17e32"
           },
           {
             "file": "packages/editor/src/core/stamp-commands.boundaries.test.ts",
@@ -8884,34 +8878,14 @@
             "identityDigest": "bcf177c266a9077bd5c10e46aa7ff34341d5016e67ec148b4fd8beae0dab8c4a"
           },
           {
-            "file": "packages/editor/src/core/world-sprite-behavior.cov85-lowering.test.ts",
-            "testCount": 9,
-            "identityDigest": "5e2ac7daa864f6b9a576f4a824ca97c6af867930d4e482f40f85a64497df1a02"
-          },
-          {
-            "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
-            "testCount": 16,
-            "identityDigest": "2b64ea92a52a92ad6d5dfc1d93b1a9fbb95e14ae58f1bf908563cc2b825c215b"
-          },
-          {
-            "file": "packages/editor/src/core/world-sprite-behavior.kimi-workflows.test.ts",
-            "testCount": 7,
-            "identityDigest": "20f26bbcc685e578b1c886286544dddd24eb6a115c9b57c76961074023c08c94"
-          },
-          {
-            "file": "packages/editor/src/core/world-sprite-behavior.test.ts",
-            "testCount": 35,
-            "identityDigest": "d9c34781fa5d32a9901cd6ec0cb64463566a7d0bd1772fbc5e49775498a14243"
-          },
-          {
-            "file": "packages/editor/src/core/world-sprite-behavior.wave2.test.ts",
-            "testCount": 5,
-            "identityDigest": "1f49cbd2d03a12cd70cfbea12d3a6a02acf7c6462df3363e3442229bb87fcc97"
-          },
-          {
             "file": "packages/editor/src/core/world-sprite-frame-deletion.test.ts",
             "testCount": 3,
             "identityDigest": "f6d5a25cb00a46f6ba688bb380a75bf08db2e1fb0ff12b9d7e86be2a4e736590"
+          },
+          {
+            "file": "packages/editor/src/core/world-sprite-reference-behavior.test.ts",
+            "testCount": 4,
+            "identityDigest": "66147cf7ddbef21aff6297bb7db57d4d0f6e1069a066701079794e9bf28c55cb"
           },
           {
             "file": "packages/editor/src/core/world-variable-commands.test.ts",
@@ -9055,13 +9029,18 @@
           },
           {
             "file": "packages/editor/src/ui/BattleSpriteLibrary.action-editing.test.tsx",
-            "testCount": 13,
-            "identityDigest": "d33b7021fd22590544ab720de33ee24aa58247be38f6fe112319f1d941bb7479"
+            "testCount": 14,
+            "identityDigest": "3fca2e601aa4854bfa0dfd1e0fb4bb5122e6d74cddb24d4dcec2052cb2ecd241"
           },
           {
             "file": "packages/editor/src/ui/BattleSpriteLibrary.asset-deletion.test.tsx",
             "testCount": 10,
             "identityDigest": "150c150377be51a7470a48d00ce401273bbac6b33063dec8a7dfad331f655794"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.catalog.test.tsx",
+            "testCount": 4,
+            "identityDigest": "322c1ccd7224e92103ecb575374890699d4d6a1aabff877a56c28288afb97189"
           },
           {
             "file": "packages/editor/src/ui/BattleSpriteLibrary.frame-revision.test.tsx",
@@ -9094,14 +9073,19 @@
             "identityDigest": "cc372962e10db2ee7e30decf7ee2657ced6b3e49f34ff4b8f38b16b1f79d6758"
           },
           {
-            "file": "packages/editor/src/ui/BattleSpriteLibrary.selection.test.tsx",
-            "testCount": 11,
-            "identityDigest": "f809fa8dfa2c38264aec6b03828b75f7c3a9bd2bcc96c761c2f38e21227ef39b"
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.references.test.tsx",
+            "testCount": 7,
+            "identityDigest": "1b4019e08207f651de4ade67bfc004ae021f16074b3647d9e0a46daa4c862ae4"
           },
           {
-            "file": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
-            "testCount": 20,
-            "identityDigest": "80f15784b12b851c350f47dd747d8d790edf2814b71ed3bd42d57e9c6ed1b627"
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.selection.test.tsx",
+            "testCount": 12,
+            "identityDigest": "8ef17dc3666e9f5aec5ca51a65af9ca5a2d3b6ad3087a6ca0786db8d67ce31b3"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.workspace.test.tsx",
+            "testCount": 5,
+            "identityDigest": "87d9189c2b76758adc8d111ec9271b1e5eaeab3b9984b5f0287d8bada19c02f3"
           },
           {
             "file": "packages/editor/src/ui/BattleSpritePicker.test.tsx",
@@ -9949,39 +9933,29 @@
             "identityDigest": "ba32728847bee93421efc2a0341a1ca75495de523a6ad8e28216757f50bb382d"
           },
           {
-            "file": "packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
-            "testCount": 9,
-            "identityDigest": "c6c2a6a158167735d0eb778dfaea858b8a8109a354976a26f45242883182dfae"
-          },
-          {
-            "file": "packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
-            "testCount": 9,
-            "identityDigest": "5fce895680d4f41f75f678d45a33ade069e495a0ed05c18c5139afb8c2579d1d"
-          },
-          {
-            "file": "packages/editor/src/ui/SpriteActionEditor.kimi-workflows.test.tsx",
-            "testCount": 7,
-            "identityDigest": "09d9321957a40981b00128eafcf08c1b1ec0009ce0ebf8c2b2de241e0a9c1af0"
-          },
-          {
-            "file": "packages/editor/src/ui/SpriteActionEditor.test.tsx",
+            "file": "packages/editor/src/ui/SpriteActionEditor.catalog.test.tsx",
             "testCount": 4,
-            "identityDigest": "c28b28e2e44044c7541f7bfab21bd56b637c1905eff73d554d5d6619d66dc852"
+            "identityDigest": "b17ee57de0a793894ecc5c1c4d59d93a103028491230957cd65f9a00be8bc55a"
           },
           {
-            "file": "packages/editor/src/ui/SpriteActionEditorDialog.c05-g06.cursor-r1.test.tsx",
-            "testCount": 9,
-            "identityDigest": "3e7ffcf54f7ce8ab7e47081d088310eeb05d2df5ace161ad146de243800320c2"
+            "file": "packages/editor/src/ui/SpriteActionEditor.layout.test.tsx",
+            "testCount": 3,
+            "identityDigest": "d91f65536959544b44e74d4566597fe75fe75c1e34140efaab0d7f382435241f"
           },
           {
-            "file": "packages/editor/src/ui/SpriteActionEditorDialog.glm-l.test.tsx",
-            "testCount": 2,
-            "identityDigest": "ea90e28695b603631c718dced2c3859b18c91fef0deee8941896beebf73a2fce"
+            "file": "packages/editor/src/ui/SpriteActionEditor.timeline.test.tsx",
+            "testCount": 6,
+            "identityDigest": "83845e4986ba4ab5e5d3529b0ec52f027f8a447f849080c790332873bdb58742"
           },
           {
-            "file": "packages/editor/src/ui/SpriteActionEditorDialog.test.tsx",
-            "testCount": 21,
-            "identityDigest": "39cbc5f7731b827e42b6d691f7d1ec1f77bd6297c6bc4106d191b4bdd415859c"
+            "file": "packages/editor/src/ui/SpriteActionEditorDialog.draft.test.tsx",
+            "testCount": 5,
+            "identityDigest": "0ea41e2e34b9cd86ebabdf72e59d0504db03e80d91f2871c25253bb7a1531db2"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteActionEditorDialog.guards.test.tsx",
+            "testCount": 4,
+            "identityDigest": "8c1da7cd33602bc93caceb2c34f3491561cf9a82a2131b28eefc006dce5cea6c"
           },
           {
             "file": "packages/editor/src/ui/SpriteFrameCanvas.pixels.test.tsx",
@@ -10004,11 +9978,6 @@
             "identityDigest": "90c92d328b63c83f36e2ad934d5019b36f140072b29d7176e3e72bbbe2555319"
           },
           {
-            "file": "packages/editor/src/ui/SpriteFrameWorkbench.glm-next-wave.test.tsx",
-            "testCount": 4,
-            "identityDigest": "89dd2dfb33b3cc5e7fb22631c6248d318c190740e4ce69cb50e11ef26391ebe2"
-          },
-          {
             "file": "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
             "testCount": 5,
             "identityDigest": "49177b641dc9c49a056406da05910fd1199c287dca4623a251e3aa2df51e0e49"
@@ -10017,6 +9986,11 @@
             "file": "packages/editor/src/ui/SpriteFrames.test.tsx",
             "testCount": 3,
             "identityDigest": "164b1b138f5ab98b7b8c75851a0429a79bf65ee4cf5d48205d7bdcf36ac53274"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteLibraries.asset-deletion-revision.test.tsx",
+            "testCount": 2,
+            "identityDigest": "4fb9c4d4570395e6d129739ca0ec8b84ee15ac3c9eb83beaaf5ff231dcd67a22"
           },
           {
             "file": "packages/editor/src/ui/SpriteResourceViewer.frame-editing.test.tsx",
@@ -10030,8 +10004,8 @@
           },
           {
             "file": "packages/editor/src/ui/SpriteResourceViewer.navigation.test.tsx",
-            "testCount": 7,
-            "identityDigest": "3e76b83a246bf6a3ad563357c3e4accd46c84bb641b1c51c799a285a5162ed55"
+            "testCount": 8,
+            "identityDigest": "19dbc67e810cf850d9317b3fac80515b4d700d2dccd0c28f8a0d554e33356bb6"
           },
           {
             "file": "packages/editor/src/ui/SpriteResourceViewer.resources.test.tsx",
@@ -10154,14 +10128,19 @@
             "identityDigest": "5f5ce7e81569d0a55833b5c230dea010da5a52f2b1bec7355106e6d416e0c6e9"
           },
           {
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.action-navigation.test.tsx",
+            "testCount": 5,
+            "identityDigest": "b37250579dd769956728365a33590cc0b7ba5f0824d12e305dd0e79686529199"
+          },
+          {
             "file": "packages/editor/src/ui/WorldSpriteLibrary.asset-deletion.test.tsx",
             "testCount": 10,
             "identityDigest": "d15873c6e8c748a77f557ca71073b8df4533dafed4913f07649785172ebfe6ee"
           },
           {
             "file": "packages/editor/src/ui/WorldSpriteLibrary.catalog.test.tsx",
-            "testCount": 25,
-            "identityDigest": "e08f443a22e36b0f5dc7e79a8dddb671317ab9ad0ea02df6bf4f331cc915bf20"
+            "testCount": 26,
+            "identityDigest": "5389f3e0ffda1ae410263022131cddbd4cf6b3a80893a4b15ac9cbc957a65381"
           },
           {
             "file": "packages/editor/src/ui/WorldSpriteLibrary.definition-editing.test.tsx",
@@ -10170,18 +10149,23 @@
           },
           {
             "file": "packages/editor/src/ui/WorldSpriteLibrary.inspector.test.tsx",
-            "testCount": 10,
-            "identityDigest": "c20b77c2d1bff401a716d37636029aee6979967c77587dde9be6c3336cda2677"
+            "testCount": 11,
+            "identityDigest": "0858c86dd0a2e9595390d79b5f500992a87cd256fd34917406dfc159a7ba7b2e"
+          },
+          {
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.references.test.tsx",
+            "testCount": 8,
+            "identityDigest": "518ef2ce345691cb95e3ba28c259eb651cc279ff7db3296246314861345b6e6a"
           },
           {
             "file": "packages/editor/src/ui/WorldSpriteLibrary.resource-proof.test.tsx",
-            "testCount": 5,
-            "identityDigest": "018ec003d09234d3c9be9a78943105958ea9c66f481f6e2da65dea128f153522"
+            "testCount": 6,
+            "identityDigest": "1d027deaf5c43581a3633718be62ac3511088dc58da58d5c82cb597e2e18cded"
           },
           {
-            "file": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
-            "testCount": 30,
-            "identityDigest": "b280aa27be644196790e15a78214dfd929538f705db75ec680ef6aa2d82baabe"
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.scripted-usage.test.tsx",
+            "testCount": 6,
+            "identityDigest": "f1e82e2aa770ad44d4adaa81ac953d33e6ed7136646d1ec4482d747593b1d8da"
           },
           {
             "file": "packages/editor/src/ui/app-command-registry.test.ts",
@@ -10240,8 +10224,8 @@
           },
           {
             "file": "packages/editor/src/ui/design-system/add-picker.test.tsx",
-            "testCount": 25,
-            "identityDigest": "97b53c2875e201c1702e395c21179e599bb3df36695aa8e14f32d745a63eb592"
+            "testCount": 26,
+            "identityDigest": "9abe00c9a6e5c589d86f4bce4a6d4b6f50404c11ef22aac2218762d998754777"
           },
           {
             "file": "packages/editor/src/ui/design-system/audit-ast.test.mjs",
@@ -10250,43 +10234,48 @@
           },
           {
             "file": "packages/editor/src/ui/design-system/buttons.test.tsx",
+            "testCount": 3,
+            "identityDigest": "56566ee87c23721358dd596e4b68e385a4c68bf17b8ac9a6290b57434fafe5cb"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/card.test.tsx",
             "testCount": 1,
-            "identityDigest": "48b4ebdfacd3a0e5fc327eda8dbd01e73f00553066652c9ca88f5f5986672cb0"
+            "identityDigest": "fcc8ddd457d2dd672955837142b103bb755d1c8c45649ef28b067f1f85829edf"
           },
           {
             "file": "packages/editor/src/ui/design-system/choice-controls.test.tsx",
-            "testCount": 1,
-            "identityDigest": "0fa3e8e341921ef339ff693e20343c2b63946c9218522563868a9d876abfd8ed"
+            "testCount": 3,
+            "identityDigest": "12b1ad00e3181864b1a5ca602ed83a86053fc5cf5be9a4e6d5424265fdcbf32b"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/collection-search.test.ts",
+            "testCount": 2,
+            "identityDigest": "7b5d1b50ad2b6dd42e3ed0eb9b8c5dd1e6125d02f770073470aba575a833a841"
           },
           {
             "file": "packages/editor/src/ui/design-system/control-utils.test.ts",
-            "testCount": 1,
-            "identityDigest": "c82631fc2cd72851e5d2461c788d8e15bda9199d5b56ed6b9b2054c0c910e0ec"
+            "testCount": 2,
+            "identityDigest": "49e064fa1d5022cba8e3e9bb84fc5baf2c8aef0001298361dd0569f17bd5de68"
           },
           {
-            "file": "packages/editor/src/ui/design-system/controls.test.tsx",
-            "testCount": 43,
-            "identityDigest": "d1e914c91530cc75692045d1b90eafcf0dfff780bc6108ebd3282c6096968be7"
+            "file": "packages/editor/src/ui/design-system/draft-number-inputs.test.tsx",
+            "testCount": 10,
+            "identityDigest": "5498d51051589261071048a8cfe659b6e09f639d36f3e7790c2f1828a21e94e3"
           },
           {
             "file": "packages/editor/src/ui/design-system/draft-text-inputs.test.tsx",
-            "testCount": 1,
-            "identityDigest": "89584510967f6657c4a734c09a8f5cfb407cc02c05cf1785c697e85a31a6a9d5"
+            "testCount": 8,
+            "identityDigest": "bb9bb340792a34d02f9cbe50a1c95e91959757c9d481a4c773d51a0fb267fa8c"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/feedback.test.tsx",
+            "testCount": 2,
+            "identityDigest": "8c0ea4ecd8c5e78db8c82eca948b5fca8a8ab05d5d26f8c3287113728b26a199"
           },
           {
             "file": "packages/editor/src/ui/design-system/field-controls.test.tsx",
-            "testCount": 1,
-            "identityDigest": "4c71060640152b6ba397559a3b4531ec24a056580f2f0558f33f7db84f6d40e5"
-          },
-          {
-            "file": "packages/editor/src/ui/design-system/field-layout.test.tsx",
-            "testCount": 1,
-            "identityDigest": "c1bc09388987d758997d4acef509ca794df4037855f61426c295632fd67d3da6"
-          },
-          {
-            "file": "packages/editor/src/ui/design-system/floating-chrome.c10-g06.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "6bd59f50354ad738f9d49b60736607abcfdec413f28beee5fd3f9713aa35f4b9"
+            "testCount": 4,
+            "identityDigest": "2fa55e89bf7490b41bf6d1f7a5eda807c8e91f7004f9b352ef09f74b6b289d5c"
           },
           {
             "file": "packages/editor/src/ui/design-system/floating-layer.test.tsx",
@@ -10295,98 +10284,63 @@
           },
           {
             "file": "packages/editor/src/ui/design-system/help-tips.test.tsx",
-            "testCount": 1,
-            "identityDigest": "228f724adc3a6e418404e28cbd215258fde0fb7dd04a1ea3b307040b4d99db82"
+            "testCount": 5,
+            "identityDigest": "272ece9349aac0fa9929ef0102f9005ee3285fa1472db6c84c1ed0cc6e4cf4d8"
           },
           {
             "file": "packages/editor/src/ui/design-system/icon-button.test.tsx",
             "testCount": 1,
-            "identityDigest": "67242765262aef566eacaadbfec3cd26b6ca6cacfba6b1f1d7f9154e756b9d03"
+            "identityDigest": "9cb09aad3c05d14d06efe5156d7622bfe3189490a7f555dec44dafce88a9b5fd"
           },
           {
             "file": "packages/editor/src/ui/design-system/label-association.test.tsx",
-            "testCount": 7,
-            "identityDigest": "bce11172a49f073737fa99f4b305b38d3fc86e98462b4e9580a1648386e21262"
-          },
-          {
-            "file": "packages/editor/src/ui/design-system/list-header.glm-leaf-wave.test.tsx",
-            "testCount": 3,
-            "identityDigest": "5f386a0450347127ecf22fdfc68ad25154d6515b264a2da399846d865c709888"
+            "testCount": 6,
+            "identityDigest": "e364f2f1f93c674f98794dd5caf80b90dbd1f271ea8829fd94e9fdd8ce78573e"
           },
           {
             "file": "packages/editor/src/ui/design-system/list-header.test.tsx",
-            "testCount": 1,
-            "identityDigest": "6886b1f0cc251d3fd09a6738c98c2e450ab18b43aa050b590268582426a88e7c"
-          },
-          {
-            "file": "packages/editor/src/ui/design-system/media.glm-leaf-wave.test.tsx",
-            "testCount": 3,
-            "identityDigest": "e10f141ecc571ceaab87960c0c9f581d43c63a6c50e08138721d18aa6f0fb5c9"
+            "testCount": 4,
+            "identityDigest": "9ccf235b6e4ae6d43c5e76b52ee453e05006b6da8172e3dba86985c98bd09214"
           },
           {
             "file": "packages/editor/src/ui/design-system/media.test.tsx",
-            "testCount": 2,
-            "identityDigest": "0a2b46819c5a6d6c5a6cb5d97f7bf0bf3a9fd3655d0e71f5cb840878556bd932"
+            "testCount": 5,
+            "identityDigest": "33c09ed5ce596c2d58de38060cb9a88f90e944429833b377134545ac5a13d475"
           },
           {
-            "file": "packages/editor/src/ui/design-system/multi-add-draft.c10-g05.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "1abe08905a15be5f5fd309d6ac4dad79a176018e4dbde88330ef92cc0b086d18"
+            "file": "packages/editor/src/ui/design-system/menu-bar.test.tsx",
+            "testCount": 8,
+            "identityDigest": "896b9f73b00fd37a8016deff089f3b74173ba459c90586687257659a697042a8"
           },
           {
-            "file": "packages/editor/src/ui/design-system/multi-select.glm-leaf-wave.test.tsx",
-            "testCount": 7,
-            "identityDigest": "9300788a17d5fccf6d342c41bb5096ebdc595326fc1ffcc67f5a3dd3edc25427"
+            "file": "packages/editor/src/ui/design-system/multi-select.test.tsx",
+            "testCount": 8,
+            "identityDigest": "f46bca70cc741d158a651ad2d2e103a832b3db7ae2da353bcf206af8b1b1da01"
           },
           {
             "file": "packages/editor/src/ui/design-system/native-inputs.test.tsx",
-            "testCount": 1,
-            "identityDigest": "37cb969c9e86f2a6f13b6ccf9c52288d05c186ad94c4c40c9404eaf032e0e004"
-          },
-          {
-            "file": "packages/editor/src/ui/design-system/navigation.glm-leaf-wave.test.tsx",
-            "testCount": 6,
-            "identityDigest": "abe936910cd7e90a78e4eb802b8f248be96e35eb2d10013af7e9474dc0cf0efa"
-          },
-          {
-            "file": "packages/editor/src/ui/design-system/number-inputs.glm-leaf-wave.test.tsx",
-            "testCount": 7,
-            "identityDigest": "ccec36d8a360719d21e37b84ba633ae1f2d259ff1ed120ecc1a15f98a06eb852"
+            "testCount": 2,
+            "identityDigest": "c950e2b8c9f6eaa8126d4e6e406dfbc4fd5ca678d0b0f703c9e2527d755b2cfa"
           },
           {
             "file": "packages/editor/src/ui/design-system/number-inputs.test.tsx",
-            "testCount": 1,
-            "identityDigest": "b83414b27a71a3126baf8491c34f17753572301f408a5ed32e6aa128223d0681"
-          },
-          {
-            "file": "packages/editor/src/ui/design-system/number-overlays.c10-g04.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "d24622f53d7605fbe5da667a9bb3d46538a8f92922b36ab26f29e605fd754a44"
+            "testCount": 6,
+            "identityDigest": "d07540d3e02d114844763d82b5803dbbf2058f19fdd3c8544d3c725d186eded3"
           },
           {
             "file": "packages/editor/src/ui/design-system/overflow-text.test.tsx",
-            "testCount": 7,
-            "identityDigest": "a2bbad8de47d5bd53b82b16731ce3760a8f70308b5cdf94cd4deb777e2992a82"
-          },
-          {
-            "file": "packages/editor/src/ui/design-system/overlays.glm-leaf-wave.test.tsx",
             "testCount": 6,
-            "identityDigest": "c765d5c8186efcdeb4dfdfb1f16d381bc38039172463881f093d5eb9ef6bf815"
+            "identityDigest": "8e8373ac698a4c3bf456f5ddf204fd8a74709c4f5becb0488d67803c5dd4bec5"
           },
           {
             "file": "packages/editor/src/ui/design-system/overlays.test.tsx",
-            "testCount": 7,
-            "identityDigest": "8ecc7058b30ebef1c2cd440a89e8e77c2842f81e0d3681443bd9ce2a9a054955"
-          },
-          {
-            "file": "packages/editor/src/ui/design-system/recipes-index.c10-g07.cursor-r1.test.tsx",
-            "testCount": 15,
-            "identityDigest": "0ea7b30120cc9a5b6afceff2809b3043c45ae48a9c7ce382f3db9a3512ac522b"
+            "testCount": 11,
+            "identityDigest": "b6ca41a8c0b90cd4af46e5f709f9b937fbd2c7f7d44b5068fec60b6ed9f26960"
           },
           {
             "file": "packages/editor/src/ui/design-system/recipes.test.tsx",
-            "testCount": 33,
-            "identityDigest": "981a3cd381a5935d2f3a2edf2b3547fa7734382ecf07cac1c6c6e0a0bf094cb2"
+            "testCount": 34,
+            "identityDigest": "7b7038f9eb388ac5621c7d265ff34cc1c4a480c454b620a685f760fae58db41e"
           },
           {
             "file": "packages/editor/src/ui/design-system/reorder.c10-g01.cursor-r1.test.tsx",
@@ -10404,19 +10358,9 @@
             "identityDigest": "df2b0a33d570984cf3e06db50d4a0109d54954e0855d9b3cc9d1a708a7fad5b8"
           },
           {
-            "file": "packages/editor/src/ui/design-system/select.c10-g02.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "af42c38abcf02d74b5c06fa8387209ae3257c819cc94cb03313949d9c99d5e70"
-          },
-          {
-            "file": "packages/editor/src/ui/design-system/select.glm-leaf-wave.test.tsx",
-            "testCount": 5,
-            "identityDigest": "7a3155eac99ad9c480878735eb673c766d4932c723dfd72045f694fcfbe25c57"
-          },
-          {
             "file": "packages/editor/src/ui/design-system/select.test.tsx",
-            "testCount": 1,
-            "identityDigest": "892231cdc737f41d2b2d4bdcb2b4f1bbad0f32a334db7958bacc5723bb339fa1"
+            "testCount": 12,
+            "identityDigest": "1b8e8227ea4ccaa12cd61b9eb8166421b051f25b1becf638055bc68f98865358"
           },
           {
             "file": "packages/editor/src/ui/design-system/selector-prefilter.test.ts",
@@ -10424,24 +10368,29 @@
             "identityDigest": "7bff989af3ca18cb0d943c494aa7095acbd08d0bbc264735ec5b3263e1331632"
           },
           {
-            "file": "packages/editor/src/ui/design-system/tabs-card-feedback.test.tsx",
+            "file": "packages/editor/src/ui/design-system/status-values.test.tsx",
             "testCount": 2,
-            "identityDigest": "73aea29cccc1558dc2fab15c1ef795fda169f7b2deab9de42e47909a81d99277"
+            "identityDigest": "0505e326c4afdf8e7e82912e857bb76d037b1806f4f1dd790505709fe3c33e05"
           },
           {
-            "file": "packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "cb984a5f5983e22e9ba5de9e407a616c9b3920d871f938fc789d6c979817cccf"
+            "file": "packages/editor/src/ui/design-system/tabs.test.tsx",
+            "testCount": 3,
+            "identityDigest": "f52e88152dbf0f2444034034eb1c8987fd983673d27f3156bed6d347f43df72c"
           },
           {
-            "file": "packages/editor/src/ui/design-system/virtual-list.glm-leaf-wave.test.tsx",
-            "testCount": 6,
-            "identityDigest": "178dcf1c7674ad5ed1ec62a1b99eb39ad6f6fca0614144b7f753e7534a7507d7"
+            "file": "packages/editor/src/ui/design-system/toolbar.test.tsx",
+            "testCount": 2,
+            "identityDigest": "97b765d10e0ccfe0e680a5236accde244c201fa3cfccf3e0a4d336fd17f3021c"
           },
           {
             "file": "packages/editor/src/ui/design-system/virtual-list.test.tsx",
+            "testCount": 6,
+            "identityDigest": "ca87a8dcd000aacb70c77c86c5519a259454acc1341fc69d84e20041487705cc"
+          },
+          {
+            "file": "packages/editor/src/ui/design-system/virtual-listbox.test.tsx",
             "testCount": 11,
-            "identityDigest": "682af94c6f8cd0ceaa91ec3cd81cb3d550c40f63cb3732780cda93f9d0a2c7e1"
+            "identityDigest": "e47401913b86b9dfcdaf6a91983ebbd788acc930acea91a5a6530c5617779607"
           },
           {
             "file": "packages/editor/src/ui/editor-navigation.test.ts",
@@ -10609,46 +10558,46 @@
             "identityDigest": "0e153892d54ad4c2d78a775dcfb4dc94b7d08461b61e6531d00ad29d4b72a127"
           }
         ],
-        "identityDigest": "afdcc00d9e5bf56ae6d4862ae2e51c8a6dadceb6fb43b938cc0c277c529dcedc",
+        "identityDigest": "399a573032b659f091cca4e0c467a3eef7d7cf280e294ce2abb9c76346f30aff",
         "duplicateIdentityCount": 8,
-        "executionDigest": "da043995f418e4606845abdf4eada8225408e5b0e047af4fab9d3b793d44608a"
+        "executionDigest": "8ff0a5eeb9ad01ab53f3c37d66af6610bbafe8572a86e48b4c59668c6feb57d6"
       },
       "metrics": {
         "statements": {
-          "covered": 31614,
-          "total": 34996
+          "covered": 31527,
+          "total": 34880
         },
         "branches": {
-          "covered": 25614,
-          "total": 30618
+          "covered": 25508,
+          "total": 30508
         },
         "functions": {
-          "covered": 8070,
-          "total": 8973
+          "covered": 8061,
+          "total": 8956
         },
         "lines": {
-          "covered": 28340,
-          "total": 30606
+          "covered": 28262,
+          "total": 30500
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 76854,
-      "total": 84283
+      "covered": 76767,
+      "total": 84167
     },
     "branches": {
-      "covered": 56318,
-      "total": 66457
+      "covered": 56212,
+      "total": 66347
     },
     "functions": {
-      "covered": 14506,
-      "total": 16027
+      "covered": 14497,
+      "total": 16010
     },
     "lines": {
-      "covered": 68714,
-      "total": 73784
+      "covered": 68636,
+      "total": 73678
     }
   }
 }

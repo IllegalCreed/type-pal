@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "41c1addf95729d447345f61fbc99e62a5280737a08b010554e7766d91fb4b16a",
+      "afterSha256": "ac26abc2d595fd00fff23b341646542a13e8fb73625dfe4148469125ff8f9b05",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
         "author": "/root",
         "reviewer": "/root/scene_window_docs_review",
-        "date": "2026-11-28",
-        "conclusion": "接受实际逐文件新条目和四项计数。",
-        "reviewedLines": 2077,
-        "acceptanceScope": "核 73 个完成、3 项 review、68 个接替和 2 个仅接线；留审不授关闭信用。"
+        "date": "2026-11-29",
+        "conclusion": "终稿正文与相应静态文档准入接受。集中质量门的验收依原件。",
+        "reviewedLines": 2177,
+        "acceptanceScope": "100 个原路径、42 个承接和三项留审，核最新账本。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "3ff3c4c86ddb19fcfe7c433335e6c0d68f09763e1217f086b063ac8c9d145a8c",
+      "afterSha256": "8adbaca9be87a4e226433096d2fb6fd53a9720f4228841b43720bf5b81ad4dd9",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/scene_window_docs_review",
-        "date": "2026-11-28",
-        "conclusion": "接受完成批次、三个留审和看板收口。",
-        "reviewedLines": 160,
-        "acceptanceScope": "治理窗口状态转移与相关引导，活动 E2E 由原 Owner 持有。"
+        "date": "2026-11-29",
+        "conclusion": "终稿正文与相应静态文档准入接受。集中质量门的验收依原件。",
+        "reviewedLines": 164,
+        "acceptanceScope": "终态批次数字、活动 Owner 和后继范围。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "ae47ee909c83efd0896edba61b32cb2389d036076cbd51d265acb8a59252f61c",
+      "afterSha256": "ff2eda58b4be8dc8a29b7557b71a7519edb382ec108fbb8c8b5186ad5fee2d6d",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/scene_window_docs_review",
-        "date": "2026-11-28",
-        "conclusion": "接受生成索引的六卡终态。",
-        "reviewedLines": 635,
-        "acceptanceScope": "六处完成状态及历史入口。"
+        "date": "2026-11-29",
+        "conclusion": "终稿正文与相应静态文档准入接受。集中质量门的验收依原件。",
+        "reviewedLines": 642,
+        "acceptanceScope": "生成索引和终态卡片一致。"
       }
     },
     {
@@ -4344,28 +4344,28 @@
     {
       "path": "docs/phase2/specs/editor-architecture.md",
       "mode": "reviewed",
-      "afterSha256": "1be0213651ddc587fe1da9a1ecd4c35b0aceb0c908b5994da4ffb5726d66c754",
+      "afterSha256": "0ec0577752dd501689cb96ca79d1558ec58e5c12263dc0e2eac4b6f6d127ec98",
       "review": {
         "author": "/root",
         "reviewer": "/root/scene_window_docs_review",
-        "date": "2026-11-28",
-        "conclusion": "接受现行精灵导入和法术预览方案三条增量。",
-        "reviewedLines": 398,
-        "acceptanceScope": "固定历史引文逐字节保全，闭合当前职责与证据入口。"
+        "date": "2026-11-29",
+        "conclusion": "终稿正文与相应静态文档准入接受。集中质量门的验收依原件。",
+        "reviewedLines": 400,
+        "acceptanceScope": "复用同审查人的原接受。源帧版本和完整地址两项正文字节一致。"
       },
       "templateId": "design-spec-v1"
     },
     {
       "path": "docs/phase2/specs/editor-design-system.md",
       "mode": "reviewed",
-      "afterSha256": "1aea3e6fee4a2c35292baf929db17567a137c29be2330cff32f2993ad8a0ffea",
+      "afterSha256": "a8f27af4c45c2037670545f07f56063d6fcc748ef54924b28810fdcc92d6c63e",
       "review": {
         "author": "/root",
-        "reviewer": "/root (product/visual); /root/ui_final_doc_review (document delta)",
-        "date": "2026-11-04",
-        "conclusion": "Restores current normative applicability based on explicit premigration role; quoted original bytes, historical execution boundaries and withdrawn credit remain unchanged.",
-        "reviewedLines": 1345,
-        "acceptanceScope": "Only the actual delta, necessary primary sources and consumers; unchanged prior acceptance reused. Line extent identifies current body, not a repeated full read. Final independent document receipt and product originals: ED-ENTITY-STATE-PLAN-1-ui-consistency-20261104.tar.gz. No whole-editor, user final acceptance, project Save or new E2E credit."
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-29",
+        "conclusion": "终稿正文与相应静态文档准入接受。集中质量门的验收依原件。",
+        "reviewedLines": 1353,
+        "acceptanceScope": "现行 DS-C.4e 与 DS-C.5b、库存真实入口和旧引文逐字节保全。"
       }
     },
     {
@@ -6154,6 +6154,97 @@
         "reviewedLines": 30,
         "acceptanceScope": "终态与 22 项包含相邻入口的正式证据相符。"
       }
+    },
+    {
+      "path": "docs/tasks/cards/QUALITY-EDITOR-SPRITE-AUTHORING-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "9fafc3de00878c3f72b23176c4ec72d86e7438d467955e6be8b1491c5249b02f",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-29",
+        "conclusion": "终稿正文与相应静态文档准入接受。集中质量门的验收依原件。",
+        "reviewedLines": 104,
+        "acceptanceScope": "终稿 100 原路径、集中门分段、PAL 恢复及原始失败。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/EDITOR-SPRITE-ACTION-EMPTY-DIRECTORY-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "f2f1cf6858e82f003963ffc787ac708ec30273fe377732f1d488442d9d82dacd",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-29",
+        "conclusion": "终稿正文与相应静态文档准入接受。集中质量门的验收依原件。",
+        "reviewedLines": 34,
+        "acceptanceScope": "目录空态、聚焦新建和浏览器原件。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/EDITOR-SPRITE-ACTION-FOCUSED-DRAFT-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "76bec0449cb6384192753f2ae83b5bcc8ae043e344a3c71be779514b9ab69638",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-29",
+        "conclusion": "终稿正文与相应静态文档准入接受。集中质量门的验收依原件。",
+        "reviewedLines": 34,
+        "acceptanceScope": "两种焦点路径、用户裁决与正反证据。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/EDITOR-SPRITE-AUTO-PREVIEW-ADDRESS-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "69f6c263c4ba2c10b6880676f3f0a83443246aab0fd3e20ad089c139477bbe46",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-29",
+        "conclusion": "终稿正文与相应静态文档准入接受。集中质量门的验收依原件。",
+        "reviewedLines": 32,
+        "acceptanceScope": "实际 PAL 入口、102 个地址、035／072／076 与反控。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/EDITOR-SPRITE-DELETE-REVISION-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "69f2e5ea39097d3177240aea6cf9606a9f17bddca8286fa6cc06d8ca24280add",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-29",
+        "conclusion": "终稿正文与相应静态文档准入接受。集中质量门的验收依原件。",
+        "reviewedLines": 30,
+        "acceptanceScope": "两处过期删除、旧字节和执行诊断边界。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/EDITOR-WORLD-SPRITE-ACTION-ROUTE-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "10335e07ca2d11acf0c827928ce7ac7b09b76219fc1e49dd6cb65a9e71703bc5",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-29",
+        "conclusion": "终稿正文与相应静态文档准入接受。集中质量门的验收依原件。",
+        "reviewedLines": 35,
+        "acceptanceScope": "路由回灌、真实读域及定向结果。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/EDITOR-ADD-PICKER-ACTIVE-SELECTION-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "e4da9ee917d12bc8810f0355505d2113d5eb494fa3faee42d03ee25a7c41a93d",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-29",
+        "conclusion": "终稿正文与相应静态文档准入接受。集中质量门的验收依原件。",
+        "reviewedLines": 32,
+        "acceptanceScope": "批准的互动顺序、两次失败和 61 项定向恢复原件。"
+      }
     }
   ],
   "retired": [
@@ -7918,6 +8009,12 @@
       "sha256": "e6505a7efb9721ab88663d31f035e073a3a731c400bad19d9fded78ad4b8d5d9",
       "bytes": 1149890,
       "purpose": "Editor 法术特效和精灵预览逐文件八维、用例承接、真实失败与集中执行原件。"
+    },
+    {
+      "path": "docs/tasks/evidence/QUALITY-EDITOR-SPRITE-AUTHORING-1.tar.gz",
+      "sha256": "1f6f833b2e7339f5189a853c2ebd799c9a59f278274f27f0901e061ff055e6f2",
+      "bytes": 1471374,
+      "purpose": "精灵作者入口逐文件八维、用例迁移、真实失败与窗口执行原件。"
     }
   ],
   "artifactAliases": [],

@@ -7,6 +7,31 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // Sprite authoring control responsibilities and original case identities are archived with the task.
+    {
+      file: 'packages/editor/src/ui/design-system/label-association.test.tsx',
+      previous: 7,
+      current: 6,
+      previousIdentityDigest: 'bce11172a49f073737fa99f4b305b38d3fc86e98462b4e9580a1648386e21262',
+      currentIdentityDigest: 'e364f2f1f93c674f98794dd5caf80b90dbd1f271ea8829fd94e9fdd8ce78573e',
+      fileSha256: 'f30c83fb2b657b9ce1584e81335bc31615365b2209455109c6afd856c67c2ffd',
+    },
+    {
+      file: 'packages/editor/src/ui/design-system/overflow-text.test.tsx',
+      previous: 7,
+      current: 6,
+      previousIdentityDigest: 'a2bbad8de47d5bd53b82b16731ce3760a8f70308b5cdf94cd4deb777e2992a82',
+      currentIdentityDigest: '8e8373ac698a4c3bf456f5ddf204fd8a74709c4f5becb0488d67803c5dd4bec5',
+      fileSha256: '41e87f59316ac09f66ad25f6c7750f7d147d51a4d7a798acb749d8c01fd27346',
+    },
+    {
+      file: 'packages/editor/src/ui/design-system/virtual-list.test.tsx',
+      previous: 11,
+      current: 6,
+      previousIdentityDigest: '682af94c6f8cd0ceaa91ec3cd81cb3d550c40f63cb3732780cda93f9d0a2c7e1',
+      currentIdentityDigest: 'ca87a8dcd000aacb70c77c86c5519a259454acc1341fc69d84e20041487705cc',
+      fileSha256: '5db73201f0ea006380ad72630188d1e07121d50fdb49c35561f44b4757796ae6',
+    },
     // The sprite preview window maps both former suites to real resources and pixel assertions.
     {
       file: 'packages/editor/src/ui/EnemyBattleSpriteThumbnail.test.tsx',
