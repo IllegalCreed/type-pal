@@ -108,6 +108,8 @@ DEV检查点导出使用`await window.__tpE2e.dumpSave()`，与普通槽保存�
 #### 当前读档边界
 
 1. `preflightCurrentSave` 只接受 `SAVE12/content23`；`normalizeCurrentSave` 校验后返回隔离副本，`sceneRuntime`缺失拒绝。
+   场景现场的自动脚本游标以已校验的世界游标为准。对象按 JSON 可保存成员的键和值比较，值为 `undefined` 的对象成员会省略。执行帧按原顺序比较。两份游标的可保存成员、摘要、帧顺序或控制值不同即拒收。
+   持久坐标和自动操作归属都从场景和实体表中实际登记的条目读取。
 2. 非当前 SAVE、非 content23、项目 id 不匹配或非法 `minimumSaveVersion` 都 fail-loud；不读
    sidecar、不尝试升级、不提供产品迁移入口。
 3. PAL 与其他开发期工程重新生成 current 数据；开发期旧存档重新开档。历史实现由 Git 保存。
