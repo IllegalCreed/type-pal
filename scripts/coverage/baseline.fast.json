@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-28T06:34:35.869Z",
+  "generatedAt": "2026-11-28T10:35:27.962Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 863,
-  "testCount": 20116,
+  "sourceFileCount": 868,
+  "testCount": 20086,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -6738,7 +6738,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 315,
+      "sourceFileCount": 320,
       "sourceFiles": [
         "packages/editor/src/core/actor-commands.ts",
         "packages/editor/src/core/actor-dialogue-commands.ts",
@@ -6764,6 +6764,7 @@
         "packages/editor/src/core/battle-simulator-library.ts",
         "packages/editor/src/core/battle-simulator-state.ts",
         "packages/editor/src/core/battle-sprite-commands.ts",
+        "packages/editor/src/core/battle-sprite-frame-deletion.ts",
         "packages/editor/src/core/battle-sprite-import.ts",
         "packages/editor/src/core/battle-trial-launch.ts",
         "packages/editor/src/core/binary-signature.ts",
@@ -6852,6 +6853,7 @@
         "packages/editor/src/core/sprite-actions.ts",
         "packages/editor/src/core/sprite-assets.ts",
         "packages/editor/src/core/sprite-commands.ts",
+        "packages/editor/src/core/sprite-image-pixels.ts",
         "packages/editor/src/core/stamp-commands.ts",
         "packages/editor/src/core/stamp-draft.ts",
         "packages/editor/src/core/stamp-group-command.ts",
@@ -6872,6 +6874,7 @@
         "packages/editor/src/core/workspace-context.ts",
         "packages/editor/src/core/workspace-persistence.ts",
         "packages/editor/src/core/world-sprite-behavior.ts",
+        "packages/editor/src/core/world-sprite-frame-deletion.ts",
         "packages/editor/src/core/world-variable-commands.ts",
         "packages/editor/src/core/world-variable-references.ts",
         "packages/editor/src/core/zip.ts",
@@ -7045,21 +7048,23 @@
         "packages/editor/src/ui/scene-stage.ts",
         "packages/editor/src/ui/script-preview-navigation.ts",
         "packages/editor/src/ui/session-selector.ts",
+        "packages/editor/src/ui/sprite-frame-canvas.ts",
         "packages/editor/src/ui/stamp-placement-overlay.ts",
         "packages/editor/src/ui/stamp-placement-selection-overlay.ts",
         "packages/editor/src/ui/use-battle-trial-session.ts",
         "packages/editor/src/ui/use-editor-navigation-session.ts",
         "packages/editor/src/ui/use-editor-project-session.ts",
+        "packages/editor/src/ui/use-fire-preview-playback.ts",
         "packages/editor/src/ui/use-frame-preview-canvas.ts",
         "packages/editor/src/ui/use-owned-audio-transport.ts",
         "packages/editor/src/ui/use-project-leave-guard.ts",
         "packages/editor/src/ui/use-scene-workspace-session.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "61716badebeb53881eb63a831d40c1ff49efd0480607ccb1f5604905a7ba0cb4",
+      "scopeDigest": "e6a45ba5eae994ee007a245f03ce238c627e51a93ec821b740cca380a95ad735",
       "fastTests": {
-        "testCount": 4632,
-        "testFileCount": 588,
+        "testCount": 4602,
+        "testFileCount": 590,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
           "packages/editor/scripts/battle-simulator-http.test.mjs",
@@ -7110,6 +7115,7 @@
           "packages/editor/src/core/battle-sprite-commands.glm-boundaries.test.ts",
           "packages/editor/src/core/battle-sprite-commands.glm-next-wave.test.ts",
           "packages/editor/src/core/battle-sprite-commands.residual.test.ts",
+          "packages/editor/src/core/battle-sprite-frame-deletion.test.ts",
           "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
           "packages/editor/src/core/battle-trial-launch.glm-next-wave.test.ts",
           "packages/editor/src/core/binary-signature.test.ts",
@@ -7310,6 +7316,7 @@
           "packages/editor/src/core/world-sprite-behavior.kimi-workflows.test.ts",
           "packages/editor/src/core/world-sprite-behavior.test.ts",
           "packages/editor/src/core/world-sprite-behavior.wave2.test.ts",
+          "packages/editor/src/core/world-sprite-frame-deletion.test.ts",
           "packages/editor/src/core/world-variable-commands.test.ts",
           "packages/editor/src/core/world-variable-references.test.ts",
           "packages/editor/src/core/world-variable-references.wave2.test.ts",
@@ -7335,24 +7342,21 @@
           "packages/editor/src/ui/BattleFieldTab.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/BattleFieldTab.glm-m.test.tsx",
           "packages/editor/src/ui/BattleFieldTab.test.tsx",
-          "packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
-          "packages/editor/src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx",
+          "packages/editor/src/ui/BattleSpriteInlinePreview.playback.test.tsx",
+          "packages/editor/src/ui/BattleSpriteInlinePreview.resources.test.tsx",
           "packages/editor/src/ui/BattleSpriteInlinePreview.test.tsx",
-          "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
-          "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
-          "packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
-          "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
-          "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
-          "packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
-          "packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
-          "packages/editor/src/ui/BattleSpriteLibrary.glm-battle-registry.test.tsx",
-          "packages/editor/src/ui/BattleSpriteLibrary.glm-m.test.tsx",
-          "packages/editor/src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx",
-          "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.action-editing.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.asset-deletion.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.frame-revision.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.frame-source-editing.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.history.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.import.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.keyboard.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.proof-ownership.test.tsx",
+          "packages/editor/src/ui/BattleSpriteLibrary.selection.test.tsx",
           "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
           "packages/editor/src/ui/BattleSpritePicker.test.tsx",
-          "packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
-          "packages/editor/src/ui/BattleSpriteUploader.glm-next-wave.test.tsx",
+          "packages/editor/src/ui/BattleSpriteUploader.test.tsx",
           "packages/editor/src/ui/CasualtyEditor.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/CasualtyEditor.glm-m.test.tsx",
           "packages/editor/src/ui/CasualtyEditor.test.tsx",
@@ -7379,9 +7383,9 @@
           "packages/editor/src/ui/DataMode.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/DataMode.item-alchemy.test.tsx",
           "packages/editor/src/ui/EffectEditorCard.test.tsx",
-          "packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
-          "packages/editor/src/ui/EnemyAnimPreview.glm-large-wave.test.tsx",
-          "packages/editor/src/ui/EnemyAnimPreview.test.tsx",
+          "packages/editor/src/ui/EnemyAnimPreview.draft.test.tsx",
+          "packages/editor/src/ui/EnemyAnimPreview.playback.test.tsx",
+          "packages/editor/src/ui/EnemyAnimPreview.resources.test.tsx",
           "packages/editor/src/ui/EnemyBattleSpriteThumbnail.test.tsx",
           "packages/editor/src/ui/EnemyTab.glm-data-authoring.test.tsx",
           "packages/editor/src/ui/EnemyTab.glm-m.test.tsx",
@@ -7396,8 +7400,9 @@
           "packages/editor/src/ui/EntityPageAnimationEditor.test.tsx",
           "packages/editor/src/ui/EntityTargets.test.tsx",
           "packages/editor/src/ui/EventLibTab.test.tsx",
-          "packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
-          "packages/editor/src/ui/FireEffectPreview.glm-large-wave.test.tsx",
+          "packages/editor/src/ui/FireEffectPreview.audio.test.tsx",
+          "packages/editor/src/ui/FireEffectPreview.frames.test.tsx",
+          "packages/editor/src/ui/FireEffectPreview.resources.test.tsx",
           "packages/editor/src/ui/FrameAnimationEditor.async-ownership.test.tsx",
           "packages/editor/src/ui/FrameAnimationEditor.editing.test.tsx",
           "packages/editor/src/ui/FrameAnimationEditor.image-import.test.tsx",
@@ -7506,6 +7511,7 @@
           "packages/editor/src/ui/ShopTab.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/ShopTab.glm-m.test.tsx",
           "packages/editor/src/ui/ShopTab.test.tsx",
+          "packages/editor/src/ui/SkillAnimationEditor.preview-draft.test.tsx",
           "packages/editor/src/ui/SkillTab.cov85.test.tsx",
           "packages/editor/src/ui/SkillTab.glm-m.test.tsx",
           "packages/editor/src/ui/SkillTab.glm-ui-wave.test.tsx",
@@ -7526,25 +7532,22 @@
           "packages/editor/src/ui/SpriteActionEditorDialog.glm-l.test.tsx",
           "packages/editor/src/ui/SpriteActionEditorDialog.test.tsx",
           "packages/editor/src/ui/SpriteFrameCanvas.pixels.test.tsx",
-          "packages/editor/src/ui/SpriteFrameDeletion.glm-battle-registry.test.ts",
-          "packages/editor/src/ui/SpriteFrameDeletion.test.ts",
           "packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx",
           "packages/editor/src/ui/SpriteFrameWorkbench.drag-payload.test.ts",
           "packages/editor/src/ui/SpriteFrameWorkbench.focus-lifecycle.test.tsx",
           "packages/editor/src/ui/SpriteFrameWorkbench.glm-next-wave.test.tsx",
           "packages/editor/src/ui/SpriteFrameWorkbench.test.tsx",
           "packages/editor/src/ui/SpriteFrames.test.tsx",
-          "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
-          "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
-          "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
-          "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
+          "packages/editor/src/ui/SpriteResourceViewer.frame-editing.test.tsx",
+          "packages/editor/src/ui/SpriteResourceViewer.frame-revision.test.tsx",
+          "packages/editor/src/ui/SpriteResourceViewer.navigation.test.tsx",
+          "packages/editor/src/ui/SpriteResourceViewer.resources.test.tsx",
           "packages/editor/src/ui/SpriteSourceFramePicker.keyboard.test.tsx",
-          "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
-          "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
-          "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
-          "packages/editor/src/ui/SpriteUploadWizard.glm-large-wave.test.tsx",
+          "packages/editor/src/ui/SpriteUploadWizard.authorable-layout.test.tsx",
+          "packages/editor/src/ui/SpriteUploadWizard.import-layout.test.tsx",
+          "packages/editor/src/ui/SpriteUploadWizard.lifecycle.test.tsx",
+          "packages/editor/src/ui/SpriteUploadWizard.registration.test.tsx",
           "packages/editor/src/ui/SpriteUploadWizard.selection.test.tsx",
-          "packages/editor/src/ui/SpriteUploadWizard.test.tsx",
           "packages/editor/src/ui/StampContentEditor.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/StampLeaves.c08-g07.cursor-r1.test.tsx",
           "packages/editor/src/ui/StampLibraryTab.glm-large-wave.test.tsx",
@@ -7562,14 +7565,17 @@
           "packages/editor/src/ui/TilesetTab.test.tsx",
           "packages/editor/src/ui/VarsTab.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/VarsTab.test.tsx",
-          "packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
-          "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
-          "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+          "packages/editor/src/ui/WorldSpriteLibrary.asset-deletion.test.tsx",
+          "packages/editor/src/ui/WorldSpriteLibrary.catalog.test.tsx",
+          "packages/editor/src/ui/WorldSpriteLibrary.definition-editing.test.tsx",
+          "packages/editor/src/ui/WorldSpriteLibrary.inspector.test.tsx",
+          "packages/editor/src/ui/WorldSpriteLibrary.resource-proof.test.tsx",
           "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
           "packages/editor/src/ui/app-command-registry.test.ts",
           "packages/editor/src/ui/app-layout-commands.test.ts",
           "packages/editor/src/ui/app-session-ownership.test.ts",
           "packages/editor/src/ui/audio-import-contract.test.ts",
+          "packages/editor/src/ui/battle-sprite-action-preview.test.ts",
           "packages/editor/src/ui/command-form-actor.glm-large-wave.test.tsx",
           "packages/editor/src/ui/command-form-contract.test.ts",
           "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx",
@@ -7648,7 +7654,8 @@
           "packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.ts",
           "packages/editor/src/ui/use-editor-project-session.incremental-save.test.tsx",
           "packages/editor/src/ui/use-editor-project-session.save-progress.test.tsx",
-          "packages/editor/src/ui/use-scene-workspace-session.test.tsx"
+          "packages/editor/src/ui/use-scene-workspace-session.test.tsx",
+          "packages/editor/src/ui/world-sprite-action-preview.test.ts"
         ],
         "fileEntries": [
           {
@@ -7897,9 +7904,14 @@
             "identityDigest": "2e4e860587c0fab79c573f7748a28b65f77c4740b665c21307a8fb21a5c52fd2"
           },
           {
+            "file": "packages/editor/src/core/battle-sprite-frame-deletion.test.ts",
+            "testCount": 3,
+            "identityDigest": "41d9db7bca1fe56331984c69cb2cf9c6ec5f182d34beee47621147fb91485a50"
+          },
+          {
             "file": "packages/editor/src/core/battle-sprite-import.boundaries.test.ts",
             "testCount": 7,
-            "identityDigest": "ec8d3dad275c7669ddbc28bd563d5ad40a077cdaa24a8da4ac4ab201441c8144"
+            "identityDigest": "1b82ca80fca1efbe0fe2dd55a9fdf18c8da093f8ed81897293931fb1566a29bb"
           },
           {
             "file": "packages/editor/src/core/battle-trial-launch.glm-next-wave.test.ts",
@@ -8897,6 +8909,11 @@
             "identityDigest": "1f49cbd2d03a12cd70cfbea12d3a6a02acf7c6462df3363e3442229bb87fcc97"
           },
           {
+            "file": "packages/editor/src/core/world-sprite-frame-deletion.test.ts",
+            "testCount": 3,
+            "identityDigest": "f6d5a25cb00a46f6ba688bb380a75bf08db2e1fb0ff12b9d7e86be2a4e736590"
+          },
+          {
             "file": "packages/editor/src/core/world-variable-commands.test.ts",
             "testCount": 8,
             "identityDigest": "8ca83526ba17efc4301ba74a3b9b4a2192dc0872e7e815e246a277156072b41b"
@@ -9022,74 +9039,64 @@
             "identityDigest": "81b5df06f4093cdda64831f89bc1cad63d6526bbcbac157ef360e5f8cee7014f"
           },
           {
-            "file": "packages/editor/src/ui/BattleSpriteInlinePreview.c06-g04.cursor-r1.test.tsx",
-            "testCount": 11,
-            "identityDigest": "903269e238eed6349d8ae33b71c7b6d1d665fe6a09e2634c1ebbed3f5db5bfaa"
+            "file": "packages/editor/src/ui/BattleSpriteInlinePreview.playback.test.tsx",
+            "testCount": 7,
+            "identityDigest": "152282014394ec4124ecea31bcd258c070938815c7b965bbae76fe22db92554f"
           },
           {
-            "file": "packages/editor/src/ui/BattleSpriteInlinePreview.kimi-workflows.test.tsx",
-            "testCount": 3,
-            "identityDigest": "cf9c5b5f6b8c6080251f7b10f6d82e7df55b98ad804e1a3208dae1e2b8920550"
+            "file": "packages/editor/src/ui/BattleSpriteInlinePreview.resources.test.tsx",
+            "testCount": 4,
+            "identityDigest": "a1fc20e967b1df3d137716e16bf56473ff692d8359be63d138a4490c4751a4b5"
           },
           {
             "file": "packages/editor/src/ui/BattleSpriteInlinePreview.test.tsx",
             "testCount": 2,
-            "identityDigest": "ebad4eb221f0cc6ffa18e08bd658ece71bbabc5731bdfa7434e8b22b369bf183"
+            "identityDigest": "ffc0afc3427cc5e93ccb6adb40454fd58802e76aaeb31a0dd7f148a7cbd1f186"
           },
           {
-            "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
-            "testCount": 9,
-            "identityDigest": "941f34314dc0e9a0a11b92388b596b2a42ff37fdbb3b94b04f3999452e02f157"
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.action-editing.test.tsx",
+            "testCount": 13,
+            "identityDigest": "d33b7021fd22590544ab720de33ee24aa58247be38f6fe112319f1d941bb7479"
           },
           {
-            "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.asset-deletion.test.tsx",
             "testCount": 10,
-            "identityDigest": "879320990dc027dde6d6f6027a329b6313297c6265b0bca2c88178670b98a11e"
+            "identityDigest": "150c150377be51a7470a48d00ce401273bbac6b33063dec8a7dfad331f655794"
           },
           {
-            "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g03.cursor-r1.test.tsx",
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.frame-revision.test.tsx",
+            "testCount": 1,
+            "identityDigest": "a7af629e8f481516dedb5f425770ac0cff986b9a66b549d86a87efdd62aafa6f"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.frame-source-editing.test.tsx",
+            "testCount": 4,
+            "identityDigest": "b5ec0e583188f4ac9b8e9cafe0f5b14386028494b8f8e8b29c523e0f0e6d972a"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.history.test.tsx",
+            "testCount": 10,
+            "identityDigest": "79dbde544faacaf54d2e1033dd72a768e6a40eacdfc7eba58a7aa2725d712005"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.import.test.tsx",
+            "testCount": 10,
+            "identityDigest": "c05a0893edd3458e1098fd95f1f25d909885c5dde122d0491093c06d8b7267fe"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.keyboard.test.tsx",
+            "testCount": 10,
+            "identityDigest": "c4a86782130d70f13305418542450e1bdacd210f09e116aeb588c3c36ca16889"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.proof-ownership.test.tsx",
+            "testCount": 10,
+            "identityDigest": "cc372962e10db2ee7e30decf7ee2657ced6b3e49f34ff4b8f38b16b1f79d6758"
+          },
+          {
+            "file": "packages/editor/src/ui/BattleSpriteLibrary.selection.test.tsx",
             "testCount": 11,
-            "identityDigest": "5b89ba657adfaf612710d6c41198e0ce98be6b4c94ccf074f65f5e5e648f0581"
-          },
-          {
-            "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
-            "testCount": 9,
-            "identityDigest": "7bb478138d4d76b9b49fb0e408de429bba1616f31e4e525237f457b4a026c44e"
-          },
-          {
-            "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "bc530c539adc1dda4ae55f796437372b7a7eec77dd4ca4eeecb6176f551e4595"
-          },
-          {
-            "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g06.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "89693b104dba0bf9dec8cbc7760ea374aaf658fc509766713ed110f96cfaf67b"
-          },
-          {
-            "file": "packages/editor/src/ui/BattleSpriteLibrary.c02-g07.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "08e3a128c0becab17244411a0f5e28356508d8698cc83a7b97fe4e0bf168b9f2"
-          },
-          {
-            "file": "packages/editor/src/ui/BattleSpriteLibrary.glm-battle-registry.test.tsx",
-            "testCount": 2,
-            "identityDigest": "03f1f3cbccea1a8cc7ca48e48bbb7aa3bf60b4b0e2e105fecf4671f65d956d38"
-          },
-          {
-            "file": "packages/editor/src/ui/BattleSpriteLibrary.glm-m.test.tsx",
-            "testCount": 2,
-            "identityDigest": "f4b9367cff3e92f563a32a41e67428cd66590de1f89692be1461c199288d781b"
-          },
-          {
-            "file": "packages/editor/src/ui/BattleSpriteLibrary.glm-ui-wave.test.tsx",
-            "testCount": 2,
-            "identityDigest": "23e911ee1eee6665a007db7eea9fb70520b9d46bf522f31ac1eef463579b48e7"
-          },
-          {
-            "file": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
-            "testCount": 6,
-            "identityDigest": "35597908a42a0b1fd5b3beb1d4378e70424b4b8ef2dd3dfa172968622539d99e"
+            "identityDigest": "f809fa8dfa2c38264aec6b03828b75f7c3a9bd2bcc96c761c2f38e21227ef39b"
           },
           {
             "file": "packages/editor/src/ui/BattleSpriteLibrary.test.tsx",
@@ -9102,14 +9109,9 @@
             "identityDigest": "71f0e3ab963cdb9cb513ac13c6020153159a296dd9b31b57a718c948d4888d93"
           },
           {
-            "file": "packages/editor/src/ui/BattleSpriteUploader.c03-g05.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "36ac4a0c0df60bf16d5569f14a190066cd6905791c25a5eba7e6562ee9b41e1d"
-          },
-          {
-            "file": "packages/editor/src/ui/BattleSpriteUploader.glm-next-wave.test.tsx",
-            "testCount": 2,
-            "identityDigest": "eae812047dcacd68dd35871cae0280ffa0adf64199d978921927f4af44333c46"
+            "file": "packages/editor/src/ui/BattleSpriteUploader.test.tsx",
+            "testCount": 11,
+            "identityDigest": "a43e8b40d49835586ca4da53bc4f3922652099950f4267b2a4f9e266129e2db6"
           },
           {
             "file": "packages/editor/src/ui/CasualtyEditor.glm-leaf-wave.test.tsx",
@@ -9242,24 +9244,24 @@
             "identityDigest": "86ae7e3ffb5082f3744db105bb1cca863c1a100c6ee0801bb10c1ccef5255062"
           },
           {
-            "file": "packages/editor/src/ui/EnemyAnimPreview.c06-g02.cursor-r1.test.tsx",
-            "testCount": 14,
-            "identityDigest": "81bf2256713762592fb738ae4eefd778fee2a688a494851c4e3392b945f2bd91"
-          },
-          {
-            "file": "packages/editor/src/ui/EnemyAnimPreview.glm-large-wave.test.tsx",
-            "testCount": 4,
-            "identityDigest": "e78cd16a35b891f5f3bb3e927b0a03c7ea1359da2c4aea1e59435c1586ad0472"
-          },
-          {
-            "file": "packages/editor/src/ui/EnemyAnimPreview.test.tsx",
+            "file": "packages/editor/src/ui/EnemyAnimPreview.draft.test.tsx",
             "testCount": 1,
-            "identityDigest": "3d4a6084a827ff26f8e75803340887be7b1ddf88f4f1f7bfbd62f93ca83bb170"
+            "identityDigest": "d9ede5bafe11821bde88a86d011f47b71d225288e2dd9b3345c3b08572ad5420"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyAnimPreview.playback.test.tsx",
+            "testCount": 12,
+            "identityDigest": "ba649101a817338ed1669a99de068591cab3409b085df7f04de653e48206ac79"
+          },
+          {
+            "file": "packages/editor/src/ui/EnemyAnimPreview.resources.test.tsx",
+            "testCount": 3,
+            "identityDigest": "78af23896a1fb71aed5744ccd9ec6a7a4cf6e696b2e6b2829947866c2134e9ae"
           },
           {
             "file": "packages/editor/src/ui/EnemyBattleSpriteThumbnail.test.tsx",
-            "testCount": 5,
-            "identityDigest": "de8728c6b3ecd6bbbb49a9415689420c6f8aceada359049d63caa69e50b7d687"
+            "testCount": 4,
+            "identityDigest": "44c666b782e8e113eca54aff4b515c41d37613bd72b0d2b01f4451e13591b50c"
           },
           {
             "file": "packages/editor/src/ui/EnemyTab.glm-data-authoring.test.tsx",
@@ -9327,14 +9329,19 @@
             "identityDigest": "ede7aeeec611a2462da3baa2109a0860022dc354ab6d0a475856c2f7756810ce"
           },
           {
-            "file": "packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
-            "testCount": 11,
-            "identityDigest": "0f14586b67e50a4bfb26eaff2986a03923d0067462f4b6ebc266568add8eb5f6"
+            "file": "packages/editor/src/ui/FireEffectPreview.audio.test.tsx",
+            "testCount": 3,
+            "identityDigest": "a10bfe80daf035e3cebc36e47fe68536f4493b7f037971f4d4d8690ab205fbc1"
           },
           {
-            "file": "packages/editor/src/ui/FireEffectPreview.glm-large-wave.test.tsx",
-            "testCount": 4,
-            "identityDigest": "13f5b958a68edaef7d5fe980d6c5dcfe1f8279e5f2ba590350549240ec017be5"
+            "file": "packages/editor/src/ui/FireEffectPreview.frames.test.tsx",
+            "testCount": 6,
+            "identityDigest": "8571bcf51f40e2ca982fe802711033be1288d958ab446447118a6c477559094f"
+          },
+          {
+            "file": "packages/editor/src/ui/FireEffectPreview.resources.test.tsx",
+            "testCount": 2,
+            "identityDigest": "d92f46b3082d60705ce65175f5d9fad375d9010d0f3b7dc51e5f4fe1fbc0a0d8"
           },
           {
             "file": "packages/editor/src/ui/FrameAnimationEditor.async-ownership.test.tsx",
@@ -9877,6 +9884,11 @@
             "identityDigest": "f8e1b118b90f1a454e31c05af69ecc9d029fd77c3e2501c47c0a43c52f4e0c62"
           },
           {
+            "file": "packages/editor/src/ui/SkillAnimationEditor.preview-draft.test.tsx",
+            "testCount": 1,
+            "identityDigest": "7575d0b459db0826203d2a6e173e286e63f0f1723bfb4de4a512eb81c1e9f724"
+          },
+          {
             "file": "packages/editor/src/ui/SkillTab.cov85.test.tsx",
             "testCount": 19,
             "identityDigest": "8023ce7e5021ed1c2d1df2ff78efdf3abee9d759718687575f9a5adcce61a560"
@@ -9977,16 +9989,6 @@
             "identityDigest": "9fbefcc26a5e0394d96c00659dbe120bcf0dfd1962d744d236946496c12eccbf"
           },
           {
-            "file": "packages/editor/src/ui/SpriteFrameDeletion.glm-battle-registry.test.ts",
-            "testCount": 1,
-            "identityDigest": "4fca00cf180a89713bd3a90013115fa778c37054915b8a4775ab26f309c8b45a"
-          },
-          {
-            "file": "packages/editor/src/ui/SpriteFrameDeletion.test.ts",
-            "testCount": 5,
-            "identityDigest": "b4d57744584a215929629b3d50f3da743a64f1f29a70ad84aba8f5b24ca737a2"
-          },
-          {
             "file": "packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx",
             "testCount": 1,
             "identityDigest": "9cc539365ccfcc08f6fbfd8265e977f693f4d714e386c1cc1f12d49555a5fc0a"
@@ -10013,28 +10015,28 @@
           },
           {
             "file": "packages/editor/src/ui/SpriteFrames.test.tsx",
+            "testCount": 3,
+            "identityDigest": "164b1b138f5ab98b7b8c75851a0429a79bf65ee4cf5d48205d7bdcf36ac53274"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteResourceViewer.frame-editing.test.tsx",
             "testCount": 4,
-            "identityDigest": "b7b17c47835d70702ff916741c8823e1100c0c91f9e975b8ab84ed7d43b3e461"
+            "identityDigest": "a577d2c3f77265ada53ffdee975e9e90517073a92c5cbc04e573f716f071f217"
           },
           {
-            "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
-            "testCount": 9,
-            "identityDigest": "4fabf6e373581b9b37868b1092b6365d903c4943403d26b4c47b6adc9eef84da"
+            "file": "packages/editor/src/ui/SpriteResourceViewer.frame-revision.test.tsx",
+            "testCount": 2,
+            "identityDigest": "0469e6ff7875c2224ec83024404d4cb0eebb59c815859b25fe7f42f63f33896b"
           },
           {
-            "file": "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "76ed0f719713b83a419ba0a0f7aa26a085bbb7a3975f711eda7708dffc657739"
+            "file": "packages/editor/src/ui/SpriteResourceViewer.navigation.test.tsx",
+            "testCount": 7,
+            "identityDigest": "3e76b83a246bf6a3ad563357c3e4accd46c84bb641b1c51c799a285a5162ed55"
           },
           {
-            "file": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
-            "testCount": 5,
-            "identityDigest": "eb1c002a7fe5bc3b8a9238e376a879a69ae0dce9e90445c33bac6e6a0301db95"
-          },
-          {
-            "file": "packages/editor/src/ui/SpriteResourceViewer.test.tsx",
-            "testCount": 4,
-            "identityDigest": "c0e68516b3d8a4a10a6e8bf556a85a6eb0530d4fb060a1b3c4f0557626be8e58"
+            "file": "packages/editor/src/ui/SpriteResourceViewer.resources.test.tsx",
+            "testCount": 7,
+            "identityDigest": "71cf2ec7cd160af557caac033448ae8cd098f1362ab4070a3b395b20c35df48c"
           },
           {
             "file": "packages/editor/src/ui/SpriteSourceFramePicker.keyboard.test.tsx",
@@ -10042,34 +10044,29 @@
             "identityDigest": "375d1f31a1b8cb57a8816a46bdae9780a26dc15695e72368dd6d7fed4a1435f6"
           },
           {
-            "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g01.cursor-r1.test.tsx",
+            "file": "packages/editor/src/ui/SpriteUploadWizard.authorable-layout.test.tsx",
+            "testCount": 1,
+            "identityDigest": "d0d5b5266fd3cba23d3c7c34ea0710975c54194d86bdf2ed704f8cf79bebd0e9"
+          },
+          {
+            "file": "packages/editor/src/ui/SpriteUploadWizard.import-layout.test.tsx",
             "testCount": 10,
-            "identityDigest": "dd0986c9bacb2dbadc1a52feffd37f2a282132156bf3098687d38f4a6268573c"
+            "identityDigest": "3c4f754be9260d6d0e823beb4e955b9dee242f6b9839da1bc1fcad2bde97cfa1"
           },
           {
-            "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "e450920cff440f3a55a9c9ba9e549fbe97541e2900c9520df18e6620adad2841"
+            "file": "packages/editor/src/ui/SpriteUploadWizard.lifecycle.test.tsx",
+            "testCount": 7,
+            "identityDigest": "aa9a7a21dc9b874805449a4c4d6f93343b027cbfd2e86795cffa9b6f4b461273"
           },
           {
-            "file": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
-            "testCount": 8,
-            "identityDigest": "c8eefd745361b56760813d1bdf57f471bf10377ee6a68f62709b93a54c56ab5f"
-          },
-          {
-            "file": "packages/editor/src/ui/SpriteUploadWizard.glm-large-wave.test.tsx",
-            "testCount": 2,
-            "identityDigest": "95c02c6dc3b61f1b7c2509028e7599bb7653326696a977cdac4776f5220f4aca"
+            "file": "packages/editor/src/ui/SpriteUploadWizard.registration.test.tsx",
+            "testCount": 7,
+            "identityDigest": "0ffd1bbe50763ae0d2b9c33f940e7c08066035610573380f3b0a55ed25c13db1"
           },
           {
             "file": "packages/editor/src/ui/SpriteUploadWizard.selection.test.tsx",
             "testCount": 20,
             "identityDigest": "35b4d9a9defc8940dca80d9f522ac57876263a9f86b8a10005e53a3871490eff"
-          },
-          {
-            "file": "packages/editor/src/ui/SpriteUploadWizard.test.tsx",
-            "testCount": 2,
-            "identityDigest": "8d9294ae6e5cf14a3a826c000c67b25f513d760e7ec7b8a0f9cdbd1d8b5a9234"
           },
           {
             "file": "packages/editor/src/ui/StampContentEditor.glm-leaf-wave.test.tsx",
@@ -10157,19 +10154,29 @@
             "identityDigest": "5f5ce7e81569d0a55833b5c230dea010da5a52f2b1bec7355106e6d416e0c6e9"
           },
           {
-            "file": "packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
-            "testCount": 67,
-            "identityDigest": "c85fe64ea13ce0c0b0dd4c0042aada51629b133373157a3f7b4051b667a7e892"
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.asset-deletion.test.tsx",
+            "testCount": 10,
+            "identityDigest": "d15873c6e8c748a77f557ca71073b8df4533dafed4913f07649785172ebfe6ee"
           },
           {
-            "file": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
-            "testCount": 3,
-            "identityDigest": "fd4c6e087206a4e89514db0005ac280aa95b00ce08b845ad3a5a7dcd8c951ed0"
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.catalog.test.tsx",
+            "testCount": 25,
+            "identityDigest": "e08f443a22e36b0f5dc7e79a8dddb671317ab9ad0ea02df6bf4f331cc915bf20"
           },
           {
-            "file": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
-            "testCount": 6,
-            "identityDigest": "23a91f96c632d7767a1c3effa40956d286e0248f7f4f6f62cd31c59974bd9d51"
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.definition-editing.test.tsx",
+            "testCount": 20,
+            "identityDigest": "cc4b030a047737dc6fd90df096e5caf6c92b33eb0dd2ae0d28526dae4af02a5f"
+          },
+          {
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.inspector.test.tsx",
+            "testCount": 10,
+            "identityDigest": "c20b77c2d1bff401a716d37636029aee6979967c77587dde9be6c3336cda2677"
+          },
+          {
+            "file": "packages/editor/src/ui/WorldSpriteLibrary.resource-proof.test.tsx",
+            "testCount": 5,
+            "identityDigest": "018ec003d09234d3c9be9a78943105958ea9c66f481f6e2da65dea128f153522"
           },
           {
             "file": "packages/editor/src/ui/WorldSpriteLibrary.test.tsx",
@@ -10195,6 +10202,11 @@
             "file": "packages/editor/src/ui/audio-import-contract.test.ts",
             "testCount": 4,
             "identityDigest": "bbd2f352d86a3db7ac5dd953b23088d6a6d73f9a199ec917b7035fa8f22ba08d"
+          },
+          {
+            "file": "packages/editor/src/ui/battle-sprite-action-preview.test.ts",
+            "testCount": 4,
+            "identityDigest": "30d58dc89bb12eb8faf833902bf93a1c233814d4ddd88fda047f8b1c893b9c00"
           },
           {
             "file": "packages/editor/src/ui/command-form-actor.glm-large-wave.test.tsx",
@@ -10590,48 +10602,53 @@
             "file": "packages/editor/src/ui/use-scene-workspace-session.test.tsx",
             "testCount": 7,
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
+          },
+          {
+            "file": "packages/editor/src/ui/world-sprite-action-preview.test.ts",
+            "testCount": 1,
+            "identityDigest": "0e153892d54ad4c2d78a775dcfb4dc94b7d08461b61e6531d00ad29d4b72a127"
           }
         ],
-        "identityDigest": "295c9e0d61ab4d1c49c61c65f4555be675f95087e0151fc640903924c0a2eacc",
+        "identityDigest": "afdcc00d9e5bf56ae6d4862ae2e51c8a6dadceb6fb43b938cc0c277c529dcedc",
         "duplicateIdentityCount": 8,
-        "executionDigest": "9119ef3a5715d15fd357a10c8a39c58ceedb3298ccabe40ed2636a3aafc482ee"
+        "executionDigest": "da043995f418e4606845abdf4eada8225408e5b0e047af4fab9d3b793d44608a"
       },
       "metrics": {
         "statements": {
-          "covered": 31591,
-          "total": 34970
+          "covered": 31614,
+          "total": 34996
         },
         "branches": {
-          "covered": 25608,
-          "total": 30611
+          "covered": 25614,
+          "total": 30618
         },
         "functions": {
-          "covered": 8068,
-          "total": 8971
+          "covered": 8070,
+          "total": 8973
         },
         "lines": {
-          "covered": 28328,
-          "total": 30592
+          "covered": 28340,
+          "total": 30606
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 76831,
-      "total": 84257
+      "covered": 76854,
+      "total": 84283
     },
     "branches": {
-      "covered": 56312,
-      "total": 66450
+      "covered": 56318,
+      "total": 66457
     },
     "functions": {
-      "covered": 14504,
-      "total": 16025
+      "covered": 14506,
+      "total": 16027
     },
     "lines": {
-      "covered": 68702,
-      "total": 73770
+      "covered": 68714,
+      "total": 73784
     }
   }
 }

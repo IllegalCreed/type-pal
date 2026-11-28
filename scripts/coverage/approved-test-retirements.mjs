@@ -7,6 +7,23 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // The sprite preview window maps both former suites to real resources and pixel assertions.
+    {
+      file: 'packages/editor/src/ui/EnemyBattleSpriteThumbnail.test.tsx',
+      previous: 5,
+      current: 4,
+      previousIdentityDigest: 'de8728c6b3ecd6bbbb49a9415689420c6f8aceada359049d63caa69e50b7d687',
+      currentIdentityDigest: '44c666b782e8e113eca54aff4b515c41d37613bd72b0d2b01f4451e13591b50c',
+      fileSha256: 'd50bcc4c495d7389ee63305f0efe71df41fc3fda87926ad5f2793acc77558087',
+    },
+    {
+      file: 'packages/editor/src/ui/SpriteFrames.test.tsx',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: 'b7b17c47835d70702ff916741c8823e1100c0c91f9e975b8ab84ed7d43b3e461',
+      currentIdentityDigest: '164b1b138f5ab98b7b8c75851a0429a79bf65ee4cf5d48205d7bdcf36ac53274',
+      fileSha256: '5b5aa76d5dad181d1650d7c81f7f69e251a11b0ce869d35210341513bd43da7b',
+    },
     // Editor media scope and exact successor tests in the window archive.
     {
       file: 'packages/editor/src/core/frame-animation-draft.test.ts',

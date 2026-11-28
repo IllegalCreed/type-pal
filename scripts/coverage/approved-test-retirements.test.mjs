@@ -125,11 +125,12 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // moved to the catalog suite. The per-file count decreases by three.
   // Editor previews: one unused draft helper case and four Cutscene tests
   // moved to the actual frame and resource lifecycle suites.
-  assert.equal(historical.length, 140)
-  assert.equal(new Set(historical.map((entry) => entry.file)).size, 140)
+  // Sprite previews: combine real thumbnail placement checks and retire invalid loop fixtures.
+  assert.equal(historical.length, 142)
+  assert.equal(new Set(historical.map((entry) => entry.file)).size, 142)
   assert.equal(
     historical.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    748,
+    750,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {
