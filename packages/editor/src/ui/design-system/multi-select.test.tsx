@@ -1,14 +1,16 @@
 // @vitest-environment jsdom
-import { act } from 'react'
+import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { DsMultiSelect } from './multi-select.js'
+import { installReactActEnvironment } from '../../__tests__/react-io-wait.js'
+import { DsMultiSelect } from './index.js'
 
 let host: HTMLDivElement
 let root: Root
+let restoreAct: () => void
 
 beforeEach(() => {
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  restoreAct = installReactActEnvironment()
   vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
     callback(0)
     return 1
@@ -23,6 +25,7 @@ afterEach(async () => {
   host.remove()
   vi.unstubAllGlobals()
   vi.restoreAllMocks()
+  restoreAct()
 })
 
 const options = [
@@ -51,7 +54,6 @@ async function click(element: HTMLElement): Promise<void> {
 }
 
 async function open(): Promise<HTMLElement> {
-  if (document.querySelector('[role="dialog"]')) await click(trigger())
   await click(trigger())
   return dialog()
 }
@@ -83,7 +85,7 @@ function renderMulti(overrides: Partial<Props> = {}): void {
   act(() => root.render(<DsMultiSelect {...props} />))
 }
 
-describe('DsMultiSelect 剩余合同', () => {
+describe('multi-select membership and search', () => {
   test('label, count and overflow summaries follow external value updates', () => {
     renderMulti({ value: ['a', 'b', 'c'] })
     expect(trigger().textContent).toContain('甲、乙 +1')
@@ -126,8 +128,6 @@ describe('DsMultiSelect 剩余合同', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith(['a', 'b', 'c'])
 
-    renderMulti({ value: ['a'], onChange })
-    await open()
     await search('丙')
     await click(
       [...dialog().querySelectorAll<HTMLButtonElement>('button')].find(
@@ -152,41 +152,48 @@ describe('DsMultiSelect 剩余合同', () => {
     expect(onChange).toHaveBeenCalledWith([])
   })
 
-  test('checkbox toggles commit actual membership and disabled rows stay inert', async () => {
+  test('checkbox changes update controlled membership without adding disabled rows', async () => {
     const onChange = vi.fn()
-    renderMulti({ value: ['a'], onChange })
+    function EntitySelection() {
+      const [value, setValue] = useState<string[]>(['a'])
+      return (
+        <DsMultiSelect
+          label="角色与物件"
+          options={options}
+          value={value}
+          onChange={(next) => {
+            onChange(next)
+            setValue(next)
+          }}
+        />
+      )
+    }
+    await act(async () => root.render(<EntitySelection />))
     await open()
-    const checkboxes = [...dialog().querySelectorAll<HTMLInputElement>('.ds-check-control')]
-    const c = checkboxes.find((input) => input.closest('label')?.textContent === '丙')!
-    await click(c)
-    expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenCalledWith(['a', 'c'])
-
-    renderMulti({ value: ['a', 'c'], onChange })
-    await open()
-    const again = [...dialog().querySelectorAll<HTMLInputElement>('.ds-check-control')].find(
-      (input) => input.closest('label')?.textContent === '丙',
-    )!
-    expect(again.checked).toBe(true)
-    await click(again)
-    expect(onChange).toHaveBeenCalledTimes(2)
-    expect(onChange).toHaveBeenLastCalledWith(['a'])
-
-    renderMulti({ value: ['a', 'c'], onChange })
-    await open()
-    const disabled = [...dialog().querySelectorAll<HTMLInputElement>('.ds-check-control')].find(
-      (input) => input.closest('label')?.textContent === '停用',
-    )!
+    const checkbox = (label: string) =>
+      [...dialog().querySelectorAll<HTMLInputElement>('input[type="checkbox"]')].find(
+        (field) => field.labels?.[0]?.textContent === label,
+      )!
+    const actor = checkbox('丙')
+    expect(actor.checked).toBe(false)
+    await click(actor)
+    expect(actor.checked).toBe(true)
+    expect(trigger().textContent).toContain('甲、丙')
+    await click(actor)
+    expect(actor.checked).toBe(false)
+    const disabled = checkbox('停用')
     expect(disabled.disabled).toBe(true)
     await click(disabled)
-    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange.mock.calls).toEqual([[['a', 'c']], [['a']]])
+    expect(checkbox('甲').checked).toBe(true)
   })
 
   test('Escape inside the dialog restores trigger focus and reopening starts clean', async () => {
     renderMulti({ value: ['a'] })
     const button = trigger()
     await click(button)
-    const searchInput = dialog().querySelector<HTMLInputElement>('input.ds-input')!
+    const searchInput = await search('备用')
+    expect(visibleCheckboxLabels()).toEqual(['乙'])
     expect(document.activeElement).toBe(searchInput)
 
     await act(async () => {
@@ -223,4 +230,54 @@ describe('DsMultiSelect 剩余合同', () => {
     expect(document.querySelector('[role="dialog"]')).toBeNull()
     expect(onChange).not.toHaveBeenCalled()
   })
+})
+
+test('multi-select uses the shared dialog-aware floating layer and restores focus on Escape', async () => {
+  vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+    callback(0)
+    return 1
+  })
+  const onChange = vi.fn()
+  await act(async () =>
+    root.render(
+      <dialog open aria-label="队伍设置">
+        <DsMultiSelect
+          label="队伍"
+          options={[
+            { value: 'a', label: '甲' },
+            { value: 'b', label: '乙' },
+            { value: 'c', label: '丙' },
+          ]}
+          value={['a']}
+          onChange={onChange}
+        />
+      </dialog>,
+    ),
+  )
+
+  const trigger = host.querySelector<HTMLButtonElement>('[aria-label="队伍"]')!
+  await click(trigger)
+  const dialog = host.querySelector<HTMLDialogElement>('dialog')!
+  const popup = document.querySelector<HTMLElement>('[role="dialog"][aria-label="选择队伍"]')!
+  expect(popup.parentElement?.parentElement).toBe(dialog)
+
+  await search('丙')
+  expect(document.querySelectorAll('.ds-multiselect__option')).toHaveLength(1)
+  await click(
+    [...document.querySelectorAll<HTMLButtonElement>('.ds-menu-item')].find(
+      (button) => button.textContent === '全选',
+    )!,
+  )
+  expect(onChange).toHaveBeenLastCalledWith(['a', 'c'])
+
+  const option = document.querySelector<HTMLInputElement>('input[type="checkbox"]')!
+  option.focus()
+  await act(async () =>
+    option.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+    ),
+  )
+  expect(document.querySelector('[role="dialog"][aria-label="选择队伍"]')).toBeNull()
+  expect(document.activeElement).toBe(trigger)
+  expect(dialog.open).toBe(true)
 })

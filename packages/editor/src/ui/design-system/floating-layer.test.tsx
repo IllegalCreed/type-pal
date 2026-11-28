@@ -1,13 +1,16 @@
 // @vitest-environment jsdom
-import { act, type ReactNode, useRef } from 'react'
+import { act, type ReactNode, useRef, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { installReactActEnvironment } from '../../__tests__/react-io-wait.js'
 import { DsFloatingLayer } from './floating-layer.js'
 
 let host: HTMLDivElement
 let root: Root
+let restoreAct: () => void
 
 function Harness(props: {
+  open?: boolean
   children?: ReactNode
   maxHeight?: number
   width?: 'anchor' | 'content'
@@ -23,7 +26,7 @@ function Harness(props: {
         锚点
       </button>
       <DsFloatingLayer
-        open
+        open={props.open ?? true}
         anchorRef={anchorRef}
         layerRef={layerRef}
         className="test-floating-layer"
@@ -40,7 +43,7 @@ function Harness(props: {
 }
 
 beforeEach(() => {
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  restoreAct = installReactActEnvironment()
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
@@ -50,6 +53,7 @@ afterEach(async () => {
   await act(async () => root.unmount())
   host.remove()
   vi.restoreAllMocks()
+  restoreAct()
 })
 
 describe('DsFloatingLayer', () => {
@@ -172,14 +176,32 @@ describe('DsFloatingLayer', () => {
 
   test('light-dismiss ignores the anchor and layer but closes from outside', async () => {
     const onDismiss = vi.fn()
-    await act(async () => root.render(<Harness onDismiss={onDismiss} />))
+    function Dismissible() {
+      const [open, setOpen] = useState(true)
+      return (
+        <Harness
+          open={open}
+          onDismiss={() => {
+            onDismiss()
+            setOpen(false)
+          }}
+        />
+      )
+    }
+    await act(async () => root.render(<Dismissible />))
     const anchor = host.querySelector<HTMLButtonElement>('[aria-label="锚点"]')!
     const inside = document.querySelector<HTMLButtonElement>('.test-floating-layer button')!
 
     await act(async () => anchor.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true })))
     await act(async () => inside.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true })))
     expect(onDismiss).not.toHaveBeenCalled()
+    expect(inside.isConnected).toBe(true)
 
+    await act(async () =>
+      document.body.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true })),
+    )
+    expect(onDismiss).toHaveBeenCalledOnce()
+    expect(inside.isConnected).toBe(false)
     await act(async () =>
       document.body.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true })),
     )

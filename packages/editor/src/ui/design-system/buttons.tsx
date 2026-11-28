@@ -4,6 +4,19 @@ import type { DsButtonVariant, DsControlSize } from './control-types.js'
 import { classes } from './control-utils.js'
 import { DsIcon, type DsIconName } from './icons.js'
 
+function actionClassName(
+  variant: DsButtonVariant,
+  size: DsControlSize,
+  className?: string,
+): string {
+  return classes(
+    'ds-button',
+    `ds-button--${variant}`,
+    size === 'compact' && 'ds-button--compact',
+    className,
+  )
+}
+
 /**
  * Unskinned semantic button for rich domain surfaces such as tiles, frames and tree rows.
  * Standard text/icon actions must use DsButton or DsIconButton instead.
@@ -40,12 +53,7 @@ export const DsButton = forwardRef<
       ref={ref}
       type="button"
       {...rest}
-      className={classes(
-        'ds-button',
-        `ds-button--${variant}`,
-        size === 'compact' && 'ds-button--compact',
-        className,
-      )}
+      className={actionClassName(variant, size, className)}
       disabled={disabled || busy}
       aria-busy={busy || undefined}
     >
@@ -64,15 +72,7 @@ export function DsActionLink(
 ) {
   const { variant = 'secondary', size = 'default', icon, className, children, ...rest } = props
   return (
-    <a
-      {...rest}
-      className={classes(
-        'ds-button',
-        `ds-button--${variant}`,
-        size === 'compact' && 'ds-button--compact',
-        className,
-      )}
-    >
+    <a {...rest} className={actionClassName(variant, size, className)}>
       {icon ? <DsIcon name={icon} /> : null}
       <span>{children}</span>
     </a>

@@ -23,7 +23,7 @@ export type DsDraftInputContract = {
   onCancel?: () => void
 }
 
-export function draftSource(
+function draftSource(
   draftKey: string,
   syncToken: string | number | undefined,
   value: string,
@@ -49,7 +49,6 @@ export function useDsDraftController(props: DsDraftInputContract & { value: stri
   const composingRef = useRef(false)
   const blurredWhileComposingRef = useRef(false)
   const committedRef = useRef<string | undefined>(undefined)
-  const suppressNextBlurRef = useRef(false)
 
   currentRef.current = current
 
@@ -105,10 +104,6 @@ export function useDsDraftController(props: DsDraftInputContract & { value: stri
       return commitDraft(next)
     },
     blur: () => {
-      if (suppressNextBlurRef.current) {
-        suppressNextBlurRef.current = false
-        return
-      }
       if (composingRef.current) {
         blurredWhileComposingRef.current = true
         return

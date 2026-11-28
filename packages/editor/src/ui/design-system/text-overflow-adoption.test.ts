@@ -145,11 +145,18 @@ describe('text-overflow adoption gate', () => {
       0,
     )
     expect(productionOverflowOwners).toBe(8)
-    for (const source of ['recipes.tsx', 'add-picker.tsx', 'multi-select.tsx', 'virtual-list.tsx'])
+    for (const source of [
+      'recipes.tsx',
+      'add-picker.tsx',
+      'multi-select.tsx',
+      'virtual-list.tsx',
+      'virtual-listbox.tsx',
+    ])
       expect(readFileSync(join(here, source), 'utf8'), source).not.toContain('<DsOverflowText')
-    expect(
-      readFileSync(join(here, 'virtual-list.tsx'), 'utf8').match(/new ResizeObserver\b/g) ?? [],
-    ).toHaveLength(1)
+    const virtualization = ['virtual-list.tsx', 'virtual-listbox.tsx', 'virtual-window.ts']
+      .map((source) => readFileSync(join(here, source), 'utf8'))
+      .join('\n')
+    expect(virtualization.match(/new ResizeObserver\b/g) ?? []).toHaveLength(1)
   })
 
   test('keeps Design Lab and reforge debug CSS outside the production registry', () => {

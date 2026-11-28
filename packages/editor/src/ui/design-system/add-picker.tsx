@@ -12,7 +12,7 @@ import { DS_OPTION_VIRTUALIZE_ABOVE, filterDsCollection } from './collection-sea
 import type { DsControlSize } from './control-types.js'
 import { DsButton, DsTextInput } from './controls.js'
 import { DsDialog } from './overlays.js'
-import { DsVirtualListbox } from './virtual-list.js'
+import { DsVirtualListbox } from './virtual-listbox.js'
 
 export interface DsAddPickerOption {
   id: string
@@ -48,12 +48,13 @@ export interface DsAddPickerDialogProps {
 }
 
 function searchParts(option: DsAddPickerOption): readonly (string | undefined)[] {
+  const { searchText } = option
   return [
     option.label,
     option.id,
     option.description,
     option.disabledReason,
-    ...(Array.isArray(option.searchText) ? option.searchText : [option.searchText]),
+    ...(typeof searchText === 'string' ? [searchText] : (searchText ?? [])),
   ]
 }
 

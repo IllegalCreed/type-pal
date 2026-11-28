@@ -1,45 +1,46 @@
 // @vitest-environment jsdom
 import { renderToStaticMarkup } from 'react-dom/server'
-import { describe, expect, test } from 'vitest'
-import * as controls from './controls.js'
-import * as root from './index.js'
-import { DsColorInput, DsFileInput, DsFilePicker, DsRangeInput } from './native-inputs.js'
+import { expect, test } from 'vitest'
+import { DsColorInput, DsFileInput, DsFilePicker, DsRangeInput } from './index.js'
 
-describe('U04 native inputs', () => {
-  test('keeps native file, range, and color input identity with file-picker class', () => {
-    expect(controls.DsFileInput).toBe(DsFileInput)
-    expect(controls.DsFilePicker).toBe(DsFilePicker)
-    expect(controls.DsRangeInput).toBe(DsRangeInput)
-    expect(controls.DsColorInput).toBe(DsColorInput)
-    expect(root.DsFilePicker).toBe(DsFilePicker)
+test('hidden upload triggers and visible pickers preserve the browser file-control contract', () => {
+  const host = document.createElement('div')
+  host.innerHTML = renderToStaticMarkup(
+    <>
+      <DsFileInput accept=".png" id="hidden-sprite-file" />
+      <DsFilePicker label="选择图片" description="PNG 或 JPG" accept="image/*" />
+      <DsFilePicker label="读取尚未结束" disabled accept="image/*" />
+    </>,
+  )
+  const hidden = host.querySelector<HTMLInputElement>('#hidden-sprite-file')!
+  expect(hidden.type).toBe('file')
+  expect(hidden.accept).toBe('.png')
+  expect(hidden.hidden).toBe(true)
+  const label = host.querySelector('label')!
+  const visible = label.querySelector('input')!
+  expect(label.className).toBe('ds-file-picker')
+  expect(label.textContent).toBe('选择图片PNG 或 JPG')
+  expect(label.control).toBe(visible)
+  expect(visible.type).toBe('file')
+  expect(visible.accept).toBe('image/*')
+  expect(visible.hidden).toBe(false)
+  const busyPicker = host.querySelector<HTMLLabelElement>('label.is-disabled')!
+  expect(busyPicker.textContent).toBe('读取尚未结束')
+  expect(busyPicker.querySelector('input')?.disabled).toBe(true)
+})
 
-    const fileInputHost = document.createElement('div')
-    fileInputHost.innerHTML = renderToStaticMarkup(<DsFileInput accept=".png" />)
-    const fileInput = fileInputHost.querySelector('input')!
-    expect(fileInput.getAttribute('accept')).toBe('.png')
-    expect(fileInput.getAttribute('type')).toBe('file')
-    expect(fileInput.hasAttribute('hidden')).toBe(true)
-    const pickerHtml = renderToStaticMarkup(
-      <DsFilePicker label="选择图片" description="PNG 或 JPG" accept="image/*" />,
-    )
-    const pickerHost = document.createElement('div')
-    pickerHost.innerHTML = pickerHtml
-    expect(pickerHost.querySelector('label')?.className).toBe('ds-file-picker')
-    expect(pickerHost.querySelector('.ds-file-picker__label')?.textContent).toBe('选择图片')
-    expect(pickerHost.querySelector('input')?.getAttribute('accept')).toBe('image/*')
-
-    const rangeHost = document.createElement('div')
-    rangeHost.innerHTML = renderToStaticMarkup(<DsRangeInput min={0} max={100} defaultValue={50} />)
-    const rangeInput = rangeHost.querySelector('input')!
-    expect(rangeInput.className).toBe('ds-range-input')
-    expect(rangeInput.getAttribute('type')).toBe('range')
-    expect(rangeInput.getAttribute('value')).toBe('50')
-
-    const colorHost = document.createElement('div')
-    colorHost.innerHTML = renderToStaticMarkup(<DsColorInput defaultValue="#336699" />)
-    const colorInput = colorHost.querySelector('input')!
-    expect(colorInput.className).toBe('ds-color-input')
-    expect(colorInput.getAttribute('type')).toBe('color')
-    expect(colorInput.getAttribute('value')).toBe('#336699')
-  })
+test('range and color widgets pass valid defaults to their respective native controls', () => {
+  const host = document.createElement('div')
+  host.innerHTML = renderToStaticMarkup(
+    <>
+      <DsRangeInput min={0} max={100} defaultValue={50} />
+      <DsColorInput defaultValue="#336699" />
+    </>,
+  )
+  const range = host.querySelector<HTMLInputElement>('input.ds-range-input')!
+  expect(range.type).toBe('range')
+  expect([range.min, range.max, range.valueAsNumber]).toEqual(['0', '100', 50])
+  const color = host.querySelector<HTMLInputElement>('input.ds-color-input')!
+  expect(color.type).toBe('color')
+  expect(color.value).toBe('#336699')
 })

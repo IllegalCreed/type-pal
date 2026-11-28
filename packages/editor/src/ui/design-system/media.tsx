@@ -1,4 +1,4 @@
-import { type ReactNode, useMemo, useState } from 'react'
+import { type CSSProperties, type ReactNode, useState } from 'react'
 import { DsButton, DsIconButton } from './controls.js'
 
 export type DsMediaBackground = 'checkerboard' | 'plain-dark' | 'black' | 'grid'
@@ -42,7 +42,7 @@ export function DsZoomToolbar(props: {
         min={props.min * 100}
         max={props.max * 100}
         step={props.step ?? 5}
-        value={Math.round(props.value * 100)}
+        value={percentage}
         aria-label={`${props.label}比例`}
         onChange={(event) => props.onChange(Number(event.target.value) / 100)}
       />
@@ -82,10 +82,9 @@ export function DsMediaViewport(props: {
   const [fitted, setFitted] = useState(true)
   const background = props.background ?? 'plain-dark'
   const percentage = Math.round(scale * 100)
-  const contentStyle = useMemo(
-    () => ({ '--ds-media-scale': fitted ? 1 : scale }) as React.CSSProperties,
-    [fitted, scale],
-  )
+  const contentStyle: CSSProperties & { '--ds-media-scale': number } = {
+    '--ds-media-scale': fitted ? 1 : scale,
+  }
   function changeScale(next: number): void {
     const normalized = Math.max(0.05, Math.min(32, next))
     setScale(normalized)

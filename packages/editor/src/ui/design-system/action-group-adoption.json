@@ -146,7 +146,7 @@
       "density": "compact",
       "actionMode": "icon-only",
       "moveButtonCount": 0,
-      "verification": "SpriteActionEditorDialog.test.tsx"
+      "verification": "SpriteActionEditor.catalog.test.tsx"
     },
     {
       "id": "asset/sprite-action-steps/actions",
@@ -156,7 +156,7 @@
       "density": "compact",
       "actionMode": "icon-only",
       "moveButtonCount": 2,
-      "verification": "SpriteActionEditor.test.tsx"
+      "verification": "SpriteActionEditor.timeline.test.tsx"
     },
     {
       "id": "scene/initial-state/actions",

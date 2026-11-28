@@ -1,8 +1,5 @@
 import type { HTMLAttributes } from 'react'
-
-function classes(...values: Array<string | false | null | undefined>): string {
-  return values.filter(Boolean).join(' ')
-}
+import { classes } from './control-utils.js'
 
 export type DsTagTone = 'accent' | 'neutral' | 'warning' | 'danger'
 
@@ -24,7 +21,7 @@ export function DsTag(
   )
 }
 
-/** Read-only value chrome for property rows; unlike a disabled input, its text stays selectable. */
+/** Keep the displayed value selectable in read-only property rows. */
 export function DsReadonlyValue(
   props: HTMLAttributes<HTMLSpanElement> & {
     as?: 'span' | 'div'

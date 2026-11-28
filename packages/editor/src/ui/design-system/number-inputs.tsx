@@ -32,10 +32,8 @@ export type DsDraftNumberInputProps = Omit<
 
 type DsNumberDirection = -1 | 1
 
-function numericAttribute(
-  value: string | number | readonly string[] | undefined,
-): number | undefined {
-  if (value === undefined || Array.isArray(value)) return undefined
+function numericAttribute(value: string | number | undefined): number | undefined {
+  if (value === undefined) return undefined
   const parsed = Number(value)
   return Number.isFinite(parsed) ? parsed : undefined
 }
@@ -129,7 +127,7 @@ function DsNumberStepper(props: {
 
 function assignRef<T>(ref: Ref<T> | undefined, value: T | null): void {
   if (typeof ref === 'function') ref(value)
-  else if (ref) (ref as { current: T | null }).current = value
+  else if (ref) ref.current = value
 }
 
 function temporarilyProtectFocusedNumberInput(
@@ -142,6 +140,7 @@ function temporarilyProtectFocusedNumberInput(
   if (disabled || readOnly || document.activeElement !== input) return
   const generation = generationRef.current + 1
   generationRef.current = generation
+  // The wheel still scrolls the page. Keep the input read-only for its native wheel action.
   input.readOnly = true
   const restore = () => {
     if (input.isConnected && generationRef.current === generation)
@@ -152,7 +151,7 @@ function temporarilyProtectFocusedNumberInput(
 
 type DsDraftNumberControlProps = DsDraftNumberInputProps & { stepperLabel?: string }
 
-/** Number adapter for the shared draft boundary; empty/non-finite/out-of-range drafts never commit. */
+/** Parse and normalize before applying the field's constraints at the shared draft boundary. */
 function DsDraftNumberControl(props: DsDraftNumberControlProps) {
   const {
     draftKey,

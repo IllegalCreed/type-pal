@@ -2,6 +2,7 @@
 import { act, type RefObject, useRef, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { installReactActEnvironment } from '../../__tests__/react-io-wait.js'
 import {
   DsAddPickerDialog,
   type DsAddPickerDialogProps,
@@ -10,9 +11,10 @@ import {
 
 let host: HTMLDivElement
 let root: Root
+let restoreAct: () => void
 
 beforeEach(() => {
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  restoreAct = installReactActEnvironment()
   vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
     callback(0)
     return 1
@@ -52,10 +54,11 @@ afterEach(async () => {
   Reflect.deleteProperty(HTMLDialogElement.prototype, 'close')
   vi.unstubAllGlobals()
   vi.restoreAllMocks()
+  restoreAct()
 })
 
 async function click(element: HTMLElement): Promise<void> {
-  await act(async () => element.dispatchEvent(new MouseEvent('click', { bubbles: true })))
+  await act(async () => element.click())
 }
 
 async function input(element: HTMLInputElement, value: string): Promise<void> {
@@ -64,6 +67,12 @@ async function input(element: HTMLInputElement, value: string): Promise<void> {
     setter?.call(element, value)
     element.dispatchEvent(new Event('input', { bubbles: true }))
   })
+}
+
+async function press(element: HTMLElement, key: string): Promise<KeyboardEvent> {
+  const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true })
+  await act(async () => element.dispatchEvent(event))
+  return event
 }
 
 function options(count: number): DsAddPickerOption[] {
@@ -88,6 +97,8 @@ function picker(props: {
   readOnly?: boolean
   loading?: boolean
   error?: string
+  emptyMessage?: string
+  searchLabel?: string
   fallbackFocusRef?: RefObject<HTMLElement | null>
 }) {
   return (
@@ -103,6 +114,8 @@ function picker(props: {
       readOnly={props.readOnly}
       loading={props.loading}
       error={props.error}
+      emptyMessage={props.emptyMessage}
+      searchLabel={props.searchLabel}
       fallbackFocusRef={props.fallbackFocusRef}
       onConfirm={props.onConfirm ?? (() => undefined)}
     />
@@ -160,15 +173,26 @@ describe('DsAddPickerDialog', () => {
   })
 
   test('searches label, stable id, description and extra search text from one result source', async () => {
-    await act(async () => root.render(picker({ candidates: options(12) })))
+    const candidates = options(12).map((option) =>
+      option.id === 'item-011'
+        ? { ...option, searchText: ['最后一项', '压轴别名'], disabledReason: '已在队伍中' }
+        : option.id === 'item-010'
+          ? { ...option, searchText: '备用暗语' }
+          : option,
+    )
+    await act(async () => root.render(picker({ candidates, searchLabel: '查找初始道具' })))
     await click(host.querySelector<HTMLButtonElement>('button')!)
     const search = host.querySelector<HTMLInputElement>('input[type="search"]')!
+    expect(search.labels?.[0]?.textContent).toBe('查找初始道具')
 
     for (const [query, expected] of [
       ['道具 004', 'item-004'],
       ['item-006', 'item-006'],
       ['内部编号 008', 'item-008'],
+      ['备用暗语', 'item-010'],
       ['最后一项', 'item-011'],
+      ['压轴别名', 'item-011'],
+      ['队伍中', 'item-011'],
     ] as const) {
       await input(search, query)
       const rows = [...host.querySelectorAll<HTMLElement>('[role="option"]')]
@@ -178,6 +202,8 @@ describe('DsAddPickerDialog', () => {
       )
       expect(host.querySelector('[role="status"]')?.textContent).toContain('1 项')
     }
+    expect(host.querySelector('[role="option"]')?.getAttribute('aria-disabled')).toBe('true')
+    expect(host.querySelector('[role="option"]')?.textContent).toContain('已在队伍中')
   })
 
   test('searches and confirms the last of 500 candidates without mounting the full collection', async () => {
@@ -242,9 +268,13 @@ describe('DsAddPickerDialog', () => {
 
     await act(async () => root.render(picker({ onConfirm, scopeKey: 'entry:b', revision: 1 })))
     expect(host.querySelector('dialog[open]')).toBeNull()
+    await click(host.querySelector<HTMLButtonElement>('button')!)
+    await click(host.querySelector<HTMLElement>('[role="option"]')!)
+    expect(host.querySelector('[role="option"][aria-selected="true"]')).not.toBeNull()
     await act(async () =>
       root.render(picker({ onConfirm, scopeKey: 'entry:b', revision: 1, readOnly: true })),
     )
+    expect(host.querySelector('dialog[open]')).toBeNull()
     expect(host.querySelector<HTMLButtonElement>('button')?.disabled).toBe(true)
     expect(onConfirm).not.toHaveBeenCalled()
   })
@@ -324,8 +354,11 @@ describe('DsAddPickerDialog', () => {
     expect(host.textContent).toContain('正在加载候选')
     await act(async () => root.render(picker({ error: '候选读取失败' })))
     expect(host.textContent).toContain('候选读取失败')
-    await act(async () => root.render(picker({ candidates: [] })))
-    expect(host.textContent).toContain('没有可添加的候选')
+    await act(async () =>
+      root.render(picker({ candidates: [], emptyMessage: '暂无可加入初始库存的道具。' })),
+    )
+    expect(host.textContent).toContain('暂无可加入初始库存的道具。')
+    expect(host.querySelector<HTMLButtonElement>('button')?.disabled).toBe(true)
 
     await act(async () => root.render(picker({ candidates: options(3) })))
     await click(host.querySelector<HTMLButtonElement>('button')!)
@@ -400,30 +433,27 @@ describe('DsAddPickerDialog', () => {
       (button) => button.textContent === '添加道具',
     )!
     expect(confirm.disabled).toBe(true)
+    const disabledOption = host.querySelector<HTMLElement>('[role="option"][aria-disabled="true"]')!
+    await click(disabledOption)
+    expect(host.querySelector('[role="option"][aria-selected="true"]')).toBeNull()
+    expect(confirm.disabled).toBe(true)
     expect(onConfirm).not.toHaveBeenCalled()
   })
 
-  test('uses layered Escape so the first press closes results and the second closes the dialog', async () => {
+  test('Escape collapses results, ArrowDown reopens them, and a second Escape closes the dialog', async () => {
     await act(async () => root.render(picker({})))
     await click(host.querySelector<HTMLButtonElement>('button')!)
     const search = host.querySelector<HTMLInputElement>('input[type="search"]')!
-    const firstEscape = new KeyboardEvent('keydown', {
-      key: 'Escape',
-      bubbles: true,
-      cancelable: true,
-    })
-    await act(async () => search.dispatchEvent(firstEscape))
-
+    const firstEscape = await press(search, 'Escape')
     expect(firstEscape.defaultPrevented).toBe(true)
     expect(host.querySelector('dialog[open]')).not.toBeNull()
     expect(host.querySelector('[role="listbox"]')).toBeNull()
+    expect(host.textContent).toContain('结果已收起')
+    await press(search, 'ArrowDown')
+    expect(host.querySelector('[role="listbox"]')).not.toBeNull()
 
-    const secondEscape = new KeyboardEvent('keydown', {
-      key: 'Escape',
-      bubbles: true,
-      cancelable: true,
-    })
-    await act(async () => search.dispatchEvent(secondEscape))
+    await press(search, 'Escape')
+    const secondEscape = await press(search, 'Escape')
     expect(secondEscape.defaultPrevented).toBe(true)
     expect(host.querySelector('dialog[open]')).toBeNull()
     expect(document.activeElement).toBe(host.querySelector('button'))
@@ -506,29 +536,35 @@ describe('DsAddPickerDialog', () => {
   })
 
   test('keeps the dialog open after a rejected or throwing adapter and allows retry', async () => {
-    const rejected = vi.fn(() => false as const)
-    await act(async () => root.render(picker({ onConfirm: rejected })))
-    await click(host.querySelector<HTMLButtonElement>('button')!)
+    const onConfirm = vi
+      .fn<(itemId: string) => false | undefined>()
+      .mockReturnValueOnce(false)
+      .mockImplementationOnce(() => {
+        throw new Error('当前项目拒绝添加')
+      })
+      .mockReturnValueOnce(undefined)
+    await act(async () => root.render(picker({ onConfirm })))
+    const trigger = host.querySelector<HTMLButtonElement>('button')!
+    trigger.focus()
+    await click(trigger)
     await click(host.querySelector<HTMLElement>('[role="option"]')!)
-    let confirm = [...host.querySelectorAll<HTMLButtonElement>('dialog button')].find(
+    const confirm = [...host.querySelectorAll<HTMLButtonElement>('dialog button')].find(
       (button) => button.textContent === '添加道具',
     )!
     await click(confirm)
-    expect(rejected).toHaveBeenCalledTimes(1)
+    expect(onConfirm).toHaveBeenCalledTimes(1)
     expect(host.querySelector('dialog[open]')).not.toBeNull()
     expect(host.textContent).toContain('未能添加')
 
-    const throwing = vi.fn(() => {
-      throw new Error('当前项目拒绝添加')
-    })
-    await act(async () => root.render(picker({ onConfirm: throwing })))
-    confirm = [...host.querySelectorAll<HTMLButtonElement>('dialog button')].find(
-      (button) => button.textContent === '添加道具',
-    )!
     await click(confirm)
-    expect(throwing).toHaveBeenCalledTimes(1)
+    expect(onConfirm).toHaveBeenCalledTimes(2)
     expect(host.querySelector('dialog[open]')).not.toBeNull()
     expect(host.textContent).toContain('当前项目拒绝添加')
+
+    await click(confirm)
+    expect(onConfirm.mock.calls.flat()).toEqual(['item-000', 'item-000', 'item-000'])
+    expect(host.querySelector('dialog[open]')).toBeNull()
+    expect(document.activeElement).toBe(trigger)
   })
 
   test('unmounts an open draft without confirming and releases modal ownership', async () => {

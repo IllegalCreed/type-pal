@@ -1,17 +1,7 @@
-import {
-  type HTMLAttributes,
-  useCallback,
-  useEffect,
-  useId,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react'
+import { type HTMLAttributes, useCallback, useId, useLayoutEffect, useRef, useState } from 'react'
+import { classes } from './control-utils.js'
 import { DsFloatingLayer } from './floating-layer.js'
-
-function classes(...values: Array<string | false | null | undefined>): string {
-  return values.filter(Boolean).join(' ')
-}
+import { useTooltipDismissal } from './tooltip-dismissal.js'
 
 export type DsOverflowTextProps = Omit<
   HTMLAttributes<HTMLElement>,
@@ -81,16 +71,7 @@ export function DsOverflowText(props: DsOverflowTextProps) {
     measure()
   }, [children, measure])
 
-  useEffect(() => {
-    if (!open) return
-    const dismissOnEscape = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return
-      event.preventDefault()
-      setDismissed(true)
-    }
-    document.addEventListener('keydown', dismissOnEscape)
-    return () => document.removeEventListener('keydown', dismissOnEscape)
-  }, [open])
+  useTooltipDismissal(open, setDismissed)
 
   return (
     <>

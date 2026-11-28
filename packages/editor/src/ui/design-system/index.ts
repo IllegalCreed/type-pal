@@ -8,6 +8,8 @@ export * from './navigation.js'
 export * from './overlays.js'
 export * from './recipes.js'
 export * from './reorder.js'
+export * from './toolbar.js'
 export * from './virtual-list.js'
+export * from './virtual-listbox.js'
 
 export const EDITOR_DESIGN_SYSTEM_VERSION = '2.24.0' as const

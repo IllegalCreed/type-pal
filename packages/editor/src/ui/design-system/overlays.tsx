@@ -53,14 +53,15 @@ function useDialogState(
 ) {
   const openRef = useRef(open)
   const onCloseRef = useRef(onClose)
-  const fallbackFocusRefRef = useRef(fallbackFocusRef)
+  const latestFallbackFocus = useRef(fallbackFocusRef)
   const cycleRef = useRef<DialogOpenCycle | null>(null)
   const lastExternalOpenerRef = useRef<HTMLElement | null>(null)
   const restoreFocusFrameRef = useRef<number | null>(null)
+  // A controlled close event may arrive after the dialog has already opened a new cycle.
   const pendingControlledCloseEventsRef = useRef(0)
   openRef.current = open
   onCloseRef.current = onClose
-  fallbackFocusRefRef.current = fallbackFocusRef
+  latestFallbackFocus.current = fallbackFocusRef
 
   const finishCycle = useCallback((restoreFocus: boolean) => {
     const cycle = cycleRef.current
@@ -74,10 +75,11 @@ function useDialogState(
     cancelFrame(restoreFocusFrameRef.current)
     restoreFocusFrameRef.current = requestAnimationFrame(() => {
       restoreFocusFrameRef.current = null
+      const fallback = latestFallbackFocus.current?.current ?? null
       const target = canRestoreFocus(cycle.opener)
         ? cycle.opener
-        : canRestoreFocus(fallbackFocusRefRef.current?.current ?? null)
-          ? (fallbackFocusRefRef.current?.current ?? null)
+        : canRestoreFocus(fallback)
+          ? fallback
           : null
       target?.focus()
     })

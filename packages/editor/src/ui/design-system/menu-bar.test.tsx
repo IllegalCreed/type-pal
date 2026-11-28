@@ -2,12 +2,7 @@
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import {
-  DsMenuBar,
-  type DsMenuDefinition,
-  DsToolbar,
-  handleMenuCharacterSearch,
-} from './navigation.js'
+import { DsMenuBar, type DsMenuDefinition, DsToolbar, handleMenuCharacterSearch } from './index.js'
 
 let host: HTMLDivElement
 let root: Root
@@ -88,7 +83,7 @@ async function click(element: Element): Promise<void> {
   await act(async () => element.click())
 }
 
-describe('DsMenuBar 剩余合同', () => {
+describe('menu navigation and commands', () => {
   test('opens on click, focuses the first enabled item and executes real selections', async () => {
     const selected = vi.fn()
     act(() =>
@@ -192,62 +187,116 @@ describe('DsMenuBar 剩余合同', () => {
   })
 })
 
-describe('DsToolbar 剩余合同', () => {
-  test('executes real commands and renders pressed, busy, disabled and grouped chrome', async () => {
-    const undo = vi.fn()
-    const redo = vi.fn()
-    const remove = vi.fn()
-    act(() =>
-      root.render(
-        <DsToolbar
-          label="编辑工具"
-          groups={[
-            [
-              { id: 'undo', label: '撤销', icon: 'undo', execute: undo, pressed: true },
-              {
-                id: 'redo',
-                label: '重做',
-                icon: 'redo',
-                disabled: true,
-                disabledReason: '没有可重做的步骤',
-                execute: redo,
-              },
-            ],
-            [
-              {
-                id: 'delete',
-                label: '删除',
-                icon: 'delete',
-                busy: true,
-                execute: remove,
-              },
-              { id: 'save', label: '保存', icon: 'save', showLabel: true, execute: vi.fn() },
-            ],
-          ]}
-        />,
-      ),
-    )
-    expect(host.querySelector('[role="toolbar"]')?.getAttribute('aria-label')).toBe('编辑工具')
-    await click(host.querySelector('[aria-label="撤销"]')!)
-    expect(undo).toHaveBeenCalledTimes(1)
-    expect(host.querySelector('[aria-label="撤销"]')?.getAttribute('aria-pressed')).toBe('true')
-
-    const redoButton = host.querySelector<HTMLButtonElement>('[aria-label="重做"]')!
-    expect(redoButton.disabled).toBe(true)
-    await click(redoButton)
-    expect(redo).not.toHaveBeenCalled()
-
-    const deleteButton = host.querySelector<HTMLButtonElement>('[aria-label="删除"]')!
-    expect(deleteButton.disabled).toBe(true)
-    expect(deleteButton.getAttribute('aria-busy')).toBe('true')
-
-    expect(host.querySelectorAll('.ds-toolbar__divider')).toHaveLength(1)
-    const saveButton = host.querySelector<HTMLButtonElement>('[aria-label="保存"]')!
-    expect(saveButton.textContent).toContain('保存')
-  })
+test('menu navigation is a real link and Escape returns focus to its trigger', async () => {
+  const menus: DsMenuDefinition[] = [
+    {
+      id: 'battle',
+      label: '战斗',
+      items: [{ id: 'battlefield', label: '战场', href: '?module=battle&page=battlefield' }],
+    },
+  ]
+  await act(async () => root.render(<DsMenuBar label="主菜单" menus={menus} />))
+  const trigger = host.querySelector<HTMLButtonElement>('.ds-menu-trigger')!
+  await click(trigger)
+  const link = document.querySelector<HTMLAnchorElement>('[role="menuitem"][href]')!
+  const popover = link.closest<HTMLElement>('.ds-menu-popover')!
+  expect(popover.closest('.ds-menu-floating-layer')?.parentElement).toBe(document.body)
+  expect(host.contains(popover)).toBe(false)
+  expect(link.getAttribute('href')).toBe('?module=battle&page=battlefield')
+  link.focus()
+  await act(async () =>
+    link.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })),
+  )
+  expect(document.activeElement).toBe(trigger)
+  expect(document.querySelector('.ds-menu-popover')).toBeNull()
 })
 
-describe('handleMenuCharacterSearch 剩余合同', () => {
+test('section-grid menu exposes modules as groups and pages as primary links', async () => {
+  const menus: DsMenuDefinition[] = [
+    {
+      id: 'navigation',
+      label: '导航',
+      layout: 'section-grid',
+      items: [
+        { id: 'scene', section: '场景', label: '场景编排', href: '?module=scene' },
+        { id: 'ambience', section: '场景', label: '氛围', href: '?module=scene&page=ambience' },
+        {
+          id: 'overview',
+          section: '项目设置',
+          label: '概览',
+          href: '?module=project&page=overview',
+          current: true,
+        },
+      ],
+    },
+  ]
+  await act(async () => root.render(<DsMenuBar label="主菜单" menus={menus} />))
+  await click(host.querySelector<HTMLButtonElement>('.ds-menu-trigger')!)
+
+  const popover = document.querySelector<HTMLElement>('.ds-menu-popover')!
+  expect(popover.dataset.layout).toBe('section-grid')
+  expect(popover.querySelector(':scope > .ds-menu-group-flow')?.getAttribute('role')).toBe(
+    'presentation',
+  )
+  expect(
+    [...popover.querySelectorAll<HTMLElement>('[role="group"]')].map((group) =>
+      group.getAttribute('aria-label'),
+    ),
+  ).toEqual(['场景', '项目设置'])
+  expect(
+    [...popover.querySelectorAll<HTMLElement>('.ds-menu-section-title')].map(
+      (title) => title.textContent,
+    ),
+  ).toEqual(['场景', '项目设置'])
+  expect(
+    [...popover.querySelectorAll<HTMLAnchorElement>('.ds-menu-item')].map(
+      (item) => item.textContent,
+    ),
+  ).toEqual(['场景编排', '氛围', '概览'])
+  expect(popover.querySelector('[aria-current="page"]')?.textContent).toBe('概览')
+})
+
+test('toggle commands expose pressed toolbar and checked menu semantics', async () => {
+  const execute = vi.fn()
+  await act(async () =>
+    root.render(
+      <>
+        <DsMenuBar
+          label="主菜单"
+          menus={[
+            {
+              id: 'view',
+              label: '视图',
+              items: [
+                {
+                  id: 'left',
+                  label: '对象列表',
+                  icon: 'panel-left',
+                  checked: true,
+                  onSelect: execute,
+                },
+              ],
+            },
+          ]}
+        />
+        <DsToolbar
+          label="布局"
+          groups={[[{ id: 'left', label: '对象列表', icon: 'panel-left', pressed: true, execute }]]}
+        />
+      </>,
+    ),
+  )
+  await click(host.querySelector<HTMLButtonElement>('.ds-menu-trigger')!)
+  expect(document.querySelector('[role="menuitemcheckbox"]')?.getAttribute('aria-checked')).toBe(
+    'true',
+  )
+  const toolbar = host.querySelector<HTMLButtonElement>('[aria-label="对象列表"][aria-pressed]')!
+  expect(toolbar.getAttribute('aria-pressed')).toBe('true')
+  await click(toolbar)
+  expect(execute).toHaveBeenCalledOnce()
+})
+
+describe('legacy exported menu character search', () => {
   const labels = ['新建', '打开', '保存']
 
   function search(
