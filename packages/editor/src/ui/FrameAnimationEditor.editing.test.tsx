@@ -28,6 +28,8 @@ describe('Frame editor current editing workflows', () => {
     expect(pixels()).toEqual([0, 1, 0, 1, 2].map((index) => [...framePixels[index]!]))
     const copied = f.snapshot()
     expect(copied.selected).toHaveLength(2)
+    expect(f.latest()?.durationMs).toBe(260)
+    expect(f.counter()).toBe('3 / 5 · 已选 2')
     expect(copied.selected.every((id) => !id?.startsWith(`${animationId}\0`))).toBe(true)
     await f.click('删除选中帧')
     await f.ready()
@@ -66,7 +68,13 @@ describe('Frame editor current editing workflows', () => {
     expect(f.latest()?.defaultFrameMs).toBe(40)
     await f.number('全局帧率', '20', true)
     expect(f.latest()).toMatchObject({ defaultFrameMs: 50, durationMs: 170 })
+    const firstField = f.field('当前帧时长（ms）')
+    expect(firstField.value).toBe('')
+    expect(firstField.placeholder).toBe('50 默认')
     await f.select(1)
+    expect(f.field('当前帧时长（ms）').value).toBe('70')
+    await f.number('当前帧时长（ms）', '-1')
+    expect(f.latest()?.durationMs).toBe(170)
     await f.number('当前帧时长（ms）', '95')
     expect(f.latest()?.durationMs).toBe(195)
     await f.number('当前帧时长（ms）', '')
@@ -96,6 +104,39 @@ describe('Frame editor current editing workflows', () => {
     await f.click('撤销帧编辑')
     expect(f.dirty.mock.lastCall).toEqual([false])
     expect(f.button('保存动画').disabled).toBe(true)
+    f.draftOnly()
+  })
+  test.each([
+    { index: 0, current: 1, undoPosition: 1, duration: 110 },
+    { index: 1, current: 2, undoPosition: 2, duration: 80 },
+    { index: 2, current: 1, undoPosition: 1, duration: 110 },
+  ])('deleting frame index $index retains the surviving frame through undo and redo', async ({
+    index,
+    current,
+    undoPosition,
+    duration,
+  }) => {
+    const f = await frameEditor()
+    await f.ready()
+    const before = [0, 1, 2].map((index) => `${animationId}\0${index}`)
+    await f.select(index)
+    await f.click('删除选中帧')
+    await f.ready()
+    const remaining = before.filter((_, i) => i !== index)
+    expect(f.cards().map((card) => card.dataset.frameId)).toEqual(remaining)
+    expect(f.snapshot().selected).toEqual([before[current]])
+    expect(f.latest()?.durationMs).toBe(duration)
+    expect([...f.pixels.get(f.canvas())!]).toEqual([...framePixels[current]!])
+
+    await f.click('撤销帧编辑')
+    await f.ready()
+    expect(f.cards().map((card) => card.dataset.frameId)).toEqual(before)
+    expect(f.snapshot().selected).toEqual([before[current]])
+    expect(f.counter()).toBe(`${undoPosition + 1} / 3`)
+    expect(f.dirty.mock.lastCall).toEqual([false])
+    await f.click('重做帧编辑')
+    expect(f.cards().map((card) => card.dataset.frameId)).toEqual(remaining)
+    expect(f.snapshot().selected).toEqual([before[current]])
     f.draftOnly()
   })
 })

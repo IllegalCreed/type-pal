@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { StaticImageKind } from '../core/static-image.js'
 import { DsControlGroup, DsIconButton, DsSelect } from './design-system/controls.js'
+import { colorizeIndexedBattlePixels } from './indexed-battle-preview.js'
 
 const UNSET = '__unset__'
 
@@ -31,42 +32,30 @@ async function thumbnailBlob(
   paletteColors: PaletteColors | undefined,
 ): Promise<Blob> {
   if (kind !== 'battle-background' || !paletteColors) return new Blob([bytes], { type: mediaType })
+  const canvas = document.createElement('canvas')
   const bitmap = await createImageBitmap(new Blob([bytes], { type: mediaType }))
   try {
     if (bitmap.width !== 320 || bitmap.height !== 200)
       throw new Error(`战场背景必须是 320×200，实际 ${bitmap.width}×${bitmap.height}`)
-    const canvas = document.createElement('canvas')
     canvas.width = bitmap.width
     canvas.height = bitmap.height
     const context = canvas.getContext('2d', { willReadFrequently: true })
     if (!context) throw new Error('浏览器无法创建战场背景缩略图')
     context.drawImage(bitmap, 0, 0)
     const image = context.getImageData(0, 0, canvas.width, canvas.height)
-    for (let pixel = 0; pixel < canvas.width * canvas.height; pixel++) {
-      const offset = pixel * 4
-      const index = image.data[offset] ?? 0
-      if (
-        image.data[offset + 1] !== index ||
-        image.data[offset + 2] !== index ||
-        image.data[offset + 3] !== 255
-      )
-        throw new Error(`战场背景像素 ${pixel} 不满足项目索引图契约`)
-      const color = paletteColors[index] ?? [0, 0, 0]
-      image.data[offset] = color[0]
-      image.data[offset + 1] = color[1]
-      image.data[offset + 2] = color[2]
-      image.data[offset + 3] = 255
-    }
+    const invalidPixel = colorizeIndexedBattlePixels(image.data, paletteColors)
+    if (invalidPixel !== undefined)
+      throw new Error(`战场背景像素 ${invalidPixel} 不满足项目索引图契约`)
     context.putImageData(image, 0, 0)
-    return await new Promise<Blob>((resolve, reject) =>
-      canvas.toBlob(
-        (blob) => (blob ? resolve(blob) : reject(new Error('无法编码战场背景缩略图'))),
-        'image/png',
-      ),
-    )
   } finally {
     bitmap.close()
   }
+  return new Promise<Blob>((resolve, reject) =>
+    canvas.toBlob(
+      (blob) => (blob ? resolve(blob) : reject(new Error('无法编码战场背景缩略图'))),
+      'image/png',
+    ),
+  )
 }
 
 /**
@@ -92,6 +81,7 @@ export function ImageAssetThumbnail(props: {
   const { asset, kind, reader } = props
   const [url, setUrl] = useState('')
   const [error, setError] = useState('')
+  // 设计系统检查需要从 JSX 静态枚举缩略图可用的样式类。
   const className =
     props.className === 'actor-avatar__image'
       ? 'image-asset-thumb actor-avatar__image'

@@ -12,21 +12,31 @@ import {
 import { act, createElement, useSyncExternalStore } from 'react'
 import { createRoot } from 'react-dom/client'
 import { afterEach, expect, vi } from 'vitest'
+import { loadFixtureProjectMaps } from '../../__tests__/project-map-fixtures.js'
 import { waitForReact } from '../../__tests__/react-io-wait.js'
 import { fixtureSource } from '../../core/__tests__/battle-trial-project.js'
 import { EditSession } from '../../core/edit-session.js'
 import { createEditorAssetReader } from '../../core/editor-asset-reader.js'
 import { encodeFrameAnimationRequest } from '../../core/frame-animation-codec.js'
+import { assertProjectSaveValid } from '../../core/project-diagnostics.js'
 import { toEditorState } from '../../core/project-io.js'
 import { buildBlankProject } from '../../core/seed.js'
 import { FrameAnimationEditor, type FrameAnimationMetadata } from '../FrameAnimationEditor.js'
 
 const cleanups: Array<() => void | Promise<void>> = []
 afterEach(async () => {
-  for (const cleanup of cleanups.splice(0).reverse()) await cleanup()
+  const errors: unknown[] = []
+  for (const cleanup of cleanups.splice(0).reverse()) {
+    try {
+      await cleanup()
+    } catch (cause) {
+      errors.push(cause)
+    }
+  }
   vi.useRealTimers()
   vi.restoreAllMocks()
   vi.unstubAllGlobals()
+  if (errors.length) throw new AggregateError(errors, 'Frame editor test host cleanup failed')
 })
 
 export function deferred<T>() {
@@ -66,6 +76,7 @@ export async function frameEditor(
     corruptPayload?: boolean
     initialFailure?: unknown
     deferInitial?: Promise<void>
+    failPreviewCanvas?: boolean
   } = {},
 ) {
   const nodeBuffer = 'node:buffer'
@@ -89,6 +100,7 @@ export async function frameEditor(
   property(HTMLCanvasElement.prototype, 'getContext', {
     value: function (this: HTMLCanvasElement, kind: string) {
       if (kind !== '2d') throw new Error(`unexpected canvas context ${kind}`)
+      if (options.failPreviewCanvas && this.closest('.fa-preview-surface')) return null
       return {
         clearRect: () => undefined,
         drawImage: (bitmap: ImageBitmap) => {
@@ -207,7 +219,14 @@ export async function frameEditor(
   files['assets/index.json'] = catalog
   const rawSource = fixtureSource(files)
   const project = await loadCurrentProjectFrom(rawSource)
-  const initialState = toEditorState(project, [project.authorContent.entryScene], {}, {}, [])
+  const initialState = toEditorState(
+    project,
+    [project.authorContent.entryScene],
+    await loadFixtureProjectMaps(project),
+    {},
+    [],
+  )
+  assertProjectSaveValid(initialState)
   const before = structuredClone(initialState),
     filesBefore = structuredClone(files)
   const session = new EditSession(initialState)
@@ -349,17 +368,21 @@ export async function frameEditor(
       for (const c of cards()) expect(pixels.get(c.querySelector('canvas')!)).toBeDefined()
     })
   const latest = () => metadata.mock.lastCall?.[0]
-  async function number(label: string, value: string, blur = false) {
+  function field(label: string) {
     const labelElement = [...host.querySelectorAll('label')].find((e) => e.textContent === label)
     const field = [...host.querySelectorAll<HTMLInputElement>('input')].find(
       (e) => e.id === labelElement?.htmlFor,
     )
     if (!field) throw Error(`missing number ${label}`)
+    return field
+  }
+  async function number(label: string, value: string, blur = false) {
+    const input = field(label)
     const set = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!
     await act(async () => {
-      set.call(field, value)
-      field.dispatchEvent(new Event('input', { bubbles: true }))
-      if (blur) field.dispatchEvent(new FocusEvent('focusout', { bubbles: true }))
+      set.call(input, value)
+      input.dispatchEvent(new Event('input', { bubbles: true }))
+      if (blur) input.dispatchEvent(new FocusEvent('focusout', { bubbles: true }))
     })
   }
   const snapshot = () => ({
@@ -431,6 +454,7 @@ export async function frameEditor(
     ready,
     latest,
     number,
+    field,
     snapshot,
     reopened,
     saved,

@@ -123,11 +123,13 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // and fifteen cases retained in responsibility-specific motion suites.
   // Editor authoring: two battle-field export duplicates and one image ID case
   // moved to the catalog suite. The per-file count decreases by three.
-  assert.equal(historical.length, 138)
-  assert.equal(new Set(historical.map((entry) => entry.file)).size, 138)
+  // Editor previews: one unused draft helper case and four Cutscene tests
+  // moved to the actual frame and resource lifecycle suites.
+  assert.equal(historical.length, 140)
+  assert.equal(new Set(historical.map((entry) => entry.file)).size, 140)
   assert.equal(
     historical.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    743,
+    748,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

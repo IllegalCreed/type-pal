@@ -1,12 +1,12 @@
-/** catalog 驱动的 BGM 选择器与全局单路 MIDI 试听。 */
+/** Catalog-backed choice and control for the shared editor MIDI preview. */
 import type { AssetCatalogV1, AssetId, AssetRecordV1 } from '@type-pal/content'
-import { type AudioAssetReader, createBgmPlayer } from '@type-pal/reforge'
+import type { AudioAssetReader } from '@type-pal/reforge'
 import { useSyncExternalStore } from 'react'
 import {
-  claimEditorAudioPreview,
-  type EditorAudioPreviewOwner,
-  releaseEditorAudioPreview,
-} from '../core/audio-preview-session.js'
+  playingMusicFor,
+  subscribeMusicPreview,
+  toggleMusicPreview,
+} from '../core/music-picker-preview.js'
 import { DsControlGroup, DsIconButton, DsSelect } from './design-system/controls.js'
 
 export interface MusicAsset {
@@ -21,65 +21,13 @@ export function musicAssets(catalog: AssetCatalogV1): MusicAsset[] {
     .sort((left, right) => left.id.localeCompare(right.id))
 }
 
-let player: ReturnType<typeof createBgmPlayer> | undefined
-let playerReader: AudioAssetReader | undefined
-let playingAsset: AssetId | null = null
-const listeners = new Set<() => void>()
-
-function notify(): void {
-  for (const listener of listeners) listener()
-}
-
-function stopMusicPreview(): void {
-  player?.stop()
-  playingAsset = null
-  notify()
-}
-
-const musicPreviewOwner: EditorAudioPreviewOwner = { stop: stopMusicPreview }
-
-export function stopPreview(): void {
-  stopMusicPreview()
-  releaseEditorAudioPreview(musicPreviewOwner)
-}
-
-function togglePreview(reader: AudioAssetReader, asset: AssetId): void {
-  if (playingAsset === asset) {
-    stopPreview()
-    return
-  }
-  if (!player || playerReader !== reader) {
-    player?.stop()
-    player = createBgmPlayer(reader)
-    playerReader = reader
-  }
-  claimEditorAudioPreview(musicPreviewOwner)
-  try {
-    player.play(asset, true)
-  } catch (error) {
-    releaseEditorAudioPreview(musicPreviewOwner)
-    throw error
-  }
-  playingAsset = asset
-  notify()
-}
-
-function usePlayingAsset(): AssetId | null {
-  return useSyncExternalStore(
-    (listener) => {
-      listeners.add(listener)
-      return () => listeners.delete(listener)
-    },
-    () => playingAsset,
-  )
-}
-
 export function PreviewButton(props: {
   asset?: AssetId
   resolver: AudioAssetReader
   disabled?: boolean
 }) {
-  const playing = usePlayingAsset() === props.asset
+  const asset = useSyncExternalStore(subscribeMusicPreview, () => playingMusicFor(props.resolver))
+  const playing = asset === props.asset
   const label = playing ? `停止试听 ${props.asset}` : `试听 ${props.asset ?? ''}`
   return (
     <DsIconButton
@@ -88,7 +36,7 @@ export function PreviewButton(props: {
       label={label}
       aria-pressed={playing}
       disabled={props.disabled || !props.asset}
-      onClick={() => props.asset && togglePreview(props.resolver, props.asset)}
+      onClick={() => props.asset && toggleMusicPreview(props.resolver, props.asset)}
     />
   )
 }

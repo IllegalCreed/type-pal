@@ -16,6 +16,7 @@ import {
   useState,
 } from 'react'
 import { type EditorAssetDiagnostic, editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
+import { sha256Hex } from '../core/binary-signature.js'
 import { DeleteAssetCommand, UpsertAssetCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -29,7 +30,6 @@ import {
 } from '../core/frame-animation-worker-client.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
-import { mp4HasAudioTrack } from '../core/video-metadata.js'
 import {
   DsButton,
   DsCatalogControls,
@@ -65,17 +65,12 @@ import {
 } from './design-system/index.js'
 import { FrameAnimationEditor, type FrameAnimationMetadata } from './FrameAnimationEditor.js'
 import { MediaAssetConfirmDialog, MediaAssetNameField } from './MediaAssetLifecycle.js'
+import { formatMediaAssetBytes, MEDIA_ASSET_ORIGIN_LABELS } from './media-asset-readout.js'
+import { VideoAssetPreview, type VideoMetadata } from './VideoAssetPreview.js'
 
 interface AssetEntry {
   id: AssetId
   record: AssetRecordV1
-}
-
-interface VideoMetadata {
-  width: number
-  height: number
-  duration: number
-  audio: 'yes' | 'no' | 'unknown'
 }
 
 interface PendingFrameImport {
@@ -99,19 +94,6 @@ type CutsceneLifecycleRequest =
       objectLabel: string
     }
 
-const ORIGIN_LABELS: Readonly<Record<AssetRecordV1['origin']['kind'], string>> = {
-  'legacy-migrated': '原版迁移',
-  authored: '项目创作',
-  generated: '生成资源',
-  licensed: '授权资源',
-}
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-  return `${(bytes / 1024 / 1024).toFixed(1)} MB`
-}
-
 function formatDuration(seconds: number): string {
   if (!Number.isFinite(seconds)) return '未知'
   const minutes = Math.floor(seconds / 60)
@@ -120,7 +102,7 @@ function formatDuration(seconds: number): string {
 }
 
 function sourceArrayBuffer(bytes: Uint8Array): ArrayBuffer {
-  return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer
+  return Uint8Array.from(bytes).buffer
 }
 
 function entriesOf(catalog: AssetCatalogV1, kind: 'video' | 'frame-animation'): AssetEntry[] {
@@ -128,12 +110,6 @@ function entriesOf(catalog: AssetCatalogV1, kind: 'video' | 'frame-animation'): 
     .filter(([, record]) => record.kind === kind)
     .map(([id, record]) => ({ id, record }))
     .sort((left, right) => left.id.localeCompare(right.id))
-}
-
-async function sha256Hex(bytes: ArrayBuffer | Uint8Array): Promise<string> {
-  const source = bytes instanceof Uint8Array ? new Uint8Array(bytes).buffer : bytes.slice(0)
-  const digest = await crypto.subtle.digest('SHA-256', source)
-  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('')
 }
 
 function nextAssetId(
@@ -198,7 +174,9 @@ function AssetList(props: {
               selected={props.selectedId === entry.id}
               title={editorAssetCatalogTitle(entry.record)}
               meta={entry.id}
-              trailing={<DsTag tone="neutral">{ORIGIN_LABELS[entry.record.origin.kind]}</DsTag>}
+              trailing={
+                <DsTag tone="neutral">{MEDIA_ASSET_ORIGIN_LABELS[entry.record.origin.kind]}</DsTag>
+              }
               onClick={() => props.onSelect(entry.id)}
             />
           ))
@@ -207,82 +185,6 @@ function AssetList(props: {
         )}
       </div>
     </section>
-  )
-}
-
-function EmbeddedVideo(props: {
-  asset: AssetEntry
-  reader: EditorAssetReader
-  onMetadata(metadata?: VideoMetadata): void
-}) {
-  const { asset, reader, onMetadata } = props
-  const [url, setUrl] = useState('')
-  const [error, setError] = useState('')
-  const [containerAudio, setContainerAudio] = useState<'yes' | 'no' | 'unknown'>('unknown')
-  useEffect(() => {
-    let alive = true
-    let objectUrl = ''
-    setUrl('')
-    setError('')
-    setContainerAudio('unknown')
-    onMetadata(undefined)
-    void reader.readBytes(asset.id, 'video').then(
-      (bytes) => {
-        if (!alive) return
-        const parsedAudio = mp4HasAudioTrack(new Uint8Array(bytes))
-        setContainerAudio(parsedAudio === true ? 'yes' : parsedAudio === false ? 'no' : 'unknown')
-        objectUrl = URL.createObjectURL(new Blob([bytes], { type: asset.record.mediaType }))
-        setUrl(objectUrl)
-      },
-      (cause: unknown) => {
-        if (alive) setError(cause instanceof Error ? cause.message : String(cause))
-      },
-    )
-    return () => {
-      alive = false
-      if (objectUrl) URL.revokeObjectURL(objectUrl)
-    }
-  }, [asset.id, asset.record.mediaType, onMetadata, reader])
-
-  return (
-    <div className="cutscene-video-workspace">
-      <div className="cutscene-video-stage">
-        {url ? (
-          // biome-ignore lint/a11y/useMediaCaption: 这是作者素材原样预览，字幕由剧情脚本而非视频资产承载。
-          <video
-            key={url}
-            src={url}
-            controls
-            playsInline
-            preload="metadata"
-            onLoadedMetadata={(event) => {
-              const element = event.currentTarget as HTMLVideoElement & {
-                audioTracks?: { length: number }
-                mozHasAudio?: boolean
-                webkitAudioDecodedByteCount?: number
-              }
-              const audio = element.audioTracks
-                ? element.audioTracks.length > 0
-                  ? 'yes'
-                  : 'no'
-                : element.mozHasAudio || (element.webkitAudioDecodedByteCount ?? 0) > 0
-                  ? 'yes'
-                  : containerAudio
-              onMetadata({
-                width: element.videoWidth,
-                height: element.videoHeight,
-                duration: element.duration,
-                audio,
-              })
-            }}
-          />
-        ) : error ? (
-          <div className="cf-err">{error}</div>
-        ) : (
-          <div className="insp-empty">正在读取视频…</div>
-        )}
-      </div>
-    </div>
   )
 }
 
@@ -443,7 +345,7 @@ export function CutsceneTab(props: {
       const hash = await sha256Hex(bytes)
       const previous = replaceId ? catalog.assets[replaceId] : undefined
       const previousBytes = replaceId ? await reader.readBytes(replaceId, 'video') : undefined
-      const id = replaceId ?? nextAssetId(catalog, 'video', hash)
+      const id = replaceId ?? nextAssetId(session.getState().assetCatalog, 'video', hash)
       const record: AssetRecordV1 = {
         kind: 'video',
         path: `assets/authored/video/${hash}.${type.extension}`,
@@ -500,7 +402,9 @@ export function CutsceneTab(props: {
       const previousBytes = pendingFrames.replaceId
         ? await reader.readBytes(pendingFrames.replaceId, 'frame-animation')
         : undefined
-      const id = pendingFrames.replaceId ?? nextAssetId(catalog, 'frame-animation', hash)
+      const id =
+        pendingFrames.replaceId ??
+        nextAssetId(session.getState().assetCatalog, 'frame-animation', hash)
       const firstName = sortFrameImageFiles(pendingFrames.files)[0]?.name ?? '帧动画'
       const record: AssetRecordV1 = {
         kind: 'frame-animation',
@@ -513,15 +417,7 @@ export function CutsceneTab(props: {
         origin: { kind: 'authored', ref: `${pendingFrames.files.length} 张图片` },
       }
       session.dispatch(
-        new UpsertAssetCommand(
-          id,
-          record,
-          encoded.buffer.slice(
-            encoded.byteOffset,
-            encoded.byteOffset + encoded.byteLength,
-          ) as ArrayBuffer,
-          previousBytes,
-        ),
+        new UpsertAssetCommand(id, record, sourceArrayBuffer(encoded), previousBytes),
       )
       setSelectedId(id)
       setFrameEditorDirty(false)
@@ -656,7 +552,9 @@ export function CutsceneTab(props: {
             objectId={selected.id}
             meta={
               <>
-                <DsTag tone="neutral">{ORIGIN_LABELS[selected.record.origin.kind]}</DsTag>
+                <DsTag tone="neutral">
+                  {MEDIA_ASSET_ORIGIN_LABELS[selected.record.origin.kind]}
+                </DsTag>
                 <DsTag tone="neutral">{selected.record.mediaType}</DsTag>
               </>
             }
@@ -707,7 +605,13 @@ export function CutsceneTab(props: {
         ) : null}
         {selected?.record.kind === 'video' ? (
           <div className="cutscene-workspace-content">
-            <EmbeddedVideo asset={selected} reader={reader} onMetadata={onVideoMetadata} />
+            <VideoAssetPreview
+              key={`${selected.id}\0${selected.record.sha256}`}
+              assetId={selected.id}
+              mediaType={selected.record.mediaType}
+              reader={reader}
+              onMetadata={onVideoMetadata}
+            />
           </div>
         ) : selected?.record.kind === 'frame-animation' ? (
           <div className="cutscene-workspace-content">
@@ -753,14 +657,14 @@ export function CutsceneTab(props: {
                           <code title={selected.id}>{selected.id}</code>
                         </DsPropertyRow>
                         <DsPropertyRow label="来源">
-                          {ORIGIN_LABELS[selected.record.origin.kind]}
+                          {MEDIA_ASSET_ORIGIN_LABELS[selected.record.origin.kind]}
                         </DsPropertyRow>
                         <DsPropertyRow label="文件">
                           <code title={selected.record.path}>{selected.record.path}</code>
                         </DsPropertyRow>
                         <DsPropertyRow label="格式">{selected.record.mediaType}</DsPropertyRow>
                         <DsPropertyRow label="大小">
-                          {formatBytes(selected.record.bytes)}
+                          {formatMediaAssetBytes(selected.record.bytes)}
                         </DsPropertyRow>
                       </DsPropertyGrid>
                     </DsInspectorSection>

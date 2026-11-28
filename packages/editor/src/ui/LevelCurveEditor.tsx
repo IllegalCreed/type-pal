@@ -1,45 +1,19 @@
-/**
- * 升级曲线编辑器(C6;作者反馈「一大堆数没站在用户角度」重做)—— 占用中区的宽幅可视化:
- * - 曲线图上**直接拖点**调值(纵向,整数 ≥0);一次拖拽 = 一步撤销(UpdateActorCommand);
- * - 点选后底部数字精调;级数可增减(延续末段增量补齐);
- * - 「按增量生成」:首级所需 + 每级递增 → 累计曲线(原版表即「每级需求线性递增」的累计形);
- * - 升级学技能的等级在图上打标;曲线非递减被破坏时红字提醒。
- * 检查器侧只留摘要 + 入口按钮(LevelingEditor)。
- */
+/** Owns the center chart's viewport and pending gestures. EditSession owns the saved thresholds. */
 import type { ActorDef, LevelUpSkill, SkillDataMap } from '@type-pal/content'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { UpdateActorCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
+import {
+  generateExperienceCurve,
+  isExperienceCurveNonDecreasing,
+  resizeExperienceCurve,
+} from '../core/experience-curve.js'
 import {
   DsButton,
   DsDraftNumberField,
   DsNumberField,
   DsNumberFieldGrid,
 } from './design-system/index.js'
-
-/** 生成累计经验表:table[0]=0;第 i 级需求 = first + step×(i−1),向后累计。 */
-export function genExpTable(first: number, step: number, n: number): number[] {
-  const out = [0]
-  for (let i = 1; i < n; i++) out.push(out[i - 1]! + Math.max(0, first + step * (i - 1)))
-  return out
-}
-
-/** 调整级数:加长按末段增量外推(无末段增量则 +首值/+1),缩短截断。 */
-export function resizeExpTable(table: number[], n: number): number[] {
-  const next = table.slice(0, Math.max(1, n))
-  while (next.length < n) {
-    const len = next.length
-    const delta =
-      len >= 2 ? Math.max(0, next[len - 1]! - next[len - 2]!) : Math.max(1, next[0] ?? 1)
-    next.push((next[len - 1] ?? 0) + delta)
-  }
-  return next
-}
-
-export function isNonDecreasing(table: number[]): boolean {
-  for (let i = 1; i < table.length; i++) if (table[i]! < table[i - 1]!) return false
-  return true
-}
 
 /** Y 轴量程取整(1/2/5 × 10^k 的「好看」上限)。 */
 function niceCeil(v: number): number {
@@ -53,6 +27,25 @@ const W = 780
 const H = 320
 const PAD = { l: 52, r: 18, t: 16, b: 34 }
 
+type LevelWindow = { start: number; end: number }
+
+type ChartGesture =
+  | {
+      kind: 'point'
+      pointerId: number
+      target: SVGCircleElement
+      index: number
+      source: number[]
+      historyVersion: number
+      draft?: number[]
+    }
+  | {
+      kind: 'pan'
+      pointerId: number
+      origin: LevelWindow
+      anchor: number
+    }
+
 export function LevelCurveEditor(props: {
   actor: ActorDef & { battler: NonNullable<ActorDef['battler']> }
   levelUpRows: LevelUpSkill[]
@@ -63,7 +56,7 @@ export function LevelCurveEditor(props: {
   const { actor, levelUpRows, skills, session, onClose } = props
   const syncToken = session.getHistoryVersion()
   const source = useMemo(
-    () => actor.battler.leveling?.expTable ?? genExpTable(15, 25, 20),
+    () => actor.battler.leveling?.expTable ?? generateExperienceCurve(15, 25, 20),
     [actor.battler.leveling?.expTable],
   )
   const [table, setTable] = useState<number[]>(source)
@@ -71,40 +64,41 @@ export function LevelCurveEditor(props: {
   const [genFirst, setGenFirst] = useState(15)
   const [genStep, setGenStep] = useState(25)
   const svgRef = useRef<SVGSVGElement>(null)
-  const dragRef = useRef<{ idx: number; moved: boolean } | null>(null)
-  // 横向视窗(级数区间;null = 全览)。滚轮以光标为锚缩放,拖空白平移(作者:100 级太密)
-  const [view, setView] = useState<{ s: number; e: number } | null>(null)
-  const panRef = useRef<{ startLevel: number; s: number; e: number } | null>(null)
-  // 最新表镜像:pointerup 在 setState 外提交(在 updater 里 dispatch = setState during render)
-  const tableRef = useRef(table)
-  tableRef.current = table
+  const gestureRef = useRef<ChartGesture | null>(null)
+  const [view, setView] = useState<LevelWindow | null>(null)
 
-  // 切角色跟数据(undo/redo 外部变更也同步:仅在非拖拽期)
   useEffect(() => {
-    if (!dragRef.current) setTable(source)
-  }, [source])
+    const gesture = gestureRef.current
+    if (gesture?.kind === 'point') {
+      if (gesture.historyVersion === syncToken && gesture.source === source) return
+      gestureRef.current = null
+      if (gesture.target.hasPointerCapture(gesture.pointerId))
+        gesture.target.releasePointerCapture(gesture.pointerId)
+    }
+    setTable(source)
+  }, [source, syncToken])
 
   const n = table.length
   const maxY = niceCeil(Math.max(...table, 1))
   const plotW = W - PAD.l - PAD.r
   const plotH = H - PAD.t - PAD.b
-  const vs = view?.s ?? 0
-  const ve = view?.e ?? Math.max(1, n - 1)
+  const clampView = (s: number, e: number): LevelWindow | null => {
+    const sp = Math.min(Math.max(e - s, 6), Math.max(1, n - 1))
+    const ns = Math.max(0, Math.min(s, n - 1 - sp))
+    return sp >= n - 1 ? null : { start: ns, end: ns + sp }
+  }
+  // Undo or resize can shorten the curve while the previous view starts beyond its end.
+  const visibleWindow = view ? clampView(view.start, view.end) : null
+  const vs = visibleWindow?.start ?? 0
+  const ve = visibleWindow?.end ?? Math.max(1, n - 1)
   const span = Math.max(1, ve - vs)
   const x = (i: number): number => PAD.l + ((i - vs) * plotW) / span
   const y = (v: number): number => PAD.t + plotH * (1 - v / maxY)
-  /** 指针 X → 级数(浮点;缩放锚点/平移用)。 */
-  const levelAtPointer = (clientX: number): number => {
-    const svg = svgRef.current
-    if (!svg) return vs
-    const rect = svg.getBoundingClientRect()
+  const levelAtPointer = (clientX: number, start = vs, width = span): number => {
+    const rect = svgRef.current?.getBoundingClientRect()
+    if (!rect?.width) return start
     const px = ((clientX - rect.left) * W) / rect.width
-    return vs + ((px - PAD.l) / plotW) * span
-  }
-  const clampView = (s: number, e: number): { s: number; e: number } | null => {
-    const sp = Math.min(Math.max(e - s, 6), Math.max(1, n - 1))
-    const ns = Math.max(0, Math.min(s, n - 1 - sp))
-    return sp >= n - 1 ? null : { s: ns, e: ns + sp }
+    return start + ((px - PAD.l) / plotW) * width
   }
 
   // 滚轮缩放须非 passive 才能 preventDefault(React onWheel 是 passive)
@@ -139,7 +133,7 @@ export function LevelCurveEditor(props: {
     )
   }
 
-  /** 指针 Y → 表值(viewBox 坐标换算;整数,钳 [0, maxY])。 */
+  /** Clamp below zero. Dragging above the plot can extend the visible Y range. */
   const valueAtPointer = (clientY: number): number => {
     const svg = svgRef.current
     if (!svg) return 0
@@ -147,6 +141,18 @@ export function LevelCurveEditor(props: {
     const py = ((clientY - rect.top) * H) / rect.height
     const v = ((PAD.t + plotH - py) / plotH) * maxY
     return Math.max(0, Math.round(v))
+  }
+
+  const finishGesture = (pointerId: number, cancelled: boolean): void => {
+    const gesture = gestureRef.current
+    if (gesture?.pointerId !== pointerId) return
+    gestureRef.current = null
+    if (gesture.kind !== 'point') return
+    if (cancelled || gesture.historyVersion !== session.getHistoryVersion()) {
+      setTable(source)
+      return
+    }
+    if (gesture.draft) commit(gesture.draft)
   }
 
   // 只渲染视窗内的点/线段(各留一颗溢出点保线条连续)
@@ -158,7 +164,7 @@ export function LevelCurveEditor(props: {
 
   const xLabelEvery = Math.max(1, Math.ceil(span / 14))
   const skillMarks = levelUpRows.filter((r) => r.level >= iFrom && r.level <= iTo)
-  const monotonic = isNonDecreasing(table)
+  const monotonic = isExperienceCurveNonDecreasing(table)
   const visIdxs = Array.from({ length: iTo - iFrom + 1 }, (_, k) => iFrom + k)
 
   return (
@@ -167,7 +173,7 @@ export function LevelCurveEditor(props: {
         <span className="level-curve-title">升级曲线 · {actor.id}</span>
         <span className="hint level-curve-hint">拖点调值 · 滚轮横向缩放 · 拖空白平移</span>
         <span className="spacer" />
-        {view && (
+        {visibleWindow && (
           <>
             <span className="hint">
               L{Math.round(vs)}–{Math.round(ve)}
@@ -187,43 +193,31 @@ export function LevelCurveEditor(props: {
         className="level-curve-chart"
         viewBox={`0 0 ${W} ${H}`}
         onPointerDown={(e) => {
-          // 空白处按下 = 平移(点上的 pointerdown 已 stopPropagation)
-          if (dragRef.current) return
-          panRef.current = { startLevel: levelAtPointer(e.clientX), s: vs, e: ve }
-          ;(e.currentTarget as SVGSVGElement).setPointerCapture(e.pointerId)
+          if (gestureRef.current || !visibleWindow) return
+          e.currentTarget.setPointerCapture(e.pointerId)
+          gestureRef.current = {
+            kind: 'pan',
+            pointerId: e.pointerId,
+            origin: visibleWindow,
+            anchor: levelAtPointer(e.clientX),
+          }
         }}
         onPointerMove={(e) => {
-          const d = dragRef.current
-          if (d) {
-            d.moved = true
-            const v = valueAtPointer(e.clientY)
-            setTable((t) => {
-              const next = t.map((old, i) => (i === d.idx ? v : old))
-              tableRef.current = next
-              return next
-            })
+          const gesture = gestureRef.current
+          if (gesture?.pointerId !== e.pointerId) return
+          if (gesture.kind === 'point') {
+            const value = valueAtPointer(e.clientY)
+            gesture.draft = source.map((entry, index) => (index === gesture.index ? value : entry))
+            setTable(gesture.draft)
             return
           }
-          const p = panRef.current
-          if (p && view) {
-            // 以按下时的级锚点平移(全览态无处可移)
-            const cur =
-              vs +
-              (((e.clientX - (svgRef.current?.getBoundingClientRect().left ?? 0)) *
-                (W / (svgRef.current?.getBoundingClientRect().width ?? W)) -
-                PAD.l) /
-                plotW) *
-                (p.e - p.s)
-            const dl = p.startLevel - cur
-            setView(clampView(p.s + dl, p.e + dl))
-          }
+          const { start, end } = gesture.origin
+          const delta = gesture.anchor - levelAtPointer(e.clientX, start, end - start)
+          setView(clampView(start + delta, end + delta))
         }}
-        onPointerUp={() => {
-          const d = dragRef.current
-          dragRef.current = null
-          panRef.current = null
-          if (d?.moved) commit(tableRef.current) // 一次拖拽 = 一步撤销
-        }}
+        onPointerUp={(e) => finishGesture(e.pointerId, false)}
+        onPointerCancel={(e) => finishGesture(e.pointerId, true)}
+        onLostPointerCapture={(e) => finishGesture(e.pointerId, true)}
       >
         <title>升级曲线(拖点编辑)</title>
         {/* Y 网格 + 刻度 */}
@@ -295,9 +289,17 @@ export function LevelCurveEditor(props: {
             stroke="var(--accent)"
             strokeWidth={2}
             onPointerDown={(e) => {
-              e.stopPropagation() // 别触发空白平移
+              e.stopPropagation()
+              if (gestureRef.current) return
               e.currentTarget.setPointerCapture(e.pointerId)
-              dragRef.current = { idx: i, moved: false }
+              gestureRef.current = {
+                kind: 'point',
+                pointerId: e.pointerId,
+                target: e.currentTarget,
+                index: i,
+                source,
+                historyVersion: syncToken,
+              }
               setSel(i)
             }}
           />
@@ -318,7 +320,7 @@ export function LevelCurveEditor(props: {
           onCommit={(value) => {
             const nn = Math.max(2, Math.min(99, value ?? 2))
             if (nn === n) return
-            const next = resizeExpTable(table, nn)
+            const next = resizeExperienceCurve(table, nn)
             setTable(next)
             commit(next)
           }}
@@ -361,7 +363,7 @@ export function LevelCurveEditor(props: {
       </DsNumberFieldGrid>
       <DsButton
         onClick={() => {
-          const next = genExpTable(genFirst, genStep, n)
+          const next = generateExperienceCurve(genFirst, genStep, n)
           setTable(next)
           commit(next)
         }}

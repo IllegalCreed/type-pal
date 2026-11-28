@@ -1,19 +1,15 @@
-import { waitForReact } from '../__tests__/react-io-wait.js'
 // @vitest-environment jsdom
 
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { installReactActEnvironment, waitForReact } from '../__tests__/react-io-wait.js'
 import { claimEditorAudioPreview, stopEditorAudioPreview } from '../core/audio-preview-session.js'
 import { UpdateManifestAssetRolesCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
 import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
-import {
-  AudioAssetWorkbench,
-  type AudioAssetWorkbenchStrategy,
-  type AudioTimeline,
-  type AudioWorkbenchTransport,
-} from './AudioAssetWorkbench.js'
+import type { AudioTimeline, AudioWorkbenchTransport } from './AudioAssetPlayer.js'
+import { AudioAssetWorkbench, type AudioAssetWorkbenchStrategy } from './AudioAssetWorkbench.js'
 import {
   catalogControlsAssetCatalog,
   catalogControlsEditorState,
@@ -41,21 +37,26 @@ function activity(duration: number, value: number): AudioTimeline {
 
 let host: HTMLDivElement
 let root: Root
+let restoreAct: () => void
 
 beforeEach(() => {
   stopEditorAudioPreview()
-  ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  restoreAct = installReactActEnvironment()
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
 })
 
 afterEach(async () => {
-  await act(async () => {
-    stopEditorAudioPreview()
-    root.unmount()
-  })
-  host.remove()
+  try {
+    await act(async () => {
+      stopEditorAudioPreview()
+      root.unmount()
+    })
+  } finally {
+    host.remove()
+    restoreAct()
+  }
 })
 
 describe('AudioAssetWorkbench async selection lifecycle', () => {
@@ -118,6 +119,7 @@ describe('AudioAssetWorkbench async selection lifecycle', () => {
     expect(host.querySelector('.ds-catalog-row__leading')).toBeNull()
     await waitForReact(() => expect(requests).toHaveLength(1))
     expect(requests[0]?.asset).toBe('music.opening')
+    expect(host.querySelector('.audio-player__state')?.textContent).toBe('正在读取…')
 
     const row = (title: string): HTMLButtonElement => {
       const match = [...host.querySelectorAll<HTMLButtonElement>('.ds-catalog-row')].find(
@@ -154,7 +156,14 @@ describe('AudioAssetWorkbench timeline completion', () => {
   test('renders a fractional short sound at the exact visual and slider endpoint', async () => {
     const duration = 0.534
     const transport: AudioWorkbenchTransport = {
-      load: vi.fn(async () => activity(duration, 1)),
+      load: vi.fn(
+        async (): Promise<AudioTimeline> => ({
+          kind: 'pcm-peaks',
+          duration,
+          minimums: [-0.5],
+          maximums: [0.5],
+        }),
+      ),
       play: vi.fn(async () => {}),
       pause: vi.fn(),
       stop: vi.fn(),

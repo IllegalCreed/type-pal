@@ -61,7 +61,7 @@
       "fingerprint": "[...rows].sort((a, b) => a.level - b.level)",
       "owner": "card:ED-REORDER-DRAG-1",
       "reason": "显示顺序由等级数值派生，作者通过编辑 level 改变顺序。",
-      "verification": "LevelingEditor 始终按 level 排序并拒绝重复等级。",
+      "verification": "LevelingEditor 按 level 排序并提交，原输入中同级条目维持顺序。",
       "removalCondition": "等级行改为持久化独立 order 字段并经新任务审签。"
     },
     {

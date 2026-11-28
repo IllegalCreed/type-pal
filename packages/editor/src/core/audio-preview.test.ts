@@ -1,11 +1,14 @@
 import { describe, expect, test, vi } from 'vitest'
+import { encodeWavPcm16 } from '../__tests__/audio-fixtures.js'
 import {
-  AudioPreviewCache,
-  computePcmPeaks,
   createWavPreviewTransport,
   type WavDecodedAudio,
   type WavPreviewRuntimeAdapter,
 } from './audio-preview.js'
+import type { EditorAssetReader } from './editor-asset-reader.js'
+
+const readSoundBytes: EditorAssetReader['readBytes'] = async () =>
+  Uint8Array.from(encodeWavPcm16([0, 0.5, -0.5])).buffer
 
 function deferred<T>() {
   let resolve!: (value: T) => void
@@ -23,65 +26,49 @@ function decoded(...channels: number[][]): WavDecodedAudio {
   }
 }
 
-describe('WAV preview analysis', () => {
-  test('computes deterministic min/max peaks across all channels', () => {
-    const first = computePcmPeaks(
-      [Float32Array.from([-1, 0.5, 0.25, 0]), Float32Array.from([0.2, 1, -0.5, 0])],
-      2,
-      2,
-    )
-    const second = computePcmPeaks(
-      [Float32Array.from([-1, 0.5, 0.25, 0]), Float32Array.from([0.2, 1, -0.5, 0])],
-      2,
-      2,
-    )
-
-    expect(first).toEqual(second)
-    expect(first.minimums).toEqual([-1, -0.5])
-    expect(first.maximums).toEqual([1, 0.25])
-  })
-
-  test('preserves full-scale constant buckets instead of treating them as empty sentinels', () => {
-    expect(computePcmPeaks([Float32Array.from([1, 1])], 1, 1)).toMatchObject({
-      minimums: [1],
-      maximums: [1],
-    })
-    expect(computePcmPeaks([Float32Array.from([-1, -1])], 1, 1)).toMatchObject({
-      minimums: [-1],
-      maximums: [-1],
-    })
-  })
-
-  test('deduplicates inflight analysis and evicts the least-recently-used entry', async () => {
-    const cache = new AudioPreviewCache<number>(2)
-    const pending = deferred<number>()
-    const loader = vi.fn(() => pending.promise)
-    const first = cache.load('a', loader)
-    const duplicate = cache.load('a', loader)
-    pending.resolve(1)
-
-    await expect(first).resolves.toBe(1)
-    await expect(duplicate).resolves.toBe(1)
-    expect(loader).toHaveBeenCalledOnce()
-    await cache.load('b', async () => 2)
-    expect(cache.get('a')).toBe(1)
-    await cache.load('c', async () => 3)
-    expect(cache.get('b')).toBeUndefined()
-    expect(cache.size).toBe(2)
-  })
-})
-
 describe('WAV preview transport', () => {
-  test('does not allocate an AudioContext until the committed transport loads', () => {
-    const AudioContext = vi.fn()
+  test('disposing a transport before loading never allocates an AudioContext', async () => {
+    const AudioContext = vi.fn(() => {
+      throw new Error('a disposed transport must not create a context')
+    })
     vi.stubGlobal('window', { AudioContext })
     try {
-      const transport = createWavPreviewTransport({ readBytes: vi.fn() } as never)
+      const transport = createWavPreviewTransport({ readBytes: vi.fn() })
       expect(AudioContext).not.toHaveBeenCalled()
       transport.dispose()
+      await expect(transport.load('sound.test')).rejects.toMatchObject({ name: 'AbortError' })
       expect(AudioContext).not.toHaveBeenCalled()
     } finally {
       vi.unstubAllGlobals()
+    }
+  })
+
+  test('an unsuccessful source start disconnects the node and leaves the transport paused', async () => {
+    const error = new DOMException('sound output failed', 'OperationError')
+    const disconnect = vi.fn()
+    const backend = {
+      currentTime: 0,
+      state: 'running',
+      resume: async () => {},
+      decode: async () => decoded([0, 1, -1]),
+      createSource: vi.fn(() => ({
+        start() {
+          throw error
+        },
+        stop() {},
+        disconnect,
+      })),
+      dispose() {},
+    } satisfies WavPreviewRuntimeAdapter
+    const transport = createWavPreviewTransport({ readBytes: readSoundBytes }, backend)
+
+    await transport.load('sound.test')
+    try {
+      await expect(transport.play()).rejects.toBe(error)
+      expect(transport.snapshot()).toMatchObject({ currentTime: 0, paused: true })
+      expect(disconnect).toHaveBeenCalledOnce()
+    } finally {
+      transport.dispose()
     }
   })
 
@@ -95,22 +82,25 @@ describe('WAV preview transport', () => {
       createSource: vi.fn(() => ({ start: vi.fn(), stop: vi.fn(), disconnect: vi.fn() })),
       dispose: vi.fn(),
     } satisfies WavPreviewRuntimeAdapter
-    const reader = { readBytes: vi.fn(() => bytes.promise) }
-    const transport = createWavPreviewTransport(reader as never, backend)
+    const reader = { readBytes: vi.fn<typeof readSoundBytes>(() => bytes.promise) }
+    const transport = createWavPreviewTransport(reader, backend)
 
     const first = transport.load('sound.test', 'project\0sound.test\0sha-a')
     const duplicate = transport.load('sound.test', 'project\0sound.test\0sha-a')
-    bytes.resolve(new ArrayBuffer(8))
+    bytes.resolve(await readSoundBytes('sound.test', 'sound'))
     const peaks = await first
     await expect(duplicate).resolves.toBe(peaks)
-    expect(reader.readBytes).toHaveBeenCalledOnce()
+    expect(reader.readBytes.mock.calls).toEqual([['sound.test', 'sound']])
     expect(backend.decode).toHaveBeenCalledOnce()
 
     const cached = { ...peaks, minimums: [-0.25], maximums: [0.25] }
     await expect(transport.load('sound.test', 'project\0sound.test\0sha-b', cached)).resolves.toBe(
       cached,
     )
-    expect(reader.readBytes).toHaveBeenCalledTimes(2)
+    expect(reader.readBytes.mock.calls).toEqual([
+      ['sound.test', 'sound'],
+      ['sound.test', 'sound'],
+    ])
     expect(backend.decode).toHaveBeenCalledTimes(2)
   })
 
@@ -134,11 +124,11 @@ describe('WAV preview transport', () => {
       }),
       dispose: vi.fn(),
     } satisfies WavPreviewRuntimeAdapter
-    const reader = { readBytes: vi.fn(async () => new ArrayBuffer(8)) }
-    const transport = createWavPreviewTransport(reader as never, backend)
+    const reader = { readBytes: vi.fn(readSoundBytes) }
+    const transport = createWavPreviewTransport(reader, backend)
 
     const peaks = await transport.load('sound.test')
-    expect(peaks.kind).toBe('pcm-peaks')
+    expect(peaks.duration).toBe(2)
     await transport.play()
     expect(starts).toEqual([0])
     backend.currentTime = 0.75
@@ -155,6 +145,15 @@ describe('WAV preview transport', () => {
     expect(transport.snapshot()).toMatchObject({ currentTime: 2, paused: true })
     expect(disconnects.at(-1)).toHaveBeenCalledOnce()
 
+    await transport.play()
+    expect(starts).toEqual([0, 0, 0])
+    transport.seek(2)
+    expect(transport.snapshot()).toMatchObject({ currentTime: 2, paused: true })
+    expect(starts).toEqual([0, 0, 0])
+    expect(stops.at(-1)).toHaveBeenCalledOnce()
+    expect(disconnects.at(-1)).toHaveBeenCalledOnce()
+
+    transport.dispose()
     transport.dispose()
     expect(backend.dispose).toHaveBeenCalledOnce()
   })
@@ -174,10 +173,7 @@ describe('WAV preview transport', () => {
       createSource,
       dispose: vi.fn(),
     } satisfies WavPreviewRuntimeAdapter
-    const transport = createWavPreviewTransport(
-      { readBytes: vi.fn(async () => new ArrayBuffer(8)) } as never,
-      backend,
-    )
+    const transport = createWavPreviewTransport({ readBytes: readSoundBytes }, backend)
 
     await transport.load('sound.test')
     const playing = transport.play()
@@ -186,5 +182,40 @@ describe('WAV preview transport', () => {
 
     await expect(playing).rejects.toMatchObject({ name: 'AbortError' })
     expect(createSource).not.toHaveBeenCalled()
+  })
+
+  test('starts empty and refuses playback without a decoded sound', async () => {
+    const transport = createWavPreviewTransport({ readBytes: readSoundBytes })
+    expect(transport.snapshot()).toEqual({
+      asset: undefined,
+      currentTime: 0,
+      duration: 0,
+      paused: true,
+    })
+    await expect(transport.play()).rejects.toThrow('请等待 WAV 读取完成')
+    transport.dispose()
+  })
+
+  test('closing during the sound read prevents the late decoder from touching the closed backend', async () => {
+    const pending = deferred<ArrayBuffer>()
+    const decode = vi.fn(async () => decoded([0, 0.5, -0.5]))
+    const backend = {
+      currentTime: 0,
+      state: 'running',
+      resume: async () => {},
+      decode,
+      createSource() {
+        throw new Error('loading must not start playback')
+      },
+      dispose: vi.fn(),
+    } satisfies WavPreviewRuntimeAdapter
+    const transport = createWavPreviewTransport({ readBytes: () => pending.promise }, backend)
+    const loading = transport.load('sound.test')
+    transport.dispose()
+    pending.resolve(await readSoundBytes('sound.test', 'sound'))
+
+    await expect(loading).rejects.toMatchObject({ name: 'AbortError' })
+    expect(decode).not.toHaveBeenCalled()
+    expect(backend.dispose).toHaveBeenCalledOnce()
   })
 })

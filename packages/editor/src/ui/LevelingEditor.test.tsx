@@ -1,13 +1,14 @@
 // @vitest-environment jsdom
 
 import type { SkillData } from '@type-pal/content'
-import { act, useSyncExternalStore } from 'react'
+import { act, useMemo, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
+import { UpdateLocaleCommand } from '../core/locale-commands.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
-import { loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
+import { buttonByLabel, loadLegalUiProject } from './__tests__/glm-ui-wave-kit.js'
 import { installBrowserHardwarePorts } from './__tests__/kimi-editor-workflows/kit.js'
 import { LevelingEditor } from './LevelingEditor.js'
 
@@ -42,21 +43,28 @@ async function editorState(): Promise<EditorState> {
   return state
 }
 
+const openCurve = () => undefined
+
 function Harness(props: { session: EditSession; actorId: string }) {
   useSyncExternalStore(
     (callback) => props.session.subscribe(callback),
     () => props.session.getVersion(),
   )
   const state = props.session.getState()
+  const skills = useMemo(
+    () => Object.fromEntries(state.skills.map((skill) => [skill.id, skill])),
+    [state.skills],
+  )
   const current = state.actors.find((candidate) => candidate.id === props.actorId)
   if (!current?.battler) throw new Error(`battler ${props.actorId} missing`)
   return (
     <LevelingEditor
       actor={{ ...current, battler: current.battler }}
       levelUpRows={state.levelUp[props.actorId] ?? []}
-      skills={Object.fromEntries(state.skills.map((skill) => [skill.id, skill]))}
+      skills={skills}
       session={props.session}
-      onEditCurve={() => undefined}
+      syncToken={props.session.getHistoryVersion()}
+      onEditCurve={openCurve}
     />
   )
 }
@@ -156,5 +164,41 @@ describe('LevelingEditor field commit boundary', () => {
     await act(async () => root.render(<Harness session={session} actorId="a" />))
     expect(host.querySelector<HTMLInputElement>('.entry-n input')!.value).toBe('2')
     expect(session.getHistoryVersion()).toBe(0)
+  })
+
+  test('撤销无关编辑时恢复未提交等级草稿的权威值', async () => {
+    const session = new EditSession(await editorState())
+    session.dispatch(new UpdateLocaleCommand('name.hero', '主角草案'))
+    await act(async () => root.render(<Harness session={session} actorId="a" />))
+    const input = host.querySelector<HTMLInputElement>('.entry-n input')!
+    await act(async () => {
+      input.focus()
+      setInput(input, '88')
+    })
+    expect(input.value).toBe('88')
+
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
+    expect(input.value).toBe('2')
+    await act(async () => input.blur())
+    expect(session.getState().levelUp.a).toEqual([{ level: 2, skillId: 'skill-a' }])
+    expect(session.canRedo()).toBe(true)
+  })
+
+  test('没有可习得技能的空白工程不会写入空引用', async () => {
+    const { state } = await loadLegalUiProject('empty-level-up-skill-catalog')
+    expect(state.skills).toEqual([])
+    assertProjectSaveValid(state)
+    const session = new EditSession(state)
+    await act(async () => root.render(<Harness session={session} actorId="hero" />))
+
+    const add = buttonByLabel(host, '＋ 添加学技能行')
+    await act(async () => add.click())
+
+    expect(session.getState().levelUp).toEqual({})
+    expect(session.canUndo()).toBe(false)
+    expect(add.disabled).toBe(true)
+    expect(add.title).toBe('请先创建可习得技能')
   })
 })

@@ -1174,7 +1174,7 @@
           "region": "main",
           "axis": "both",
           "owner": "custom:.image-preview-stage",
-          "source": "ImageTab.tsx",
+          "source": "ImageWorkspacePreview.tsx",
           "component": "ImageWorkspacePreview",
           "callsite": "class:image-preview-stage",
           "variant": "selected",
@@ -2466,7 +2466,12 @@
     },
     {
       "registry": "asset/music",
-      "components": ["AudioAssetWorkbench.tsx", "MediaAssetLifecycle.tsx", "MusicTab.tsx"],
+      "components": [
+        "AudioAssetPlayer.tsx",
+        "AudioAssetWorkbench.tsx",
+        "MediaAssetLifecycle.tsx",
+        "MusicTab.tsx"
+      ],
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow + DsVirtualList",
@@ -2493,7 +2498,12 @@
     },
     {
       "registry": "asset/sound",
-      "components": ["AudioAssetWorkbench.tsx", "MediaAssetLifecycle.tsx", "SoundTab.tsx"],
+      "components": [
+        "AudioAssetPlayer.tsx",
+        "AudioAssetWorkbench.tsx",
+        "MediaAssetLifecycle.tsx",
+        "SoundTab.tsx"
+      ],
       "status": "adopted",
       "owners": {
         "catalog": "DsCatalogControls + DsCatalogRow + DsVirtualList",

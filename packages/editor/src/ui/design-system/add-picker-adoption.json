@@ -184,7 +184,7 @@
       "dataPaths": ["levelUp[actorId]"],
       "candidateOwner": "live skill ids",
       "mutationOwner": "UpdateLevelUpCommand",
-      "actionFingerprint": "6bdbe120e1354ee9",
+      "actionFingerprint": "81ee42987a9c2da8",
       "reason": "升级学技能行同时生成等级与技能默认值，需在专属迁移中冻结复合确认语义。",
       "removalCondition": "新增升级技能行改用 DsAddPickerDialog 且等级默认值与撤销测试通过后删除。",
       "verification": ["ui/LevelingEditor.test.tsx"]

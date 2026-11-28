@@ -5,12 +5,14 @@ import {
   type DragEvent,
   type KeyboardEvent,
   type PointerEvent,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
   type WheelEvent,
 } from 'react'
+import { sha256Hex } from '../core/binary-signature.js'
 import { UpsertAssetCommand } from '../core/commands.js'
 import type { EditSession } from '../core/edit-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -60,6 +62,7 @@ import {
   MEDIA_PREVIEW_MIN_ZOOM,
   stepMediaPreviewZoom,
 } from './media-preview-viewport.js'
+import { useFramePreviewCanvas } from './use-frame-preview-canvas.js'
 
 export interface FrameAnimationMetadata {
   width: number
@@ -85,29 +88,8 @@ function nextFrameId(): string {
   return `frame-${Date.now()}-${localFrameId}`
 }
 
-function drawFrame(
-  canvas: HTMLCanvasElement,
-  width: number,
-  height: number,
-  rgba: Uint8Array,
-): void {
-  canvas.width = width
-  canvas.height = height
-  const context = canvas.getContext('2d')
-  if (!context) return
-  const pixels = new Uint8ClampedArray(rgba.byteLength)
-  pixels.set(rgba)
-  context.putImageData(new ImageData(pixels, width, height), 0, 0)
-}
-
-async function sha256Hex(bytes: Uint8Array): Promise<string> {
-  const source = new Uint8Array(bytes).buffer
-  const digest = await crypto.subtle.digest('SHA-256', source)
-  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('')
-}
-
 function sourceArrayBuffer(bytes: Uint8Array): ArrayBuffer {
-  return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer
+  return Uint8Array.from(bytes).buffer
 }
 
 function frameAnimationError(cause: unknown): string {
@@ -120,6 +102,7 @@ interface FrameEditorSourceOwner {
   assetId: AssetId
   revision: string
   session: EditSession
+  sequenceReader: FrameSequenceReader
 }
 
 interface FrameEditorOperation {
@@ -133,7 +116,7 @@ function FrameThumbnail(props: {
   selected: boolean
   current: boolean
   busy: boolean
-  onError(message: string): void
+  onError(cause: unknown): void
   onSelect(event: React.MouseEvent): void
   onDragStart(event: DragEvent<HTMLButtonElement>): void
   onDragEnd(): void
@@ -152,22 +135,7 @@ function FrameThumbnail(props: {
     onDragEnd,
     onDrop,
   } = props
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  useEffect(() => {
-    let alive = true
-    void resolveDraftFrame(draft, index, reader).then(
-      (rgba) => {
-        if (alive && canvasRef.current)
-          drawFrame(canvasRef.current, draft.width, draft.height, rgba)
-      },
-      (cause: unknown) => {
-        if (alive) onError(frameAnimationError(cause))
-      },
-    )
-    return () => {
-      alive = false
-    }
-  }, [draft, index, reader, onError])
+  const canvasRef = useFramePreviewCanvas(draft, index, reader, onError)
   return (
     <DsPressable
       type="button"
@@ -206,11 +174,17 @@ export function FrameAnimationEditor(props: {
   onDirtyChange?(dirty: boolean): void
 }) {
   const { asset, reader, assetBase, session, onMetadata, onDirtyChange } = props
-  const sequenceReader = useMemo(() => new FrameSequenceReader(reader, undefined, 64), [reader])
+  // Scope compressed containers and decoded frames to the current draft source.
   const sourceOwner = useMemo<FrameEditorSourceOwner>(
-    () => ({ assetId: asset.id, revision: asset.record.sha256, session }),
-    [asset.id, asset.record.sha256, session],
+    () => ({
+      assetId: asset.id,
+      revision: asset.record.sha256,
+      session,
+      sequenceReader: new FrameSequenceReader(reader),
+    }),
+    [asset.id, asset.record.sha256, reader, session],
   )
+  const { sequenceReader } = sourceOwner
   const activeOperation = useRef<FrameEditorOperation | null>(null)
   const [history, setHistory] = useState<FrameAnimationDraftHistory | null>(null)
   const [baseline, setBaseline] = useState<FrameAnimationDraft | null>(null)
@@ -226,7 +200,6 @@ export function FrameAnimationEditor(props: {
   const [error, setError] = useState('')
   const [quantization, setQuantization] = useState<FrameQuantization>('nearest')
   const [viewport, setViewport] = useState({ left: 0, width: 600 })
-  const canvasRef = useRef<HTMLCanvasElement>(null)
   const previewStageRef = useRef<HTMLElement>(null)
   const timelineRef = useRef<HTMLDivElement>(null)
   const insertRef = useRef<HTMLInputElement>(null)
@@ -244,6 +217,12 @@ export function FrameAnimationEditor(props: {
   const draft = history?.present
   const dirty = Boolean(draft && baseline && draft !== baseline)
   const timelineReady = Boolean(draft)
+  const previewIndex = draft ? Math.min(selectedIndex, draft.frames.length - 1) : 0
+  const reportCanvasFailure = useCallback(
+    (cause: unknown) => setError(frameAnimationError(cause)),
+    [],
+  )
+  const canvasRef = useFramePreviewCanvas(draft, previewIndex, sequenceReader, reportCanvasFailure)
 
   useEffect(() => {
     onDirtyChange?.(dirty)
@@ -268,19 +247,18 @@ export function FrameAnimationEditor(props: {
     dragFrameIdRef.current = null
     setError('')
     const expectedRevision = sourceOwner.revision
-    sequenceReader.invalidate(sourceOwner.assetId)
-    void sequenceReader.sequence(sourceOwner.assetId).then(
-      ({ index }) => {
+    void sequenceReader
+      .sequence(sourceOwner.assetId)
+      .then(({ index }) => {
         if (!alive) return
         const next = draftFromFrameSequence(sourceOwner.assetId, index)
         setHistory(createDraftHistory(next))
         setBaseline(next)
         setSelectedFrameIds(new Set(next.frames[0] ? [next.frames[0].id] : []))
-      },
-      (cause: unknown) => {
+      })
+      .catch((cause: unknown) => {
         if (alive) setError(`${expectedRevision.slice(0, 8)}: ${frameAnimationError(cause)}`)
-      },
-    )
+      })
     return () => {
       alive = false
       activeOperation.current = null
@@ -317,26 +295,8 @@ export function FrameAnimationEditor(props: {
   }, [draft, selectedIndex])
 
   useEffect(() => {
-    if (!draft) return
-    const index = Math.min(selectedIndex, draft.frames.length - 1)
-    if (index !== selectedIndex) {
-      setSelectedIndex(index)
-      return
-    }
-    let alive = true
-    void resolveDraftFrame(draft, index, sequenceReader).then(
-      (rgba) => {
-        if (alive && canvasRef.current)
-          drawFrame(canvasRef.current, draft.width, draft.height, rgba)
-      },
-      (cause: unknown) => {
-        if (alive) setError(frameAnimationError(cause))
-      },
-    )
-    return () => {
-      alive = false
-    }
-  }, [draft, selectedIndex, sequenceReader])
+    if (draft && selectedIndex !== previewIndex) setSelectedIndex(previewIndex)
+  }, [draft, previewIndex, selectedIndex])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: fit/zoom change CSS geometry even when the draft and canvas ref stay the same.
   useEffect(() => {
@@ -990,7 +950,7 @@ export function FrameAnimationEditor(props: {
                   selected={selectedFrameIds.has(frame.id)}
                   current={index === selectedIndex}
                   busy={Boolean(busy)}
-                  onError={setError}
+                  onError={reportCanvasFailure}
                   onSelect={(event) => {
                     if (event.shiftKey) {
                       const from = Math.min(selectionAnchor.current, index)

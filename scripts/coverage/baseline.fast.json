@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-28T03:52:12.036Z",
+  "generatedAt": "2026-11-28T06:34:35.869Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 851,
-  "testCount": 20244,
+  "sourceFileCount": 863,
+  "testCount": 20116,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -6738,7 +6738,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 303,
+      "sourceFileCount": 315,
       "sourceFiles": [
         "packages/editor/src/core/actor-commands.ts",
         "packages/editor/src/core/actor-dialogue-commands.ts",
@@ -6747,6 +6747,7 @@
         "packages/editor/src/core/asset-commands.ts",
         "packages/editor/src/core/asset-diagnostics.ts",
         "packages/editor/src/core/asset-label-command.ts",
+        "packages/editor/src/core/audio-preview-cache.ts",
         "packages/editor/src/core/audio-preview-session.ts",
         "packages/editor/src/core/audio-preview.ts",
         "packages/editor/src/core/author-command-edit.ts",
@@ -6789,6 +6790,7 @@
         "packages/editor/src/core/entity-commands.ts",
         "packages/editor/src/core/entity-display.ts",
         "packages/editor/src/core/entity-placement.ts",
+        "packages/editor/src/core/experience-curve.ts",
         "packages/editor/src/core/export-zip.ts",
         "packages/editor/src/core/file-system-access.ts",
         "packages/editor/src/core/frame-animation-codec.ts",
@@ -6814,8 +6816,10 @@
         "packages/editor/src/core/map-reference-facts.ts",
         "packages/editor/src/core/map-selection.ts",
         "packages/editor/src/core/map-transform.ts",
+        "packages/editor/src/core/music-picker-preview.ts",
         "packages/editor/src/core/open-actions.ts",
         "packages/editor/src/core/open-local.ts",
+        "packages/editor/src/core/pcm-preview-peaks.ts",
         "packages/editor/src/core/play-url.ts",
         "packages/editor/src/core/play-workspace.ts",
         "packages/editor/src/core/playback.ts",
@@ -6844,6 +6848,7 @@
         "packages/editor/src/core/seed.ts",
         "packages/editor/src/core/shop-commands.ts",
         "packages/editor/src/core/skill-commands.ts",
+        "packages/editor/src/core/sound-picker-preview.ts",
         "packages/editor/src/core/sprite-actions.ts",
         "packages/editor/src/core/sprite-assets.ts",
         "packages/editor/src/core/sprite-commands.ts",
@@ -6878,6 +6883,7 @@
         "packages/editor/src/ui/AmbienceScenePreview.tsx",
         "packages/editor/src/ui/AmbienceTab.tsx",
         "packages/editor/src/ui/App.tsx",
+        "packages/editor/src/ui/AudioAssetPlayer.tsx",
         "packages/editor/src/ui/AudioAssetWorkbench.tsx",
         "packages/editor/src/ui/BattleFieldPicker.tsx",
         "packages/editor/src/ui/BattleFieldTab.tsx",
@@ -6909,6 +6915,7 @@
         "packages/editor/src/ui/FrameAnimationEditor.tsx",
         "packages/editor/src/ui/ImageAssetPicker.tsx",
         "packages/editor/src/ui/ImageTab.tsx",
+        "packages/editor/src/ui/ImageWorkspacePreview.tsx",
         "packages/editor/src/ui/InitialStateWorkspace.tsx",
         "packages/editor/src/ui/IsometricEditorCanvas.tsx",
         "packages/editor/src/ui/IsometricEditorSurface.tsx",
@@ -6971,6 +6978,7 @@
         "packages/editor/src/ui/TilesetTab.tsx",
         "packages/editor/src/ui/TrancePreview.tsx",
         "packages/editor/src/ui/VarsTab.tsx",
+        "packages/editor/src/ui/VideoAssetPreview.tsx",
         "packages/editor/src/ui/WorldSpriteLibrary.tsx",
         "packages/editor/src/ui/add-picker-option-presentation.tsx",
         "packages/editor/src/ui/app-command-registry.ts",
@@ -7021,6 +7029,7 @@
         "packages/editor/src/ui/editor-target.ts",
         "packages/editor/src/ui/enemy-defeated-events.ts",
         "packages/editor/src/ui/hostile-victory-options.ts",
+        "packages/editor/src/ui/indexed-battle-preview.ts",
         "packages/editor/src/ui/inspector-tabs-test-utils.ts",
         "packages/editor/src/ui/isometric-map-render.ts",
         "packages/editor/src/ui/map-pointer-gesture-session.ts",
@@ -7028,6 +7037,7 @@
         "packages/editor/src/ui/map-stamp-structure-session.ts",
         "packages/editor/src/ui/map-transform-session.ts",
         "packages/editor/src/ui/map-workspace-view-session.ts",
+        "packages/editor/src/ui/media-asset-readout.ts",
         "packages/editor/src/ui/media-preview-viewport.ts",
         "packages/editor/src/ui/object-workspace-test-utils.ts",
         "packages/editor/src/ui/panel-layout.ts",
@@ -7040,14 +7050,16 @@
         "packages/editor/src/ui/use-battle-trial-session.ts",
         "packages/editor/src/ui/use-editor-navigation-session.ts",
         "packages/editor/src/ui/use-editor-project-session.ts",
+        "packages/editor/src/ui/use-frame-preview-canvas.ts",
+        "packages/editor/src/ui/use-owned-audio-transport.ts",
         "packages/editor/src/ui/use-project-leave-guard.ts",
         "packages/editor/src/ui/use-scene-workspace-session.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "0e477a364672e7fdb20e59964a960b2753b94456a9d039e813c27777b5dc38ba",
+      "scopeDigest": "61716badebeb53881eb63a831d40c1ff49efd0480607ccb1f5604905a7ba0cb4",
       "fastTests": {
-        "testCount": 4760,
-        "testFileCount": 593,
+        "testCount": 4632,
+        "testFileCount": 588,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
           "packages/editor/scripts/battle-simulator-http.test.mjs",
@@ -7071,8 +7083,8 @@
           "packages/editor/src/core/ambience-commands.test.ts",
           "packages/editor/src/core/asset-catalog-commands.test.ts",
           "packages/editor/src/core/asset-diagnostics.test.ts",
+          "packages/editor/src/core/audio-preview-cache.test.ts",
           "packages/editor/src/core/audio-preview-session.test.ts",
-          "packages/editor/src/core/audio-preview.c09-g01.cursor-r1.test.ts",
           "packages/editor/src/core/audio-preview.test.ts",
           "packages/editor/src/core/author-command-edit.boundaries.test.ts",
           "packages/editor/src/core/author-command-edit.test.ts",
@@ -7123,6 +7135,7 @@
           "packages/editor/src/core/entity-commands.residual.test.ts",
           "packages/editor/src/core/entity-display.test.ts",
           "packages/editor/src/core/entity-move-history.test.ts",
+          "packages/editor/src/core/experience-curve.test.ts",
           "packages/editor/src/core/file-system-access.test.ts",
           "packages/editor/src/core/frame-animation-codec.test.ts",
           "packages/editor/src/core/frame-animation-codec.worker.test.ts",
@@ -7169,6 +7182,7 @@
           "packages/editor/src/core/open-actions.test.ts",
           "packages/editor/src/core/open-local.test.ts",
           "packages/editor/src/core/pal-save-identity.test.ts",
+          "packages/editor/src/core/pcm-preview-peaks.test.ts",
           "packages/editor/src/core/play-url.test.ts",
           "packages/editor/src/core/play-workspace.test.ts",
           "packages/editor/src/core/playback.controls.test.ts",
@@ -7316,12 +7330,6 @@
           "packages/editor/src/ui/App.reference-navigation.test.tsx",
           "packages/editor/src/ui/AssetInspectorTabs.glm-asset-lifecycle.test.tsx",
           "packages/editor/src/ui/AssetInspectorTabs.test.tsx",
-          "packages/editor/src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx",
-          "packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx",
-          "packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
-          "packages/editor/src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx",
-          "packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx",
-          "packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
           "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
           "packages/editor/src/ui/BattleFieldTab.glm-data-authoring.test.tsx",
           "packages/editor/src/ui/BattleFieldTab.glm-leaf-wave.test.tsx",
@@ -7362,10 +7370,10 @@
           "packages/editor/src/ui/CommandForm.entity-names.test.tsx",
           "packages/editor/src/ui/CommandForm.test.ts",
           "packages/editor/src/ui/ConnectedEditorPages.test.tsx",
-          "packages/editor/src/ui/CutsceneTab.glm-authoring.test.tsx",
-          "packages/editor/src/ui/CutsceneTab.glm-ui-wave.test.tsx",
-          "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
+          "packages/editor/src/ui/CutsceneTab.frame-import.test.tsx",
+          "packages/editor/src/ui/CutsceneTab.lifecycle.test.tsx",
           "packages/editor/src/ui/CutsceneTab.test.tsx",
+          "packages/editor/src/ui/CutsceneTab.video-preview.test.tsx",
           "packages/editor/src/ui/DataMode.glm-data-authoring.test.tsx",
           "packages/editor/src/ui/DataMode.glm-large-wave.test.tsx",
           "packages/editor/src/ui/DataMode.glm-ui-wave.test.tsx",
@@ -7391,22 +7399,21 @@
           "packages/editor/src/ui/FireEffectPreview.c06-g03.cursor-r1.test.tsx",
           "packages/editor/src/ui/FireEffectPreview.glm-large-wave.test.tsx",
           "packages/editor/src/ui/FrameAnimationEditor.async-ownership.test.tsx",
-          "packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
           "packages/editor/src/ui/FrameAnimationEditor.editing.test.tsx",
-          "packages/editor/src/ui/FrameAnimationEditor.glm-next-wave.test.tsx",
+          "packages/editor/src/ui/FrameAnimationEditor.image-import.test.tsx",
           "packages/editor/src/ui/FrameAnimationEditor.loading.test.tsx",
           "packages/editor/src/ui/FrameAnimationEditor.playback.test.tsx",
           "packages/editor/src/ui/FrameAnimationEditor.reorder.test.tsx",
           "packages/editor/src/ui/FrameAnimationEditor.save.test.tsx",
-          "packages/editor/src/ui/FrameAnimationEditor.test.ts",
           "packages/editor/src/ui/FrameAnimationEditor.viewport.test.tsx",
-          "packages/editor/src/ui/ImageAssetPicker.glm-asset-lifecycle.test.tsx",
-          "packages/editor/src/ui/ImageAssetPicker.glm-leaf-wave.test.tsx",
-          "packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
-          "packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
-          "packages/editor/src/ui/ImageTab.glm-ui-wave.test.tsx",
-          "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
-          "packages/editor/src/ui/ImageTab.test.tsx",
+          "packages/editor/src/ui/ImageAssetPicker.test.tsx",
+          "packages/editor/src/ui/ImageAssetThumbnail.lifecycle.test.tsx",
+          "packages/editor/src/ui/ImageTab.battle-background.test.tsx",
+          "packages/editor/src/ui/ImageTab.catalog.test.tsx",
+          "packages/editor/src/ui/ImageTab.import.test.tsx",
+          "packages/editor/src/ui/ImageTab.preview.test.tsx",
+          "packages/editor/src/ui/ImageTab.references.test.tsx",
+          "packages/editor/src/ui/ImageTab.replacement-ownership.test.tsx",
           "packages/editor/src/ui/InitialStateWorkspace.test.tsx",
           "packages/editor/src/ui/IsometricEditorToolbar.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx",
@@ -7428,9 +7435,8 @@
           "packages/editor/src/ui/ItemUseEffectEditor.test.tsx",
           "packages/editor/src/ui/LayerStackControls.glm-p.test.tsx",
           "packages/editor/src/ui/LayerStackControls.test.tsx",
-          "packages/editor/src/ui/LevelCurveEditor.kimi-workflows.test.tsx",
-          "packages/editor/src/ui/LevelCurveEditor.test.ts",
-          "packages/editor/src/ui/LevelCurveEditor.ui.test.tsx",
+          "packages/editor/src/ui/LevelCurveEditor.field-commit.test.tsx",
+          "packages/editor/src/ui/LevelCurveEditor.interaction.test.tsx",
           "packages/editor/src/ui/LevelingEditor.test.tsx",
           "packages/editor/src/ui/MapContentSelectionPreview.test.tsx",
           "packages/editor/src/ui/MapMode.catalog-coverage.test.tsx",
@@ -7443,10 +7449,9 @@
           "packages/editor/src/ui/MapSelectionInspector.test.tsx",
           "packages/editor/src/ui/MapStampPalette.test.tsx",
           "packages/editor/src/ui/MediaAssetLifecycle.test.tsx",
-          "packages/editor/src/ui/MusicPicker.glm-leaf-wave.test.tsx",
+          "packages/editor/src/ui/MusicPicker.lifecycle.test.tsx",
           "packages/editor/src/ui/MusicPicker.test.tsx",
-          "packages/editor/src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
-          "packages/editor/src/ui/MusicTab.test.tsx",
+          "packages/editor/src/ui/MusicTab.workbench.test.tsx",
           "packages/editor/src/ui/NamedIdPicker.test.tsx",
           "packages/editor/src/ui/PanelResizeHandle-interaction.test.tsx",
           "packages/editor/src/ui/PanelResizeHandle.glm-leaf-wave.test.tsx",
@@ -7455,8 +7460,6 @@
           "packages/editor/src/ui/PoisonTab.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/PoisonTab.glm-m.test.tsx",
           "packages/editor/src/ui/PoisonTab.test.tsx",
-          "packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx",
-          "packages/editor/src/ui/PortraitEditor.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/PortraitEditor.test.tsx",
           "packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
           "packages/editor/src/ui/PreviewCanvas.cov85.test.tsx",
@@ -7464,8 +7467,7 @@
           "packages/editor/src/ui/PreviewCanvas.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/PreviewCanvas.test.tsx",
           "packages/editor/src/ui/PreviewCanvas.view-restoration.test.tsx",
-          "packages/editor/src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx",
-          "packages/editor/src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx",
+          "packages/editor/src/ui/ProjectAudioPreviewButton.playback.test.tsx",
           "packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx",
           "packages/editor/src/ui/ProjectPicker-recovery.test.tsx",
           "packages/editor/src/ui/ProjectSaveDialog.progress.test.tsx",
@@ -7509,10 +7511,13 @@
           "packages/editor/src/ui/SkillTab.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/SkillTab.kimi-workflows.test.tsx",
           "packages/editor/src/ui/SkillTab.test.tsx",
-          "packages/editor/src/ui/SoundPicker.glm-leaf-wave.test.tsx",
-          "packages/editor/src/ui/SoundPicker.test.ts",
-          "packages/editor/src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
-          "packages/editor/src/ui/SoundTab.test.ts",
+          "packages/editor/src/ui/SoundPicker.preview-ownership.test.ts",
+          "packages/editor/src/ui/SoundPicker.selection.test.tsx",
+          "packages/editor/src/ui/SoundTab.catalog.test.tsx",
+          "packages/editor/src/ui/SoundTab.delete.test.tsx",
+          "packages/editor/src/ui/SoundTab.import.test.tsx",
+          "packages/editor/src/ui/SoundTab.playback.test.tsx",
+          "packages/editor/src/ui/SoundTab.preview-ownership.test.tsx",
           "packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
           "packages/editor/src/ui/SpriteActionEditor.c05-g05.cursor-r1.test.tsx",
           "packages/editor/src/ui/SpriteActionEditor.kimi-workflows.test.tsx",
@@ -7564,6 +7569,7 @@
           "packages/editor/src/ui/app-command-registry.test.ts",
           "packages/editor/src/ui/app-layout-commands.test.ts",
           "packages/editor/src/ui/app-session-ownership.test.ts",
+          "packages/editor/src/ui/audio-import-contract.test.ts",
           "packages/editor/src/ui/command-form-actor.glm-large-wave.test.tsx",
           "packages/editor/src/ui/command-form-contract.test.ts",
           "packages/editor/src/ui/command-form-control.glm-large-wave.test.tsx",
@@ -7626,6 +7632,7 @@
           "packages/editor/src/ui/map-stamp-structure-session.test.tsx",
           "packages/editor/src/ui/map-transform-session.test.ts",
           "packages/editor/src/ui/map-workspace-view-session.test.tsx",
+          "packages/editor/src/ui/media-preview-viewport.test.ts",
           "packages/editor/src/ui/panel-layout.test.ts",
           "packages/editor/src/ui/preview-cache-boundaries.test.tsx",
           "packages/editor/src/ui/project-asset-roles.test.ts",
@@ -7755,19 +7762,19 @@
             "identityDigest": "79fcada085329846d65c883990f28539a624bb6d9ec4080e5d2715dfbf90e406"
           },
           {
+            "file": "packages/editor/src/core/audio-preview-cache.test.ts",
+            "testCount": 3,
+            "identityDigest": "f06e729dc169c59b03d965bfe48d14e633ad654c8bf843be0c5e131d1a1374de"
+          },
+          {
             "file": "packages/editor/src/core/audio-preview-session.test.ts",
             "testCount": 4,
             "identityDigest": "c00f2f11180054921454b02cc2731973eb92715b1b2631cf9977fe8b3a263e62"
           },
           {
-            "file": "packages/editor/src/core/audio-preview.c09-g01.cursor-r1.test.ts",
-            "testCount": 10,
-            "identityDigest": "92ba37026fa3a3f05742ee167ec6b98b81ef81941096bc72f2e7728861e7a880"
-          },
-          {
             "file": "packages/editor/src/core/audio-preview.test.ts",
             "testCount": 7,
-            "identityDigest": "4e9c85c0fd0cc8c4c073cc6e1eb20123121c4472ef0238846326250a80446f11"
+            "identityDigest": "2126ff7c99efb6aef7926e5394eb305318b27a4ba54bcbab877ead2e3dbb4743"
           },
           {
             "file": "packages/editor/src/core/author-command-edit.boundaries.test.ts",
@@ -8015,6 +8022,11 @@
             "identityDigest": "0cff8b81abd2ce1486fb248f4db1e81aeb3e342149e9845d8d503fab2ae7e1ba"
           },
           {
+            "file": "packages/editor/src/core/experience-curve.test.ts",
+            "testCount": 3,
+            "identityDigest": "67c1ffbf1ad1ef6366fcef11800509a91f5a9238138a2b0bf7ca8520a145bbd9"
+          },
+          {
             "file": "packages/editor/src/core/file-system-access.test.ts",
             "testCount": 3,
             "identityDigest": "0b2a88d59ec92a3feb01ea2a3da487ee7864aafcebebd63ba434067fdcdbcaf6"
@@ -8031,8 +8043,8 @@
           },
           {
             "file": "packages/editor/src/core/frame-animation-draft.test.ts",
-            "testCount": 18,
-            "identityDigest": "19db475b38325f196af31fa156e64dfa316ebde793a46a6699106f671da6ad26"
+            "testCount": 17,
+            "identityDigest": "53dac19f3489cbdbe26a32bf751b4dc3e1971f2efd9f32804a116bf2fa6160a3"
           },
           {
             "file": "packages/editor/src/core/frame-animation-images.test.ts",
@@ -8243,6 +8255,11 @@
             "file": "packages/editor/src/core/pal-save-identity.test.ts",
             "testCount": 13,
             "identityDigest": "b1f075dcf08fd748dce8c78c83dba287782f586d68fe29f56e0d74e365701739"
+          },
+          {
+            "file": "packages/editor/src/core/pcm-preview-peaks.test.ts",
+            "testCount": 4,
+            "identityDigest": "fdbe3163100f8a50bfb30316f31f30c8798b21c3b7ed9b3848fd3bee15554a92"
           },
           {
             "file": "packages/editor/src/core/play-url.test.ts",
@@ -8816,8 +8833,8 @@
           },
           {
             "file": "packages/editor/src/core/video-metadata.test.ts",
-            "testCount": 17,
-            "identityDigest": "91576711ce247bc0590f502790fe9e1f877dce28559690f3eaf9aa2f319d7b17"
+            "testCount": 18,
+            "identityDigest": "6cd896af46fe4a6c200e6da0136a362ad64aaf8ae592949ecc1ae073c22989df"
           },
           {
             "file": "packages/editor/src/core/workspace-capability-lifecycle.test.ts",
@@ -8978,36 +8995,6 @@
             "file": "packages/editor/src/ui/AssetInspectorTabs.test.tsx",
             "testCount": 6,
             "identityDigest": "1f23973746015d9d33186c7ca56ec0edc7d02fdb3fb0c307b7a0c8fa592027cb"
-          },
-          {
-            "file": "packages/editor/src/ui/AudioAssetWorkbench.c09-g05.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "0bd0dd9c3ee036be82b595bb28f6d75ea719b31dfa1df7e0e3a79983ab93bdc3"
-          },
-          {
-            "file": "packages/editor/src/ui/AudioAssetWorkbench.c09-g06.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "7b95173352d862459afecfe46803fd4c501d04347c0ecd86681bb4b305e5af06"
-          },
-          {
-            "file": "packages/editor/src/ui/AudioAssetWorkbench.c09-g07.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "ec5708d3f9fb365a80941a91df541158833969387bebf5899e751b7e54b778a9"
-          },
-          {
-            "file": "packages/editor/src/ui/AudioAssetWorkbench.glm-audio-own.test.tsx",
-            "testCount": 4,
-            "identityDigest": "6c7c9df433c44142ee214f88d12bc6300d43804b5d895ebc68989a93c3aeeada"
-          },
-          {
-            "file": "packages/editor/src/ui/AudioAssetWorkbench.glm-ui-wave.test.tsx",
-            "testCount": 2,
-            "identityDigest": "241cacea581b93adf617e3c1508a6b503ab912341289a167bfa27e1d21df23c1"
-          },
-          {
-            "file": "packages/editor/src/ui/AudioAssetWorkbench.kimi-workflows.test.tsx",
-            "testCount": 8,
-            "identityDigest": "f0247ebb0ec05e0f8b5c1a534c5fc8eeaa3d31dca995082f28f17c857ffcf85d"
           },
           {
             "file": "packages/editor/src/ui/AudioAssetWorkbench.test.tsx",
@@ -9210,24 +9197,24 @@
             "identityDigest": "58765d4295bc2733e316ee07c6e83177e5f2352c51ea9fc32344c418e878787f"
           },
           {
-            "file": "packages/editor/src/ui/CutsceneTab.glm-authoring.test.tsx",
+            "file": "packages/editor/src/ui/CutsceneTab.frame-import.test.tsx",
             "testCount": 6,
-            "identityDigest": "d2bbebaec16d6f14c66d2170bddedbcff81a873005565ee4a2aaa82cb3a62a44"
+            "identityDigest": "34792e0ebe60722e665391be5a3c11c263755a31d3925d65801942c1fff6687b"
           },
           {
-            "file": "packages/editor/src/ui/CutsceneTab.glm-ui-wave.test.tsx",
-            "testCount": 3,
-            "identityDigest": "8396efae7a99595f9a7860b512358da725fbcda32fc8ff54ffa757476b51635f"
-          },
-          {
-            "file": "packages/editor/src/ui/CutsceneTab.kimi-workflows.test.tsx",
-            "testCount": 8,
-            "identityDigest": "50f2015da7207a4d112f93fde7e9ef6ee12c3df9870e92b569e40dbf76a1b33c"
+            "file": "packages/editor/src/ui/CutsceneTab.lifecycle.test.tsx",
+            "testCount": 5,
+            "identityDigest": "d956fadb2ad09eef5c79b94a99bed654144e10de2780b088b9bd6551664a84a3"
           },
           {
             "file": "packages/editor/src/ui/CutsceneTab.test.tsx",
-            "testCount": 6,
-            "identityDigest": "c5f7bb09167dfc67b59cc0d1614e2f842808a68185c56bf8f4c0108931f74f4a"
+            "testCount": 2,
+            "identityDigest": "65dc295ce1fd83401b329ed777370bea23a311003dfd229c803fe76933f5672d"
+          },
+          {
+            "file": "packages/editor/src/ui/CutsceneTab.video-preview.test.tsx",
+            "testCount": 10,
+            "identityDigest": "a134d88390fc644cdca6d516fa9857aa77b0299f1046015316ea36221b9a61d6"
           },
           {
             "file": "packages/editor/src/ui/DataMode.glm-data-authoring.test.tsx",
@@ -9355,34 +9342,29 @@
             "identityDigest": "d49a1ec5cd1db69b6ad0d8e66c46d22c78e5518c31b686a9b4d28a535cceb775"
           },
           {
-            "file": "packages/editor/src/ui/FrameAnimationEditor.c04.cursor-r1.test.tsx",
-            "testCount": 59,
-            "identityDigest": "ce28f31966388b20f88220becdbc6f0f31b573cf21f86b9b358b0751baa9d576"
-          },
-          {
             "file": "packages/editor/src/ui/FrameAnimationEditor.editing.test.tsx",
-            "testCount": 5,
-            "identityDigest": "eb3849842d06dda3bff88776b7ba573ca16eaef89c6764d30cbb190d9efe69f5"
+            "testCount": 8,
+            "identityDigest": "b4ed0fc117de583e49e8b2f7cf4efa8c9a1d5e5ff002a8ff71ff8f7f9c2fd1ca"
           },
           {
-            "file": "packages/editor/src/ui/FrameAnimationEditor.glm-next-wave.test.tsx",
-            "testCount": 1,
-            "identityDigest": "0ea58df9caee2e937875a9cc15a9f2c81c7e2c61f2148101b764c35d7b2c0a85"
+            "file": "packages/editor/src/ui/FrameAnimationEditor.image-import.test.tsx",
+            "testCount": 3,
+            "identityDigest": "3b27da912aa62eeb04dce6ac878e42ea7d254dec6fa773e6a732bb2eec8b87c4"
           },
           {
             "file": "packages/editor/src/ui/FrameAnimationEditor.loading.test.tsx",
-            "testCount": 6,
-            "identityDigest": "195ac84118ff2dfe3d074f439cba7f3e1411b8945e7752d1471883757f0365da"
+            "testCount": 7,
+            "identityDigest": "a4c577a35989c6010f9f0dbf9c75f2f705f93f454cbe13d0c1279c7de58d7883"
           },
           {
             "file": "packages/editor/src/ui/FrameAnimationEditor.playback.test.tsx",
-            "testCount": 3,
-            "identityDigest": "9e09b8753d371314048235a2e323503a2920b1afa64fcba2139b8231447af4cb"
+            "testCount": 4,
+            "identityDigest": "4111f2a3ec844628c84ef522f76d64eb531017d10e5ebd8ae63ae1d9b95ad94e"
           },
           {
             "file": "packages/editor/src/ui/FrameAnimationEditor.reorder.test.tsx",
-            "testCount": 3,
-            "identityDigest": "9bebc5fa7822c174a69346ec24143f93d92c451eb1885db9f6d7d8d12c40f8e2"
+            "testCount": 4,
+            "identityDigest": "119c478923a7194961270f73ab12cd3cdb10279350f62c1685941e26210c0d2f"
           },
           {
             "file": "packages/editor/src/ui/FrameAnimationEditor.save.test.tsx",
@@ -9390,49 +9372,49 @@
             "identityDigest": "c2a18489a930e102bc3bcba048a00d467c97f6efcc810e351c1e123e39823e18"
           },
           {
-            "file": "packages/editor/src/ui/FrameAnimationEditor.test.ts",
-            "testCount": 3,
-            "identityDigest": "d95a772430d3500836215af65f6e9097967bf8c9434c201e57808718925d7b9b"
-          },
-          {
             "file": "packages/editor/src/ui/FrameAnimationEditor.viewport.test.tsx",
             "testCount": 3,
             "identityDigest": "955ff06133d3dc6c714e11e4fd53892d0dfc6591fce5095c3f99e9277a88dfb9"
           },
           {
-            "file": "packages/editor/src/ui/ImageAssetPicker.glm-asset-lifecycle.test.tsx",
-            "testCount": 5,
-            "identityDigest": "4848fd24025652788179863baa48da855309c221e6de2323469a8723d41f9158"
-          },
-          {
-            "file": "packages/editor/src/ui/ImageAssetPicker.glm-leaf-wave.test.tsx",
-            "testCount": 7,
-            "identityDigest": "d03b348925be1cd8214abc7d6e27d49637d3d41ae69599f74e852308d3630170"
-          },
-          {
-            "file": "packages/editor/src/ui/ImageTab.c07-g06.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "8538b602b651a66e271cbb98982097db7a1711c396fed35ede89a9a8b842f93e"
-          },
-          {
-            "file": "packages/editor/src/ui/ImageTab.c07-g07.cursor-r1.test.tsx",
-            "testCount": 10,
-            "identityDigest": "d3c44dccbd510e961489bf5dd38f89ab6a426a7ab2203aed4ca1c8f645155445"
-          },
-          {
-            "file": "packages/editor/src/ui/ImageTab.glm-ui-wave.test.tsx",
-            "testCount": 3,
-            "identityDigest": "0b9800575202122ef98289bc3df101716f3d4c28be50b2925d322a98a75c7e9b"
-          },
-          {
-            "file": "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
-            "testCount": 9,
-            "identityDigest": "1402db8c17168a40c11568209a54fb6365b5556823eab9397d216e5ce236f687"
-          },
-          {
-            "file": "packages/editor/src/ui/ImageTab.test.tsx",
+            "file": "packages/editor/src/ui/ImageAssetPicker.test.tsx",
             "testCount": 4,
-            "identityDigest": "f190aa4a788b46e4269fbe14151cb85a98b55d264d61a4b9a6bdbc615f2226a1"
+            "identityDigest": "a8fa3798068f2998cb0cc51aee6cd67da3968010eb0b4e91520f6af8d051fe9a"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageAssetThumbnail.lifecycle.test.tsx",
+            "testCount": 5,
+            "identityDigest": "32ff8a273e958be751145ece3ecc57eadfcfb888818efff21dc15c7ccedaf398"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.battle-background.test.tsx",
+            "testCount": 2,
+            "identityDigest": "a8f1892168b121a6fafaa89a6b369640e314015f41bc28c2e6f6c12d42360c16"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.catalog.test.tsx",
+            "testCount": 2,
+            "identityDigest": "4ebe3a8e711db757b8f8ced43fb19e7ed68d87461b5a147591d3704b179f577b"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.import.test.tsx",
+            "testCount": 8,
+            "identityDigest": "e73d4912320b73f441555430c49e2fb85ff449171fd3cfe27748929a9e2a1091"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.preview.test.tsx",
+            "testCount": 3,
+            "identityDigest": "47196adf70218da81e47c366fdbaa61016a3851b32062ea10dbffb2a1b41ae87"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.references.test.tsx",
+            "testCount": 4,
+            "identityDigest": "bd3a346309f440545e4ae9022fdc5ad2a20692342c439727cdb00bbe892253df"
+          },
+          {
+            "file": "packages/editor/src/ui/ImageTab.replacement-ownership.test.tsx",
+            "testCount": 2,
+            "identityDigest": "fcc26af28c3f9d29a301124510bca60c15d30668e94002e54f33d895bb221155"
           },
           {
             "file": "packages/editor/src/ui/InitialStateWorkspace.test.tsx",
@@ -9540,24 +9522,19 @@
             "identityDigest": "84eed6991c8f61e0844b4eb0896c46452bffa15ff40002624edabc3b0909c226"
           },
           {
-            "file": "packages/editor/src/ui/LevelCurveEditor.kimi-workflows.test.tsx",
-            "testCount": 5,
-            "identityDigest": "a94f73de68f926f709f6c7f34f1df1dbabb5258f70d44f4ba716ff5234955e10"
-          },
-          {
-            "file": "packages/editor/src/ui/LevelCurveEditor.test.ts",
-            "testCount": 3,
-            "identityDigest": "7e776338fc11ef30d6ef75be1924f3dc3077bce836807cce6042bfed4afc4da7"
-          },
-          {
-            "file": "packages/editor/src/ui/LevelCurveEditor.ui.test.tsx",
+            "file": "packages/editor/src/ui/LevelCurveEditor.field-commit.test.tsx",
             "testCount": 1,
-            "identityDigest": "966d010be8b7c85e69d4d68f41dad21b041c3dc5cd6918d00d746948e3f63b6e"
+            "identityDigest": "01f7ac9debdf16e131ab93219f0a8212384579147d4046f3aa91f4688c184b7f"
+          },
+          {
+            "file": "packages/editor/src/ui/LevelCurveEditor.interaction.test.tsx",
+            "testCount": 7,
+            "identityDigest": "52259c4e75e8d3ef1230fa46e62e7670300cd458dc23c96c614c698f7c783d6a"
           },
           {
             "file": "packages/editor/src/ui/LevelingEditor.test.tsx",
-            "testCount": 3,
-            "identityDigest": "317bf53d8599d3d3bc18098d6085043bda489b372d18ab1891bea1f10b6379af"
+            "testCount": 5,
+            "identityDigest": "0b617903ebe0f2ffe8397a6df29754fcd852ade8d1d9c2582e3640e193ac7aca"
           },
           {
             "file": "packages/editor/src/ui/MapContentSelectionPreview.test.tsx",
@@ -9615,24 +9592,19 @@
             "identityDigest": "a558c5afd02ce6c752c068683ff298748feef829df487a3a4f740c8413ff0f85"
           },
           {
-            "file": "packages/editor/src/ui/MusicPicker.glm-leaf-wave.test.tsx",
-            "testCount": 4,
-            "identityDigest": "0c5211f1f247e21c07049cda6b7edaae5f1a69a551ac74113ab6a98211a1e7ce"
+            "file": "packages/editor/src/ui/MusicPicker.lifecycle.test.tsx",
+            "testCount": 1,
+            "identityDigest": "1525701e83f8b248bb5afc5d1242fa40512df8b337923f1407ab56979504def0"
           },
           {
             "file": "packages/editor/src/ui/MusicPicker.test.tsx",
-            "testCount": 1,
-            "identityDigest": "fe4f60606f2733363870e46ba0980f43a86c059eeac01fb05c74aee647b7e256"
+            "testCount": 2,
+            "identityDigest": "4c52088cb891d8c66d3fd49cdd8cd5093d273828a086808cfab916a7477ab0d1"
           },
           {
-            "file": "packages/editor/src/ui/MusicTab.c09-g03.cursor-r1.test.ts",
-            "testCount": 10,
-            "identityDigest": "0d32a260e3469cbac8d7ece1fe2c24d3bd31b86c8c1f7cac8b86a633ac053b9c"
-          },
-          {
-            "file": "packages/editor/src/ui/MusicTab.test.tsx",
-            "testCount": 1,
-            "identityDigest": "a65dac413a683772b73bd2991d268d874dba09f365de5cd80fce0e30fd0178bb"
+            "file": "packages/editor/src/ui/MusicTab.workbench.test.tsx",
+            "testCount": 4,
+            "identityDigest": "63f1b2ae115ac58cb594afe5cc46657fbaebc273df59e78cd3a45430f1de24a9"
           },
           {
             "file": "packages/editor/src/ui/NamedIdPicker.test.tsx",
@@ -9675,19 +9647,9 @@
             "identityDigest": "2f1aac24f938291ccd13a7da2f0e7b46d5267e6a11f96d77448e8b93d3322d95"
           },
           {
-            "file": "packages/editor/src/ui/PortraitEditor.c06-g05.cursor-r1.test.tsx",
-            "testCount": 11,
-            "identityDigest": "9a2bd55a6d6a1226f506739c3659814b35599e3d53b6ed2043c48aa1f3e24df9"
-          },
-          {
-            "file": "packages/editor/src/ui/PortraitEditor.glm-leaf-wave.test.tsx",
-            "testCount": 3,
-            "identityDigest": "c5908383f0ce82954a72ba19850b4cd1ef73ee63b4248b5a6ce38ff06b593afa"
-          },
-          {
             "file": "packages/editor/src/ui/PortraitEditor.test.tsx",
-            "testCount": 3,
-            "identityDigest": "fbd898a83c8778724b6d723f01d7fc0978f5bfbe96e223cc7c4b6ac9ab4fde4d"
+            "testCount": 7,
+            "identityDigest": "1b69baa4499884bae6e9011c5664bff6aaa059052cbed274aaac18298853310f"
           },
           {
             "file": "packages/editor/src/ui/PreviewCanvas.c06-g01.cursor-r1.test.tsx",
@@ -9720,19 +9682,14 @@
             "identityDigest": "ba9a3e205fed13de0988d90ded83c8891643019a8cc384300bf1f3a28ddee2f6"
           },
           {
-            "file": "packages/editor/src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx",
+            "file": "packages/editor/src/ui/ProjectAudioPreviewButton.playback.test.tsx",
             "testCount": 5,
-            "identityDigest": "903343b56e4b21ce50f68c32e1932bb6685f40d060efe7e94e4a58524e3f60e5"
-          },
-          {
-            "file": "packages/editor/src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx",
-            "testCount": 2,
-            "identityDigest": "e88c0caff83cef65ecee87e0799408e498cd63b9d113004af93e0a34f165f3fe"
+            "identityDigest": "97deed51a9ad1592a98f913d7c79a6cc2ef7fcc87a075f89078fe33c48e3dad0"
           },
           {
             "file": "packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx",
             "testCount": 4,
-            "identityDigest": "1b6ab70a095600931ec952778c8edd18c0829f25707c2d7562428e4154534e65"
+            "identityDigest": "021ac5f9118e9a4603b206b4458733c5caad269294b943115212835e5c7961e2"
           },
           {
             "file": "packages/editor/src/ui/ProjectPicker-recovery.test.tsx",
@@ -9945,24 +9902,39 @@
             "identityDigest": "74aa052a83b361dbb86322417cd0d7b6b28e9ca817f8b486f5c010eb602bf743"
           },
           {
-            "file": "packages/editor/src/ui/SoundPicker.glm-leaf-wave.test.tsx",
-            "testCount": 5,
-            "identityDigest": "a3eaac9a2ace071eb2404aace145cbb25c0c9c757ffc9558492a2745042175eb"
-          },
-          {
-            "file": "packages/editor/src/ui/SoundPicker.test.ts",
+            "file": "packages/editor/src/ui/SoundPicker.preview-ownership.test.ts",
             "testCount": 2,
-            "identityDigest": "26e65f6ce298c05a0d6565a2ec5cb99a348560bb102b22d41bc31bbafb2f6668"
+            "identityDigest": "34c7e7ab404302fd4da65b253f12051d83496adbe5a27ec46256b86d67ba6e65"
           },
           {
-            "file": "packages/editor/src/ui/SoundTab.c09-g04.cursor-r1.test.ts",
-            "testCount": 10,
-            "identityDigest": "f400b47a83affec69f14a834ac6821b2cf505e4d92186aad017d6ff193a23ec0"
+            "file": "packages/editor/src/ui/SoundPicker.selection.test.tsx",
+            "testCount": 4,
+            "identityDigest": "1b86d29d5325f3bbd2c99d44314bb09e46b1a25017b8f298979f0a20f165d815"
           },
           {
-            "file": "packages/editor/src/ui/SoundTab.test.ts",
+            "file": "packages/editor/src/ui/SoundTab.catalog.test.tsx",
+            "testCount": 1,
+            "identityDigest": "215f5ddb073025b16b866b33a07b1782e83c45a103a42c5a4347d491700ed6fd"
+          },
+          {
+            "file": "packages/editor/src/ui/SoundTab.delete.test.tsx",
+            "testCount": 4,
+            "identityDigest": "0ad102a1340bd696fb805ad46aad63b253935b7bb547fbfdbd959890a63ad858"
+          },
+          {
+            "file": "packages/editor/src/ui/SoundTab.import.test.tsx",
+            "testCount": 5,
+            "identityDigest": "0ff81f023aa3df85422cbf79ec16d01ed9dbcc9525f648b9a5c41f8a92ba07dd"
+          },
+          {
+            "file": "packages/editor/src/ui/SoundTab.playback.test.tsx",
+            "testCount": 2,
+            "identityDigest": "7dcaac8d26999885066cb3167734ad87c6e5345de589bfb04f338bcc370f241f"
+          },
+          {
+            "file": "packages/editor/src/ui/SoundTab.preview-ownership.test.tsx",
             "testCount": 3,
-            "identityDigest": "f04b2042099c82246fdfe154eb45844049e283d2e6dcf028d3ddcf7bb75ef260"
+            "identityDigest": "ba32728847bee93421efc2a0341a1ca75495de523a6ad8e28216757f50bb382d"
           },
           {
             "file": "packages/editor/src/ui/SpriteActionEditor.c05-g04.cursor-r1.test.tsx",
@@ -10218,6 +10190,11 @@
             "file": "packages/editor/src/ui/app-session-ownership.test.ts",
             "testCount": 3,
             "identityDigest": "e900eec8c993850506defd153be68edaf092e049da3e093e147477d0624443fe"
+          },
+          {
+            "file": "packages/editor/src/ui/audio-import-contract.test.ts",
+            "testCount": 4,
+            "identityDigest": "bbd2f352d86a3db7ac5dd953b23088d6a6d73f9a199ec917b7035fa8f22ba08d"
           },
           {
             "file": "packages/editor/src/ui/command-form-actor.glm-large-wave.test.tsx",
@@ -10530,6 +10507,11 @@
             "identityDigest": "b0fe5e9356ac4df4cf10357591e491574cd1d70cf0f7f2dabb261d9a1ced116f"
           },
           {
+            "file": "packages/editor/src/ui/media-preview-viewport.test.ts",
+            "testCount": 3,
+            "identityDigest": "6fb624d5135691f9fee5962341459e77d01af533efb774479af95f5ba2c8ffd2"
+          },
+          {
             "file": "packages/editor/src/ui/panel-layout.test.ts",
             "testCount": 5,
             "identityDigest": "a504d4035e5dc0d74a82ec4cfd3c74d85d33ec3c331a5d2f7d814f2066d95473"
@@ -10610,46 +10592,46 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "10d36348032c6253c760308ff91e3b732aa6519540532a51645f7f269791e6bb",
+        "identityDigest": "295c9e0d61ab4d1c49c61c65f4555be675f95087e0151fc640903924c0a2eacc",
         "duplicateIdentityCount": 8,
-        "executionDigest": "4703aa389042d40b415005bc204b8132c27fe6a64208f4bb9f64e4b8d096ea06"
+        "executionDigest": "9119ef3a5715d15fd357a10c8a39c58ceedb3298ccabe40ed2636a3aafc482ee"
       },
       "metrics": {
         "statements": {
-          "covered": 31599,
-          "total": 34986
+          "covered": 31591,
+          "total": 34970
         },
         "branches": {
-          "covered": 25600,
-          "total": 30616
+          "covered": 25608,
+          "total": 30611
         },
         "functions": {
-          "covered": 8083,
-          "total": 8984
+          "covered": 8068,
+          "total": 8971
         },
         "lines": {
-          "covered": 28331,
-          "total": 30609
+          "covered": 28328,
+          "total": 30592
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 76839,
-      "total": 84273
+      "covered": 76831,
+      "total": 84257
     },
     "branches": {
-      "covered": 56304,
-      "total": 66455
+      "covered": 56312,
+      "total": 66450
     },
     "functions": {
-      "covered": 14519,
-      "total": 16038
+      "covered": 14504,
+      "total": 16025
     },
     "lines": {
-      "covered": 68705,
-      "total": 73787
+      "covered": 68702,
+      "total": 73770
     }
   }
 }

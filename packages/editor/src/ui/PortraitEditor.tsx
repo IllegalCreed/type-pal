@@ -144,16 +144,6 @@ export function PortraitEditor(props: {
     [portraitAssets, reader],
   )
 
-  const dispatch = (next: PortraitSet | undefined): boolean => {
-    try {
-      session.dispatch(new UpdateActorCommand(actor.id, { portraits: next }))
-      setError('')
-      return true
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : String(cause))
-      return false
-    }
-  }
   const dispatchPortraitCommand = (command: Command): boolean => {
     try {
       session.dispatch(command)
@@ -164,9 +154,12 @@ export function PortraitEditor(props: {
       return false
     }
   }
+  const updatePortraits = (next: PortraitSet): void => {
+    dispatchPortraitCommand(new UpdateActorCommand(actor.id, { portraits: next }))
+  }
   const setExpressions = (expressions: Record<string, AssetId>): void => {
     if (!portraits) return
-    dispatch(withExpressions(portraits, expressions))
+    updatePortraits(withExpressions(portraits, expressions))
   }
   const expressionNames = Object.keys(portraits?.expressions ?? {})
   const pickerMode = portraits ? 'expression' : 'default'
@@ -241,7 +234,7 @@ export function PortraitEditor(props: {
                   catalog={catalog}
                   reader={reader}
                   onChange={(asset) => {
-                    if (asset) dispatch({ ...portraits, default: asset })
+                    if (asset) updatePortraits({ ...portraits, default: asset })
                   }}
                   ariaLabel="默认对话立绘图片"
                   onOpenAsset={onOpenAsset}

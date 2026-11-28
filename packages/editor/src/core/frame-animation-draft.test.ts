@@ -6,7 +6,6 @@ import {
   deleteDraftFrames,
   draftDurationMs,
   draftFrameDurationMs,
-  duplicateDraftFrame,
   type FrameAnimationDraft,
   frameSelectionAfterReorder,
   insertDraftFrames,
@@ -123,7 +122,6 @@ test('a new edit after undo clears nonempty redo, while same-present commits and
 })
 test.each([
   ['insert', (d: FrameAnimationDraft) => insertDraftFrames(d, -1, [])],
-  ['duplicate', (d: FrameAnimationDraft) => duplicateDraftFrame(d, 2, 'new')],
   [
     'replace',
     (d: FrameAnimationDraft) =>
@@ -203,28 +201,23 @@ test('deleting an override removes its time; nonadjacent removal preserves the r
   expect(draftDurationMs(selected)).toBe(160)
 })
 
-test('replacing and duplicating a frame preserve its timing and do not copy unchanged frame objects', async () => {
+test('replacing a frame preserves its timing and leaves the unchanged frame objects shared', async () => {
   const original = timeline()
   const replacement = localFrame('unused', 99)
   const edited = replaceDraftFrame(original, 1, replacement.source)
-  const copy = duplicateDraftFrame(edited, 1, 'copy')
-  expect(copy.frames.map(({ id, durationMs }) => [id, durationMs])).toEqual([
+  expect(edited.frames.map(({ id, durationMs }) => [id, durationMs])).toEqual([
     ['a', undefined],
     ['b', 70],
-    ['copy', 70],
     ['c', undefined],
   ])
-  expect(draftDurationMs(copy)).toBe(220)
+  expect(draftDurationMs(edited)).toBe(150)
   expect(edited.frames[0]).toBe(original.frames[0])
   expect(edited.frames[2]).toBe(original.frames[2])
   expect(original.frames[1]?.source).not.toBe(replacement.source)
   const readFromDisk = vi.fn<() => Promise<never>>(() =>
     Promise.reject(new Error('local frame must not load a resource')),
   )
-  await expect(resolveDraftFrame(copy, 1, { frame: readFromDisk })).resolves.toEqual(
-    Uint8Array.of(99, 0, 0, 255),
-  )
-  await expect(resolveDraftFrame(copy, 2, { frame: readFromDisk })).resolves.toEqual(
+  await expect(resolveDraftFrame(edited, 1, { frame: readFromDisk })).resolves.toEqual(
     Uint8Array.of(99, 0, 0, 255),
   )
   expect(readFromDisk).not.toHaveBeenCalled()

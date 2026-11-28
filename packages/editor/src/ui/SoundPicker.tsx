@@ -1,14 +1,8 @@
 import type { AssetCatalogV1, AssetId, AssetRecordV1 } from '@type-pal/content'
-import { SfxPlayer } from '@type-pal/reforge'
 import { memo, useMemo, useState } from 'react'
-import {
-  claimEditorAudioPreview,
-  type EditorAudioPreviewOwner,
-  isEditorAudioPreviewOwner,
-  releaseEditorAudioPreview,
-  stopEditorAudioPreview,
-} from '../core/audio-preview-session.js'
+import { stopEditorAudioPreview } from '../core/audio-preview-session.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { previewSound } from '../core/sound-picker-preview.js'
 import {
   DsControlGroup,
   type DsControlSize,
@@ -30,74 +24,6 @@ export function soundAssets(catalog: AssetCatalogV1): SoundAsset[] {
 
 export function soundLabel(asset: SoundAsset): string {
   return asset.record.label ? `${asset.record.label} (${asset.id})` : asset.id
-}
-
-let previewReader: EditorAssetReader | undefined
-let previewPlayer: SfxPlayer | undefined
-let previewRequest = 0
-const previewFingerprints = new Map<AssetId, string>()
-const soundPreviewOwner: EditorAudioPreviewOwner = {
-  stop() {
-    previewRequest++
-    void disposeSoundPlayer()
-  },
-}
-
-async function disposeSoundPlayer(): Promise<void> {
-  const player = previewPlayer
-  previewPlayer = undefined
-  previewReader = undefined
-  previewFingerprints.clear()
-  await player?.dispose()
-}
-
-async function playerFor(reader: EditorAssetReader): Promise<SfxPlayer> {
-  if (!previewPlayer || previewReader !== reader) {
-    const previous = previewPlayer
-    previewReader = reader
-    previewPlayer = new SfxPlayer(reader)
-    previewFingerprints.clear()
-    await previous?.dispose()
-  }
-  return previewPlayer
-}
-
-export async function prepareSoundPreview(
-  reader: EditorAssetReader,
-  asset: AssetId,
-): Promise<SfxPlayer> {
-  const record = reader.record(asset, 'sound')
-  const player = await playerFor(reader)
-  const previous = previewFingerprints.get(asset)
-  if (previous !== undefined && previous !== record.sha256) player.invalidate(asset)
-  previewFingerprints.set(asset, record.sha256)
-  await player.resume()
-  await player.prepare([asset])
-  return player
-}
-
-export async function previewSound(reader: EditorAssetReader, asset: AssetId): Promise<void> {
-  // SfxPlayer 允许多个 active source；同一个 picker owner 重新 claim 不会自动 stop。
-  // 因此每次新试听都先结束全局旧 owner，并用 request 隔离仍在 prepare 的旧资源。
-  stopEditorAudioPreview()
-  const request = ++previewRequest
-  claimEditorAudioPreview(soundPreviewOwner)
-  try {
-    const player = await prepareSoundPreview(reader, asset)
-    if (request !== previewRequest || !isEditorAudioPreviewOwner(soundPreviewOwner)) return
-    player.play(asset)
-  } catch (error) {
-    if (request !== previewRequest || !isEditorAudioPreviewOwner(soundPreviewOwner)) return
-    releaseEditorAudioPreview(soundPreviewOwner)
-    throw error
-  }
-}
-
-export async function disposeSoundPreview(reader?: EditorAssetReader): Promise<void> {
-  if (reader && previewReader !== reader) return
-  previewRequest++
-  releaseEditorAudioPreview(soundPreviewOwner)
-  await disposeSoundPlayer()
 }
 
 const UNSET = '__unset__'

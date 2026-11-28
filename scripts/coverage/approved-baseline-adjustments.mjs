@@ -5,6 +5,199 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'editor-preview-lifecycles-20261128',
+    authority:
+      "User permits exact recounts for justified refactoring. The protected run's Editor report (GitHub artifact 15250685938) and the candidate report attribute all function differences to media/growth responsibility changes and two formerly executed synthetic editor fixture methods. Actual UI and lifecycle cases retain their stronger tests. Only Editor functions are recounted, and no source or comparison rule is exempted.",
+    evidence: 'docs/tasks/evidence/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.tar.gz',
+    baselineSha256: '9e6f154e60e3b4cd165c1e3c47a16df7fa0f491c8e96cae005830ae930041a1e',
+    sources: [
+      {
+        path: 'packages/editor/src/core/asset-commands.ts',
+        sha256: '949e7da4fcf7db6925691752ef126eb38981554b56ea1397306b0dec6b1de61e',
+      },
+      {
+        path: 'packages/editor/src/core/audio-preview-cache.ts',
+        sha256: '5cc8866a02dc16a7906c1f515d92563f03a51eb0104778f9029494a37450c31f',
+      },
+      {
+        path: 'packages/editor/src/core/audio-preview.ts',
+        sha256: '9d56c40a0cb73719d8af93c627c6250adcd09b4d262ac56c315fb749714a17a4',
+      },
+      {
+        path: 'packages/editor/src/core/experience-curve.ts',
+        sha256: '5213c33ccfca1fba2bec1e3a3862e7b0505f966515b7142d42ab88643ff3c40e',
+      },
+      {
+        path: 'packages/editor/src/core/frame-animation-draft.test.ts',
+        sha256: '97ef324b67bf441fc58c0a956751da178fa18afdb25c900112b3d11f01d9bd7d',
+      },
+      {
+        path: 'packages/editor/src/core/frame-animation-draft.ts',
+        sha256: 'bcc188f45216e327e611ac895e5942291ea6e95ba6db38976c8d001845013a2c',
+      },
+      {
+        path: 'packages/editor/src/core/music-picker-preview.ts',
+        sha256: '8045938da4d86275c77517624d8381177551afd977a59f0080ef8a070d6d433d',
+      },
+      {
+        path: 'packages/editor/src/core/pcm-preview-peaks.ts',
+        sha256: '978e2823f0137df2c7d39419396c61ee2ab54f2e13326c504ebfdfe8321bf048',
+      },
+      {
+        path: 'packages/editor/src/core/sound-picker-preview.ts',
+        sha256: 'bb9f5a7cd04a82b7f8f5ceadf6e1e4399f56e14757306d95d74cf3f4ad88eccd',
+      },
+      {
+        path: 'packages/editor/src/core/video-metadata.ts',
+        sha256: 'c043b26253d3b878d806eda774df191ec7e6f5b4e4e2c81a34a88bf16a1491f6',
+      },
+      {
+        path: 'packages/editor/src/ui/AudioAssetPlayer.tsx',
+        sha256: 'cb888e4215139fb45cc73c141a3cf3d92ac2753b9fbbdda2f90902a75b5fe3fb',
+      },
+      {
+        path: 'packages/editor/src/ui/AudioAssetWorkbench.tsx',
+        sha256: '7ee96e55ed01ae27c8b625c4c2335a303d8be00b2d8a8365c36c98ac603ae84d',
+      },
+      {
+        path: 'packages/editor/src/ui/CutsceneTab.frame-import.test.tsx',
+        sha256: '51999e2d34816116f1f1dca453841447326c11fc81a85f1aecafcb8040898459',
+      },
+      {
+        path: 'packages/editor/src/ui/CutsceneTab.lifecycle.test.tsx',
+        sha256: 'ecda5ba837cdb45647dfb92c6f65a9993950c4fe824aef8c1592f3fc323d0c1f',
+      },
+      {
+        path: 'packages/editor/src/ui/CutsceneTab.test.tsx',
+        sha256: '0890733bfa4540a267e05aaea34181b638bde017198cdbb9581f8bd12ade6297',
+      },
+      {
+        path: 'packages/editor/src/ui/CutsceneTab.tsx',
+        sha256: '24bd990d9c057e29eb7b247df074b9cba1c76129188b93696bba98adea308ddc',
+      },
+      {
+        path: 'packages/editor/src/ui/FrameAnimationEditor.tsx',
+        sha256: 'eff1942f13ae20ef9594be9e8526eaa2856a92bfc466d6f9168cde0bfd21a659',
+      },
+      {
+        path: 'packages/editor/src/ui/ImageTab.catalog.test.tsx',
+        sha256: '67eea219c738c527b7492392b7dd4c716d6971deb142050caf56807e0b635db4',
+      },
+      {
+        path: 'packages/editor/src/ui/ImageTab.references.test.tsx',
+        sha256: '12d09640d1779f110f987c85eefd567acc0fe303a18512c969e3774a1310be2d',
+      },
+      {
+        path: 'packages/editor/src/ui/ImageTab.tsx',
+        sha256: '58ea79c142c823a174bcdf138ef65c7cf5fca10e0ba007875d532014c4627cad',
+      },
+      {
+        path: 'packages/editor/src/ui/ImageWorkspacePreview.tsx',
+        sha256: '239ed8d8fb046e672361b874b8da59934ca00105c7b527620286d52f9df0f901',
+      },
+      {
+        path: 'packages/editor/src/ui/LevelCurveEditor.tsx',
+        sha256: '41007258b77669ae3db05409fe9884795919f7dd576f510f229c5a8d93dd995e',
+      },
+      {
+        path: 'packages/editor/src/ui/LevelingEditor.tsx',
+        sha256: 'b913a43bc52ac14d4bfc7398c86e96a425ed79d8b14fbb4eb776a87bec83d54d',
+      },
+      {
+        path: 'packages/editor/src/ui/MusicPicker.lifecycle.test.tsx',
+        sha256: '8c5ed5d80b2831e20d3aede5098513370ad9613a54e695d40941b629cb273aa7',
+      },
+      {
+        path: 'packages/editor/src/ui/MusicPicker.tsx',
+        sha256: 'b2592a10b928902a59f1847dba5ce2893fe361597cd756afb353f624ec5dc159',
+      },
+      {
+        path: 'packages/editor/src/ui/MusicTab.tsx',
+        sha256: 'b353a94b5d0b9e28e0594cfd9a8c3f104cf31d45168a89a9fa6bcdca1ed27847',
+      },
+      {
+        path: 'packages/editor/src/ui/ProjectAudioPreviewButton.tsx',
+        sha256: 'e66e09238b79f0c1c6230e7f874c23a76b352b1438b293792a3d62ede95ea708',
+      },
+      {
+        path: 'packages/editor/src/ui/SoundPicker.preview-ownership.test.ts',
+        sha256: 'af1c86c4dc82aba798433c1b25207e9be05d5a2c9483a5c60ebcb335556105dd',
+      },
+      {
+        path: 'packages/editor/src/ui/SoundPicker.tsx',
+        sha256: '93d299876af7e4b2ff62d2a74b744b2bec8700048f5750b6c98eab8a6c764694',
+      },
+      {
+        path: 'packages/editor/src/ui/SoundTab.tsx',
+        sha256: '5f5cbe3c0167f8d716f806365e11a13814b8c71e5b51ff5363d5d9286f13660d',
+      },
+      {
+        path: 'packages/editor/src/ui/VideoAssetPreview.tsx',
+        sha256: 'ef71e09177a2e657d165154ef9701d1f7548351e9ed0b220734c6db15105f348',
+      },
+      {
+        path: 'packages/editor/src/ui/catalog-controls-test-utils.ts',
+        sha256: 'be50c76f30dc9aee1c18c53719b2554c8122596e3305552580c1c3dc37543134',
+      },
+      {
+        path: 'packages/editor/src/ui/indexed-battle-preview.ts',
+        sha256: 'eae5584a564392553ca82107a61922b476521237423b282d2c64c02be68da703',
+      },
+      {
+        path: 'packages/editor/src/ui/media-asset-readout.ts',
+        sha256: '81e664fcfb36c5c94b83467230646663aaf2646f901468c611c09255e0e3c691',
+      },
+      {
+        path: 'packages/editor/src/ui/use-frame-preview-canvas.ts',
+        sha256: '96335f2f594368f0f323d2aee5cfece5ee829e4090ff7c9ec9a49971babc344a',
+      },
+      {
+        path: 'packages/editor/src/ui/use-owned-audio-transport.ts',
+        sha256: 'dd7a53db1176748edb28893fa453bbfa7130fed0aef3f7d2832606478407e012',
+      },
+    ],
+    packages: {
+      editor: {
+        before: {
+          statements: {
+            covered: 31599,
+            total: 34986,
+          },
+          branches: {
+            covered: 25600,
+            total: 30616,
+          },
+          functions: {
+            covered: 8083,
+            total: 8984,
+          },
+          lines: {
+            covered: 28331,
+            total: 30609,
+          },
+        },
+        after: {
+          statements: {
+            covered: 31599,
+            total: 34986,
+          },
+          branches: {
+            covered: 25600,
+            total: 30616,
+          },
+          functions: {
+            covered: 8068,
+            total: 8971,
+          },
+          lines: {
+            covered: 28331,
+            total: 30609,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'editor-author-commands-20261128',
     authority:
       'User permits exact recounts for justified refactoring. Editor merged effective command and image tests around current authoring and real history. The measured scope removed a dormant hit test, repeatedly tested export aliases, and duplicated or unreachable fixtures. Legal actor reference rejection and resource identity cases were retained and remeasured. The original protected baseline, changed source bytes, test dispositions, and per-file measurements are pinned. Only Editor metrics that actually fall are rebased; all other floors and scope protections remain unchanged.',

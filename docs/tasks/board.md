@@ -71,6 +71,8 @@ Reforge 战斗治理已完成本窗口。账本为 1,492 closed、0 review。#77
 
 ### 代码治理：最近完成的文件批次
 
+`QUALITY-EDITOR-PREVIEW-LIFECYCLES-1` 核过 78 个原 pending 路径。图片、WAV 和过场视频的交错撤销归 `EDITOR-MEDIA-UNDO-REVISION-1`。两张卡可从[生成任务索引](cards/index.md)查看，逐文件依据、测试承接与原件见[集中归档](evidence/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.tar.gz)。
+
 `QUALITY-EDITOR-AUTHOR-COMMANDS-1` 完成 94 个原 pending 的逐文件处置。60 个路径验证保留，34 个旧路径按职责退役或合并，10 个接替路径单列。从[生成任务索引](cards/index.md)查看本轮范围和执行归档。
 
 `QUALITY-MIGRATION-SOURCE-PROJECTIONS-1` 已完成 98 个原 pending 文件的逐文件处置。合并时新增 100 条关闭登记，七项留审。当前后继裁定从上方回溯卡进入。集中门的完整结果见[单一执行归档](evidence/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.tar.gz)。

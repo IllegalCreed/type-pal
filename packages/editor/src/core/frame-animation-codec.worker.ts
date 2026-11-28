@@ -42,10 +42,7 @@ scope.onmessage = (event): void => {
   }
   void encodeFrameAnimationRequest(request).then(
     (encoded) => {
-      const bytes = encoded.buffer.slice(
-        encoded.byteOffset,
-        encoded.byteOffset + encoded.byteLength,
-      ) as ArrayBuffer
+      const bytes = Uint8Array.from(encoded).buffer
       scope.postMessage({ id, bytes }, [bytes])
     },
     (error: unknown) => {

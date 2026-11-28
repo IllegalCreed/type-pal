@@ -213,7 +213,7 @@
       "disposition": "deferred",
       "owner": "cutscene-import-file-content",
       "reason": "三枚动作是独立 grid cell，没有持有整体几何的动作根。",
-      "verification": "CutsceneTab.test.tsx",
+      "verification": "CutsceneTab.frame-import.test.tsx",
       "removalCondition": "为导入帧行建立公共或等价原子动作 owner，并验证窄态整组 relocation。"
     },
     {

@@ -9,8 +9,8 @@ import type { AssetBase } from '@type-pal/reforge'
 import { bakeFrame, loadFireSprite, loadStandardPalette, type SfxPlayer } from '@type-pal/reforge'
 import { useEffect, useId, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
+import { prepareSoundPreview } from '../core/sound-picker-preview.js'
 import { DsButton, DsField, DsSelect } from './design-system/controls.js'
-import { prepareSoundPreview } from './SoundPicker.js'
 
 const fireCache = new WeakMap<AssetBase, Map<string, Promise<HTMLCanvasElement[] | null>>>()
 

@@ -1,4 +1,4 @@
-import type { AssetId, FrameSequenceFrameV1, FrameSequenceIndexV1 } from '@type-pal/content'
+import type { AssetId, FrameSequenceIndexV1 } from '@type-pal/content'
 
 export type FrameColorTreatment = 'preserve' | 'project-standard'
 
@@ -186,16 +186,6 @@ export function replaceDraftFrame(
   return createFrameAnimationDraft({ ...draft, frames: next })
 }
 
-export function duplicateDraftFrame(
-  draft: FrameAnimationDraft,
-  frameIndex: number,
-  id: string,
-): FrameAnimationDraft {
-  const frame = draft.frames[frameIndex]
-  if (!frame) throw new Error(`帧索引 ${frameIndex} 越界`)
-  return insertDraftFrames(draft, frameIndex + 1, [{ ...frame, id }])
-}
-
 export function deleteDraftFrames(
   draft: FrameAnimationDraft,
   frameIndices: readonly number[],
@@ -288,12 +278,6 @@ export function redoDraftHistory(history: FrameAnimationDraftHistory): FrameAnim
     present: next,
     future: history.future.slice(1),
   }
-}
-
-export function draftFrameMetadata(draft: FrameAnimationDraft): FrameSequenceFrameV1[] {
-  return draft.frames.map((frame) =>
-    frame.durationMs === undefined ? {} : { durationMs: frame.durationMs },
-  )
 }
 
 export type FrameQuantization = 'nearest' | 'floyd-steinberg'

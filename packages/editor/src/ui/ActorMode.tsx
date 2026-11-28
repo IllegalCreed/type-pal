@@ -821,6 +821,7 @@ export function ActorMode(props: {
                         levelUpRows={levelUpRows ?? []}
                         skills={skills}
                         session={session}
+                        syncToken={session.getHistoryVersion()}
                         onEditCurve={openLevelCurve}
                       />
                     </ActorPanel>

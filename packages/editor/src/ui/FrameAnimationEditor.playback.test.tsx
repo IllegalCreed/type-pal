@@ -82,4 +82,30 @@ describe('Frame editor real playback clock', () => {
       vi.useRealTimers()
     }
   })
+  test('selecting a different frame while playing starts its full duration and keeps playback active', async () => {
+    const f = await frameEditor()
+    await f.ready()
+    vi.useFakeTimers()
+    try {
+      await f.select(1, { shiftKey: true })
+      expect(f.counter()).toBe('2 / 3 · 已选 2')
+      await f.click('播放')
+      await advance(20)
+      await f.select(2)
+      expect(f.counter()).toBe('3 / 3')
+      expect(f.snapshot().selected).toEqual([`${f.cards()[2]?.dataset.frameId}`])
+      await advance(39)
+      expect(f.counter()).toBe('3 / 3')
+      await advance(1)
+      expect(f.counter()).toBe('1 / 3')
+      expect([...f.pixels.get(f.canvas())!]).toEqual([...framePixels[0]!])
+      expect(f.button('暂停').getAttribute('aria-pressed')).toBe('true')
+      await f.click('暂停')
+      expect(vi.getTimerCount()).toBe(0)
+      f.draftOnly()
+    } finally {
+      await f.unmount()
+      vi.useRealTimers()
+    }
+  })
 })
