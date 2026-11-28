@@ -2,15 +2,14 @@
 
 import { act } from 'react'
 import { describe, expect, test } from 'vitest'
+import { solidRgba } from '../__tests__/png-fixtures.js'
 import { waitForReact } from '../__tests__/react-io-wait.js'
+import { mp4AudioBytes, mp4SilentBytes, paddedMp4Bytes } from '../__tests__/video-fixtures.js'
 import { DeleteAssetCommand, SetStartupEntriesCommand } from '../core/commands.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import { collectCurrentProjectReferenceIndex } from '../core/project-reference-adapters.js'
-import { mp4AudioBytes, mp4SilentBytes } from './__tests__/cutscene-resource-fixtures.js'
 import { installCutsceneTestHost } from './__tests__/cutscene-test-host.js'
-import { mp4Bytes } from './__tests__/glm-authoring-kit.js'
-import { buttonByLabel } from './__tests__/glm-ui-wave-kit.js'
-import { solidRgba } from './__tests__/kimi-editor-workflows/kit.js'
+import { buttonByLabel } from './__tests__/dom-gestures.js'
 
 const { host, mountTab, catalogRow, currentVideoElement, openDialogByTitle, focusAsset } =
   installCutsceneTestHost()
@@ -147,7 +146,7 @@ describe('过场选择、草稿所有权与引用删除', () => {
       focus: 'video.c3-b',
       videos: [
         { id: 'video.c3-a', label: '回落甲', bytes: mp4SilentBytes() },
-        { id: 'video.c3-b', label: '回落乙', bytes: mp4Bytes(64) },
+        { id: 'video.c3-b', label: '回落乙', bytes: paddedMp4Bytes(64) },
       ],
     })
     await currentVideoElement()

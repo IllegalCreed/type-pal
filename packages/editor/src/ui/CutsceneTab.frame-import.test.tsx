@@ -4,6 +4,7 @@ import { type AssetId, type AssetRecordV1, FRAME_SEQUENCE_MEDIA_TYPE } from '@ty
 import { FrameSequenceReader } from '@type-pal/reforge'
 import { act } from 'react'
 import { describe, expect, test } from 'vitest'
+import { pngFileOf, pngRgba, solidRgba } from '../__tests__/png-fixtures.js'
 import { waitForReact } from '../__tests__/react-io-wait.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
@@ -15,8 +16,7 @@ import {
   fieldControlByLabel,
   loadFilesIntoInput,
   setInputValue,
-} from './__tests__/glm-ui-wave-kit.js'
-import { pngFileOf, pngRgba, solidRgba } from './__tests__/kimi-editor-workflows/kit.js'
+} from './__tests__/dom-gestures.js'
 
 const { host, mountTab } = installCutsceneTestHost()
 const FRAME_ACCEPT = 'image/png,image/jpeg,image/webp'

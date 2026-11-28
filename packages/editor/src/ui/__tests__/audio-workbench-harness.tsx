@@ -7,6 +7,7 @@ import { act, StrictMode, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { fileOfBytes } from '../../__tests__/audio-fixtures.js'
+import { installBrowserHardwarePorts } from '../../__tests__/bitmap-test-port.js'
 import { installReactActEnvironment, waitForReact } from '../../__tests__/react-io-wait.js'
 import { stopEditorAudioPreview } from '../../core/audio-preview-session.js'
 import { sha256Hex } from '../../core/binary-signature.js'
@@ -18,8 +19,7 @@ import type { ProjectReferenceEdge } from '../../core/project-reference.js'
 import { collectCurrentProjectReferenceIndex } from '../../core/project-reference-adapters.js'
 import { MusicTab } from '../MusicTab.js'
 import { authoredWaveRecord, SoundTab } from '../SoundTab.js'
-import { loadLegalUiProject } from './glm-ui-wave-kit.js'
-import { installBrowserHardwarePorts } from './kimi-editor-workflows/kit.js'
+import { loadLegalUiProject } from './authoring-project-fixture.js'
 
 interface ProjectBase {
   session: EditSession

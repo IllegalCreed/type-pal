@@ -3,12 +3,12 @@
 import type { AssetRecordV1 } from '@type-pal/content'
 import { act } from 'react'
 import { describe, expect, test, vi } from 'vitest'
+import { atlasColors, pngFileOf, pngRgba } from '../__tests__/png-fixtures.js'
 import { waitForReact } from '../__tests__/react-io-wait.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
-import { loadFilesIntoInput } from './__tests__/glm-ui-wave-kit.js'
+import { loadFilesIntoInput } from './__tests__/dom-gestures.js'
 import { installImageWorkbenchTestHost } from './__tests__/image-workbench-test-host.js'
-import { atlasColors, pngFileOf, pngRgba } from './__tests__/kimi-editor-workflows/kit.js'
 import { decodePngPixels, patternedRgba } from './__tests__/static-image-fixtures.js'
 
 const {

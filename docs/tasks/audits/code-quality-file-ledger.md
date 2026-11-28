@@ -17,8 +17,10 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,853。
-当前已闭合核验：1,828；已读但待审：0；尚未逐文件核验：2,025；合计未闭合：2,025。
+起始基点机器清单：2,962。当前 tracked 清单：3,872。
+当前已闭合核验：1,920；已读但待审：3；尚未逐文件核验：1,949；合计未闭合：1,952。
+
+2026-11-28，Editor 战斗与大世界精灵预览逐文件完成 73 个原 pending 路径，含 24 个现行路径和 49 个按职责退役路径。68 个承接路径逐项验收，3 个明确留审。活动 E2E 与仅改接线的相邻文件沿用原状态。合同映射和集中门见[治理卡](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收)。
 
 2026-11-28，Editor 成长与素材预览逐文件治理完成 78 个原 pending 路径。33 个原路径验证保留，45 个原路径按职责退役，52 个承接路径独立核验。项目壳与共用夹具的有限接线随批验证，按原账本状态保留。逐文件读域、证明边界和统一执行见[本轮治理卡](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收)。
 
@@ -1977,3 +1979,98 @@ Template: governance-index-v1 / 1.0.0
 | `packages/editor/src/ui/media-preview-viewport.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 原 pending 路径按真实 caller 和八维依据核验。 |
 | `packages/editor/src/ui/use-frame-preview-canvas.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
 | `packages/editor/src/ui/use-owned-audio-transport.ts` | product | 已验证 | [QUALITY-EDITOR-PREVIEW-LIFECYCLES-1](../cards/QUALITY-EDITOR-PREVIEW-LIFECYCLES-1.md#逐文件验收) | 后继路径单列，逐文件查 A–H 和实际 caller。 |
+| `packages/editor/src/__tests__/battle-inline-test-host.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/battle-sprite-import-test-host.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/battle-sprite-library-gestures.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/battle-sprite-library-test-host.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/battle-sprite-pixel-oracle.ts` | generated | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/battle-sprite-project.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/bitmap-test-port.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/drag-test-ports.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/enemy-animation-test-host.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/fire-effect-fixture.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/gated-file-source.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/png-fixtures.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/react-host-cleanup.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/sprite-import-test-ports.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/sprite-palette-read-observer.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/sprite-source-test-gestures.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/test-promises.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/video-fixtures.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/world-sprite-import-gestures.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/world-sprite-import-test-host.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/world-sprite-library-gestures.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/world-sprite-library-test-host.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/world-sprite-project.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/__tests__/world-sprite-viewer-test-host.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/core/battle-sprite-frame-deletion.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/core/battle-sprite-frame-deletion.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/core/battle-sprite-import.boundaries.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/core/battle-sprite-import.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/core/sprite-image-pixels.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/core/world-sprite-frame-deletion.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/core/world-sprite-frame-deletion.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/BattleSpriteInlinePreview.playback.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/BattleSpriteInlinePreview.resources.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/BattleSpriteInlinePreview.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/BattleSpriteInlinePreview.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.action-editing.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.asset-deletion.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.frame-revision.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.frame-source-editing.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.history.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.import.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.keyboard.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.proof-ownership.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.selection.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.test.tsx` | test | review | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 已定位继续复核的来源和职责，见卡内留项。 |
+| `packages/editor/src/ui/BattleSpriteLibrary.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/BattleSpritePicker.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/BattleSpritePicker.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/BattleSpriteUploader.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/BattleSpriteUploader.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/EnemyAnimPreview.draft.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/EnemyAnimPreview.playback.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/EnemyAnimPreview.resources.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/EnemyAnimPreview.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/EnemyBattleSpriteThumbnail.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/EnemyBattleSpriteThumbnail.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/FireEffectPreview.audio.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/FireEffectPreview.frames.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/FireEffectPreview.resources.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/FireEffectPreview.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/SkillAnimationEditor.preview-draft.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/SkillAnimationEditor.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/SpriteFrames.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/SpriteFrames.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/SpriteResourceViewer.frame-editing.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/SpriteResourceViewer.frame-revision.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/SpriteResourceViewer.navigation.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/SpriteResourceViewer.resources.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/SpriteResourceViewer.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/SpriteThumb.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/SpriteUploadWizard.authorable-layout.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/SpriteUploadWizard.import-layout.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/SpriteUploadWizard.lifecycle.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/SpriteUploadWizard.registration.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/SpriteUploadWizard.selection.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/SpriteUploadWizard.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/WorldSpriteLibrary.asset-deletion.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/WorldSpriteLibrary.catalog.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/WorldSpriteLibrary.definition-editing.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/WorldSpriteLibrary.inspector.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/WorldSpriteLibrary.resource-proof.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/WorldSpriteLibrary.tsx` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/__tests__/authoring-project-fixture.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/__tests__/authoring-session-fixture.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/__tests__/dom-gestures.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/__tests__/glm-ui-wave-kit.ts` | test | review | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 已定位继续复核的来源和职责，见卡内留项。 |
+| `packages/editor/src/ui/__tests__/kimi-editor-workflows/kit.ts` | test | review | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 已定位继续复核的来源和职责，见卡内留项。 |
+| `packages/editor/src/ui/__tests__/preview-cache-fixture.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/battle-sprite-action-preview.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/battle-sprite-action-preview.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/preview-cache-boundaries.test.tsx` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |
+| `packages/editor/src/ui/sprite-frame-canvas.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/use-fire-preview-playback.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/world-sprite-action-preview.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 按现行职责验收接替路径，迁移以原合同映射为准。 |
+| `packages/editor/src/ui/world-sprite-action-preview.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md#逐文件验收) | 真实调用、八维依据及可复验执行见逐文件归档。 |

@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { encodeWavPcm16, fileOfBytes } from '../__tests__/audio-fixtures.js'
 import { type AudioContextPort, installAudioContextPort } from '../__tests__/audio-ports.js'
 import { waitForReact } from '../__tests__/react-io-wait.js'
+import { deferred } from '../__tests__/test-promises.js'
 import { sha256Hex } from '../core/binary-signature.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import {
@@ -15,11 +16,10 @@ import {
 import {
   buttonByLabel,
   clickButton,
-  deepSnapshot,
-  deferred,
   inputByAriaLabel,
   loadFilesIntoInput,
-} from './__tests__/glm-ui-wave-kit.js'
+} from './__tests__/dom-gestures.js'
+import { deepSnapshot } from './__tests__/glm-ui-wave-kit.js'
 
 /** 交替 ±0.5 的 0.5s 采样（8kHz 单声道）：每个峰值 bucket 恒为 max 0.5 / min -0.5。 */
 const HIT_SAMPLES = Array.from({ length: 4000 }, (_, index) => (index % 2 === 0 ? 0.5 : -0.5))

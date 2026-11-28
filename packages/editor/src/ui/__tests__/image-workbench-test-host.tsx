@@ -3,6 +3,8 @@ import type { AssetBase } from '@type-pal/reforge'
 import { act, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { installBrowserHardwarePorts } from '../../__tests__/bitmap-test-port.js'
+import { pngFileOf } from '../../__tests__/png-fixtures.js'
 import { installReactActEnvironment, waitForReact } from '../../__tests__/react-io-wait.js'
 import { EditSession } from '../../core/edit-session.js'
 import { createEditorAssetReader, type EditorAssetReader } from '../../core/editor-asset-reader.js'
@@ -10,7 +12,8 @@ import type { EditorDerivedStatus } from '../../core/editor-derived-contract.js'
 import { assertProjectSaveValid } from '../../core/project-diagnostics.js'
 import { collectCurrentProjectReferenceIndex } from '../../core/project-reference-adapters.js'
 import { ImageTab } from '../ImageTab.js'
-import { clickButton, loadFilesIntoInput, loadLegalUiProject } from './glm-ui-wave-kit.js'
+import { loadLegalUiProject } from './authoring-project-fixture.js'
+import { clickButton, loadFilesIntoInput } from './dom-gestures.js'
 import {
   type ImageDecodePort,
   type ImageDomPort,
@@ -18,7 +21,6 @@ import {
   installImageDomPorts,
   restoreImageDomPorts,
 } from './image-preview-ports.js'
-import { installBrowserHardwarePorts, pngFileOf } from './kimi-editor-workflows/kit.js'
 
 const PNG_ACCEPT = '.png,image/png'
 

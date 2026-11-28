@@ -1,6 +1,6 @@
 import type { AssetCatalogV1, AssetId, SpriteDef, SpriteLayout } from '@type-pal/content'
 import type { AssetBase } from '@type-pal/reforge'
-import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
 import {
   AddSpriteDefinitionCommand,
@@ -48,6 +48,7 @@ import { SpriteActionEditorDialog } from './SpriteActionEditorDialog.js'
 import type { SpriteFrameView } from './SpriteFrameWorkbench.js'
 import { type SpriteResourceLoadProof, SpriteResourceViewer } from './SpriteResourceViewer.js'
 import { SpriteUploadWizard } from './SpriteUploadWizard.js'
+import { orderedWorldSpriteActions } from './world-sprite-action-preview.js'
 
 type AuthorableLayoutKind = 'directional' | 'static'
 type KindFilter = 'all' | AuthorableLayoutKind | 'actions' | 'looping' | 'scripted' | 'unconfigured'
@@ -333,11 +334,7 @@ export function WorldSpriteLibrary(props: {
       setActionDialog(undefined)
     previousFocusActionIdRef.current = undefined
     if (selectedActionId && definition.poses?.[selectedActionId]) return
-    const first = Object.entries(definition.poses ?? {}).sort(
-      ([leftId, left], [rightId, right]) =>
-        (left.order ?? Number.MAX_SAFE_INTEGER) - (right.order ?? Number.MAX_SAFE_INTEGER) ||
-        leftId.localeCompare(rightId),
-    )[0]?.[0]
+    const first = orderedWorldSpriteActions(definition)[0]?.[0]
     setSelectedActionId(first)
     setReferenceActionId((current) => (current && definition.poses?.[current] ? current : first))
   }, [
@@ -349,10 +346,6 @@ export function WorldSpriteLibrary(props: {
     selectedActionId,
     sourceFrames,
   ])
-  const handleResourceProof = useCallback((proof: SpriteResourceLoadProof | undefined) => {
-    setResourceProof(proof)
-  }, [])
-
   useEffect(() => {
     const objectId = props.focusObjectId
     if (!objectId) return
@@ -864,7 +857,7 @@ export function WorldSpriteLibrary(props: {
               if (!next) return
               openEditAction(next, actionId)
             }}
-            onLoaded={handleResourceProof}
+            onLoaded={setResourceProof}
             onFramesLoaded={setSourceFrames}
             selectedFrame={selectedSourceFrame}
             onSelectedFrameChange={setSelectedSourceFrame}
@@ -1132,22 +1125,15 @@ export function WorldSpriteLibrary(props: {
                             role="group"
                             aria-label="选择动作查看引用"
                           >
-                            {Object.entries(definition.poses ?? {})
-                              .sort(
-                                ([leftId, left], [rightId, right]) =>
-                                  (left.order ?? Number.MAX_SAFE_INTEGER) -
-                                    (right.order ?? Number.MAX_SAFE_INTEGER) ||
-                                  leftId.localeCompare(rightId),
-                              )
-                              .map(([actionId, action]) => (
-                                <DsCatalogRow
-                                  key={actionId}
-                                  selected={referenceActionId === actionId}
-                                  title={action.label}
-                                  meta={actionId}
-                                  onClick={() => setReferenceActionId(actionId)}
-                                />
-                              ))}
+                            {orderedWorldSpriteActions(definition).map(([actionId, action]) => (
+                              <DsCatalogRow
+                                key={actionId}
+                                selected={referenceActionId === actionId}
+                                title={action.label}
+                                meta={actionId}
+                                onClick={() => setReferenceActionId(actionId)}
+                              />
+                            ))}
                           </div>
                           {referenceActionId ? (
                             selectedActionReferences.length ? (

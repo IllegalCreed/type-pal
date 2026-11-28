@@ -674,7 +674,7 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "fcce89a1edbda24e8ba15bbc9194f69f429d5839fa3726c557f72404c1aa2144",
+      "afterSha256": "41c1addf95729d447345f61fbc99e62a5280737a08b010554e7766d91fb4b16a",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
@@ -682,9 +682,9 @@
         "author": "/root",
         "reviewer": "/root/scene_window_docs_review",
         "date": "2026-11-28",
-        "conclusion": "接受账本当次增量和 130 条逐文件证据的状态核对。",
-        "reviewedLines": 1980,
-        "acceptanceScope": "实际 78 原路径和 52 承接路径。限本次独立核出的路径、证据和计数。"
+        "conclusion": "接受实际逐文件新条目和四项计数。",
+        "reviewedLines": 2077,
+        "acceptanceScope": "核 73 个完成、3 项 review、68 个接替和 2 个仅接线；留审不授关闭信用。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "88de79a51e39d712649c78d9613d550bad89cc44282b49d0bf3dd3001833040d",
+      "afterSha256": "3ff3c4c86ddb19fcfe7c433335e6c0d68f09763e1217f086b063ac8c9d145a8c",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/scene_window_docs_review",
         "date": "2026-11-28",
-        "conclusion": "接受本轮父卡和媒体撤销终态导航及归档入口。",
-        "reviewedLines": 158,
-        "acceptanceScope": "仅限当前治理窗口的实际差异。"
+        "conclusion": "接受完成批次、三个留审和看板收口。",
+        "reviewedLines": 160,
+        "acceptanceScope": "治理窗口状态转移与相关引导，活动 E2E 由原 Owner 持有。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "3e57fb0b75f87d730bc48fd10903e66fed12c072b98287238d2abffea9ca743a",
+      "afterSha256": "ae47ee909c83efd0896edba61b32cb2389d036076cbd51d265acb8a59252f61c",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/scene_window_docs_review",
         "date": "2026-11-28",
-        "conclusion": "接受由现行卡片状态重新生成的任务索引。",
-        "reviewedLines": 629,
-        "acceptanceScope": "收口两张卡的身份和状态映射。"
+        "conclusion": "接受生成索引的六卡终态。",
+        "reviewedLines": 635,
+        "acceptanceScope": "六处完成状态及历史入口。"
       }
     },
     {
@@ -4344,14 +4344,14 @@
     {
       "path": "docs/phase2/specs/editor-architecture.md",
       "mode": "reviewed",
-      "afterSha256": "9d2581c268ab377fa7fe5c45bf285eb359a7e101c8dae2cd38ba33e9f4155f3d",
+      "afterSha256": "1be0213651ddc587fe1da9a1ecd4c35b0aceb0c908b5994da4ffb5726d66c754",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
-        "reviewer": "Codex /root/item_flow_final_review",
-        "date": "2026-11-07",
-        "conclusion": "现行取物合同、版本、职责与本卡具体证据边界独立接受；固定历史保全。",
-        "reviewedLines": 392,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-28",
+        "conclusion": "接受现行精灵导入和法术预览方案三条增量。",
+        "reviewedLines": 398,
+        "acceptanceScope": "固定历史引文逐字节保全，闭合当前职责与证据入口。"
       },
       "templateId": "design-spec-v1"
     },
@@ -6075,6 +6075,84 @@
         "conclusion": "接受交错撤销的业务反例、用户授权和修复边界。",
         "reviewedLines": 31,
         "acceptanceScope": "实际图片、WAV 和视频入口及磁盘缺省证据。117 项是定向快照。最终门另取父卡。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "67ec017f642a8ab035d0e6f3cd9940c24d4baff3941d86097fc0b7fc41ea0968",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-28",
+        "conclusion": "接受冻结逐文件结果、本地集中门和留审范围。",
+        "reviewedLines": 66,
+        "acceptanceScope": "实际 146 条索引、73 个完成原路径、相应失败和复判原件。无损官方汇总可只读重放。PR 和主线 CI 按远端实际执行。 接受 PR 首轮的文档作业期限原件及 45 分钟作业预算。新提交的远端门照常执行。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/EDITOR-FIRE-PREVIEW-AUDIO-OWNERSHIP-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "e4782c19b319c049ceb7d380a2805896fdce6d2ba8d9eb1c931e480a292b61b8",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-28",
+        "conclusion": "接受播放归属整改完成。",
+        "reviewedLines": 32,
+        "acceptanceScope": "终态更新，限 Chrome 与定向证据相符的播放和资源责任。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/EDITOR-FIRE-PREVIEW-DRAFT-TIMING-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "936f8ab75aafa129c0835cc74dff47ab61d290e1302852ea3c8186214a12e7fd",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-28",
+        "conclusion": "接受草稿计时整改完成。",
+        "reviewedLines": 32,
+        "acceptanceScope": "终态与真实输入反例、恢复和时机范围相符。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/EDITOR-SPRITE-FRAME-REVISION-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "631c0bfa46cb9bf98bf7b3a6e17ffc78eba91a36e1a17a770657244fa1957dec",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-28",
+        "conclusion": "接受源帧读版本和位图释放完成。",
+        "reviewedLines": 34,
+        "acceptanceScope": "终态保持两处正式入口与释放证据。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/EDITOR-WORLD-SPRITE-IMPORT-LAYOUT-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "41d69bf77402a21a50d101aefd93183b984e84f147206d406c81bb1fe5524921",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-28",
+        "conclusion": "接受大世界导入布局整改完成。",
+        "reviewedLines": 32,
+        "acceptanceScope": "终态限当前布局与序列化重开。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/EDITOR-BATTLE-SPRITE-IMPORT-SELECTION-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "a747cf8431a29c64daf9eff2938ee6b4eaf50cc29f26b9cfaeb0fb2ff1a69466",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/scene_window_docs_review",
+        "date": "2026-11-28",
+        "conclusion": "接受最后选图整改与回归。",
+        "reviewedLines": 30,
+        "acceptanceScope": "终态与 22 项包含相邻入口的正式证据相符。"
       }
     }
   ],
@@ -7834,6 +7912,12 @@
       "sha256": "7e58396db7b509956c134b26a0af95c112a8bd8479c3ca827783923ddb95e810",
       "bytes": 630994,
       "purpose": "Editor 等级与素材预览的逐文件八维、合法业务反例与原始执行、代码路径和精确覆盖率保护。"
+    },
+    {
+      "path": "docs/tasks/evidence/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.tar.gz",
+      "sha256": "e6505a7efb9721ab88663d31f035e073a3a731c400bad19d9fded78ad4b8d5d9",
+      "bytes": 1149890,
+      "purpose": "Editor 法术特效和精灵预览逐文件八维、用例承接、真实失败与集中执行原件。"
     }
   ],
   "artifactAliases": [],

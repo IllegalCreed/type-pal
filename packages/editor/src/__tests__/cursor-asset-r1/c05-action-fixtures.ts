@@ -23,7 +23,7 @@ import { createEditorAssetReader, type EditorAssetReader } from '../../core/edit
 import { buildSeedAssets } from '../../core/seed-assets.js'
 import { loadEditorSprite } from '../../core/sprite-assets.js'
 import type { SpriteFrameView } from '../../ui/SpriteFrameWorkbench.js'
-import { type CursorSpriteProject, loadCursorSpriteProject } from './sprite-fixtures.js'
+import { loadWorldSpriteProject, type WorldSpriteProject } from '../world-sprite-project.js'
 
 export const C05_ASSET: AssetId = 'sprite.authored.c05hero'
 export const C05_SPRITE = 'c05-hero'
@@ -101,7 +101,7 @@ export async function buildC05SpriteResource(
 }
 
 export interface C05Open {
-  project: CursorSpriteProject
+  project: WorldSpriteProject
   session: EditSession
   reader: EditorAssetReader
   proof: SpriteLayoutEditProof
@@ -118,7 +118,7 @@ export interface C05OpenOptions {
 }
 
 export interface C05CoreOpen {
-  project: CursorSpriteProject
+  project: WorldSpriteProject
   session: EditSession
   reader: EditorAssetReader
   proof: SpriteLayoutEditProof
@@ -145,7 +145,7 @@ export async function openC05Core(
     },
   ]
   if (options.secondDefinition) definitions.push(options.secondDefinition)
-  const project = await loadCursorSpriteProject(name, [
+  const project = await loadWorldSpriteProject(name, [
     { asset: C05_ASSET, label: 'C05 资源', frameCount, definitions },
   ])
   const session = new EditSession(project.state)
@@ -162,7 +162,7 @@ export async function openC05Core(
 }
 
 export async function decodeProofAndFrames(
-  project: CursorSpriteProject,
+  project: WorldSpriteProject,
   reader: EditorAssetReader,
   asset: AssetId,
 ): Promise<{ proof: SpriteLayoutEditProof; frames: SpriteFrameView[] }> {

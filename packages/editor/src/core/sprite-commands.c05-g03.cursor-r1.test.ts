@@ -19,7 +19,7 @@ import {
   type C05CoreOpen,
   openC05Core,
 } from '../__tests__/cursor-asset-r1/c05-action-fixtures.js'
-import { loadCursorSpriteProject } from '../__tests__/cursor-asset-r1/sprite-fixtures.js'
+import { loadWorldSpriteProject } from '../__tests__/world-sprite-project.js'
 import { AddEntityCommand } from './commands.js'
 import type { EditorState } from './edit-session.js'
 import { collectCurrentProjectReferenceIndex } from './project-reference-adapters.js'
@@ -287,7 +287,7 @@ describe('C05-G03 精灵资产生命周期命令', () => {
   })
 
   test('C05-G03-08 无用途资源可用 spriteId=undefined 替换（消费者仍须为空）；自定义 label 原样暴露', async () => {
-    const project = await loadCursorSpriteProject('c05-g03-08', [
+    const project = await loadWorldSpriteProject('c05-g03-08', [
       { asset: 'sprite.authored.c05loose', label: '游离', frameCount: 3, definitions: [] },
     ])
     const state = project.state
@@ -456,7 +456,7 @@ describe('C05-G03 精灵资产生命周期命令', () => {
     expect(restoredPending.assetBlobs[fresh.record.path]).toBe(pendingBytes)
 
     // 磁盘已持久资产（无 pending blob）：不给 persistedBytes 则撤销后仍无 blob。
-    const project = await loadCursorSpriteProject('c05-g03-13b', [
+    const project = await loadWorldSpriteProject('c05-g03-13b', [
       { asset: 'sprite.authored.c05disk', label: '磁盘', frameCount: 2, definitions: [] },
     ])
     const diskRecord = project.state.assetCatalog.assets['sprite.authored.c05disk']!

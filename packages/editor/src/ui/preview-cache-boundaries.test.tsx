@@ -1,24 +1,32 @@
 // @vitest-environment jsdom
-// @ts-expect-error Node test-host bridge only; production tsconfig remains DOM-only.
-import { Blob as NodeBlob } from 'node:buffer'
-// @ts-expect-error Node test-host bridge only.
-import { webcrypto } from 'node:crypto'
 import { loadFireSprite } from '@type-pal/reforge'
 import { act } from 'react'
 import { flushSync } from 'react-dom'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import { installBrowserHardwarePorts } from '../__tests__/bitmap-test-port.js'
+import { pixelAt } from '../__tests__/cursor-asset-r1/canvas-pixels.js'
+import { unmountHost } from '../__tests__/react-host-cleanup.js'
+import { deferred } from '../__tests__/test-promises.js'
 import { loadEditorSprite } from '../core/sprite-assets.js'
-import { deferred, previewCacheFixture } from './__tests__/preview-cache-fixture.js'
+import { previewCacheFixture } from './__tests__/preview-cache-fixture.js'
 import { FireEffectPreview } from './FireEffectPreview.js'
 import { SpriteThumb } from './SpriteThumb.js'
 
 // Observe real loader completion only; every call still executes the production loader/decoder.
-const trace = vi.hoisted(() => ({ pending: [] as Promise<unknown>[] }))
+const trace = vi.hoisted(() => ({
+  pending: [] as Promise<unknown>[],
+  baked: [] as HTMLCanvasElement[],
+}))
 vi.mock('@type-pal/reforge', async (original) => {
   const actual = await original<typeof import('@type-pal/reforge')>()
   return {
     ...actual,
+    bakeFrame: (...args: Parameters<typeof actual.bakeFrame>) => {
+      const canvas = actual.bakeFrame(...args)
+      trace.baked.push(canvas)
+      return canvas
+    },
     loadFireSprite: (...args: Parameters<typeof actual.loadFireSprite>) => {
       const promise = actual.loadFireSprite(...args)
       trace.pending.push(promise)
@@ -49,18 +57,14 @@ const RED: [number, number, number] = [240, 20, 20]
 const BLUE: [number, number, number] = [20, 90, 240]
 let serial = 7000
 let roots: Array<{ root: Root; host: HTMLDivElement }> = []
-let pixels = new WeakMap<HTMLCanvasElement, number[]>()
 let clears = new WeakMap<HTMLCanvasElement, number>()
-let baked: number[][] = []
 
 beforeEach(() => {
   vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
-  vi.stubGlobal('Blob', NodeBlob)
-  vi.stubGlobal('crypto', webcrypto)
+  installBrowserHardwarePorts()
   trace.pending = []
-  pixels = new WeakMap()
   clears = new WeakMap()
-  baked = []
+  trace.baked = []
   vi.stubGlobal(
     'IntersectionObserver',
     class {
@@ -71,41 +75,25 @@ beforeEach(() => {
       disconnect() {}
     },
   )
-  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(function (
-    this: HTMLCanvasElement,
+  const context = document.createElement('canvas').getContext('2d')!
+  const clearRect = context.clearRect
+  const prototype: CanvasRenderingContext2D = Object.getPrototypeOf(context)
+  vi.spyOn(prototype, 'clearRect').mockImplementation(function (
+    this: CanvasRenderingContext2D,
+    ...dimensions: Parameters<typeof clearRect>
   ) {
-    return {
-      imageSmoothingEnabled: false,
-      createImageData: (width: number, height: number) => ({
-        width,
-        height,
-        data: new Uint8ClampedArray(width * height * 4),
-      }),
-      putImageData: (data: ImageData) => {
-        const value = [...data.data.slice(0, 4)]
-        pixels.set(this, value)
-        baked.push(value)
-      },
-      clearRect: () => {
-        clears.set(this, (clears.get(this) ?? 0) + 1)
-        pixels.delete(this)
-      },
-      drawImage: (image: HTMLCanvasElement) => {
-        const value = pixels.get(image)
-        if (!value) throw new Error('drawImage received an unbaked frame')
-        pixels.set(this, [...value])
-      },
-    } as unknown as CanvasRenderingContext2D
+    clears.set(this.canvas, (clears.get(this.canvas) ?? 0) + 1)
+    clearRect.apply(this, dimensions)
   })
 })
 afterEach(async () => {
-  for (const { root, host } of roots) {
-    await act(async () => root.unmount())
-    host.remove()
+  try {
+    for (const fixture of roots) await unmountHost(fixture)
+  } finally {
+    roots = []
+    vi.restoreAllMocks()
+    vi.unstubAllGlobals()
   }
-  roots = []
-  vi.restoreAllMocks()
-  vi.unstubAllGlobals()
 })
 
 function preview(kind: Kind, f: Fixture) {
@@ -146,7 +134,9 @@ async function settled(kind: Kind, host: HTMLDivElement, afterClear = 0) {
 }
 const painted = (host: HTMLDivElement) => {
   const canvas = host.querySelector('canvas')
-  return canvas ? pixels.get(canvas) : undefined
+  if (!canvas) return undefined
+  const color = pixelAt(canvas, canvas.width / 2, canvas.height / 2)
+  return color[3] ? color : undefined
 }
 
 test.each([
@@ -291,6 +281,10 @@ test.each([
   await settled(kind, second.host)
   expect(painted(first.host)).toEqual([...RED, 255])
   expect(painted(second.host)).toEqual([...RED, 255])
+  expect(
+    trace.baked,
+    'Both consumers share one derived canvas as well as one source read',
+  ).toHaveLength(1)
   expect(f.reads.get(kind === 'fire' ? f.firePath : f.spritePath)).toBe(1)
 })
 
@@ -328,7 +322,7 @@ test.each([
       release.resolve()
       await Promise.allSettled(trace.pending)
     })
-    expect(baked).toContainEqual([...RED, 255])
+    expect(trace.baked.map((canvas) => pixelAt(canvas, 0, 0))).toContainEqual([...RED, 255])
   }
   expect(painted(mounted.host)).toEqual([...BLUE, 255])
 })

@@ -15,7 +15,7 @@ import {
   installAudioWorkbenchTestHost,
   seedSound,
 } from './__tests__/audio-workbench-harness.js'
-import { clickButton } from './__tests__/glm-ui-wave-kit.js'
+import { clickButton } from './__tests__/dom-gestures.js'
 
 /** 交替 ±0.5 的 0.5s 采样（8kHz 单声道）：每个峰值 bucket 恒为 max 0.5 / min -0.5。 */
 const HIT_SAMPLES = Array.from({ length: 4000 }, (_, index) => (index % 2 === 0 ? 0.5 : -0.5))

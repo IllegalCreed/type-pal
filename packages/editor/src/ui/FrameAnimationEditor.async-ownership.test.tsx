@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { act } from 'react'
 import { describe, expect, test, vi } from 'vitest'
-import { minimalPng } from '../core/__tests__/glm-import-codec-fixtures.js'
+import { transparentPng } from '../__tests__/png-fixtures.js'
 import { UpdateAssetLabelCommand } from '../core/asset-label-command.js'
 import {
   type FrameAnimationQuantizeRequest,
@@ -81,7 +81,7 @@ function imageHost(f: Awaited<ReturnType<typeof frameEditor>>) {
       const input = f.host.querySelector<HTMLInputElement>('input[type="file"]')!
       Object.defineProperty(input, 'files', {
         configurable: true,
-        value: [new File([minimalPng(2, 1)], 'frame.png', { type: 'image/png' })],
+        value: [new File([transparentPng(2, 1)], 'frame.png', { type: 'image/png' })],
       })
       await act(async () => input.dispatchEvent(new Event('change', { bubbles: true })))
     },

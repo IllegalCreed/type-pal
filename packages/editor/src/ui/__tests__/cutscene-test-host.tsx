@@ -3,6 +3,7 @@ import { type AssetBase, AssetResolver } from '@type-pal/reforge'
 import { act, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { type GatedFileSource, gatedFileSource } from '../../__tests__/gated-file-source.js'
 import { installReactActEnvironment, waitForReact } from '../../__tests__/react-io-wait.js'
 import { collectEditorAssetDiagnostics } from '../../core/asset-diagnostics.js'
 import { EditSession } from '../../core/edit-session.js'
@@ -17,7 +18,6 @@ import {
   type ObjectUrlWitness,
   restoreCutsceneHardwarePorts,
 } from './cutscene-resource-fixtures.js'
-import { type GatedFileSource, gatedFileSource } from './kimi-editor-workflows/kit.js'
 
 interface Mounted {
   session: EditSession

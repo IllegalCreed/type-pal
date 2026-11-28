@@ -26,6 +26,10 @@ import {
 } from 'react'
 import { editorAssetCatalogTitle } from '../core/asset-diagnostics.js'
 import {
+  type BattleSpriteFrameDeletionPlan,
+  planBattleSpriteFrameDeletion,
+} from '../core/battle-sprite-frame-deletion.js'
+import {
   defaultBattleSpriteProfile,
   prepareBattleSpriteImport,
 } from '../core/battle-sprite-import.js'
@@ -44,6 +48,7 @@ import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import type { CurrentProjectReferenceIndexProvider } from '../core/project-reference-adapters.js'
+import { readSpriteImagePixels } from '../core/sprite-image-pixels.js'
 import {
   BattleSpriteInlinePreview,
   type BattleSpritePreviewProof,
@@ -92,102 +97,6 @@ const RAW_FRAME_TEXT_PREFIX = 'type-pal-battle-raw-frame:'
 
 type InspectorTab = 'actions' | 'references' | 'source'
 type KindFilter = BattleSpriteProfileKind | 'all' | 'unconfigured'
-
-export interface BattleSpriteFrameDeletionPlan {
-  repairs: NonNullable<BattleSpriteReplacementProof['repairs']>
-  consumerSnapshots: NonNullable<BattleSpriteReplacementProof['consumerSnapshots']>
-  changes: string[]
-}
-
-function remapDeletedFrame(index: number, deletedIndex: number, nextFrameCount: number): number {
-  if (index < deletedIndex) return index
-  if (index > deletedIndex) return index - 1
-  return Math.min(deletedIndex, nextFrameCount - 1)
-}
-
-export function planBattleSpriteFrameDeletion(
-  consumers: readonly BattleSpriteDef[],
-  deletedIndex: number,
-  previousFrameCount: number,
-): BattleSpriteFrameDeletionPlan {
-  if (!Number.isInteger(deletedIndex) || deletedIndex < 0 || deletedIndex >= previousFrameCount)
-    throw new Error('待删除的战斗精灵帧不存在')
-  if (previousFrameCount <= 1) throw new Error('战斗精灵至少必须保留 1 帧')
-  const nextFrameCount = previousFrameCount - 1
-  const repairs: NonNullable<BattleSpriteReplacementProof['repairs']> = {}
-  const consumerSnapshots: NonNullable<BattleSpriteReplacementProof['consumerSnapshots']> = {}
-  const changes: string[] = []
-  for (const consumer of consumers) {
-    consumerSnapshots[consumer.id] = { profile: structuredClone(consumer.profile) }
-    const profile = consumer.profile
-    if (profile.kind === 'player-fighter') {
-      const map = (index: number): number => remapDeletedFrame(index, deletedIndex, nextFrameCount)
-      const frames: PlayerFighterFrames = {
-        idle: map(profile.frames.idle),
-        dying: map(profile.frames.dying),
-        dead: map(profile.frames.dead),
-        defend: map(profile.frames.defend),
-        hurt: map(profile.frames.hurt),
-        preMagic: map(profile.frames.preMagic),
-        magic: map(profile.frames.magic),
-        attackWindup: map(profile.frames.attackWindup),
-        attackRush: map(profile.frames.attackRush),
-        attackStrike: map(profile.frames.attackStrike),
-        ...(profile.frames.steal === undefined ? {} : { steal: map(profile.frames.steal) }),
-      }
-      repairs[consumer.id] = { profile: { ...profile, frames } }
-      const affected = Object.entries(profile.frames)
-        .filter(([, frame]) => frame === deletedIndex || frame > deletedIndex)
-        .map(([key]) => key)
-      if (affected.length) changes.push(`${consumer.label}：重排 ${affected.length} 个动作槽位`)
-    } else if (profile.kind === 'enemy') {
-      let idleCount = profile.idle.count
-      let magicCount = profile.magic.count
-      let attackCount = profile.attack.count
-      const magicEnd = idleCount + magicCount
-      const attackEnd = magicEnd + attackCount
-      if (deletedIndex < idleCount) {
-        if (idleCount > 1) idleCount--
-        else if (magicCount > 0) magicCount--
-        else if (attackCount > 0) attackCount--
-      } else if (deletedIndex < magicEnd) magicCount--
-      else if (deletedIndex < attackEnd) attackCount--
-      const nextProfile: BattleSpriteProfile = {
-        ...profile,
-        idle: { start: 0, count: idleCount },
-        magic: { start: idleCount, count: magicCount },
-        attack: { start: idleCount + magicCount, count: attackCount },
-      }
-      repairs[consumer.id] = { profile: nextProfile }
-      if (
-        idleCount !== profile.idle.count ||
-        magicCount !== profile.magic.count ||
-        attackCount !== profile.attack.count
-      )
-        changes.push(
-          `${consumer.label}：动作分段 ${profile.idle.count}/${profile.magic.count}/${profile.attack.count} → ${idleCount}/${magicCount}/${attackCount}`,
-        )
-    } else repairs[consumer.id] = { profile: structuredClone(profile) }
-  }
-  return { repairs, consumerSnapshots, changes }
-}
-
-async function imageFileToRgba(file: File): Promise<{ rgba: Uint8Array; w: number; h: number }> {
-  const bitmap = await createImageBitmap(file)
-  const canvas = document.createElement('canvas')
-  canvas.width = bitmap.width
-  canvas.height = bitmap.height
-  const context = canvas.getContext('2d')
-  if (!context) throw new Error('2d context 不可用')
-  context.drawImage(bitmap, 0, 0)
-  bitmap.close()
-  const image = context.getImageData(0, 0, canvas.width, canvas.height)
-  return {
-    rgba: new Uint8Array(image.data.buffer.slice(0)),
-    w: canvas.width,
-    h: canvas.height,
-  }
-}
 
 function definitionIdStem(value: string): string {
   return (
@@ -413,8 +322,8 @@ export function BattleSpriteLibrary(props: {
   const [rawEditorMessageKind, setRawEditorMessageKind] = useState<'info' | 'error'>('info')
   const [rawAppendDraft, setRawAppendDraft] = useState<{
     rgba: Uint8Array
-    w: number
-    h: number
+    width: number
+    height: number
     cols: number
     rows: number
   }>()
@@ -792,8 +701,11 @@ export function BattleSpriteLibrary(props: {
     frames: RleFrame[],
     label: string,
     deletionPlan?: BattleSpriteFrameDeletionPlan,
-  ): Promise<void> => {
-    if (!resourceSnapshot || !record || record.kind !== 'battle-sprite') return
+  ): Promise<boolean> => {
+    if (!resourceSnapshot || !proofReady) {
+      reportRawError(new Error('战斗精灵源帧未就绪，请重新选择后再编辑。'))
+      return false
+    }
     setRawEditorBusy(true)
     setRawEditorMessage('')
     try {
@@ -801,6 +713,8 @@ export function BattleSpriteLibrary(props: {
       const currentRecord = currentState.assetCatalog.assets[selectedAsset]
       if (!currentRecord || currentRecord.kind !== 'battle-sprite')
         throw new Error('当前战斗精灵源文件已不在 catalog')
+      if (currentRecord.sha256 !== previewProof.sha256)
+        throw new Error('战斗精灵源帧已更新，请重新选择后再编辑。')
       const currentConsumers = currentState.battleSprites.filter(
         (entry) => entry.asset === selectedAsset,
       )
@@ -821,7 +735,7 @@ export function BattleSpriteLibrary(props: {
       const shrinking = frames.length < resourceSnapshot.frames.length
       const proof: BattleSpriteReplacementProof = {
         asset: selectedAsset,
-        previousSha256: currentRecord.sha256,
+        previousSha256: previewProof.sha256,
         previousFrameCount: resourceSnapshot.frames.length,
         nextFrameCount: frames.length,
         consumerIds: currentConsumers.map((entry) => entry.id),
@@ -845,8 +759,10 @@ export function BattleSpriteLibrary(props: {
       setRawEditorMessage(`${label}；可使用撤销恢复。`)
       setRawEditorMessageKind('info')
       props.onStatusNotice?.({ kind: 'info', message: `${label}；可撤销。` })
+      return true
     } catch (reason) {
       reportRawError(reason)
+      return false
     } finally {
       setRawEditorBusy(false)
     }
@@ -855,8 +771,13 @@ export function BattleSpriteLibrary(props: {
   const replaceRawFrame = async (file: File, index: number): Promise<void> => {
     if (!resourceSnapshot || index < 0 || index >= resourceSnapshot.frames.length) return
     try {
-      const image = await imageFileToRgba(file)
-      const replacement = quantizeToRleFrame(image.rgba, image.w, image.h, resourceSnapshot.palette)
+      const image = await readSpriteImagePixels(file)
+      const replacement = quantizeToRleFrame(
+        image.rgba,
+        image.width,
+        image.height,
+        resourceSnapshot.palette,
+      )
       if (
         consumers.length &&
         !window.confirm(`替换原始帧 #${index} 会同时影响 ${consumers.length} 个用途。继续吗？`)
@@ -876,17 +797,17 @@ export function BattleSpriteLibrary(props: {
   const appendRawFrames = async (): Promise<void> => {
     if (!resourceSnapshot || !rawAppendDraft) return
     if (
-      rawAppendDraft.w % rawAppendDraft.cols !== 0 ||
-      rawAppendDraft.h % rawAppendDraft.rows !== 0
+      rawAppendDraft.width % rawAppendDraft.cols !== 0 ||
+      rawAppendDraft.height % rawAppendDraft.rows !== 0
     )
       return
     try {
       const appended = sliceAtlasGrid(
         rawAppendDraft.rgba,
-        rawAppendDraft.w,
-        rawAppendDraft.h,
-        rawAppendDraft.w / rawAppendDraft.cols,
-        rawAppendDraft.h / rawAppendDraft.rows,
+        rawAppendDraft.width,
+        rawAppendDraft.height,
+        rawAppendDraft.width / rawAppendDraft.cols,
+        rawAppendDraft.height / rawAppendDraft.rows,
       ).map((frame) =>
         quantizeToRleFrame(frame.rgba, frame.width, frame.height, resourceSnapshot.palette),
       )
@@ -897,11 +818,11 @@ export function BattleSpriteLibrary(props: {
         )
       )
         return
-      await commitRawFrames(
+      const committed = await commitRawFrames(
         [...resourceSnapshot.frames, ...appended],
         `追加战斗精灵原始帧 ×${appended.length}`,
       )
-      setRawAppendDraft(undefined)
+      if (committed) setRawAppendDraft(undefined)
     } catch (reason) {
       reportRawError(reason)
     }
@@ -1014,7 +935,7 @@ export function BattleSpriteLibrary(props: {
   const rawAppendPanel = rawAppendDraft ? (
     <div className="sprite-raw-append-panel">
       <span>
-        将 {rawAppendDraft.w}×{rawAppendDraft.h} 图片切为
+        将 {rawAppendDraft.width}×{rawAppendDraft.height} 图片切为
       </span>
       <label>
         列
@@ -1046,9 +967,9 @@ export function BattleSpriteLibrary(props: {
         />
       </label>
       <span className="hint2">
-        {rawAppendDraft.w % rawAppendDraft.cols === 0 &&
-        rawAppendDraft.h % rawAppendDraft.rows === 0
-          ? `${rawAppendDraft.cols * rawAppendDraft.rows} 帧，每帧 ${rawAppendDraft.w / rawAppendDraft.cols}×${rawAppendDraft.h / rawAppendDraft.rows}`
+        {rawAppendDraft.width % rawAppendDraft.cols === 0 &&
+        rawAppendDraft.height % rawAppendDraft.rows === 0
+          ? `${rawAppendDraft.cols * rawAppendDraft.rows} 帧，每帧 ${rawAppendDraft.width / rawAppendDraft.cols}×${rawAppendDraft.height / rawAppendDraft.rows}`
           : '图片宽高必须能被行列整除'}
       </span>
       <span className="spacer" />
@@ -1058,8 +979,8 @@ export function BattleSpriteLibrary(props: {
       <DsButton
         disabled={
           rawEditorBusy ||
-          rawAppendDraft.w % rawAppendDraft.cols !== 0 ||
-          rawAppendDraft.h % rawAppendDraft.rows !== 0
+          rawAppendDraft.width % rawAppendDraft.cols !== 0 ||
+          rawAppendDraft.height % rawAppendDraft.rows !== 0
         }
         onClick={() => void appendRawFrames()}
         size="compact"
@@ -1315,7 +1236,7 @@ export function BattleSpriteLibrary(props: {
                 const file = event.target.files?.[0]
                 event.target.value = ''
                 if (!file) return
-                void imageFileToRgba(file)
+                void readSpriteImagePixels(file)
                   .then((image) => setRawAppendDraft({ ...image, cols: 1, rows: 1 }))
                   .catch(reportRawError)
               }}
@@ -1327,7 +1248,6 @@ export function BattleSpriteLibrary(props: {
               assetReader={props.assetReader}
               layout="library"
               semanticGroups={semanticGroups}
-              activeDefinitionId={draftDefinitionId ?? definition?.id}
               consumerCount={consumers.length}
               onDefinitionSelect={(id) => {
                 const next = consumers.find((entry) => entry.id === id)

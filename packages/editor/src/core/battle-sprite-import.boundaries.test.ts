@@ -1,11 +1,7 @@
-/**
- * TEST-EDITOR-IMPORT-CODEC-1 C3：battle-sprite-import 边界（battle-sprite-import.ts）。
- * 无既有测试覆盖本模块。覆盖：profile 帧数门（含 player 10 帧下限与精确帧位表）、
- * idStem 规范化、uniqueDefinitionId 递增、新导入 record 字段、同字节哈希复用
- * （record 对象复用 + 存量字节校验 fail-loud）、kind/记录冲突拒绝。
- */
-import type { AssetCatalogV1, AssetRecordV1 } from '@type-pal/content'
-import { describe, expect, test } from 'vitest'
+/** Catalog admission, content-addressed reuse and initial battle profile constraints. */
+import type { AssetRecordV1 } from '@type-pal/content'
+import { beforeAll, describe, expect, test } from 'vitest'
+import { loadBattleSpriteProject } from '../__tests__/battle-sprite-project.js'
 import { defaultBattleSpriteProfile, prepareBattleSpriteImport } from './battle-sprite-import.js'
 import type { EditorState } from './edit-session.js'
 
@@ -80,12 +76,20 @@ async function sha256Hex(bytes: ArrayBuffer): Promise<string> {
   return [...new Uint8Array(digest)].map((v) => v.toString(16).padStart(2, '0')).join('')
 }
 
-/** 最小 EditorState 替身：产品只读 battleSprites[].id 与 assetCatalog.assets。 */
+let baseState: EditorState
+
+beforeAll(async () => {
+  baseState = (await loadBattleSpriteProject('battle-sprite-import-boundaries', [])).state
+})
+
 function editorState(assets: Record<string, AssetRecordV1>, ids: string[] = []): EditorState {
+  const starter = baseState.battleSprites[0]
+  if (!starter) throw new Error('The blank project must have a starter fighter')
   return {
-    battleSprites: ids.map((id) => ({ id })),
-    assetCatalog: { version: 1, assets } as AssetCatalogV1,
-  } as unknown as EditorState
+    ...baseState,
+    battleSprites: [...baseState.battleSprites, ...ids.map((id) => ({ ...starter, id }))],
+    assetCatalog: { version: 1, assets: { ...baseState.assetCatalog.assets, ...assets } },
+  }
 }
 
 function readerReturning(bytes: ArrayBuffer) {
@@ -110,10 +114,9 @@ const input = (bytes: ArrayBuffer, frameCount = 2) => ({
   kind: 'enemy' as const,
   bytes,
   frameCount,
-  // reader 在各用例内单独注入
 })
 
-describe('C3 defaultBattleSpriteProfile 帧数门与精确帧位', () => {
+describe('战斗精灵初始动作配置', () => {
   test('非正整数帧数拒绝（0 / -1 / 1.5）', () => {
     for (const bad of [0, -1, 1.5]) {
       expect(() => defaultBattleSpriteProfile('enemy', bad)).toThrow('上传的战斗精灵至少需要 1 帧')
@@ -162,8 +165,8 @@ describe('C3 defaultBattleSpriteProfile 帧数门与精确帧位', () => {
   })
 })
 
-describe('C3 prepareBattleSpriteImport 命名与 catalog 合同', () => {
-  test('新导入：idStem 规范化、record 字段、bytes 为副本、纯 CJK hint 退 authored', async () => {
+describe('源帧去重与用途创建', () => {
+  test('新导入：用途 ID 规范化、record 字段、bytes 为副本、纯 CJK hint 退 authored', async () => {
     const bytes = battleSpriteBytes()
     const { reader } = readerReturning(bytes)
     const prepared = await prepareBattleSpriteImport(editorState({}), {

@@ -8,13 +8,14 @@ import {
 } from '@type-pal/reforge'
 import { type DragEvent as ReactDragEvent, useEffect, useMemo, useRef, useState } from 'react'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
-import { DsPressable } from './design-system/index.js'
 import {
   RawFrameInspector,
   type SemanticFrameGroup,
   SemanticFrameShelf,
   type SpriteFrameView,
 } from './SpriteFrameWorkbench.js'
+
+import { drawFootAlignedFrame } from './sprite-frame-canvas.js'
 
 const WIDTH = 180
 const HEIGHT = 150
@@ -45,35 +46,14 @@ interface LoadedPreview {
   frames: HTMLCanvasElement[]
 }
 
-function drawCentered(
-  context: CanvasRenderingContext2D,
-  image: HTMLCanvasElement,
-  width: number,
-  height: number,
-  maxScale: number,
-): void {
-  context.clearRect(0, 0, width, height)
-  context.imageSmoothingEnabled = false
-  const scale = Math.min((width - 8) / image.width, (height - 8) / image.height, maxScale)
-  const drawWidth = image.width * scale
-  const drawHeight = image.height * scale
-  context.drawImage(image, (width - drawWidth) / 2, height - 4 - drawHeight, drawWidth, drawHeight)
-}
-
-function FrameThumbnail(props: {
-  frame: HTMLCanvasElement
-  index: number
-  labels?: readonly string[]
-  selected?: boolean
-  onSelect?: (index: number) => void
-}) {
+function FrameThumbnail(props: { frame: HTMLCanvasElement; index: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
-    const context = canvasRef.current?.getContext('2d')
-    if (context) drawCentered(context, props.frame, 82, 72, 2)
+    const canvas = canvasRef.current
+    if (canvas) drawFootAlignedFrame(canvas, props.frame, 82, 72, 2)
   }, [props.frame])
-  const content = (
-    <>
+  return (
+    <figure className="battle-frame-thumb">
       <canvas
         ref={canvasRef}
         width={82}
@@ -87,24 +67,8 @@ function FrameThumbnail(props: {
           {props.frame.width}×{props.frame.height}
         </span>
       </span>
-      {props.labels?.length ? (
-        <small className="battle-frame-labels">{props.labels.join(' · ')}</small>
-      ) : null}
-    </>
+    </figure>
   )
-  if (props.onSelect)
-    return (
-      <DsPressable
-        type="button"
-        className={`battle-frame-thumb${props.selected ? ' selected' : ''}`}
-        aria-pressed={props.selected}
-        aria-label={`选择战斗精灵第 ${props.index} 帧${props.labels?.length ? `，当前标记 ${props.labels.join('、')}` : ''}`}
-        onClick={() => props.onSelect?.(props.index)}
-      >
-        {content}
-      </DsPressable>
-    )
-  return <figure className="battle-frame-thumb">{content}</figure>
 }
 
 export function BattleSpriteInlinePreview(props: {
@@ -112,30 +76,20 @@ export function BattleSpriteInlinePreview(props: {
   /** 无用途配置的帧源也可直接预览，避免伪造 summon profile。 */
   asset?: AssetId
   label?: string
-  /** 草稿用途可只覆盖显示身份，避免为了改标签而重新解码同一帧源。 */
-  displayId?: string
   expected?: BattleSpriteProfileKind
   assetBase: AssetBase
   assetReader: EditorAssetReader
   frameMs?: number
-  frameSequence?: readonly number[]
-  /** 命名动作身份；变化时从首帧重新播放，避免复用上一动作 tick。 */
-  sequenceKey?: string
-  /** 只展示完整逐帧平铺，不把互不相干的帧自动串成动作。 */
-  showAllFrames?: boolean
   /** 角色页已有完整动作架时可隐藏重复的单帧主画布。 */
   showPrimaryPreview?: boolean
   /** 资源库使用中心栏宽布局；缺省保持技能等处的紧凑预览。 */
   layout?: 'compact' | 'library'
-  activeFrames?: readonly number[]
-  frameLabels?: Readonly<Record<number, readonly string[]>>
   onFrameSelect?: (index: number) => void
   playAllFrames?: boolean
   onLoaded?: (proof: BattleSpritePreviewProof | undefined) => void
   onResourceLoaded?: (snapshot: BattleSpriteResourceSnapshot | undefined) => void
   semanticGroups?: readonly SemanticFrameGroup[]
   semanticPresentation?: 'full' | 'embedded'
-  activeDefinitionId?: string
   consumerCount?: number
   onDefinitionSelect?: (id: string) => void
   onRawAppend?: () => void
@@ -149,7 +103,7 @@ export function BattleSpriteInlinePreview(props: {
   /** 资源库外层已经提供固定标题时，内部只渲染可滚动的帧编辑内容。 */
   showHero?: boolean
 }) {
-  const cacheRef = useRef(new BattleSpriteAssetCache(4))
+  const [cache] = useState(() => new BattleSpriteAssetCache(4))
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [loadedPreview, setLoadedPreview] = useState<LoadedPreview | null>()
   const [error, setError] = useState('')
@@ -158,7 +112,7 @@ export function BattleSpriteInlinePreview(props: {
 
   const asset = props.definition?.asset ?? props.asset
   const label = props.definition?.label ?? props.label ?? asset
-  const displayId = props.displayId ?? props.definition?.id
+  const definitionId = props.definition?.id
   const showPrimaryPreview = props.showPrimaryPreview !== false
   let revision: string | undefined
   let recordError = ''
@@ -196,12 +150,12 @@ export function BattleSpriteInlinePreview(props: {
     const spritePromise =
       props.definition && props.layout !== 'library'
         ? loadBattleSpriteDefinition(
-            cacheRef.current,
+            cache,
             props.assetReader,
             props.definition,
             props.expected ?? props.definition.profile.kind,
           ).then((loaded) => loaded.sprite)
-        : cacheRef.current.load(props.assetReader, asset)
+        : cache.load(props.assetReader, asset)
     void Promise.all([spritePromise, loadStandardPalette(props.assetBase)])
       .then(([sprite, palette]) => {
         if (!alive) return
@@ -231,6 +185,7 @@ export function BattleSpriteInlinePreview(props: {
     }
   }, [
     asset,
+    cache,
     props.assetBase,
     props.assetReader,
     props.definition,
@@ -244,19 +199,14 @@ export function BattleSpriteInlinePreview(props: {
 
   const sequence = useMemo(() => {
     if (!frames?.length) return []
-    if (props.frameSequence) return [...props.frameSequence]
     if (props.playAllFrames) return frames.map((_, index) => index)
     if (!props.definition) return [0]
     const profile = props.definition.profile
     if (profile.kind === 'player-fighter') return [profile.frames.idle]
     if (profile.kind === 'enemy')
       return Array.from({ length: profile.idle.count }, (_, index) => profile.idle.start + index)
-    return props.playAllFrames ? frames.map((_, index) => index) : [0]
-  }, [frames, props.definition, props.frameSequence, props.playAllFrames])
-  useEffect(() => {
-    if (props.sequenceKey === undefined) return
-    setTick(0)
-  }, [props.sequenceKey])
+    return [0]
+  }, [frames, props.definition, props.playAllFrames])
 
   useEffect(() => {
     if (sequence.length <= 1) return
@@ -265,17 +215,17 @@ export function BattleSpriteInlinePreview(props: {
   }, [props.frameMs, sequence.length])
 
   useEffect(() => {
-    const context = canvasRef.current?.getContext('2d')
-    if (!context || !frames?.length || !sequence.length) return
+    const canvas = canvasRef.current
+    if (!canvas || !frames?.length || !sequence.length) return
     const image = frames[sequence[tick % sequence.length] ?? 0]
-    if (image) drawCentered(context, image, WIDTH, HEIGHT, 2)
+    if (image) drawFootAlignedFrame(canvas, image, WIDTH, HEIGHT, 2)
   }, [frames, sequence, tick])
 
-  const frameViews: SpriteFrameView[] = (frames ?? []).map((frame) => ({
-    canvas: frame,
-    width: frame.width,
-    height: frame.height,
-  }))
+  const frameViews: SpriteFrameView[] = useMemo(
+    () =>
+      (frames ?? []).map((frame) => ({ canvas: frame, width: frame.width, height: frame.height })),
+    [frames],
+  )
 
   if (props.layout === 'library') {
     if (frames === undefined)
@@ -349,7 +299,7 @@ export function BattleSpriteInlinePreview(props: {
           {showPrimaryPreview ? (
             <div className="hint2">
               {label}
-              {displayId ? ` · ${displayId}` : ''} · {frames.length} 帧
+              {definitionId ? ` · ${definitionId}` : ''} · {frames.length} 帧
             </div>
           ) : null}
           {props.semanticGroups?.length ? (
@@ -358,20 +308,12 @@ export function BattleSpriteInlinePreview(props: {
               groups={props.semanticGroups}
               presentation={props.semanticPresentation}
               onGroupSelect={props.onDefinitionSelect}
-              onFrameSelect={props.onFrameSelect}
             />
           ) : null}
-          {props.showAllFrames || props.playAllFrames ? (
+          {props.playAllFrames ? (
             <section className="battle-frame-grid" aria-label="逐帧预览">
               {frames.map((frame, index) => (
-                <FrameThumbnail
-                  key={index}
-                  frame={frame}
-                  index={index}
-                  labels={props.frameLabels?.[index]}
-                  selected={props.activeFrames?.includes(index)}
-                  onSelect={props.onFrameSelect}
-                />
+                <FrameThumbnail key={index} frame={frame} index={index} />
               ))}
             </section>
           ) : null}

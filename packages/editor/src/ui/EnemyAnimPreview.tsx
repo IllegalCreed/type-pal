@@ -200,7 +200,11 @@ export function EnemyAnimPreview(props: {
   useEffect(() => {
     const canvas = canvasRef.current
     const context = canvas?.getContext('2d')
-    if (!canvas || !context || !frames.length || !sequence.frames.length) return
+    if (!canvas || !context) return
+    if (!frames.length || !sequence.frames.length) {
+      context.clearRect(0, 0, canvas.width, canvas.height)
+      return
+    }
     const maxWidth = Math.max(...frames.map((frame) => frame.width))
     const maxHeight = Math.max(...frames.map((frame) => frame.height))
     const scale = 2

@@ -1,196 +1,170 @@
 // @vitest-environment jsdom
 
-import type { BattleSpriteDef } from '@type-pal/content'
-import type { RleFrame } from '@type-pal/reforge'
 import { act } from 'react'
-import { createRoot, type Root } from 'react-dom/client'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { BattleSpriteInlinePreview } from './BattleSpriteInlinePreview.js'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import {
+  type MountedBattleInline,
+  mountBattleInline,
+  unmountBattleInline,
+} from '../__tests__/battle-inline-test-host.js'
+import {
+  assertDistinctFrameColors,
+  expectedBattleRgb,
+} from '../__tests__/battle-sprite-pixel-oracle.js'
+import {
+  type BattleSpriteProject,
+  loadBattleSpriteProject,
+  playerProfile,
+} from '../__tests__/battle-sprite-project.js'
+import { installBrowserHardwarePorts } from '../__tests__/canvas-test-ports.js'
+import { opaqueBounds, pixelAt } from '../__tests__/cursor-asset-r1/canvas-pixels.js'
+import { installReactActEnvironment, waitForReact } from '../__tests__/react-io-wait.js'
+import { deferred } from '../__tests__/test-promises.js'
+import { battleSpriteSemanticGroup } from './battle-sprite-action-preview.js'
 
-const mocks = vi.hoisted(() => ({
-  loadDefinition: vi.fn(),
-  loadAsset: vi.fn(),
-  loadPalette: vi.fn(),
-  bakeFrame: vi.fn(),
-}))
+const asset = 'battle-sprite.authored.long-fighter'
+const id = 'long-fighter'
+const frameWidth = 57
+const frameHeight = 66
+let project: BattleSpriteProject
+let view: MountedBattleInline | undefined
+let restoreAct: () => void
 
-vi.mock('@type-pal/reforge', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@type-pal/reforge')>()),
-  BattleSpriteAssetCache: class {
-    load = mocks.loadAsset
-  },
-  loadBattleSpriteDefinition: mocks.loadDefinition,
-  loadStandardPalette: mocks.loadPalette,
-  bakeFrame: mocks.bakeFrame,
-}))
-
-const definition: BattleSpriteDef = {
-  id: 'player-fighter-0',
-  label: '李逍遥',
-  asset: 'battle-sprite.pal.player.000',
-  profile: {
-    kind: 'player-fighter',
-    frames: {
-      idle: 0,
-      dying: 1,
-      dead: 2,
-      defend: 3,
-      hurt: 4,
-      preMagic: 5,
-      magic: 6,
-      attackWindup: 7,
-      attackRush: 8,
-      attackStrike: 9,
-      steal: 10,
+beforeEach(async () => {
+  restoreAct = installReactActEnvironment()
+  installBrowserHardwarePorts()
+  vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] })
+  project = await loadBattleSpriteProject('battle-inline-layouts', [
+    {
+      asset,
+      label: '剑客',
+      frameCount: 11,
+      frameSizes: Array.from({ length: 11 }, () => [frameWidth, frameHeight]),
+      colorPicks: [4, 0, 0, 0, 0, 0, 0, 1, 2, 3, 9],
+      definitions: [{ id, label: '剑客', profile: playerProfile({ steal: 10 }) }],
     },
-    castEffectBase: 15,
-    attackEffectBase: 0,
-  },
-}
+  ])
+  assertDistinctFrameColors(project, asset, [0, 7, 8, 9, 10])
+})
 
-function frame(width: number, height: number): RleFrame {
-  return {
-    width,
-    height,
-    pixels: new Uint8Array(width * height),
-    opaque: new Uint8Array(width * height),
-  }
-}
-
-describe('BattleSpriteInlinePreview', () => {
-  let host: HTMLDivElement
-  let root: Root
-  let contextSpy: ReturnType<typeof vi.spyOn>
-  const drawImage = vi.fn()
-  let bakedFrames: HTMLCanvasElement[]
-
-  beforeEach(() => {
-    ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
-    vi.useFakeTimers()
-    host = document.createElement('div')
-    document.body.append(host)
-    root = createRoot(host)
-    drawImage.mockReset()
-    bakedFrames = []
-    contextSpy = vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({
-      clearRect: vi.fn(),
-      drawImage,
-      imageSmoothingEnabled: true,
-    } as unknown as CanvasRenderingContext2D)
-    const frames = Array.from({ length: 11 }, () => frame(57, 66))
-    mocks.loadDefinition.mockReset().mockResolvedValue({ sprite: { frames } })
-    mocks.loadAsset.mockReset().mockResolvedValue({ frames })
-    mocks.loadPalette.mockReset().mockResolvedValue({ colors: [], cycles: [] })
-    mocks.bakeFrame.mockReset().mockImplementation(() => {
-      const canvas = document.createElement('canvas')
-      canvas.width = 57
-      canvas.height = 66
-      bakedFrames.push(canvas)
-      return canvas
-    })
-  })
-
-  afterEach(async () => {
-    await act(async () => root.unmount())
-    contextSpy.mockRestore()
-    host.remove()
+afterEach(async () => {
+  try {
+    if (view) await unmountBattleInline(view)
+  } finally {
+    view = undefined
+    restoreAct()
     vi.useRealTimers()
+    vi.restoreAllMocks()
+    vi.unstubAllGlobals()
+  }
+})
+
+function definition() {
+  const found = project.state.battleSprites.find((entry) => entry.id === id)
+  if (!found) throw new Error('Fighter definition is missing from the loaded project')
+  return found
+}
+
+function center(canvas: HTMLCanvasElement): readonly number[] {
+  const bounds = opaqueBounds(canvas)
+  if (!bounds) throw new Error('Loaded fighter is missing from the canvas')
+  return pixelAt(
+    canvas,
+    Math.floor((bounds.minX + bounds.maxX) / 2),
+    Math.floor((bounds.minY + bounds.maxY) / 2),
+  )
+}
+
+function expectFrame(canvas: HTMLCanvasElement, frame: number): void {
+  expect(center(canvas)).toEqual([...expectedBattleRgb(project, asset, frame), 255])
+}
+
+test('资源库布局完整平铺帧，并保持主画布和缩略画布比例', async () => {
+  const selectedFrames: number[] = []
+  view = await mountBattleInline(project, {
+    asset,
+    label: definition().label,
+    layout: 'library',
+    semanticGroups: [battleSpriteSemanticGroup(definition(), 11, true)],
+    onRawFrameDragStart: () => undefined,
+    onFrameSelect: (frame) => selectedFrames.push(frame),
   })
+  const { host } = view
+  await waitForReact(() =>
+    expect(host.querySelector('.battle-sprite-resource-workbench')).not.toBeNull(),
+  )
+  const main = host.querySelector<HTMLCanvasElement>('canvas[aria-label="剑客 第 0 帧"]')
+  if (!main) throw new Error('Library source image is missing')
+  expect([main.width, main.height]).toEqual([220, 220])
+  expectFrame(main, 0)
 
-  test('资源库布局完整平铺帧，并保持主画布和缩略画布比例', async () => {
-    await act(async () => {
-      root.render(
-        <BattleSpriteInlinePreview
-          definition={definition}
-          expected="player-fighter"
-          assetBase={{} as never}
-          assetReader={{ record: () => ({ sha256: 'a'.repeat(64) }) } as never}
-          frameSequence={[7, 8, 9, 0]}
-          sequenceKey="attack"
-          showAllFrames
-          layout="library"
-          semanticGroups={[
-            {
-              id: definition.id,
-              label: definition.label,
-              typeLabel: '玩家战斗',
-              active: true,
-              rows: [
-                {
-                  id: 'attack',
-                  label: '普通攻击',
-                  frames: [7, 8, 9, 0],
-                  playbackFrames: [7, 8, 9, 0],
-                },
-              ],
-            },
-          ]}
-          onRawFrameDragStart={vi.fn()}
-        />,
-      )
-    })
-
-    expect(host.querySelector('.battle-sprite-resource-workbench')).not.toBeNull()
-
-    const main = host.querySelector<HTMLCanvasElement>('canvas[aria-label="李逍遥 第 0 帧"]')
-    expect(main).toMatchObject({ width: 220, height: 220 })
-
-    const thumbnails = host.querySelectorAll<HTMLButtonElement>(
+  const thumbnails = [
+    ...host.querySelectorAll<HTMLButtonElement>(
       '.sprite-resource-frame-grid button[aria-label^="选择源帧 "]',
+    ),
+  ]
+  expect(thumbnails).toHaveLength(11)
+  for (const button of thumbnails) expect(button.draggable).toBe(true)
+  expect(host.querySelector('.semantic-frame-shelf')?.textContent).toContain('普通攻击')
+  for (const canvas of [
+    main,
+    ...host.querySelectorAll<HTMLCanvasElement>('.sprite-resource-frame-grid canvas'),
+  ]) {
+    const bounds = opaqueBounds(canvas)
+    if (!bounds) throw new Error('One frame did not paint')
+    const width = bounds.maxX - bounds.minX + 1
+    const height = bounds.maxY - bounds.minY + 1
+    // Nearest-neighbor rasterization can round each edge by a pixel.
+    expect(Math.abs(width - (height * frameWidth) / frameHeight)).toBeLessThanOrEqual(2)
+  }
+
+  const lastButton = thumbnails[10]
+  if (!lastButton) throw new Error('The last source frame is missing')
+  await act(async () => lastButton.click())
+  const selected = host.querySelector<HTMLCanvasElement>('canvas[aria-label="剑客 第 10 帧"]')
+  if (!selected) throw new Error('Selection did not update the source image')
+  expectFrame(selected, 10)
+  expect(lastButton.getAttribute('aria-pressed')).toBe('true')
+  expect(selectedFrames).toEqual([10])
+})
+
+test('角色页紧凑预览呈现完整动作分组，并持续循环动态首格', async () => {
+  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+  let elapsed = 0
+  vi.spyOn(window.performance, 'now').mockImplementation(() => elapsed)
+  const fighter = definition()
+  const ready = deferred<void>()
+  view = await mountBattleInline(project, {
+    definition: fighter,
+    expected: 'player-fighter',
+    showPrimaryPreview: false,
+    semanticPresentation: 'embedded',
+    semanticGroups: [battleSpriteSemanticGroup(fighter, 0, true)],
+    onLoaded: (proof) => {
+      if (proof) ready.resolve()
+    },
+  })
+  const { host } = view
+  const attack = () =>
+    [...host.querySelectorAll('.semantic-frame-row')].find(
+      (row) => row.querySelector('.semantic-frame-row-label b')?.textContent === '普通攻击',
     )
-    expect(thumbnails).toHaveLength(11)
-    expect(thumbnails[0]?.draggable).toBe(true)
-    expect(host.querySelector('.semantic-frame-row')?.textContent).toContain('普通攻击')
-
-    for (const call of drawImage.mock.calls) {
-      const source = call[0] as HTMLCanvasElement
-      const drawWidth = call[3] as number
-      const drawHeight = call[4] as number
-      expect(drawWidth / drawHeight).toBeCloseTo(source.width / source.height, 8)
-    }
-  })
-
-  test('角色页紧凑预览呈现完整动作分组，并持续循环动态首格', async () => {
-    await act(async () => {
-      root.render(
-        <BattleSpriteInlinePreview
-          definition={definition}
-          expected="player-fighter"
-          assetBase={{} as never}
-          assetReader={{ record: () => ({ sha256: 'a'.repeat(64) }) } as never}
-          showPrimaryPreview={false}
-          semanticPresentation="embedded"
-          semanticGroups={[
-            {
-              id: definition.id,
-              label: definition.label,
-              typeLabel: '玩家战斗',
-              active: true,
-              rows: [
-                {
-                  id: 'attack',
-                  label: '普通攻击',
-                  frames: [7, 8, 9, 0],
-                  playbackFrames: [7, 8, 9, 0],
-                  frameMs: 140,
-                  loopFrom: 0,
-                },
-              ],
-            },
-          ]}
-        />,
-      )
-    })
-
-    expect(host.querySelector('.battle-sprite-preview .semantic-frame-shelf')).not.toBeNull()
-    expect(host.querySelector('.battle-sprite-preview > canvas')).toBeNull()
-    expect(host.querySelector('.semantic-frame-shelf--embedded')).not.toBeNull()
-    expect(host.querySelector('.semantic-frame-shelf > header')).toBeNull()
-    expect(host.querySelector('.semantic-frame-group-head')).toBeNull()
-    expect(host.querySelector('.semantic-frame-row')?.textContent).toContain('普通攻击')
+  await act(async () => ready.promise)
+  const dynamic = attack()?.querySelector<HTMLCanvasElement>('.animated canvas')
+  if (!dynamic) throw new Error('Compact attack row is missing its animated frame')
+  expect(host.querySelector('.battle-sprite-preview > canvas')).toBeNull()
+  expect(host.querySelector('.semantic-frame-shelf--embedded > header')).toBeNull()
+  expect(host.querySelector('.semantic-frame-group-head')).toBeNull()
+  expect(attack()?.querySelectorAll('.sprite-frame-cell:not(.animated)')).toHaveLength(4)
+  expectFrame(dynamic, 7)
+  for (const [time, frame] of [
+    [140, 8],
+    [280, 9],
+    [420, 0],
+    [560, 7],
+  ] as const) {
+    elapsed = time
     await act(async () => vi.advanceTimersByTimeAsync(140))
-    expect(drawImage.mock.calls.at(-1)?.[0]).toBe(bakedFrames[8])
-    await act(async () => vi.advanceTimersByTimeAsync(420))
-    expect(drawImage.mock.calls.at(-1)?.[0]).toBe(bakedFrames[7])
-  })
+    expectFrame(dynamic, frame)
+  }
 })

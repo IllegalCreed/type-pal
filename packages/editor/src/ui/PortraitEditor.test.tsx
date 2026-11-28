@@ -4,26 +4,20 @@ import type { PortraitSet } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { installBrowserHardwarePorts } from '../__tests__/bitmap-test-port.js'
+import { pngRgba, solidRgba } from '../__tests__/png-fixtures.js'
 import { installReactActEnvironment, waitForReact } from '../__tests__/react-io-wait.js'
 import { UpdateActorCommand } from '../core/actor-commands.js'
 import { EditSession } from '../core/edit-session.js'
 import { createEditorAssetReader, type EditorAssetReader } from '../core/editor-asset-reader.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
-import {
-  buttonByLabel,
-  chooseComboboxOption,
-  loadLegalUiProject,
-} from './__tests__/glm-ui-wave-kit.js'
+import { loadLegalUiProject } from './__tests__/authoring-project-fixture.js'
+import { buttonByLabel, chooseComboboxOption } from './__tests__/dom-gestures.js'
 import {
   type ImageDomPort,
   installImageDomPorts,
   restoreImageDomPorts,
 } from './__tests__/image-preview-ports.js'
-import {
-  installBrowserHardwarePorts,
-  pngRgba,
-  solidRgba,
-} from './__tests__/kimi-editor-workflows/kit.js'
 import { decodePngPixels, seedImage } from './__tests__/static-image-fixtures.js'
 import { PortraitEditor } from './PortraitEditor.js'
 

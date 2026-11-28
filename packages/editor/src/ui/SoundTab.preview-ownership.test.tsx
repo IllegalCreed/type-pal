@@ -15,7 +15,7 @@ import {
   installAudioWorkbenchTestHost,
   seedSound,
 } from './__tests__/audio-workbench-harness.js'
-import { clickButton } from './__tests__/glm-ui-wave-kit.js'
+import { clickButton } from './__tests__/dom-gestures.js'
 
 const HIT_SAMPLES = Array.from({ length: 4000 }, (_, i) => (i % 2 === 0 ? 0.5 : -0.5))
 const HEAL_SAMPLES = Array.from({ length: 2000 }, () => 0.25)

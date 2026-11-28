@@ -5,6 +5,123 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'editor-combat-sprite-previews-20261128',
+    authority:
+      'User permits precise rebasing for justified refactoring. The Editor report retains 23 additional covered statements and 12 additional covered lines after extracting frame planners, strengthening real PNG and canvas oracles, and removing invalid legacy layout fixtures. The two fraction changes are fixed by the native counts; branch and function floors, all other packages and test membership stay under the original comparison.',
+    evidence: 'docs/tasks/evidence/QUALITY-EDITOR-COMBAT-SPRITE-PREVIEWS-1.tar.gz',
+    baselineSha256: 'd87a63ddfba252eed8b1b4307b4d3d5afdbc3e1cd11694e74bc133d201b32b4f',
+    sources: [
+      {
+        path: 'packages/editor/src/core/battle-sprite-frame-deletion.ts',
+        sha256: 'eb4e18a6626fa44636e6c210872980f744cfb95390685feb684d68615313a22b',
+      },
+      {
+        path: 'packages/editor/src/core/sprite-image-pixels.ts',
+        sha256: 'f275098eab4b31c0225be23ef511df0bbd2dd3373944d3889f9ea262341f978d',
+      },
+      {
+        path: 'packages/editor/src/core/world-sprite-frame-deletion.ts',
+        sha256: 'b3c883cf8e9485226659fba4bc895923834d5af7cb133ef0f7adeb4519393db9',
+      },
+      {
+        path: 'packages/editor/src/ui/BattleSpriteInlinePreview.tsx',
+        sha256: '1ac76b7be7f95a8a300e246325705d06cbdc87ffa5b47edc40780251eaacd49b',
+      },
+      {
+        path: 'packages/editor/src/ui/BattleSpriteLibrary.tsx',
+        sha256: '70e1c005ee0176dff0fadcfe7638be78967fa665cf15b4cdb7059006f2f33590',
+      },
+      {
+        path: 'packages/editor/src/ui/BattleSpriteUploader.tsx',
+        sha256: 'a801bf1ed4f7bce4d31af8c52e1bc264cc143750de05df3be6080085fc43a2e7',
+      },
+      {
+        path: 'packages/editor/src/ui/EnemyAnimPreview.tsx',
+        sha256: '18ab07f1869edac5d1e0b3a02c64edabb93be685a5693cab918264b216665b24',
+      },
+      {
+        path: 'packages/editor/src/ui/FireEffectPreview.tsx',
+        sha256: '73bafadf40b8fb407b7f7ee7d1284495d91b10638b5f37b0dc543c29eae09ba8',
+      },
+      {
+        path: 'packages/editor/src/ui/SkillAnimationEditor.tsx',
+        sha256: 'e7b00908a189ffd2baa60fe95b7b8828e08a27bb84cf529bcf0f9aa1fa0525fb',
+      },
+      {
+        path: 'packages/editor/src/ui/SpriteFrameWorkbench.tsx',
+        sha256: 'e48311f2073da5428957e0cb2bbd966cba0066473d75321361fd17185da34cc6',
+      },
+      {
+        path: 'packages/editor/src/ui/SpriteResourceViewer.tsx',
+        sha256: '902af921ad1af2fb1dc1c5d3c602eb2993c2c7343bae9ede4443054c8b188e14',
+      },
+      {
+        path: 'packages/editor/src/ui/SpriteThumb.tsx',
+        sha256: '5bbf42eeef5b06f9bb6a59bafce75a078d4aaaff3db65b8c07b827dcee02d78b',
+      },
+      {
+        path: 'packages/editor/src/ui/SpriteUploadWizard.tsx',
+        sha256: 'bf79f38e1b094f8a0d27a4dcac62c8ce5ee38e29d89e965093e804185698b907',
+      },
+      {
+        path: 'packages/editor/src/ui/WorldSpriteLibrary.tsx',
+        sha256: '2fd38628a340918254cf58343c7144c73e23f1a767bf69e0067d2daa2b525a12',
+      },
+      {
+        path: 'packages/editor/src/ui/sprite-frame-canvas.ts',
+        sha256: '2bc0c6ac9694c6967e80f9d46d1c76a4de3bf4f841c94663e78cf92bf049d435',
+      },
+      {
+        path: 'packages/editor/src/ui/use-fire-preview-playback.ts',
+        sha256: 'a7a1e9fb7f211e1e36fedcc844e2bb45135880dd624c1685ad45898a4ddfee2d',
+      },
+      {
+        path: 'packages/editor/src/ui/world-sprite-action-preview.ts',
+        sha256: 'c772e793daaec6f211c897cc07389f11d7b7a04615c474ee763a9443fca9594f',
+      },
+    ],
+    packages: {
+      editor: {
+        before: {
+          statements: {
+            covered: 31591,
+            total: 34970,
+          },
+          branches: {
+            covered: 25608,
+            total: 30611,
+          },
+          functions: {
+            covered: 8068,
+            total: 8971,
+          },
+          lines: {
+            covered: 28328,
+            total: 30592,
+          },
+        },
+        after: {
+          statements: {
+            covered: 31614,
+            total: 34996,
+          },
+          branches: {
+            covered: 25608,
+            total: 30611,
+          },
+          functions: {
+            covered: 8068,
+            total: 8971,
+          },
+          lines: {
+            covered: 28340,
+            total: 30606,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'editor-preview-lifecycles-20261128',
     authority:
       "User permits exact recounts for justified refactoring. The protected run's Editor report (GitHub artifact 15250685938) and the candidate report attribute all function differences to media/growth responsibility changes and two formerly executed synthetic editor fixture methods. Actual UI and lifecycle cases retain their stronger tests. Only Editor functions are recounted, and no source or comparison rule is exempted.",

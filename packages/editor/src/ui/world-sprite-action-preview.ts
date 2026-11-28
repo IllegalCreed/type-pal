@@ -4,6 +4,15 @@ import type { SemanticFrameGroup, SemanticFrameRow } from './SpriteFrameWorkbenc
 
 const DIRECTION_LABELS = ['下', '左', '上', '右'] as const
 
+/** Missing orders follow explicit orders; stable action IDs break ties in the source workspace. */
+export function orderedWorldSpriteActions(definition: SpriteDef) {
+  return Object.entries(definition.poses ?? {}).sort(
+    ([leftId, left], [rightId, right]) =>
+      (left.order ?? Number.MAX_SAFE_INTEGER) - (right.order ?? Number.MAX_SAFE_INTEGER) ||
+      leftId.localeCompare(rightId),
+  )
+}
+
 /** 大世界精灵资源库与引用预览共用的语义动作真值。 */
 export function worldSpriteSemanticGroups(
   consumers: readonly SpriteDef[],
@@ -53,12 +62,7 @@ export function worldSpriteSemanticGroups(
         note: '默认使用 #0；场景脚本可切换到同一源容器中的其它帧',
       })
     }
-    const actions = Object.entries(consumer.poses ?? {}).sort(
-      ([leftId, left], [rightId, right]) =>
-        (left.order ?? Number.MAX_SAFE_INTEGER) - (right.order ?? Number.MAX_SAFE_INTEGER) ||
-        leftId.localeCompare(rightId),
-    )
-    for (const [actionId, action] of actions) {
+    for (const [actionId, action] of orderedWorldSpriteActions(consumer)) {
       rows.push({
         id: `${consumer.id}:action:${actionId}`,
         label: action.label,

@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import { minimalPng, pngFile } from './__tests__/glm-import-codec-fixtures.js'
+import { transparentPng, transparentPngFile } from '../__tests__/png-fixtures.js'
 import { prepareAuthoredImage } from './image-import.js'
 
-const encodedBackground = minimalPng(320, 200)
+const encodedBackground = transparentPng(320, 200)
 const palette = Array.from({ length: 256 }, (_, index) => [index, index, index] as const)
 
 function host(failAt?: number, fault: 'null' | 'throw' | 'read' = 'null', stage?: string) {
@@ -68,7 +68,7 @@ describe('static image bitmap ownership', () => {
   test('successful encoding of both outputs releases the bitmap once', async () => {
     const h = host()
     const result = await prepareAuthoredImage(
-      pngFile('background.png', 320, 200),
+      transparentPngFile('background.png', 320, 200),
       'battle-background',
       palette,
     )
@@ -83,7 +83,11 @@ describe('static image bitmap ownership', () => {
   ])('encoder failure at output %i releases exactly once and preserves error', async (failAt) => {
     const h = host(failAt)
     await expect(
-      prepareAuthoredImage(pngFile('background.png', 320, 200), 'battle-background', palette),
+      prepareAuthoredImage(
+        transparentPngFile('background.png', 320, 200),
+        'battle-background',
+        palette,
+      ),
     ).rejects.toThrow('浏览器无法编码 PNG')
     expect(h.encodes()).toBe(failAt)
     expect(h.close).toHaveBeenCalledTimes(1)
@@ -96,7 +100,11 @@ describe('static image bitmap ownership', () => {
   ] as const)('%s failure at output %i keeps the original error and releases', async (fault, at) => {
     const h = host(at, fault)
     await expect(
-      prepareAuthoredImage(pngFile('background.png', 320, 200), 'battle-background', palette),
+      prepareAuthoredImage(
+        transparentPngFile('background.png', 320, 200),
+        'battle-background',
+        palette,
+      ),
     ).rejects.toBe(h.error)
     expect(h.encodes()).toBe(at)
     expect(h.close).toHaveBeenCalledTimes(1)
@@ -111,7 +119,11 @@ describe('static image bitmap ownership', () => {
   ])('%s host failure releases the bitmap once', async (stage) => {
     const h = host(undefined, 'null', stage)
     await expect(
-      prepareAuthoredImage(pngFile('background.png', 320, 200), 'battle-background', palette),
+      prepareAuthoredImage(
+        transparentPngFile('background.png', 320, 200),
+        'battle-background',
+        palette,
+      ),
     ).rejects.toBe(h.error)
     expect(h.close).toHaveBeenCalledTimes(1)
   })
@@ -128,7 +140,11 @@ describe('static image bitmap ownership', () => {
           ? palette.slice(0, 2)
           : palette
     await expect(
-      prepareAuthoredImage(pngFile('background.png', 320, 200), 'battle-background', colors),
+      prepareAuthoredImage(
+        transparentPngFile('background.png', 320, 200),
+        'battle-background',
+        colors,
+      ),
     ).rejects.toThrow(
       stage === 'no-context' ? '无法创建' : stage === 'bad-palette' ? '256' : '缺项目',
     )
@@ -136,7 +152,7 @@ describe('static image bitmap ownership', () => {
   })
   test('portrait bypass and digest failure both release before hashing', async () => {
     const h = host()
-    const source = pngFile('portrait.png', 320, 200)
+    const source = transparentPngFile('portrait.png', 320, 200)
     const result = await prepareAuthoredImage(source, 'portrait')
     expect(result.effectPreviewBytes).toBeUndefined()
     expect(h.encodes()).toBe(0)
@@ -152,7 +168,11 @@ describe('static image bitmap ownership', () => {
   test('decode rejection never attempts to close an unacquired bitmap', async () => {
     const h = host(undefined, 'null', 'decode')
     await expect(
-      prepareAuthoredImage(pngFile('background.png', 320, 200), 'battle-background', palette),
+      prepareAuthoredImage(
+        transparentPngFile('background.png', 320, 200),
+        'battle-background',
+        palette,
+      ),
     ).rejects.toThrow('background.png: PNG 解码失败；injected decode')
     expect(h.close).not.toHaveBeenCalled()
     expect(h.encodes()).toBe(0)

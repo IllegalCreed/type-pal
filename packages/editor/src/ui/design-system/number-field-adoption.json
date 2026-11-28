@@ -2,9 +2,9 @@
   "version": 1,
   "baseline": {
     "files": 43,
-    "leafCalls": 126,
+    "leafCalls": 125,
     "controls": {
-      "DsNumberInput": 57,
+      "DsNumberInput": 56,
       "DsDraftNumberInput": 29,
       "DsNumberField": 5,
       "DsDraftNumberField": 35
@@ -876,7 +876,7 @@
         "context": "field-measure",
         "fieldClass": ""
       },
-      "count": 5,
+      "count": 4,
       "mode": "coordinate-frame",
       "control": "DsNumberInput",
       "measure": "DsFieldMeasure-short",

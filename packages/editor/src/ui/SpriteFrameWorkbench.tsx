@@ -9,8 +9,10 @@ import {
 } from 'react'
 import { DsButton, DsIconButton, DsPressable, DsTag } from './design-system/controls.js'
 import { DsObjectHero } from './design-system/recipes.js'
+import { drawFootAlignedFrame } from './sprite-frame-canvas.js'
 
-/** 大世界源帧在同一编辑器内复制到动作步骤时使用的稳定 MIME。 */
+// 使用独立的 MIME 识别动作步骤收到的源帧拖拽。
+// 目标编辑器按当前资源与帧数校验传入的资源 ID 和帧索引。
 export const SPRITE_FRAME_DRAG_MIME = 'application/x-type-pal-sprite-frame'
 
 export interface SpriteFrameDragPayload {
@@ -82,24 +84,6 @@ export interface InstanceBehaviorFrameGroup {
   rows: readonly InstanceBehaviorFrameRow[]
 }
 
-function drawFrame(
-  target: HTMLCanvasElement,
-  source: HTMLCanvasElement | undefined,
-  width: number,
-  height: number,
-  maxScale: number,
-): void {
-  const context = target.getContext('2d')
-  if (!context) return
-  context.clearRect(0, 0, width, height)
-  if (!source) return
-  context.imageSmoothingEnabled = false
-  const scale = Math.min((width - 8) / source.width, (height - 8) / source.height, maxScale)
-  const drawWidth = source.width * scale
-  const drawHeight = source.height * scale
-  context.drawImage(source, (width - drawWidth) / 2, height - 4 - drawHeight, drawWidth, drawHeight)
-}
-
 export function SpriteFrameCanvas(props: {
   source: HTMLCanvasElement | undefined
   width: number
@@ -109,7 +93,8 @@ export function SpriteFrameCanvas(props: {
 }) {
   const ref = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
-    if (ref.current) drawFrame(ref.current, props.source, props.width, props.height, props.maxScale)
+    if (ref.current)
+      drawFootAlignedFrame(ref.current, props.source, props.width, props.height, props.maxScale)
   }, [props.height, props.maxScale, props.source, props.width])
   return (
     <canvas
@@ -165,7 +150,7 @@ function AnimatedFrameCanvas(props: {
       const step = action.steps[position.stepIndex]
       const requested = position.frame
       const safeIndex = requested >= 0 && requested < props.frames.length ? requested : 0
-      drawFrame(target, props.frames[safeIndex]?.canvas, 72, 72, 3)
+      drawFootAlignedFrame(target, props.frames[safeIndex]?.canvas, 72, 72, 3)
       if (!reducedMotion && !position.finished && props.steps.length > 1)
         timer = window.setTimeout(
           paint,
