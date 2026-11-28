@@ -15,6 +15,7 @@ import {
   SemanticFrameShelf,
   type SpriteFrameView,
 } from './SpriteFrameWorkbench.js'
+import { drawFootAlignedFrame } from './sprite-frame-canvas.js'
 
 const WIDTH = 180
 const HEIGHT = 150
@@ -45,21 +46,6 @@ interface LoadedPreview {
   frames: HTMLCanvasElement[]
 }
 
-function drawCentered(
-  context: CanvasRenderingContext2D,
-  image: HTMLCanvasElement,
-  width: number,
-  height: number,
-  maxScale: number,
-): void {
-  context.clearRect(0, 0, width, height)
-  context.imageSmoothingEnabled = false
-  const scale = Math.min((width - 8) / image.width, (height - 8) / image.height, maxScale)
-  const drawWidth = image.width * scale
-  const drawHeight = image.height * scale
-  context.drawImage(image, (width - drawWidth) / 2, height - 4 - drawHeight, drawWidth, drawHeight)
-}
-
 function FrameThumbnail(props: {
   frame: HTMLCanvasElement
   index: number
@@ -69,8 +55,8 @@ function FrameThumbnail(props: {
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
-    const context = canvasRef.current?.getContext('2d')
-    if (context) drawCentered(context, props.frame, 82, 72, 2)
+    const canvas = canvasRef.current
+    if (canvas) drawFootAlignedFrame(canvas, props.frame, 82, 72, 2)
   }, [props.frame])
   const content = (
     <>
@@ -265,10 +251,10 @@ export function BattleSpriteInlinePreview(props: {
   }, [props.frameMs, sequence.length])
 
   useEffect(() => {
-    const context = canvasRef.current?.getContext('2d')
-    if (!context || !frames?.length || !sequence.length) return
+    const canvas = canvasRef.current
+    if (!canvas || !frames?.length || !sequence.length) return
     const image = frames[sequence[tick % sequence.length] ?? 0]
-    if (image) drawCentered(context, image, WIDTH, HEIGHT, 2)
+    if (image) drawFootAlignedFrame(canvas, image, WIDTH, HEIGHT, 2)
   }, [frames, sequence, tick])
 
   const frameViews: SpriteFrameView[] = (frames ?? []).map((frame) => ({
